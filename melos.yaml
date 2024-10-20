@@ -1,0 +1,6 @@
+name: kan_kan
+
+sdkPath: auto
+packages:
+  - apps/**
+  - packages/**
