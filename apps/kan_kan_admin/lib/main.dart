@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kan_kan_admin/screen/home_screen.dart';
 import 'package:kan_kan_admin/screen/navigation_page.dart';
+import 'package:ui/ui.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeRight,
     DeviceOrientation.landscapeLeft,
   ]);
-  runApp(const MainApp());
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+        supportedLocales: [const Locale('en'), const Locale('ar')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('ar'),
+        child: const MainApp()),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -17,6 +26,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: NavigationPage());
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: TAppTheme.lightTheme,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: Locale("ar"),
+        home: const NavigationPage());
   }
 }

@@ -9,7 +9,7 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * .09,
+      width: MediaQuery.of(context).size.width * .099,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(
