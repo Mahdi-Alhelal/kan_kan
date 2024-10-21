@@ -16,12 +16,12 @@ class UsersScreen extends StatelessWidget {
             onPressed: () {},
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.90,
             child: Theme(
               data: ThemeData(
                   cardTheme: const CardTheme(
+                    shape: RoundedRectangleBorder(),
                     color: Colors.white,
-                    elevation: 4,
+                    elevation: 0,
                   ),
                   iconButtonTheme: const IconButtonThemeData(
                     style: ButtonStyle(
