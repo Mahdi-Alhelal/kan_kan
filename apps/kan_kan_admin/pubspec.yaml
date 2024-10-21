@@ -7,9 +7,11 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  data_table_2: ^2.5.15
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  syncfusion_flutter_datagrid: ^27.1.53
   ui: ^0.0.1
 dev_dependencies:
   flutter_test:
