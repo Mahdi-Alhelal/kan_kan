@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/model/dummydata.dart';
+import 'package:kan_kan_admin/widget/button/add_button.dart';
 
 class UsersScreen extends StatelessWidget {
   const UsersScreen({super.key});
@@ -9,7 +10,11 @@ class UsersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          AddButton(
+            onPressed: () {},
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.90,
             child: Theme(
