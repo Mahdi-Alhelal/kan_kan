@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ui/ui.dart';
+import 'package:flutter/services.dart';
+import 'package:kan_kan_admin/screen/home_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
+  ]);
   runApp(const MainApp());
 }
 
@@ -10,12 +16,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: CustomCard(),
-        ),
-      ),
-    );
+    return const MaterialApp(home: HomeScreen());
   }
 }
