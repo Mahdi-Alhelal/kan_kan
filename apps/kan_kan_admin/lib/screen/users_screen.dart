@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
-import 'package:kan_kan_admin/model/dummydata.dart';
+import 'package:kan_kan_admin/model/dymmy%20data/dummydata.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:ui/ui.dart';
+import 'dart:ui' as ui;
 
 class UsersScreen extends StatelessWidget {
   const UsersScreen({super.key});
@@ -20,12 +21,9 @@ class UsersScreen extends StatelessWidget {
           SizedBox(
             child: CustomTableTheme(
               child: PaginatedDataTable(
-                
-                
                 showEmptyRows: false,
                 headingRowColor: const WidgetStatePropertyAll(AppColor.white),
                 source: TableDataRow(
-
                   length: userList.length,
                   customRow: List.generate(
                     userList.length,
@@ -46,7 +44,12 @@ class UsersScreen extends StatelessWidget {
                         ),
                         DataCell(Text(userList[index].name)),
                         DataCell(Text(userList[index].email)),
-                        DataCell(Text(userList[index].phoneNumber)),
+                        DataCell(
+                          Directionality(
+                            textDirection: ui.TextDirection.ltr,
+                            child: Text(userList[index].phoneNumber),
+                          ),
+                        ),
                         DataCell(Text(userList[index].region)),
                       ],
                     ),
@@ -54,6 +57,7 @@ class UsersScreen extends StatelessWidget {
                 ),
                 columns: [
                   DataColumn(
+                    headingRowAlignment: MainAxisAlignment.center,
                     onSort: (columnIndex, ascending) {
                       if (ascending) {
                         userList.sort(
@@ -66,6 +70,7 @@ class UsersScreen extends StatelessWidget {
                     label: const Text("#"),
                   ),
                   DataColumn(
+                    headingRowAlignment: MainAxisAlignment.center,
                     onSort: (columnIndex, ascending) {
                       if (ascending) {
                         userList = userList.reversed.toList();
@@ -74,12 +79,15 @@ class UsersScreen extends StatelessWidget {
                     label: const Text("اسم"),
                   ),
                   const DataColumn(
+                    headingRowAlignment: MainAxisAlignment.center,
                     label: Text("البريد"),
                   ),
                   const DataColumn(
+                    headingRowAlignment: MainAxisAlignment.center,
                     label: Text("رقم الهاتف"),
                   ),
                   const DataColumn(
+                    headingRowAlignment: MainAxisAlignment.center,
                     label: Text("منطقة"),
                   ),
                 ],
