@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/helper/status_color.dart';
 
 class FactoryStatus extends StatelessWidget {
   const FactoryStatus({
@@ -30,19 +31,5 @@ class FactoryStatus extends StatelessWidget {
     );
   }
 
-  Color statusColors({required String status}) {
-    switch (status) {
-      case "نشط":
-        return Color(0xff0CAF60);
-
-      case "غير نشط":
-        return Colors.red;
-
-      case "قيد المراجعة":
-        return Colors.orange;
-
-      default:
-        return Colors.white;
-    }
-  }
+  
 }

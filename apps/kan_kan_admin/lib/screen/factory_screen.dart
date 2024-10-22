@@ -4,6 +4,7 @@ import 'package:kan_kan_admin/model/dymmy%20data/factory_dummy_data.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
 import 'package:kan_kan_admin/widget/chip/factory_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
+import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/ui.dart';
 import 'dart:ui' as ui;
 
@@ -19,7 +20,7 @@ class FactoryScreen extends StatelessWidget {
           AddButton(
             onPressed: () {},
           ),
-          SizedBox(
+          TableSizedBox(
             child: CustomTableTheme(
               child: PaginatedDataTable(
                 showEmptyRows: false,

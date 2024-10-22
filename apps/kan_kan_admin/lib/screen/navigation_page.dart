@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/screen/factory_screen.dart';
 import 'package:kan_kan_admin/screen/home_screen.dart';
+import 'package:kan_kan_admin/screen/order_screen.dart';
 import 'package:kan_kan_admin/screen/users_screen.dart';
 import 'package:kan_kan_admin/widget/navigator/custom_selected_icon.dart';
 import 'package:ui/ui.dart';
 
-List<Widget> screens = const [HomeScreen(), UsersScreen(), FactoryScreen()];
-int index = 2;
+List<Widget> screens = const [
+  HomeScreen(),
+  UsersScreen(),
+  FactoryScreen(),
+  OrderScreen()
+];
+int index = 3;
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
@@ -54,6 +60,14 @@ class NavigationPage extends StatelessWidget {
                     selectedIcon: CustomSelectedIcon(
                       icon: Icons.factory_outlined,
                       text: "المصانع",
+                    ),
+                    label: Text(""),
+                  ),
+                  NavigationRailDestination(
+                    icon: Text("الطلبات"),
+                    selectedIcon: CustomSelectedIcon(
+                      icon: Icons.receipt_outlined,
+                      text: "الطلبات",
                     ),
                     label: Text(""),
                   ),
