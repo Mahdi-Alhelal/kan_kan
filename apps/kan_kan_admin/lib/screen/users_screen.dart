@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/model/dummydata.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
+import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
+import 'package:ui/ui.dart';
 
 class UsersScreen extends StatelessWidget {
   const UsersScreen({super.key});
@@ -16,32 +18,16 @@ class UsersScreen extends StatelessWidget {
             onPressed: () {},
           ),
           SizedBox(
-            child: Theme(
-              data: ThemeData(
-                  cardTheme: const CardTheme(
-                    shape: RoundedRectangleBorder(),
-                    color: Colors.white,
-                    elevation: 0,
-                  ),
-                  iconButtonTheme: const IconButtonThemeData(
-                    style: ButtonStyle(
-                      iconColor: WidgetStatePropertyAll(Colors.black),
-                    ),
-                  ),
-                  dataTableTheme: const DataTableThemeData(
-                    dividerThickness: 0,
-                  )),
+            child: CustomTableTheme(
               child: PaginatedDataTable(
                 showEmptyRows: false,
-                showFirstLastButtons: true,
-                headingRowColor: const WidgetStatePropertyAll(Colors.white),
-                onPageChanged: (value) {},
+                headingRowColor: const WidgetStatePropertyAll(AppColor.white),
                 source: TableDataRow(
                   length: userList.length,
                   customRow: List.generate(
                     userList.length,
                     (index) => DataRow(
-                      color: WidgetStateProperty.all(Colors.white),
+                      color: WidgetStateProperty.all(AppColor.white),
                       cells: [
                         DataCell(
                           Row(
@@ -74,7 +60,7 @@ class UsersScreen extends StatelessWidget {
                         userList.sort((a, b) => b.id.compareTo(a.id));
                       }
                     },
-                    label: const Text("ID"),
+                    label: const Text("#"),
                   ),
                   DataColumn(
                     onSort: (columnIndex, ascending) {
@@ -82,16 +68,16 @@ class UsersScreen extends StatelessWidget {
                         userList = userList.reversed.toList();
                       }
                     },
-                    label: const Text("Name"),
+                    label: const Text("اسم"),
                   ),
                   const DataColumn(
-                    label: Text("Email"),
+                    label: Text("البريد"),
                   ),
                   const DataColumn(
-                    label: Text("Phone Number"),
+                    label: Text("رقم الهاتف"),
                   ),
                   const DataColumn(
-                    label: Text("Region"),
+                    label: Text("منطقة"),
                   ),
                 ],
               ),
