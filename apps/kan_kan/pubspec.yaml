@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.6
   ui: ^0.0.1
+  flutter_dotenv: ^5.2.1
+  moyasar: ^2.0.13
 
   
 dev_dependencies:

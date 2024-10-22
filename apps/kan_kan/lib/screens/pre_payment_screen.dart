@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
@@ -8,6 +10,31 @@ class PrePaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentConfig = PaymentConfig(
+        publishableApiKey: "pk_test_eMwVbFMRpumqb8dxpcU2fTQwv6MFavNZLPuNgjhj",
+        amount: 25758, // SAR 257.58
+        description: 'order #1324',
+        metadata: {'size': '250g'},
+        creditCard: CreditCardConfig(saveCard: true, manual: false));
+    void onPaymentResult(result) {
+      if (result is PaymentResponse) {
+        switch (result.status) {
+          case PaymentStatus.paid:
+            // handle success.
+            break;
+          case PaymentStatus.failed:
+            // handle failure.
+            break;
+          case PaymentStatus.initiated:
+          // TODO: Handle this case.
+          case PaymentStatus.authorized:
+          // TODO: Handle this case.
+          case PaymentStatus.captured:
+          // TODO: Handle this case.
+        }
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.bg,
@@ -112,17 +139,20 @@ class PrePaymentScreen extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return SizedBox(
-                        height: context.getHeight(value: 0.3),
+                        height: context.getHeight(value: 0.5),
                         child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ElevatedButton(
-                                child: const Text('Close BottomSheet'),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                CreditCard(
+                                  config: paymentConfig,
+                                  onPaymentResult: onPaymentResult,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
