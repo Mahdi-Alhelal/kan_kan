@@ -14,7 +14,7 @@ List<Widget> screens = const [
   OrderScreen(),
   DealsScreen(),
 ];
-int index = 1;
+int index = 2;
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
