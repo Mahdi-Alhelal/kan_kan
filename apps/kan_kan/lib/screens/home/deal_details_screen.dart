@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan/screens/auth/register_screen.dart';
+import 'package:kan_kan/screens/pre_payment_screen.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 
@@ -72,7 +74,7 @@ class _DealDetailsScreenState extends State<DealDetailsScreen>
                   ),
                   Text(
                     "1599 ريال",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, color: AppColor.secondary),
                   )
                 ],
               ),
@@ -135,12 +137,13 @@ class _DealDetailsScreenState extends State<DealDetailsScreen>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 100,
+                width: context.getWidth(),
+                height: 150,
                 child: TabBarView(controller: _tabBar, children: const [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
@@ -182,6 +185,10 @@ class _DealDetailsScreenState extends State<DealDetailsScreen>
                       ),
                       Row(
                         children: [
+                          Icon(
+                            Icons.local_shipping,
+                            color: AppColor.primary,
+                          ),
                           Text("التوصيل :"),
                           Text("15 - 45 "),
                           Text("يوم")
@@ -189,6 +196,10 @@ class _DealDetailsScreenState extends State<DealDetailsScreen>
                       ),
                       Row(
                         children: [
+                          Icon(
+                            Icons.handshake,
+                            color: AppColor.primary,
+                          ),
                           Text("يتشارك عدد"),
                           Text(" 15 "),
                           Text("شخص / أشخاص في هذه الصفقة")
@@ -196,9 +207,120 @@ class _DealDetailsScreenState extends State<DealDetailsScreen>
                       )
                     ],
                   ),
-                  Text("Hi")
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text("وصف المنتج : "),
+                          SizedBox(
+                            width: 300,
+                            child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 5,
+                                softWrap: false,
+                                "تلفزيون زين وحلو ورخيص وتلاقي فيهتلفزيون زين وحلو ورخيص وتلاقي فيه"),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.align_vertical_center,
+                                color: AppColor.primary,
+                              ),
+                              Text("الطول : "),
+                              Text("100 سم")
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.align_horizontal_center,
+                                color: AppColor.primary,
+                              ),
+                              Text("العرض : "),
+                              Text("100 سم")
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.height,
+                                color: AppColor.primary,
+                              ),
+                              Text("الإرتفاع : "),
+                              Text("100 سم")
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.line_weight,
+                                color: AppColor.primary,
+                              ),
+                              Text("  الوزن : "),
+                              Text("100 سم")
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  )
                 ]),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: context.getWidth(value: 0.3),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: AppColor.secondary),
+                        child: Icon(Icons.add),
+                      ),
+                      Text("1"),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: AppColor.secondary),
+                        child: Icon(Icons.remove),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: context.getWidth(value: 0.6),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrePaymentScreen()),
+                        );
+                      },
+                      child: Text("إنضمام إلى الصفقة")),
+                ),
+              ],
             )
           ],
         ));
