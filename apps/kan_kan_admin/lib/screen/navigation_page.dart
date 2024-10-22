@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/screen/home_screen.dart';
 import 'package:kan_kan_admin/screen/users_screen.dart';
+import 'package:kan_kan_admin/widget/navigator/custom_selected_icon.dart';
 import 'package:ui/ui.dart';
 
 List<Widget> screens = const [HomeScreen(), UsersScreen()];
@@ -11,11 +12,13 @@ class NavigationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.white,
       body: SafeArea(
         bottom: false,
         child: Row(
           children: [
             Container(
+              margin: const EdgeInsets.only(left: 11),
               decoration: const BoxDecoration(
                 color: AppColor.bg,
                 borderRadius: BorderRadius.only(
@@ -24,37 +27,31 @@ class NavigationPage extends StatelessWidget {
                 ),
               ),
               child: NavigationRail(
-                  indicatorColor: AppColor.primary,
-                  backgroundColor: Colors.transparent,
-                  extended: true,
-                  useIndicator: true,
-                  minExtendedWidth: MediaQuery.of(context).size.width * .1,
-                  destinations: const [
-                    NavigationRailDestination(
-                      icon: Icon(Icons.home),
-                      selectedIcon: Icon(
-                        Icons.home_outlined,
-                        color: Colors.white,
-                      ),
-                      label: Text('Home'),
+                selectedIndex: 1,
+                labelType: NavigationRailLabelType.none,
+                backgroundColor: Colors.transparent,
+                useIndicator: false,
+                minWidth: MediaQuery.of(context).size.width * .15,
+                destinations: const [
+                  NavigationRailDestination(
+                    icon: Text("صفحة الريئيسية"),
+                    selectedIcon: CustomSelectedIcon(
+                        text: "صفحة الريئيسية", icon: Icons.home_outlined),
+                    label: Text(''),
+                  ),
+                  NavigationRailDestination(
+                    icon: Text("مستخدمين"),
+                    selectedIcon: CustomSelectedIcon(
+                      icon: Icons.people_alt_outlined,
+                      text: "مستخدمين",
                     ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.people),
-                      selectedIcon: Icon(
-                        Icons.people_outlined,
-                        color: Colors.white,
-                      ),
-                      label: Text('users'),
-                    ),
-                  ],
-                  selectedIndex: 1),
-            ),
-            const VerticalDivider(
-              thickness: .000001,
-              width: 0,
+                    label: Text(""),
+                  ),
+                ],
+              ),
             ),
             SizedBox(
-                width: MediaQuery.of(context).size.width * 0.89,
+                width: MediaQuery.of(context).size.width * 0.84,
                 child: screens[1])
           ],
         ),
