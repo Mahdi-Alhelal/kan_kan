@@ -20,9 +20,12 @@ class UsersScreen extends StatelessWidget {
           SizedBox(
             child: CustomTableTheme(
               child: PaginatedDataTable(
+                
+                
                 showEmptyRows: false,
                 headingRowColor: const WidgetStatePropertyAll(AppColor.white),
                 source: TableDataRow(
+
                   length: userList.length,
                   customRow: List.generate(
                     userList.length,

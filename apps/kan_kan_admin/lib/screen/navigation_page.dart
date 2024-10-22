@@ -5,6 +5,7 @@ import 'package:kan_kan_admin/widget/navigator/custom_selected_icon.dart';
 import 'package:ui/ui.dart';
 
 List<Widget> screens = const [HomeScreen(), UsersScreen()];
+int index = 1;
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
@@ -27,7 +28,7 @@ class NavigationPage extends StatelessWidget {
                 ),
               ),
               child: NavigationRail(
-                selectedIndex: 1,
+                selectedIndex: index,
                 labelType: NavigationRailLabelType.none,
                 backgroundColor: Colors.transparent,
                 useIndicator: false,
@@ -50,9 +51,10 @@ class NavigationPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            Container(
+                margin: const EdgeInsets.only(top: 5),
                 width: MediaQuery.of(context).size.width * 0.84,
-                child: screens[1])
+                child: screens[index])
           ],
         ),
       ),

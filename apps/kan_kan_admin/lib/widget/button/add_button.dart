@@ -16,7 +16,8 @@ class AddButton extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(16)))),
         onPressed: onPressed,
         child: const Row(
-          children: [Text("إضافة"), Icon(Icons.add)],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [Icon(Icons.add), Text("إضافة")],
         ),
       ),
     );
