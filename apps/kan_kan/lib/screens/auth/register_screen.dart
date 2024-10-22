@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kan_kan/screens/auth/register_screen.dart';
+import 'package:kan_kan/screens/auth/Login_screen.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: context.getHeight(value: 0.5),
+              height: context.getHeight(value: 0.4),
               width: context.getWidth(),
               decoration: const BoxDecoration(
                 color: AppColor.third,
@@ -35,15 +35,23 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              "تسجيل الدخول",
+              "التسجيل",
               style: TextStyle(fontSize: 20),
             ),
             const SizedBox(
               height: 20,
             ),
             const CustomTextField(
+              title: "الإسم",
+              icon: Icon(Icons.person),
+            ),
+            const CustomTextField(
               title: "الإيميل",
               icon: Icon(Icons.email),
+            ),
+            const CustomTextField(
+              title: "رقم الجوال",
+              icon: Icon(Icons.phone),
             ),
             const SizedBox(height: 20),
             Padding(
@@ -60,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   onPressed: () {},
                   child: const Text(
-                    'دخول',
+                    'التسجيل',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -71,11 +79,11 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()),
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
               },
               child: const Text(
-                'لايوجد لديك حساب؟',
+                'يوجد لديك حساب مسبقاً؟',
                 style: TextStyle(
                   color: AppColor.secondary, // Light brown color for the text
                   fontSize: 16,
