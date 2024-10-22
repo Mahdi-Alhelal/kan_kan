@@ -80,8 +80,8 @@ class AddFactory extends StatelessWidget {
         ),
         Center(
           child: ElevatedButton(
-            child: const Text('اضافة'),
             onPressed: onPressed,
+            child: const Text('اضافة'),
           ),
         ),
       ],

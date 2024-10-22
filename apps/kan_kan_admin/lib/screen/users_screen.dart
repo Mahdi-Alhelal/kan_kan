@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/model/dummy%20data/dummydata.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
+import 'package:kan_kan_admin/widget/chip/factory_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/ui.dart';
@@ -20,7 +21,6 @@ class UsersScreen extends StatelessWidget {
             onPressed: () {},
           ),
           TableSizedBox(
-
             child: CustomTableTheme(
               child: PaginatedDataTable(
                 showEmptyRows: false,
@@ -53,6 +53,7 @@ class UsersScreen extends StatelessWidget {
                           ),
                         ),
                         DataCell(Text(userList[index].region)),
+                        DataCell(CustomChips(status: "فعال")),
                       ],
                     ),
                   ),
@@ -91,6 +92,10 @@ class UsersScreen extends StatelessWidget {
                   const DataColumn(
                     headingRowAlignment: MainAxisAlignment.center,
                     label: Text("منطقة"),
+                  ),
+                  const DataColumn(
+                    headingRowAlignment: MainAxisAlignment.center,
+                    label: Text("حالة المستخدم"),
                   ),
                 ],
               ),

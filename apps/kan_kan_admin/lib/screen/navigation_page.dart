@@ -3,7 +3,9 @@ import 'package:kan_kan_admin/screen/deals_screen.dart';
 import 'package:kan_kan_admin/screen/factory_screen.dart';
 import 'package:kan_kan_admin/screen/home_screen.dart';
 import 'package:kan_kan_admin/screen/order_screen.dart';
+import 'package:kan_kan_admin/screen/product_screen.dart';
 import 'package:kan_kan_admin/screen/users_screen.dart';
+import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/navigator/custom_selected_icon.dart';
 import 'package:ui/ui.dart';
 
@@ -13,8 +15,9 @@ List<Widget> screens = const [
   FactoryScreen(),
   OrderScreen(),
   DealsScreen(),
+  ProductScreen(),
 ];
-int index = 2;
+int index = 1;
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
@@ -22,6 +25,23 @@ class NavigationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: index == 5
+          ? FloatingActionButton(
+              backgroundColor: AppColor.primary,
+              onPressed: () {
+                customBottomSheet(
+                  context: context,
+                  child: Column(
+                    children: [],
+                  ),
+                );
+              },
+              child: const Icon(
+                Icons.add,
+                color: AppColor.white,
+              ),
+            )
+          : null,
       backgroundColor: AppColor.white,
       body: SafeArea(
         bottom: false,
@@ -78,6 +98,14 @@ class NavigationPage extends StatelessWidget {
                     selectedIcon: CustomSelectedIcon(
                       icon: Icons.handshake_outlined,
                       text: "صفقات",
+                    ),
+                    label: Text(""),
+                  ),
+                  NavigationRailDestination(
+                    icon: Text("المنتجات"),
+                    selectedIcon: CustomSelectedIcon(
+                      icon: Icons.tab_outlined,
+                      text: "المنتجات",
                     ),
                     label: Text(""),
                   ),
