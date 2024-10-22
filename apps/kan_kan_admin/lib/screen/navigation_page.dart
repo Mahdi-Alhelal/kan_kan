@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/screen/deals_screen.dart';
 import 'package:kan_kan_admin/screen/factory_screen.dart';
 import 'package:kan_kan_admin/screen/home_screen.dart';
 import 'package:kan_kan_admin/screen/order_screen.dart';
@@ -10,9 +11,10 @@ List<Widget> screens = const [
   HomeScreen(),
   UsersScreen(),
   FactoryScreen(),
-  OrderScreen()
+  OrderScreen(),
+  DealsScreen(),
 ];
-int index = 3;
+int index = 1;
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
@@ -68,6 +70,14 @@ class NavigationPage extends StatelessWidget {
                     selectedIcon: CustomSelectedIcon(
                       icon: Icons.receipt_outlined,
                       text: "الطلبات",
+                    ),
+                    label: Text(""),
+                  ),
+                  NavigationRailDestination(
+                    icon: Text("صفقات"),
+                    selectedIcon: CustomSelectedIcon(
+                      icon: Icons.handshake_outlined,
+                      text: "صفقات",
                     ),
                     label: Text(""),
                   ),
