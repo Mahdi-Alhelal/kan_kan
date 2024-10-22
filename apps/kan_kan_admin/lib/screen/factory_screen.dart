@@ -4,7 +4,7 @@ import 'package:kan_kan_admin/model/dummy%20data/factory_dummy_data.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
 import 'package:kan_kan_admin/widget/chip/factory_status.dart';
-import 'package:kan_kan_admin/widget/form/custom_from.dart';
+import 'package:kan_kan_admin/widget/form/add_factory.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/ui.dart';
@@ -28,7 +28,7 @@ class FactoryScreen extends StatelessWidget {
             onPressed: () {
               customBottomSheet(
                 context: context,
-                child: CustomForm(
+                child: AddFactory(
                     factoryNameController: factoryNameController,
                     regionController: regionController,
                     typeController: typeController,

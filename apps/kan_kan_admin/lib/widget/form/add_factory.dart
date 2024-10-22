@@ -3,8 +3,8 @@ import 'package:kan_kan_admin/widget/form/form_divider.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 
-class CustomForm extends StatelessWidget {
-  const CustomForm({
+class AddFactory extends StatelessWidget {
+  const AddFactory({
     super.key,
     required this.factoryNameController,
     required this.regionController,
