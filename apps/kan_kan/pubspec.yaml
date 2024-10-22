@@ -24,6 +24,7 @@ flutter:
     - assets/
     - assets/translations/
     - assets/images/
+    - assets/images/logo/
     - assets/images/products-sample/
   fonts:
      - family: Tajawal
