@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan/screens/auth/register_screen.dart';
+import 'package:kan_kan/screens/home/home_screen.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
@@ -58,7 +59,12 @@ class LoginScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
+                  },
                   child: const Text(
                     'دخول',
                     style: TextStyle(fontSize: 16),

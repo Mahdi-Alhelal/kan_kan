@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan/screens/auth/register_screen.dart';
+import 'package:kan_kan/screens/pre_payment_screen.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 
@@ -309,7 +311,14 @@ class _DealDetailsScreenState extends State<DealDetailsScreen>
                 SizedBox(
                   width: context.getWidth(value: 0.6),
                   child: ElevatedButton(
-                      onPressed: () {}, child: Text("إنضمام إلى الصفقة")),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrePaymentScreen()),
+                        );
+                      },
+                      child: Text("إنضمام إلى الصفقة")),
                 ),
               ],
             )
