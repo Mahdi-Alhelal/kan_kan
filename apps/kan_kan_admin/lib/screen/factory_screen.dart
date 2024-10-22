@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
-import 'package:kan_kan_admin/model/dymmy%20data/factory_dummy_data.dart';
+import 'package:kan_kan_admin/model/dummy%20data/factory_dummy_data.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
 import 'package:kan_kan_admin/widget/chip/factory_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
@@ -44,7 +44,7 @@ class FactoryScreen extends StatelessWidget {
                         DataCell(Text(factoryList[index].type)),
                         DataCell(Text(factoryList[index].region)),
                         DataCell(
-                            FactoryStatus(status: factoryList[index].status)),
+                            CustomChips(status: factoryList[index].status)),
                       ],
                     ),
                   ),

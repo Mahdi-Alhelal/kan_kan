@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/status_color.dart';
 
-class FactoryStatus extends StatelessWidget {
-  const FactoryStatus({
+class CustomChips extends StatelessWidget {
+  const CustomChips({
     super.key,
     required this.status,
   });

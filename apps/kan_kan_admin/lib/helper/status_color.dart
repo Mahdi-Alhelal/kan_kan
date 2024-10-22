@@ -12,6 +12,6 @@ Color statusColors({required String status}) {
       return Colors.orange;
 
     default:
-      return Colors.white;
+      return Colors.black;
   }
 }
