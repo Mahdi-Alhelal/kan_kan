@@ -41,15 +41,15 @@ class RegisterScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const CustomTextField(
+             CustomTextField(
               title: "الإسم",
               icon: Icon(Icons.person),
             ),
-            const CustomTextField(
+             CustomTextField(
               title: "الإيميل",
               icon: Icon(Icons.email),
             ),
-            const CustomTextField(
+             CustomTextField(
               title: "رقم الجوال",
               icon: Icon(Icons.phone),
             ),
