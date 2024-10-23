@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/factory_dummy_data.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
@@ -66,11 +67,13 @@ class FactoryScreen extends StatelessWidget {
                           status: factoryList[index].status,
                           onTap: () async {
                             await updateStatus(
+                                value: StatusList.factoryStatus.first,
                                 context: context,
                                 title: "حالة",
                                 onChanged: (value) {},
-                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
-                                    (String status) {
+                                items: StatusList.factoryStatus
+                                    .map<DropdownMenuItem<String>>(
+                                        (String status) {
                                   return DropdownMenuItem(
                                     value: status,
                                     child: Text(status),

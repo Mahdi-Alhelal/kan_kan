@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/order_dummy.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
@@ -73,11 +74,13 @@ class OrderScreen extends StatelessWidget {
                           status: orderList[index].status,
                           onTap: () async {
                             await updateStatus(
+                                value: StatusList.paymentStatus.first,
                                 context: context,
                                 title: "حالة",
                                 onChanged: (value) {},
-                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
-                                    (String status) {
+                                items: StatusList.paymentStatus
+                                    .map<DropdownMenuItem<String>>(
+                                        (String status) {
                                   return DropdownMenuItem(
                                     value: status,
                                     child: Text(status),
@@ -89,11 +92,13 @@ class OrderScreen extends StatelessWidget {
                           status: orderList[index].shipmentStatus,
                           onTap: () async {
                             await updateStatus(
+                                value: StatusList.shipmentStatus.first,
                                 context: context,
                                 title: "حالة",
                                 onChanged: (value) {},
-                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
-                                    (String status) {
+                                items: StatusList.shipmentStatus
+                                    .map<DropdownMenuItem<String>>(
+                                        (String status) {
                                   return DropdownMenuItem(
                                     value: status,
                                     child: Text(status),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/deals_dummy.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
@@ -48,10 +49,11 @@ class DealsScreen extends StatelessWidget {
                           status: dealsList[index].status,
                           onTap: () async {
                             await updateStatus(
+                              value:StatusList.dealStatus.first ,
                                 context: context,
                                 title: "حالة",
                                 onChanged: (value) {},
-                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
+                                items: StatusList.dealStatus.map<DropdownMenuItem<String>>(
                                     (String status) {
                                   return DropdownMenuItem(
                                     value: status,

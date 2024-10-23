@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/dummydata.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
@@ -45,14 +46,14 @@ class UsersScreen extends StatelessWidget {
                           status: "فعال",
                           onTap: () async {
                             await updateStatus(
-                              onChanged: (value){},
+                              value:StatusList.userStatus.first ,
+                                onChanged: (value) {},
                                 context: context,
                                 title: "حالة",
-                                onPressed: () {
-                                  
-                                },
-                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
-                                    (String status) {
+                                onPressed: () {},
+                                items: StatusList.userStatus
+                                    .map<DropdownMenuItem<String>>(
+                                        (String status) {
                                   return DropdownMenuItem(
                                     value: status,
                                     child: Text(status),
