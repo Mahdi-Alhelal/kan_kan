@@ -5,6 +5,8 @@ import 'package:kan_kan_admin/screen/src/deals_details_screen.dart';
 import 'package:kan_kan_admin/screen/src/deals_screen.dart';
 import 'package:ui/ui.dart';
 
+import 'screen/src/product_details_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
@@ -33,6 +35,6 @@ class MainApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: const Locale("ar"),
-        home: const DealsDetailsScreen());
+        home: const ProductDetailsScreen());
   }
 }
