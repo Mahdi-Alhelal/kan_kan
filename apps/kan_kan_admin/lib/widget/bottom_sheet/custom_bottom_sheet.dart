@@ -11,7 +11,7 @@ void customBottomSheet({
     context: context,
     builder: (BuildContext context) {
       return Container(
-        height: context.getHeight(value: 0.75),
+        height: context.getHeight(value: 0.9  ),
         decoration: BoxDecoration(
             color: AppColor.white, borderRadius: BorderRadius.circular(12)),
         child: Padding(padding: const EdgeInsets.all(8.0), child: child),

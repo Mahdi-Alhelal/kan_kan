@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/widget/button/custom_button.dart';
 import 'package:kan_kan_admin/widget/form/form_divider.dart';
 import 'package:ui/component/helper/screen.dart';
-import 'package:ui/component/widget/custom_text_field.dart';
+import 'package:ui/component/widget/custom_text_field_form.dart';
 
 class ProductForm extends StatelessWidget {
   const ProductForm(
@@ -15,6 +14,7 @@ class ProductForm extends StatelessWidget {
       required this.hightController,
       required this.lengthController,
       required this.widthController,
+      required this.descriptionController,
       required this.add,
       required this.uploadImage});
 
@@ -25,81 +25,99 @@ class ProductForm extends StatelessWidget {
   final TextEditingController hightController;
   final TextEditingController lengthController;
   final TextEditingController widthController;
+  final TextEditingController descriptionController;
   final void Function()? uploadImage;
   final void Function()? add;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Row(
+    return SingleChildScrollView(
+      child: Form(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Expanded(
-              child: CustomTextField(
-                title: "المنتج",
-                controller: productNameController,
+            const FormDivider(text: "إضافة المنتج"),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextFieldForm(
+                    title: "المنتج",
+                    controller: productNameController,
+                  ),
+                ),
+                Expanded(
+                  child: CustomTextFieldForm(
+                    title: "مصنع",
+                    controller: factoryNameController,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: context.getHeight(value: 0.1),
+              child: CustomTextFieldForm(
+                title: "رقم الموديل",
+                controller: modelNumberController,
               ),
             ),
-            Expanded(
-              child: CustomTextField(
-                title: "مصنع",
-                controller: factoryNameController,
+            const FormDivider(text: "مقاسات المنتج"),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextFieldForm(
+                    title: "وزن KG",
+                    controller: wightController,
+                  ),
+                ),
+                Expanded(
+                  child: CustomTextFieldForm(
+                    title: "إرتفاع cm",
+                    controller: hightController,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextFieldForm(
+                    title: "طول cm",
+                    controller: lengthController,
+                  ),
+                ),
+                Expanded(
+                  child: CustomTextFieldForm(
+                    title: "العرض cm",
+                    controller: widthController,
+                  ),
+                ),
+              ],
+            ),
+            const FormDivider(text: "الوصف"),
+            SizedBox(
+              height: context.getHeight(value: 0.1),
+              child: CustomTextFieldForm(
+                title: "",
+                controller: descriptionController,
               ),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            CustomButton(
+              text: "إرفاق صورة",
+              onPressed: uploadImage,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            CustomButton(
+              text: "اضافة",
+              onPressed: add,
             ),
           ],
         ),
-        SizedBox(
-          height: context.getHeight(value: 0.1),
-          child: Expanded(
-            child: CustomTextField(
-              title: "رقم الموديل",
-              controller: modelNumberController,
-            ),
-          ),
-        ),
-        const FormDivider(text: "مقاسات المنتج"),
-        Row(
-          children: [
-            Expanded(
-              child: CustomTextField(
-                title: "وزن KG",
-                controller: wightController,
-              ),
-            ),
-            Expanded(
-              child: CustomTextField(
-                title: "إرتفاع cm",
-                controller: hightController,
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: CustomTextField(
-                title: "طول cm",
-                controller: lengthController,
-              ),
-            ),
-            Expanded(
-              child: CustomTextField(
-                title: "العرض cm",
-                controller: widthController,
-              ),
-            ),
-          ],
-        ),
-        CustomButton(
-          text: "إرفاق صورة",
-          onPressed: uploadImage,
-        ),
-        CustomButton(
-          text: "اضافة",
-          onPressed: add,
-        ),
-      ],
+      ),
     );
   }
 }

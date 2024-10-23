@@ -20,6 +20,7 @@ class ProductScreen extends StatelessWidget {
     final TextEditingController hightController = TextEditingController();
     final TextEditingController lengthController = TextEditingController();
     final TextEditingController widthController = TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
 
     return SingleChildScrollView(
       child: Column(
@@ -30,6 +31,7 @@ class ProductScreen extends StatelessWidget {
               customBottomSheet(
                 context: context,
                 child: ProductForm(
+                  descriptionController: descriptionController,
                   productNameController: productNameController,
                   factoryNameController: factoryNameController,
                   modelNumberController: modelNumberController,
