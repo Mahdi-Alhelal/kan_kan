@@ -67,11 +67,11 @@ class FactoryScreen extends StatelessWidget {
                           status: factoryList[index].status,
                           onTap: () async {
                             await updateStatus(
-                                value: StatusList.factoryStatus.first,
+                                value: DropMenuList.factoryStatus.first,
                                 context: context,
                                 title: "حالة",
                                 onChanged: (value) {},
-                                items: StatusList.factoryStatus
+                                items: DropMenuList.factoryStatus
                                     .map<DropdownMenuItem<String>>(
                                         (String status) {
                                   return DropdownMenuItem(

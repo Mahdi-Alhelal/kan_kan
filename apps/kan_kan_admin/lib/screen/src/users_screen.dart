@@ -46,12 +46,12 @@ class UsersScreen extends StatelessWidget {
                           status: "فعال",
                           onTap: () async {
                             await updateStatus(
-                              value:StatusList.userStatus.first ,
+                              value:DropMenuList.userStatus.first ,
                                 onChanged: (value) {},
                                 context: context,
                                 title: "حالة",
                                 onPressed: () {},
-                                items: StatusList.userStatus
+                                items: DropMenuList.userStatus
                                     .map<DropdownMenuItem<String>>(
                                         (String status) {
                                   return DropdownMenuItem(

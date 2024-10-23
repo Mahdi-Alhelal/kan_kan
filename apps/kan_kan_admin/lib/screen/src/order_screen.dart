@@ -74,11 +74,11 @@ class OrderScreen extends StatelessWidget {
                           status: orderList[index].status,
                           onTap: () async {
                             await updateStatus(
-                                value: StatusList.paymentStatus.first,
+                                value: DropMenuList.paymentStatus.first,
                                 context: context,
                                 title: "حالة",
                                 onChanged: (value) {},
-                                items: StatusList.paymentStatus
+                                items: DropMenuList.paymentStatus
                                     .map<DropdownMenuItem<String>>(
                                         (String status) {
                                   return DropdownMenuItem(
@@ -92,11 +92,11 @@ class OrderScreen extends StatelessWidget {
                           status: orderList[index].shipmentStatus,
                           onTap: () async {
                             await updateStatus(
-                                value: StatusList.shipmentStatus.first,
+                                value: DropMenuList.shipmentStatus.first,
                                 context: context,
                                 title: "حالة",
                                 onChanged: (value) {},
-                                items: StatusList.shipmentStatus
+                                items: DropMenuList.shipmentStatus
                                     .map<DropdownMenuItem<String>>(
                                         (String status) {
                                   return DropdownMenuItem(

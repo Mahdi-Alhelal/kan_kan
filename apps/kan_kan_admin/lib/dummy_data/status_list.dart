@@ -1,4 +1,4 @@
-class  StatusList {
+class  DropMenuList {
   
 static List<String> factoryStatus = ["غير نشط", "نشط"];
 
@@ -17,5 +17,8 @@ static List<String> shipmentStatus = [
 static List<String> dealStatus = ["خاص", "مغلق", "متاح"];
 
 static List<String> userStatus = ["محجوب", "نشط"];
+static List<String> productName = ["كامراة","شاشة"];
+static List<String> dealCategory = ["اثاث","الكترونيات"];
+
 
 }

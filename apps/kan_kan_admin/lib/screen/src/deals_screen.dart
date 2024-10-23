@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/deals_dummy.dart';
+import 'package:kan_kan_admin/screen/src/sub/add_deal_screen.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
 import 'package:kan_kan_admin/widget/dialog/update_status.dart';
@@ -19,7 +20,14 @@ class DealsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AddButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddDealScreen(),
+                ),
+              );
+            },
           ),
           TableSizedBox(
             child: CustomTableTheme(
@@ -49,12 +57,13 @@ class DealsScreen extends StatelessWidget {
                           status: dealsList[index].status,
                           onTap: () async {
                             await updateStatus(
-                              value:StatusList.dealStatus.first ,
+                                value: DropMenuList.dealStatus.first,
                                 context: context,
                                 title: "حالة",
                                 onChanged: (value) {},
-                                items: StatusList.dealStatus.map<DropdownMenuItem<String>>(
-                                    (String status) {
+                                items: DropMenuList.dealStatus
+                                    .map<DropdownMenuItem<String>>(
+                                        (String status) {
                                   return DropdownMenuItem(
                                     value: status,
                                     child: Text(status),

@@ -15,7 +15,6 @@ class CustomDropDownList extends StatelessWidget {
         items: items,
         alignment: Alignment.centerRight,
         value: value,
-        
         icon: null,
         underline: null,
         elevation: 16,
