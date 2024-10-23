@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/deals_dummy.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
-import 'package:kan_kan_admin/widget/chip/factory_status.dart';
+import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
+import 'package:kan_kan_admin/widget/dialog/update_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/ui.dart';
@@ -43,7 +44,22 @@ class DealsScreen extends StatelessWidget {
                             "${dealsList[index].start} الى ${dealsList[index].end}")),
                         DataCell(Text(
                             "${dealsList[index].numberOfJoined}/${dealsList[index].max}")),
-                        DataCell(CustomChips(status: dealsList[index].status)),
+                        DataCell(CustomChips(
+                          status: dealsList[index].status,
+                          onTap: () async {
+                            await updateStatus(
+                                context: context,
+                                title: "حالة",
+                                onChanged: (value) {},
+                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
+                                    (String status) {
+                                  return DropdownMenuItem(
+                                    value: status,
+                                    child: Text(status),
+                                  );
+                                }).toList());
+                          },
+                        )),
                       ],
                     ),
                   ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/dummydata.dart';
-import 'package:kan_kan_admin/widget/chip/factory_status.dart';
+import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
+import 'package:kan_kan_admin/widget/dialog/update_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/ui.dart';
@@ -40,7 +41,25 @@ class UsersScreen extends StatelessWidget {
                           ),
                         ),
                         DataCell(Text(userList[index].region)),
-                        const DataCell(CustomChips(status: "فعال")),
+                        DataCell(CustomChips(
+                          status: "فعال",
+                          onTap: () async {
+                            await updateStatus(
+                              onChanged: (value){},
+                                context: context,
+                                title: "حالة",
+                                onPressed: () {
+                                  
+                                },
+                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
+                                    (String status) {
+                                  return DropdownMenuItem(
+                                    value: status,
+                                    child: Text(status),
+                                  );
+                                }).toList());
+                          },
+                        )),
                       ],
                     ),
                   ),

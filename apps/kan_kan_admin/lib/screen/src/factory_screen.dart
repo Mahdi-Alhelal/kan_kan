@@ -3,7 +3,8 @@ import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/factory_dummy_data.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
-import 'package:kan_kan_admin/widget/chip/factory_status.dart';
+import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
+import 'package:kan_kan_admin/widget/dialog/update_status.dart';
 import 'package:kan_kan_admin/widget/form/factory_form.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
@@ -61,8 +62,22 @@ class FactoryScreen extends StatelessWidget {
                             child: Text(factoryList[index].phoneNumber))),
                         DataCell(Text(factoryList[index].type)),
                         DataCell(Text(factoryList[index].region)),
-                        DataCell(
-                            CustomChips(status: factoryList[index].status)),
+                        DataCell(CustomChips(
+                          status: factoryList[index].status,
+                          onTap: () async {
+                            await updateStatus(
+                                context: context,
+                                title: "حالة",
+                                onChanged: (value) {},
+                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
+                                    (String status) {
+                                  return DropdownMenuItem(
+                                    value: status,
+                                    child: Text(status),
+                                  );
+                                }).toList());
+                          },
+                        )),
                       ],
                     ),
                   ),

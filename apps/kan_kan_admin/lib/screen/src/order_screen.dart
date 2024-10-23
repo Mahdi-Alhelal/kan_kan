@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/order_dummy.dart';
-import 'package:kan_kan_admin/widget/chip/factory_status.dart';
+import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
+import 'package:kan_kan_admin/widget/dialog/update_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/ui.dart';
@@ -68,9 +69,38 @@ class OrderScreen extends StatelessWidget {
                         DataCell(Text("${orderList[index].price}")),
                         DataCell(Text(orderList[index].product)),
                         DataCell(Text(orderList[index].orderDate)),
-                        DataCell(CustomChips(status: orderList[index].status)),
                         DataCell(CustomChips(
-                            status: orderList[index].shipmentStatus)),
+                          status: orderList[index].status,
+                          onTap: () async {
+                            await updateStatus(
+                                context: context,
+                                title: "حالة",
+                                onChanged: (value) {},
+                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
+                                    (String status) {
+                                  return DropdownMenuItem(
+                                    value: status,
+                                    child: Text(status),
+                                  );
+                                }).toList());
+                          },
+                        )),
+                        DataCell(CustomChips(
+                          status: orderList[index].shipmentStatus,
+                          onTap: () async {
+                            await updateStatus(
+                                context: context,
+                                title: "حالة",
+                                onChanged: (value) {},
+                                items: ["إلغاء"].map<DropdownMenuItem<String>>(
+                                    (String status) {
+                                  return DropdownMenuItem(
+                                    value: status,
+                                    child: Text(status),
+                                  );
+                                }).toList());
+                          },
+                        )),
                       ],
                     ),
                   ),
