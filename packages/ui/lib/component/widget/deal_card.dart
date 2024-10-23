@@ -37,17 +37,6 @@ class DealCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
-                      children: [
-                        // Text(
-                        //   '#123',
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     color: AppColor.primary,
-                        //   ),
-                        // ),
-                      ],
-                    ),
                     const SizedBox(height: 5),
                     Row(
                       children: [

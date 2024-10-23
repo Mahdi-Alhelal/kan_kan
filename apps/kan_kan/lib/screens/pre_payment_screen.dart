@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kan_kan/screens/order_screen.dart';
 import 'package:kan_kan/screens/sucess_payment_screen.dart.dart';
 import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
@@ -206,8 +207,7 @@ class PrePaymentScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => SucessPaymentScreen()),
+                      MaterialPageRoute(builder: (context) => OrderScreen()),
                     );
                   },
                   child: Text("تجربة"))
