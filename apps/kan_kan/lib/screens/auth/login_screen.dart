@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const CustomTextField(
+            CustomTextField(
               title: "الإيميل",
               icon: Icon(Icons.email),
             ),

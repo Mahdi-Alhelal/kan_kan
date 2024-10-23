@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
+import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 
 import 'deal_details_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class DealsScreen extends StatelessWidget {
+  const DealsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +53,11 @@ class HomeScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: AppColor.primary,
                         borderRadius: BorderRadius.circular(8)),
-                    width: 100,
+                    width: context.getWidth(value: 0.45),
                     height: 50,
                     alignment: Alignment.center,
                     child: Text(
-                      "الأجهزة التقنية",
+                      "الصفقات الحالية",
                       style: TextStyle(color: AppColor.white),
                     ),
                   ),
@@ -64,26 +65,14 @@ class HomeScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: AppColor.secondary,
                         borderRadius: BorderRadius.circular(8)),
-                    width: 100,
+                    width: context.getWidth(value: 0.45),
                     height: 50,
                     alignment: Alignment.center,
                     child: Text(
-                      "الأثاث",
+                      "الصفقات السابقة",
                       style: TextStyle(color: AppColor.white),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: AppColor.primary,
-                        borderRadius: BorderRadius.circular(8)),
-                    width: 100,
-                    height: 50,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "قريباً",
-                      style: TextStyle(color: AppColor.white),
-                    ),
-                  )
                 ],
               ),
               SizedBox(
