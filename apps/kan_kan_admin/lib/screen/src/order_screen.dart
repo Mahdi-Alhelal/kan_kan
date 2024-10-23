@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
-import 'package:kan_kan_admin/model/dummy%20data/order_dummy.dart';
+import 'package:kan_kan_admin/dummy_data/order_dummy.dart';
 import 'package:kan_kan_admin/widget/chip/factory_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';

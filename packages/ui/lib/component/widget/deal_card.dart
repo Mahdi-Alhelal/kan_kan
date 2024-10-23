@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ui/ui.dart';
 
 class DealCard extends StatelessWidget {
-  DealCard({super.key, required this.onTap});
+  const DealCard({super.key, required this.onTap});
 
-  Function()? onTap;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +103,7 @@ class DealCard extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: 15 / 20,
                   backgroundColor: AppColor.bg,
-                  valueColor:
-                      AlwaysStoppedAnimation<Color>(AppColor.primary),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColor.primary),
                 ),
               ),
               SizedBox(width: 10),
@@ -138,7 +137,6 @@ class DealCard extends StatelessWidget {
               ),
             ),
           ),
-      
         ],
       ),
     );

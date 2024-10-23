@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kan_kan_admin/screen/deals_screen.dart';
-import 'package:kan_kan_admin/screen/factory_screen.dart';
-import 'package:kan_kan_admin/screen/home_screen.dart';
-import 'package:kan_kan_admin/screen/order_screen.dart';
-import 'package:kan_kan_admin/screen/product_screen.dart';
-import 'package:kan_kan_admin/screen/users_screen.dart';
+import 'package:kan_kan_admin/screen/src/deals_screen.dart';
+import 'package:kan_kan_admin/screen/src/factory_screen.dart';
+import 'package:kan_kan_admin/screen/src/home_screen.dart';
+import 'package:kan_kan_admin/screen/src/order_screen.dart';
+import 'package:kan_kan_admin/screen/src/product_screen.dart';
+import 'package:kan_kan_admin/screen/src/users_screen.dart';
 import 'package:kan_kan_admin/widget/navigator/custom_selected_icon.dart';
 import 'package:ui/ui.dart';
 
