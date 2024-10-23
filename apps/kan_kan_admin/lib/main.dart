@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kan_kan_admin/screen/navigation_page.dart';
 import 'package:kan_kan_admin/screen/src/deals_details_screen.dart';
 import 'package:kan_kan_admin/screen/src/deals_screen.dart';
+import 'package:kan_kan_admin/screen/src/order_details_screen.dart';
 import 'package:ui/ui.dart';
 
 import 'screen/src/product_details_screen.dart';
@@ -35,6 +36,6 @@ class MainApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: const Locale("ar"),
-        home: const ProductDetailsScreen());
+        home: const OrderDetailsScreen());
   }
 }
