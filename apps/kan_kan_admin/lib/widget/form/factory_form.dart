@@ -3,8 +3,8 @@ import 'package:kan_kan_admin/widget/form/form_divider.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 
-class AddFactory extends StatelessWidget {
-  const AddFactory({
+class FactoryForm extends StatelessWidget {
+  const FactoryForm({
     super.key,
     required this.factoryNameController,
     required this.regionController,
@@ -26,7 +26,7 @@ class AddFactory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         const FormDivider(
           text: "معلومات المصنع",

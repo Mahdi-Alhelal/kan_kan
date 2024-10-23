@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/model/dummy%20data/dummydata.dart';
-import 'package:kan_kan_admin/widget/button/add_button.dart';
 import 'package:kan_kan_admin/widget/chip/factory_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
@@ -17,9 +16,6 @@ class UsersScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AddButton(
-            onPressed: () {},
-          ),
           TableSizedBox(
             child: CustomTableTheme(
               child: PaginatedDataTable(
@@ -33,16 +29,7 @@ class UsersScreen extends StatelessWidget {
                       color: WidgetStateProperty.all(AppColor.white),
                       cells: [
                         DataCell(
-                          Row(
-                            children: [
-                              Radio(
-                                value: userList[index].id,
-                                groupValue: index,
-                                onChanged: (value) {},
-                              ),
-                              Text(userList[index].id)
-                            ],
-                          ),
+                          Text(userList[index].id),
                         ),
                         DataCell(Text(userList[index].name)),
                         DataCell(Text(userList[index].email)),
@@ -53,7 +40,7 @@ class UsersScreen extends StatelessWidget {
                           ),
                         ),
                         DataCell(Text(userList[index].region)),
-                        DataCell(CustomChips(status: "فعال")),
+                        const DataCell(CustomChips(status: "فعال")),
                       ],
                     ),
                   ),

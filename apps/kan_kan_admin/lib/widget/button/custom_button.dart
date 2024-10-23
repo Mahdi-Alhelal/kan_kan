@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:ui/component/helper/screen.dart';
 
-class AddButton extends StatelessWidget {
-  const AddButton({
+class CustomButton extends StatelessWidget {
+  const CustomButton({
     super.key,
-    this.onPressed,
+   required this.onPressed,
+    required this.text,
   });
+  final String text;
   final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: context.getWidth(value: 0.099),
+      width: context.getWidth(value: 0.75),
+      height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(16),
+              Radius.circular(8),
             ),
           ),
         ),
         onPressed: onPressed,
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Icon(Icons.add), Text("إضافة")],
-        ),
+        child: Text(text),
       ),
     );
   }
