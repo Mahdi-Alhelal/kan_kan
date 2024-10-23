@@ -284,7 +284,62 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                     ],
                                   ),
                                   Column(
-                                    children: [],
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.factory,
+                                                color: AppColor.primary,
+                                              ),
+                                              Text("المصنع : "),
+                                              Text("Something factory")
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.place,
+                                                color: AppColor.primary,
+                                              ),
+                                              Text("المنطقة :"),
+                                              Text("Ganzo")
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.factory,
+                                                color: AppColor.primary,
+                                              ),
+                                              Text("ممثل المصنع : "),
+                                              Text("Ali Sami")
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.phone,
+                                                color: AppColor.primary,
+                                              ),
+                                              Text("رقم التواصل :"),
+                                              Text("+966597555447")
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   )
                                 ]),
                           ),
