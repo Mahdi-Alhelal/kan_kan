@@ -96,7 +96,7 @@ class NavigationPage extends StatelessWidget {
             ),
             Container(
                 margin: const EdgeInsets.only(top: 5),
-                width: MediaQuery.of(context).size.width * 0.84,
+                width: MediaQuery.of(context).size.width * 0.80,
                 child: screens[index])
           ],
         ),

@@ -22,3 +22,10 @@ flutter:
   assets:
     - assets/
     - assets/translations/
+    - assets/images/
+    - assets/images/logo/
+    - assets/images/products-sample/
+  fonts:
+     - family: Tajawal
+       fonts:
+         - asset: assets/fonts/Tajawal-Bold.ttf
