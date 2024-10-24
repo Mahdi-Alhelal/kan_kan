@@ -44,7 +44,6 @@ class FactoryScreen extends StatelessWidget {
             child: CustomTableTheme(
               child: PaginatedDataTable(
                 showEmptyRows: false,
-                headingRowColor: const WidgetStatePropertyAll(AppColor.white),
                 source: TableDataRow(
                   length: factoryList.length,
                   customRow: List.generate(

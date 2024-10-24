@@ -49,7 +49,6 @@ class ProductScreen extends StatelessWidget {
             child: CustomTableTheme(
               child: PaginatedDataTable(
                 showEmptyRows: false,
-                headingRowColor: const WidgetStatePropertyAll(AppColor.white),
                 source: TableDataRow(
                   length: productsList.length,
                   customRow: List.generate(

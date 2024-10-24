@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:ui/component/helper/screen.dart';
-import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:ui/ui.dart';
 
 class OrderDetailsScreen extends StatefulWidget {

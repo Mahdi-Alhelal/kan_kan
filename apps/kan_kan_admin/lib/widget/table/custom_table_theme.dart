@@ -12,17 +12,19 @@ class CustomTableTheme extends StatelessWidget {
     return Theme(
         data: ThemeData(
             cardTheme: const CardTheme(
-              shape: RoundedRectangleBorder(),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
               color: AppColor.white,
               elevation: 0,
             ),
             iconButtonTheme: const IconButtonThemeData(
               style: ButtonStyle(
+                alignment: Alignment.centerRight,
                 iconColor: WidgetStatePropertyAll(AppColor.black),
               ),
             ),
-          dataTableTheme:const DataTableThemeData(
-          ),
+            dataTableTheme: const DataTableThemeData(),
             dividerColor: AppColor.primary),
         child: child);
   }

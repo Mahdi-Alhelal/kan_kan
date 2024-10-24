@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/dummy_data/order_dummy.dart';
+import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
+import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
+import 'package:kan_kan_admin/widget/dialog/update_status.dart';
+import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
+import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:ui/ui.dart';
@@ -97,7 +104,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                               labelPadding:
                                   const EdgeInsets.only(left: 20, right: 20),
                               tabs: const [
-                                const Tab(
+                                Tab(
                                   text: "تفاصيل الصفقة",
                                 ),
                                 Tab(
@@ -110,7 +117,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Container(
+                          child: SizedBox(
                             width: context.getWidth(),
                             height: 150,
                             child: TabBarView(
@@ -382,7 +389,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
               color: AppColor.black.withOpacity(20 / 100),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
                   width: context.getWidth(value: 0.25),
@@ -422,10 +429,95 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                   ),
                 ),
                 Container(
-                  color: AppColor.secondary,
-                  width: context.getWidth(value: 0.75),
-                  child: Text("الجدول هنا"),
-                )
+                    margin: EdgeInsets.only(left: 10),
+                    width: context.getWidth(value: 0.72),
+                    child: TableSizedBox(
+                      child: CustomTableTheme(
+                        child: PaginatedDataTable(
+                          rowsPerPage: 3,
+                          showEmptyRows: false,
+                          source: TableDataRow(
+                            length: orderList.length,
+                            customRow: List.generate(
+                              orderList.length,
+                              (index) => DataRow(
+                                color: WidgetStateProperty.all(AppColor.white),
+                                cells: [
+                                  DataCell(
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            "${orderList[index].customerName}\n${orderList[index].orderNumber}")
+                                      ],
+                                    ),
+                                  ),
+                                  DataCell(Center(
+                                      child: Text(orderList[index].orderDate))),
+                                  DataCell(CustomChips(
+                                    status: orderList[index].status,
+                                    onTap: () async {
+                                      await updateStatus(
+                                          value:
+                                              DropMenuList.paymentStatus.first,
+                                          context: context,
+                                          title: "حالة",
+                                          onChanged: (value) {},
+                                          items: DropMenuList.paymentStatus
+                                              .map<DropdownMenuItem<String>>(
+                                                  (String status) {
+                                            return DropdownMenuItem(
+                                              value: status,
+                                              child: Text(status),
+                                            );
+                                          }).toList());
+                                    },
+                                  )),
+                                  DataCell(CustomChips(
+                                    status: orderList[index].shipmentStatus,
+                                    onTap: () async {
+                                      await updateStatus(
+                                          value:
+                                              DropMenuList.shipmentStatus.first,
+                                          context: context,
+                                          title: "حالة",
+                                          onChanged: (value) {},
+                                          items: DropMenuList.shipmentStatus
+                                              .map<DropdownMenuItem<String>>(
+                                                  (String status) {
+                                            return DropdownMenuItem(
+                                              value: status,
+                                              child: Text(status),
+                                            );
+                                          }).toList());
+                                    },
+                                  )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          columns: const [
+                            DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text("العميل"),
+                            ),
+                            DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text("تاريخ طلب"),
+                            ),
+                            DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text("حالة الدفع"),
+                            ),
+                            DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text("حالة"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ))
               ],
             )
           ],

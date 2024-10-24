@@ -51,7 +51,6 @@ class OrderScreen extends StatelessWidget {
             child: CustomTableTheme(
               child: PaginatedDataTable(
                 showEmptyRows: false,
-                headingRowColor: const WidgetStatePropertyAll(AppColor.white),
                 source: TableDataRow(
                   length: orderList.length,
                   customRow: List.generate(
