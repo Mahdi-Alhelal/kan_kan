@@ -45,80 +45,84 @@ class OrderScreen extends StatelessWidget {
               ),
               Container(
                 width: context.getWidth(value: 0.75),
-                height: context.getHeight(value: 0.4),
+                height: context.getHeight(value: 0.5),
                 padding: const EdgeInsets.all(8),
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: AppColor.white),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "رقم الصفقة",
-                          style:
-                              TextStyle(fontSize: 16, color: AppColor.primary),
-                        ),
-                        Text(
-                          "#1001",
-                          style:
-                              TextStyle(fontSize: 16, color: AppColor.primary),
-                        )
-                      ],
-                    ),
-                    Image.asset("assets/images/products-sample/tv-sample.png"),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "تلفزيون 75 بوصة",
-                          style:
-                              TextStyle(fontSize: 16, color: AppColor.primary),
-                        ),
-                        Text(
-                          "2x",
-                          style: TextStyle(
-                              fontSize: 16, color: AppColor.secondary),
-                        )
-                      ],
-                    ),
-                    const Divider(
-                      color: AppColor.bg,
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("السعر"), Text("1399 ريال")],
-                    ),
-                    const Divider(
-                      color: AppColor.bg,
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("رسوم التوصيل والجمارك"),
-                        Text("300 ريال")
-                      ],
-                    ),
-                    const Divider(
-                      color: AppColor.bg,
-                      thickness: 1,
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "الإجمالي",
-                          style: TextStyle(
-                              color: AppColor.secondary, fontSize: 16),
-                        ),
-                        Text("2000 ريال",
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "رقم الصفقة",
                             style: TextStyle(
-                                color: AppColor.secondary, fontSize: 16))
-                      ],
-                    )
-                  ],
+                                fontSize: 16, color: AppColor.primary),
+                          ),
+                          Text(
+                            "#1001",
+                            style: TextStyle(
+                                fontSize: 16, color: AppColor.primary),
+                          )
+                        ],
+                      ),
+                      Image.asset(
+                          "assets/images/products-sample/tv-sample.png"),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "تلفزيون 75 بوصة",
+                            style: TextStyle(
+                                fontSize: 16, color: AppColor.primary),
+                          ),
+                          Text(
+                            "2x",
+                            style: TextStyle(
+                                fontSize: 16, color: AppColor.secondary),
+                          )
+                        ],
+                      ),
+                      const Divider(
+                        color: AppColor.bg,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text("السعر"), Text("1399 ريال")],
+                      ),
+                      const Divider(
+                        color: AppColor.bg,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("رسوم التوصيل والجمارك"),
+                          Text("300 ريال")
+                        ],
+                      ),
+                      const Divider(
+                        color: AppColor.bg,
+                        thickness: 1,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "الإجمالي",
+                            style: TextStyle(
+                                color: AppColor.secondary, fontSize: 16),
+                          ),
+                          Text("2000 ريال",
+                              style: TextStyle(
+                                  color: AppColor.secondary, fontSize: 16))
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

@@ -62,77 +62,81 @@ class PrePaymentScreen extends StatelessWidget {
                 width: context.getWidth(value: 0.75),
                 height: context.getHeight(value: 0.5),
                 padding: const EdgeInsets.all(8),
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: AppColor.white),
-                child: Column(
-                  children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "رقم الصفقة",
-                          style:
-                              TextStyle(fontSize: 20, color: AppColor.primary),
-                        ),
-                        Text(
-                          "#1001",
-                          style:
-                              TextStyle(fontSize: 20, color: AppColor.primary),
-                        )
-                      ],
-                    ),
-                    Image.asset("assets/images/products-sample/tv-sample.png"),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "تلفزيون 75 بوصة",
-                          style:
-                              TextStyle(fontSize: 20, color: AppColor.primary),
-                        ),
-                        Text(
-                          "2x",
-                          style: TextStyle(
-                              fontSize: 20, color: AppColor.secondary),
-                        )
-                      ],
-                    ),
-                    const Divider(
-                      color: AppColor.bg,
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("السعر"), Text("1399 ريال")],
-                    ),
-                    const Divider(
-                      color: AppColor.bg,
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("رسوم التوصيل والجمارك"),
-                        Text("300 ريال")
-                      ],
-                    ),
-                    const Divider(
-                      color: AppColor.bg,
-                      thickness: 1,
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "الإجمالي",
-                          style: TextStyle(
-                              color: AppColor.secondary, fontSize: 16),
-                        ),
-                        Text("2000 ريال",
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "رقم الصفقة",
                             style: TextStyle(
-                                color: AppColor.secondary, fontSize: 16))
-                      ],
-                    )
-                  ],
+                                fontSize: 20, color: AppColor.primary),
+                          ),
+                          Text(
+                            "#1001",
+                            style: TextStyle(
+                                fontSize: 20, color: AppColor.primary),
+                          )
+                        ],
+                      ),
+                      Image.asset(
+                          "assets/images/products-sample/tv-sample.png"),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "تلفزيون 75 بوصة",
+                            style: TextStyle(
+                                fontSize: 20, color: AppColor.primary),
+                          ),
+                          Text(
+                            "2x",
+                            style: TextStyle(
+                                fontSize: 20, color: AppColor.secondary),
+                          )
+                        ],
+                      ),
+                      const Divider(
+                        color: AppColor.bg,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text("السعر"), Text("1399 ريال")],
+                      ),
+                      const Divider(
+                        color: AppColor.bg,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("رسوم التوصيل والجمارك"),
+                          Text("300 ريال")
+                        ],
+                      ),
+                      const Divider(
+                        color: AppColor.bg,
+                        thickness: 1,
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "الإجمالي",
+                            style: TextStyle(
+                                color: AppColor.secondary, fontSize: 16),
+                          ),
+                          Text("2000 ريال",
+                              style: TextStyle(
+                                  color: AppColor.secondary, fontSize: 16))
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
@@ -140,7 +144,7 @@ class PrePaymentScreen extends StatelessWidget {
               ),
               Container(
                   width: context.getWidth(value: 0.75),
-                  height: context.getHeight(value: 0.25),
+                  height: context.getHeight(value: 0.20),
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -148,7 +152,7 @@ class PrePaymentScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "المنطقة والحي",
+                        "المنطقة",
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(
@@ -156,7 +160,6 @@ class PrePaymentScreen extends StatelessWidget {
                       ),
                       //dropdownList
                       CustomTextField(title: "المنطقة"),
-                      CustomTextField(title: "الحي"),
                     ],
                   )),
               SizedBox(
@@ -172,7 +175,7 @@ class PrePaymentScreen extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return SizedBox(
-                          height: context.getHeight(value: 0.5),
+                          height: context.getHeight(value: 0.55),
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),

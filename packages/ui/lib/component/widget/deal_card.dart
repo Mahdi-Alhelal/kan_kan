@@ -26,7 +26,9 @@ class DealCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset("assets/images/products-sample/tv-sample.png"),
+          Center(
+              child:
+                  Image.asset("assets/images/products-sample/tv-sample.png")),
           const SizedBox(
             height: 20,
           ),
