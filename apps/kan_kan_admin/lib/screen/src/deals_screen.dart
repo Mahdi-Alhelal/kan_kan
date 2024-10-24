@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/deals_dummy.dart';
+import 'package:kan_kan_admin/screen/src/deals_details_screen.dart';
 import 'package:kan_kan_admin/widget/form/add_deal_form.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
@@ -34,6 +35,12 @@ class DealsScreen extends StatelessWidget {
                   customRow: List.generate(
                     dealsList.length,
                     (index) => DataRow(
+                      onLongPress: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DealsDetailsScreen(),
+                        ),
+                      ),
                       color: WidgetStateProperty.all(AppColor.white),
                       cells: [
                         DataCell(
