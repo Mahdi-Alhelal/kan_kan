@@ -362,7 +362,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(
@@ -370,19 +370,21 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                   customBottomSheet(
                       context: context,
                       height: 0.4,
-                      child: Column(
-                        children: [
-                          CustomTextField(title: "رقم تتبع الصفقة"),
-                          SizedBox(
-                            width: context.getWidth(value: 0.25),
-                            child: ElevatedButton(
-                                onPressed: () {}, child: Text("حفظ")),
-                          )
-                        ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            const CustomTextField(title: "رقم تتبع الصفقة"),
+                            SizedBox(
+                              width: context.getWidth(value: 0.25),
+                              child: ElevatedButton(
+                                  onPressed: () {}, child: const Text("حفظ")),
+                            )
+                          ],
+                        ),
                       ));
                 },
-                child: Text("رقم تتبع الصفقة")),
-            SizedBox(
+                child: const Text("رقم تتبع الصفقة")),
+            const SizedBox(
               height: 10,
             ),
             Divider(
@@ -410,26 +412,26 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                 ),
                               ),
                               onPressed: () {},
-                              child: Text("إكمال الصفقة")),
+                              child: const Text("إكمال الصفقة")),
                         ),
                         SizedBox(
                           width: context.getWidth(value: 0.20),
                           child: ElevatedButton(
                               onPressed: () {},
-                              child: Text("تحديث حالة الطلبات")),
+                              child: const Text("تحديث حالة الطلبات")),
                         ),
                         SizedBox(
                           width: context.getWidth(value: 0.20),
                           child: ElevatedButton(
                               onPressed: () {},
-                              child: Text("تحديث حالة الصفقة")),
+                              child: const Text("تحديث حالة الصفقة")),
                         ),
                       ],
                     ),
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 10),
+                    margin: const EdgeInsets.only(left: 10),
                     width: context.getWidth(value: 0.72),
                     child: TableSizedBox(
                       child: CustomTableTheme(

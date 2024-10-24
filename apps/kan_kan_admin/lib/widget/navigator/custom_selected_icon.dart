@@ -13,7 +13,7 @@ class CustomSelectedIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      width: MediaQuery.of(context).size.width * .1,
+      width: MediaQuery.of(context).size.width * .12,
       height: MediaQuery.of(context).size.height * .05,
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,

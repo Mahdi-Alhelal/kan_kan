@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kan_kan_admin/screen/navigation_page.dart';
-import 'package:kan_kan_admin/screen/src/deals_details_screen.dart';
 import 'package:ui/ui.dart';
 
 void main() async {
@@ -32,6 +31,6 @@ class MainApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: const Locale("ar"),
-        home: const DealsDetailsScreen());
+        home: const NavigationPage());
   }
 }
