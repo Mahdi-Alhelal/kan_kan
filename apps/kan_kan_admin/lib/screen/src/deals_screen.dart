@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/dummy_data/deals_dummy.dart';
-import 'package:kan_kan_admin/screen/src/sub/add_deal_screen.dart';
+import 'package:kan_kan_admin/widget/form/add_deal_form.dart';
+import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
 import 'package:kan_kan_admin/widget/dialog/update_status.dart';
@@ -21,19 +22,13 @@ class DealsScreen extends StatelessWidget {
         children: [
           AddButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddDealScreen(),
-                ),
-              );
+              customBottomSheet(context: context, child: const AddDealForm());
             },
           ),
           TableSizedBox(
             child: CustomTableTheme(
               child: PaginatedDataTable(
                 showEmptyRows: false,
-                headingRowColor: const WidgetStatePropertyAll(AppColor.white),
                 source: TableDataRow(
                   length: dealsList.length,
                   customRow: List.generate(
