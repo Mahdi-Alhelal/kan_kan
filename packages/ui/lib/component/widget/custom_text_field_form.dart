@@ -24,7 +24,7 @@ class CustomTextFieldForm extends StatelessWidget {
         inputFormatters: inputFormatters,
         onTap: onTap,
         controller: controller,
-        decoration: InputDecoration(
+        decoration: InputDecoration( 
           hintText: title,
           prefixIcon: icon,
           border: OutlineInputBorder(

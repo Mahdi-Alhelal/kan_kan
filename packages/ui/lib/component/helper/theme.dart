@@ -8,12 +8,19 @@ class TAppTheme {
   TAppTheme._();
 
   static ThemeData lightTheme = ThemeData(
+      dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
       useMaterial3: true,
       fontFamily: 'Tajawal',
       brightness: Brightness.light,
       primaryColor: AppColor.primary,
       scaffoldBackgroundColor: AppColor.bg,
-      iconTheme: IconThemeData(color: AppColor.white),
+      iconTheme: const IconThemeData(color: AppColor.white),
       elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
       textTheme: TTextTheme.lightTextTheme);
 }
