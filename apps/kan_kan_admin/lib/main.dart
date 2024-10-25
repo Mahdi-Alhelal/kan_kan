@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan_admin/screen/navigation_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ui/ui.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  supabase = await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL'] ?? '',
+    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+  );
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeRight,     
     DeviceOrientation.landscapeLeft,
   ]);
   await EasyLocalization.ensureInitialized();
@@ -27,12 +34,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-    
         debugShowCheckedModeBanner: false,
         theme: TAppTheme.lightTheme,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: const Locale("ar"),
-        home:const NavigationPage());
+        home: const NavigationPage());
   }
 }

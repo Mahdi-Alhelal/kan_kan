@@ -8,6 +8,8 @@ import 'package:kan_kan_admin/screen/src/users_screen.dart';
 import 'package:kan_kan_admin/widget/navigator/custom_selected_icon.dart';
 import 'package:ui/ui.dart';
 
+import '../data/repositories/auth_repository.dart';
+
 List<Widget> screens = const [
   HomeScreen(),
   UsersScreen(),
@@ -16,13 +18,18 @@ List<Widget> screens = const [
   DealsScreen(),
   ProductScreen(),
 ];
-int index = 4;
+int index = 3;
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // AuthRepository().signUp(
+    //     email: "tarooti14dev@gmail.com",
+    //     fName: "Ali Altarouty",
+    //     phoneNumber: "0597555447");
+    AuthRepository().login(email: "tarooti14@gmail.com");
     return Scaffold(
       backgroundColor: AppColor.white,
       body: SafeArea(
