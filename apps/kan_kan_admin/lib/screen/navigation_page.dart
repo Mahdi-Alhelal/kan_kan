@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/data/repositories/category_repository.dart';
 import 'package:kan_kan_admin/data/repositories/factory_repository.dart';
 import 'package:kan_kan_admin/screen/src/deals_screen.dart';
 import 'package:kan_kan_admin/screen/src/factory_screen.dart';
@@ -44,7 +45,8 @@ class NavigationPage extends StatelessWidget {
           children: [
             InkWell(
               onTap: () async {
-                final x = await FactoryRepository().addNewFactory( department: "Asdf", person: "Sami", contactPhone: "731431", isBlackList: true, name: 'test factory');
+                final x = await CategoryRepository()
+                    .deleteCategory(id: "756077c7-56ae-4393-bd4e-dbeb37d46d12");
                 print(x.toString());
               },
               child: Container(

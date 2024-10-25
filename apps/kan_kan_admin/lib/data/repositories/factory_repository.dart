@@ -11,7 +11,8 @@ class FactoryRepository {
       {required String name,
       required String department,
       required String person,
-      required String contactPhone, required bool isBlackList}) async {
+      required String contactPhone,
+      required bool isBlackList}) async {
     try {
       final dataFound =
           await supabase.client.from("factories").select("*").match({
@@ -72,8 +73,7 @@ class FactoryRepository {
   * */
   Future<List<Map<String, dynamic>>> getAllfactories() async {
     try {
-      final response =
-          await supabase.client.from("factories").select("*").select();
+      final response = await supabase.client.from("factories").select("*");
       //print(response.first);
       return response;
     } catch (e) {
