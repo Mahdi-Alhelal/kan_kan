@@ -41,12 +41,12 @@ class UsersScreen extends StatelessWidget {
                             child: Text(userList[index].phoneNumber),
                           ),
                         ),
-                        DataCell(Text(userList[index].region)),
+                        DataCell(Text(userList[index].region!)),
                         DataCell(CustomChips(
                           status: "فعال",
                           onTap: () async {
                             await updateStatus(
-                              value:DropMenuList.userStatus.first ,
+                                value: DropMenuList.userStatus.first,
                                 onChanged: (value) {},
                                 context: context,
                                 title: "حالة",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/data/repositories/factory_repository.dart';
 import 'package:kan_kan_admin/screen/src/deals_screen.dart';
 import 'package:kan_kan_admin/screen/src/factory_screen.dart';
 import 'package:kan_kan_admin/screen/src/home_screen.dart';
@@ -29,76 +30,87 @@ class NavigationPage extends StatelessWidget {
     //     email: "tarooti14dev@gmail.com",
     //     fName: "Ali Altarouty",
     //     phoneNumber: "0597555447");
-    AuthRepository().login(email: "tarooti14@gmail.com");
+
+    // final x = AuthRepository()
+    //     .verifyOtp(email: "tarooti14@gmail.com", otp: "380681", type: 1);
+    // print(x);
+    // AuthRepository().loginToken(email: "tarooti14@gmail.com");
+
     return Scaffold(
       backgroundColor: AppColor.white,
       body: SafeArea(
         bottom: false,
         child: Row(
           children: [
-            Container(
-              margin: const EdgeInsets.only(left: 11),
-              decoration: const BoxDecoration(
-                color: AppColor.bg,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  bottomLeft: Radius.circular(30),
+            InkWell(
+              onTap: () async {
+                final x = await FactoryRepository().addNewFactory( department: "Asdf", person: "Sami", contactPhone: "731431", isBlackList: true, name: 'test factory');
+                print(x.toString());
+              },
+              child: Container(
+                margin: const EdgeInsets.only(left: 11),
+                decoration: const BoxDecoration(
+                  color: AppColor.bg,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
+                  ),
                 ),
-              ),
-              child: NavigationRail(
-                selectedIndex: index,
-                labelType: NavigationRailLabelType.none,
-                backgroundColor: Colors.transparent,
-                useIndicator: false,
-                minWidth: MediaQuery.of(context).size.width * .15,
-                destinations: const [
-                  NavigationRailDestination(
-                    icon: Text("صفحة الريئيسية"),
-                    selectedIcon: CustomSelectedIcon(
-                        text: "صفحة الريئيسية", icon: Icons.home_outlined),
-                    label: Text(''),
-                  ),
-                  NavigationRailDestination(
-                    icon: Text("مستخدمين"),
-                    selectedIcon: CustomSelectedIcon(
-                      icon: Icons.people_alt_outlined,
-                      text: "مستخدمين",
+                child: NavigationRail(
+                  selectedIndex: index,
+                  labelType: NavigationRailLabelType.none,
+                  backgroundColor: Colors.transparent,
+                  useIndicator: false,
+                  minWidth: MediaQuery.of(context).size.width * .15,
+                  destinations: const [
+                    NavigationRailDestination(
+                      icon: Text("صفحة الريئيسية"),
+                      selectedIcon: CustomSelectedIcon(
+                          text: "صفحة الريئيسية", icon: Icons.home_outlined),
+                      label: Text(''),
                     ),
-                    label: Text(""),
-                  ),
-                  NavigationRailDestination(
-                    icon: Text("المصانع"),
-                    selectedIcon: CustomSelectedIcon(
-                      icon: Icons.factory_outlined,
-                      text: "المصانع",
+                    NavigationRailDestination(
+                      icon: Text("مستخدمين"),
+                      selectedIcon: CustomSelectedIcon(
+                        icon: Icons.people_alt_outlined,
+                        text: "مستخدمين",
+                      ),
+                      label: Text(""),
                     ),
-                    label: Text(""),
-                  ),
-                  NavigationRailDestination(
-                    icon: Text("الطلبات"),
-                    selectedIcon: CustomSelectedIcon(
-                      icon: Icons.receipt_outlined,
-                      text: "الطلبات",
+                    NavigationRailDestination(
+                      icon: Text("المصانع"),
+                      selectedIcon: CustomSelectedIcon(
+                        icon: Icons.factory_outlined,
+                        text: "المصانع",
+                      ),
+                      label: Text(""),
                     ),
-                    label: Text(""),
-                  ),
-                  NavigationRailDestination(
-                    icon: Text("صفقات"),
-                    selectedIcon: CustomSelectedIcon(
-                      icon: Icons.handshake_outlined,
-                      text: "صفقات",
+                    NavigationRailDestination(
+                      icon: Text("الطلبات"),
+                      selectedIcon: CustomSelectedIcon(
+                        icon: Icons.receipt_outlined,
+                        text: "الطلبات",
+                      ),
+                      label: Text(""),
                     ),
-                    label: Text(""),
-                  ),
-                  NavigationRailDestination(
-                    icon: Text("المنتجات"),
-                    selectedIcon: CustomSelectedIcon(
-                      icon: Icons.tab_outlined,
-                      text: "المنتجات",
+                    NavigationRailDestination(
+                      icon: Text("صفقات"),
+                      selectedIcon: CustomSelectedIcon(
+                        icon: Icons.handshake_outlined,
+                        text: "صفقات",
+                      ),
+                      label: Text(""),
                     ),
-                    label: Text(""),
-                  ),
-                ],
+                    NavigationRailDestination(
+                      icon: Text("المنتجات"),
+                      selectedIcon: CustomSelectedIcon(
+                        icon: Icons.tab_outlined,
+                        text: "المنتجات",
+                      ),
+                      label: Text(""),
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
