@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/data/repositories/address_repository.dart';
 import 'package:kan_kan_admin/data/repositories/category_repository.dart';
 import 'package:kan_kan_admin/data/repositories/factory_repository.dart';
 import 'package:kan_kan_admin/screen/src/deals_screen.dart';
@@ -45,8 +46,8 @@ class NavigationPage extends StatelessWidget {
           children: [
             InkWell(
               onTap: () async {
-                final x = await CategoryRepository()
-                    .deleteCategory(id: "756077c7-56ae-4393-bd4e-dbeb37d46d12");
+                final x = await AddressRepository()
+                    .deleteAddress(id: "841b1644-dfd8-4ce7-8f04-2eb986677120");
                 print(x.toString());
               },
               child: Container(
