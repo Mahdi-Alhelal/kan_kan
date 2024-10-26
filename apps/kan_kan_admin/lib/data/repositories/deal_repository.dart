@@ -17,11 +17,26 @@ class DealRepository {
       throw Exception('$e');
     }
   }
+
 //Todo testing insertDeal
-  static Future<void> insertDeal() async {
+  static Future<bool> insertDeal() async {
     log("insertDeal");
     try {
       // KanSupabase.supabase.client.from("deals").insert();
+      return true;
+    } on PostgrestException {
+      throw Exception('Error in get deal data');
+    } catch (e) {
+      throw Exception('$e');
+    }
+  }
+
+  //Todo testing updateDeal
+  static Future<bool> updateDeal() async {
+    log("insertDeal");
+    try {
+      //  KanSupabase.supabase.client.from("deals").update("values").eq("deal_id", "value");
+      return true;
     } on PostgrestException {
       throw Exception('Error in get deal data');
     } catch (e) {
