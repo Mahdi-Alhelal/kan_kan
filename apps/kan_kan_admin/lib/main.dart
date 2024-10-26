@@ -10,6 +10,7 @@ import 'package:kan_kan_admin/setup/setup.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ui/ui.dart';
 
+
 void main() async {
   await EasyLocalization.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,7 @@ void main() async {
   //   url: dotenv.env['SUPABASE_URL'] ?? '',
   //   anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
   // );
+ 
   await setup();
   runApp(
     EasyLocalization(

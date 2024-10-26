@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
 
+import 'dart:ui';
 Color statusColors({required String status}) {
   switch (status) {
     case "نشط":
-      return Color(0xff0CAF60);
+      return const Color(0xff0CAF60);
 
     case "غير نشط":
-      return Colors.red;
+      return const Color(0xFFF44336);
 
     case "قيد المراجعة":
-      return Colors.orange;
+      return const Color(0xFFFF9800);
 
     default:
-      return Colors.black;
+      return const Color(0xFF000000);
   }
 }

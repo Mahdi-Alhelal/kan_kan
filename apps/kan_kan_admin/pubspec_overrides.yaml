@@ -1,4 +1,6 @@
-# melos_managed_dependency_overrides: ui
+# melos_managed_dependency_overrides: ui,helper
 dependency_overrides:
+  helper:
+    path: ..\\..\\packages\\helper
   ui:
     path: ..\\..\\packages\\ui
