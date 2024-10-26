@@ -50,7 +50,6 @@ class ProductModel {
     _data['width'] = width;
     _data['height'] = height;
     _data['length'] = length;
-    _data['created_at'] = createdAt;
     _data['created_by'] = createdBy;
     _data['factory_id'] = factoryId;
     _data['product_id'] = productId;

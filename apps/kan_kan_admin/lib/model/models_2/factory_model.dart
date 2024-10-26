@@ -41,13 +41,10 @@ class FactoryModel {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['region'] = region;
-    _data['created_at'] = createdAt;
-    _data['created_by'] = createdBy;
     _data['department'] = department;
     _data['factory_id'] = factoryId;
-    _data['updated_at'] = updatedAt;
     _data['updated_by'] = updatedBy;
-    _data['isBlackList'] = isBlackList;
+    _data['is_black_list'] = isBlackList;
     _data['factory_name'] = factoryName;
     _data['contact_phone'] = contactPhone;
     _data['factory_representative'] = factoryRepresentative;

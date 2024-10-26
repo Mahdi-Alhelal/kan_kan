@@ -92,8 +92,6 @@ class DealModel {
     _data['max_orders_per_user'] = maxOrdersPerUser;
     _data['quantity'] = quantity;
     _data['deal_url'] = dealUrl;
-    _data['created_at'] = createdAt;
-    _data['created_by'] = createdBy;
     _data['updated_by'] = updatedBy;
     _data['updated_at'] = updatedAt;
     return _data;
