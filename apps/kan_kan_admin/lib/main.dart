@@ -19,9 +19,6 @@ void main() async {
   //   anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
   // );
   await setup();
-
-  final data = await DealRepository.getAllDeals();
-  print(data);
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
