@@ -1,24 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kan_kan_admin/data/repositories/deal_repository.dart';
 import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan_admin/screen/navigation_page.dart';
+import 'package:kan_kan_admin/setup/setup.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ui/ui.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
-  supabase = await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL'] ?? '',
-    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
-  );
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeRight,     
-    DeviceOrientation.landscapeLeft,
-  ]);
   await EasyLocalization.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  // await dotenv.load(fileName: ".env");
+  // supabase = await Supabase.initialize(
+  //   url: dotenv.env['SUPABASE_URL'] ?? '',
+  //   anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+  // );
+  await setup();
 
+  final data = await DealRepository.getAllDeals();
+  print(data);
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
