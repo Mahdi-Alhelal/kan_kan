@@ -9,7 +9,7 @@ import 'package:kan_kan_admin/data/repositories/product_repository.dart';
 import 'package:kan_kan_admin/data/repositories/users_repository.dart';
 import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 
-abstract class DataRepository extends KanSupabase
+class DataRepository extends KanSupabase
     with
         AddressRepository,
         AuthRepository,
@@ -19,4 +19,5 @@ abstract class DataRepository extends KanSupabase
         OrderRepository,
         PaymentRepository,
         ProductRepository,
-        UsersRepository {}
+        UsersRepository,
+        ProductRepository {}

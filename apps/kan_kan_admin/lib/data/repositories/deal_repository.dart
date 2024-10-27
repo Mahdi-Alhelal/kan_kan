@@ -5,7 +5,7 @@ import 'package:kan_kan_admin/model/models_2/deal_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 mixin DealRepository {
-  static Future<List<DealModel>> getAllDeals() async {
+   Future<List<DealModel>> getAllDeals() async {
     log("getAllDeals");
     try {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
@@ -20,7 +20,7 @@ mixin DealRepository {
   }
 
 //Todo testing insertDeal
-  static Future<bool> insertDeal() async {
+   Future<bool> insertDeal() async {
     log("insertDeal");
     try {
       // KanSupabase.supabase.client.from("deals").insert();
@@ -33,7 +33,7 @@ mixin DealRepository {
   }
 
   //Todo testing updateDeal
-  static Future<bool> updateDeal() async {
+   Future<bool> updateDeal() async {
     log("insertDeal");
     try {
       //  KanSupabase.supabase.client.from("deals").update("values").eq("deal_id", "value");

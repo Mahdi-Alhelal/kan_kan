@@ -10,7 +10,7 @@ mixin OrderRepository {
   * Add new Order
   *
   * */
-  static Future<List<Map<String, dynamic>>> addNewOrder(
+   Future<List<Map<String, dynamic>>> addNewOrder(
       {required String userID,
       required String dealID,
       required String addressID,
@@ -35,7 +35,7 @@ mixin OrderRepository {
   *
   * */
 
-  static updateOrder({
+   updateOrder({
     required String id,
     required String status,
   }) async {
@@ -54,7 +54,7 @@ mixin OrderRepository {
     }
   }
 
-  static updateAllOrdersForOneDeal(
+   updateAllOrdersForOneDeal(
       {required String status, required String dealID}) async {
     try {
       final dataFound = await KanSupabase.supabase.client
@@ -77,7 +77,7 @@ mixin OrderRepository {
   * get all orders
   *
   * */
-  static Future<List<Map<String, dynamic>>> getAllOrders() async {
+   Future<List<Map<String, dynamic>>> getAllOrders() async {
     try {
       final response = await KanSupabase.supabase.client.from("orders").select("*");
       return response;
@@ -92,7 +92,7 @@ mixin OrderRepository {
   * get all orders for one user
   *
   * */
-  static Future<List<Map<String, dynamic>>> getAllOrdersByUser(
+   Future<List<Map<String, dynamic>>> getAllOrdersByUser(
       {required String userID}) async {
     try {
       final response = await KanSupabase.supabase.client

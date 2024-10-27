@@ -18,6 +18,7 @@ part 'navigation_state.dart';
 class NavigationCubit extends Cubit<NavigationState> {
   final userLayer = GetIt.I.get<UserLayer>();
   final productLayer = GetIt.I.get<ProductDataLayer>();
+  final api = DataRepository();
   List<Widget> screens = const [
     HomeScreen(),
     UsersScreen(),
@@ -40,7 +41,7 @@ class NavigationCubit extends Cubit<NavigationState> {
   getProductData() async {
     await Future.delayed(Duration.zero);
     try {
-     // productLayer.products = ;
+      productLayer.products =await api.getAllProducts();
     } catch (errorMessage) {
       emit(ErrorState(errorMessage: errorMessage.toString()));
     }

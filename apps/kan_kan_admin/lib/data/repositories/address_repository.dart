@@ -10,7 +10,7 @@ mixin AddressRepository {
   * Add new Address
   *
   * */
-  static Future<List<Map<String, dynamic>>> addNewAddress(
+   Future<List<Map<String, dynamic>>> addNewAddress(
       {required String city, required String userID}) async {
     try {
       final dataFound = await KanSupabase.supabase.client.from("address").insert({
