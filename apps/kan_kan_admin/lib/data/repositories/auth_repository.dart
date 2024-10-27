@@ -12,7 +12,7 @@ class AuthRepository {
       await Future.delayed(Duration.zero);
 
       final data =
-          await supabase.client.from("users").select("*").eq("email", email);
+          await KanSupabase.supabase.client.from("users").select("*").eq("email", email);
       // GetIt.I.get<UserLayer>().user = UserModel.fromJson(data.first);
       if (kDebugMode) {
         print(data.first.toString());
@@ -36,13 +36,13 @@ class AuthRepository {
       var x = Random().nextInt(999999);
       // Sign up with email to send an email verification OTP
       print(x);
-      final response = await supabase.client.auth
+      final response = await KanSupabase.supabase.client.auth
           .signUp(email: email, password: "kankan1234");
 
       final user = response.user;
       print(user?.email);
       if (user != null) {
-        await supabase.client.from('users').insert({
+        await KanSupabase.supabase.client.from('users').insert({
           'user_id': user.id,
           'email': user.email,
           'full_name': fName,
@@ -51,10 +51,10 @@ class AuthRepository {
         });
       }
       // } on AuthException {
-      //   // Handle Supabase Auth-related exceptions
+      //   // Handle KanSupabase.supabase Auth-related exceptions
       //   throw Exception('error during sign up email does not exit');
       // } on PostgrestException {
-      //   // Handle Supabase PostgREST API-related exceptions
+      //   // Handle KanSupabase.supabase PostgREST API-related exceptions
       //   throw Exception('can not connect to server');
     } catch (e) {
       // Handle any other exceptions
@@ -64,7 +64,7 @@ class AuthRepository {
 
   Future login({required String email}) async {
     try {
-      await supabase.client.auth.signInWithOtp(email: email);
+      await KanSupabase.supabase.client.auth.signInWithOtp(email: email);
 
       return true;
     } on AuthException {
@@ -79,14 +79,14 @@ class AuthRepository {
       await Future.delayed(Duration.zero);
       // Return the auth response if OTP verification is successful
       if (type == 0) {
-        await supabase.client.auth
+        await KanSupabase.supabase.client.auth
             .verifyOTP(type: OtpType.email, email: email, token: otp);
       } else {
-        await supabase.client.auth
+        await KanSupabase.supabase.client.auth
             .verifyOTP(type: OtpType.signup, email: email, token: otp);
       }
       final data =
-          await supabase.client.from("users").select("*").eq("email", email);
+          await KanSupabase.supabase.client.from("users").select("*").eq("email", email);
       // GetIt.I.get<UserLayer>().user = UserModel.fromJson(data.first);
       return true;
     } on PostgrestException {
@@ -100,7 +100,7 @@ class AuthRepository {
 
   Future<void> signOut() async {
     try {
-      await supabase.client.auth.signOut();
+      await KanSupabase.supabase.client.auth.signOut();
     } catch (e) {
       throw Exception('Error during sign-out');
     }

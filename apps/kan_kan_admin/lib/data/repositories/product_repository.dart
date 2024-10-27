@@ -19,7 +19,7 @@ class ProductRepository {
       required double height,
       required String factoryId}) async {
     try {
-      final dataFound = await supabase.client.from("products").insert({
+      final dataFound = await KanSupabase.supabase.client.from("products").insert({
         "product_name": name,
         "product_description": productDescription,
         "defult_price": price,
@@ -51,12 +51,12 @@ class ProductRepository {
       required double height,
       required String factoryId}) async {
     try {
-      final dataFound = await supabase.client
+      final dataFound = await KanSupabase.supabase.client
           .from("products")
           .select("*")
           .match({"product_id": id}).select();
       if (dataFound.isNotEmpty) {
-        await supabase.client.from("products").update({
+        await KanSupabase.supabase.client.from("products").update({
           "product_name": name,
           "product_description": productDescription,
           "defult_price": price,
@@ -80,7 +80,7 @@ class ProductRepository {
 
   static deleteProduct({required String id}) async {
     try {
-      final dataFound = await supabase.client
+      final dataFound = await KanSupabase.supabase.client
           .from("deals")
           .select("*")
           .eq("product_id", id)
@@ -88,7 +88,7 @@ class ProductRepository {
 
       if (dataFound.isNotEmpty) {
       } else {
-        await supabase.client
+        await KanSupabase.supabase.client
             .from("products")
             .delete()
             .eq("product_id", id)
@@ -107,7 +107,7 @@ class ProductRepository {
   * */
   static Future<List<Map<String, dynamic>>> getAllProducts() async {
     try {
-      final response = await supabase.client.from("products").select("*");
+      final response = await KanSupabase.supabase.client.from("products").select("*");
       return response;
     } catch (e) {
       throw Exception('Error in get all products: $e');

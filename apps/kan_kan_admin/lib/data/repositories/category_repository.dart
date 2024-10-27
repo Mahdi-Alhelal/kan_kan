@@ -13,7 +13,7 @@ class CategoryRepository {
   Future<List<Map<String, dynamic>>> addNewCategory(
       {required String name}) async {
     try {
-      final dataFound = await supabase.client.from("categories").upsert({
+      final dataFound = await KanSupabase.supabase.client.from("categories").upsert({
         "category_name": name
       }).select(); // here we need to check if i can to deplicated or not
       return dataFound;
@@ -31,12 +31,12 @@ class CategoryRepository {
 
   updateCategory({required String id, required String name}) async {
     try {
-      final dataFound = await supabase.client
+      final dataFound = await KanSupabase.supabase.client
           .from("categories")
           .select("*")
           .match({"category_id": id}).select();
       if (dataFound.isNotEmpty) {
-        await supabase.client
+        await KanSupabase.supabase.client
             .from("categories")
             .update({"category_name": name}).eq("category_id", id);
       }
@@ -54,7 +54,7 @@ class CategoryRepository {
 
   deleteCategory({required String id}) async {
     try {
-      final dataFound = await supabase.client
+      final dataFound = await KanSupabase.supabase.client
           .from("deals")
           .select("*")
           .eq("category_id", id)
@@ -62,7 +62,7 @@ class CategoryRepository {
 
       if (dataFound.isNotEmpty) {
       } else {
-        await supabase.client
+        await KanSupabase.supabase.client
             .from("categories")
             .delete()
             .eq("category_id", id)
@@ -81,7 +81,7 @@ class CategoryRepository {
   * */
   Future<List<Map<String, dynamic>>> getAllCategories() async {
     try {
-      final response = await supabase.client.from("categories").select("*");
+      final response = await KanSupabase.supabase.client.from("categories").select("*");
       return response;
     } catch (e) {
       throw Exception('Error in update category: $e');

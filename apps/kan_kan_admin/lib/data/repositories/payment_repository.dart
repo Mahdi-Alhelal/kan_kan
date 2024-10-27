@@ -15,7 +15,7 @@ class PaymentRepository {
       required String transactionID,
       required double amount}) async {
     try {
-      await supabase.client.from("payments").insert({
+      await KanSupabase.supabase.client.from("payments").insert({
         "order_id": orderID,
         "created_by": userID,
         "payment_amount": amount,
