@@ -12,19 +12,21 @@ class FactoryModel {
     required this.contactPhone,
     required this.factoryRepresentative,
   });
-  late final String region;
-  late final String createdAt;
-  late final String createdBy;
-  late final String department;
+
+  late String region;
+  late String createdAt;
+  late String createdBy;
+  late String department;
   late final String factoryId;
-  late final String updatedAt;
-  late final String updatedBy;
-  late final bool isBlackList;
-  late final String factoryName;
-  late final String contactPhone;
-  late final String factoryRepresentative;
+  late String updatedAt;
+  late String updatedBy;
+  late bool isBlackList;
+  late String factoryName;
+  late String contactPhone;
+  late String factoryRepresentative;
 
   FactoryModel.fromJson(Map<String, dynamic> json) {
+    factoryId = json['factory_id'] ?? 0;
     region = json['region'] ?? "";
     createdAt = json['created_at'] ?? "";
     createdBy = json['created_by'] ?? "";
@@ -40,6 +42,7 @@ class FactoryModel {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
+    _data['factory_id'] = factoryId;
     _data['region'] = region;
     _data['department'] = department;
     _data['factory_id'] = factoryId;

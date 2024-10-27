@@ -1,12 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-late Supabase supabase;
-
-class SupabaseService {
-  final supabase = Supabase.instance.client;
-}
-
 class KanSupabase {
   static late Supabase supabase;
 

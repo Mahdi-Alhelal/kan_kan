@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kan_kan_admin/data/repositories/address_repository.dart';
-import 'package:kan_kan_admin/data/repositories/category_repository.dart';
-import 'package:kan_kan_admin/data/repositories/factory_repository.dart';
-import 'package:kan_kan_admin/data/repositories/order_repository.dart';
-import 'package:kan_kan_admin/data/repositories/product_repository.dart';
-import 'package:kan_kan_admin/screen/src/deals_screen.dart';
-import 'package:kan_kan_admin/screen/src/factory_screen.dart';
-import 'package:kan_kan_admin/screen/src/home_screen.dart';
-import 'package:kan_kan_admin/screen/src/order_screen.dart';
-import 'package:kan_kan_admin/screen/src/product_screen.dart';
-import 'package:kan_kan_admin/screen/src/users_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_kan_admin/cubits/navigation_cubit/navigation_cubit.dart';
+
 import 'package:kan_kan_admin/widget/navigator/custom_selected_icon.dart';
 import 'package:ui/ui.dart';
 
@@ -23,36 +15,111 @@ class NavigationPage extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final navigationCubit = context.read<NavigationCubit>();
-    //     .verifyOtp(email: "tarooti14@gmail.com", otp: "380681", type: 1);
-    // print(x);
-    // AuthRepository().loginToken(email: "tarooti14@gmail.com");
-    return Scaffold(
-      backgroundColor: AppColor.white,
-      body: SafeArea(
-        bottom: false,
-        child: Row(
-          children: [
-            InkWell(
-              onTap: () async {
-                final x = await OrderRepository.addNewOrder(
-                    userID: "83efec21-2fc7-416e-9825-a86a8af3a63a",
-                    dealID: "89387763-f922-4c05-a372-2f9275238a9f",
-                    addressID: "686e90ff-0a01-4f95-ad32-98ddd29ef96c",
-                    amount: 300);
-                print(x.toString());
-              },
-              child: Container(
-                margin: const EdgeInsets.only(left: 11),
-                decoration: const BoxDecoration(
-                  color: AppColor.bg,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    bottomLeft: Radius.circular(30),
+          return BlocBuilder<NavigationCubit, NavigationState>(
+            builder: (context, state) {
+              return Scaffold(
+                backgroundColor: AppColor.white,
+                body: SafeArea(
+                  bottom: false,
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 11),
+                        decoration: const BoxDecoration(
+                          color: AppColor.bg,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            bottomLeft: Radius.circular(30),
+                          ),
+                        ),
+                        child: NavigationRail(
+                          onDestinationSelected: (value) =>
+                              navigationCubit.navigationEvent(value: value),
+                          selectedIndex: navigationCubit.index,
+                          labelType: NavigationRailLabelType.none,
+                          backgroundColor: Colors.transparent,
+                          useIndicator: false,
+                          minWidth: MediaQuery.of(context).size.width * .15,
+                          destinations: [
+                            NavigationRailDestination(
+                              icon: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: const Text("صفحة الريئيسية")),
+                              selectedIcon: const CustomSelectedIcon(
+                                  text: "صفحة الريئيسية",
+                                  icon: Icons.home_outlined),
+                              label: const Text(''),
+                            ),
+                            NavigationRailDestination(
+                              icon: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: const Text("مستخدمين")),
+                              selectedIcon: const CustomSelectedIcon(
+                                icon: Icons.people_alt_outlined,
+                                text: "مستخدمين",
+                              ),
+                              label: const Text(""),
+                            ),
+                            NavigationRailDestination(
+                              icon: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: const Text("المصانع")),
+                              selectedIcon: const CustomSelectedIcon(
+                                icon: Icons.factory_outlined,
+                                text: "المصانع",
+                              ),
+                              label: const Text(""),
+                            ),
+                            NavigationRailDestination(
+                              icon: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: const Text("الطلبات")),
+                              selectedIcon: const CustomSelectedIcon(
+                                icon: Icons.receipt_outlined,
+                                text: "الطلبات",
+                              ),
+                              label: const Text(""),
+                            ),
+                            NavigationRailDestination(
+                              icon: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: const Text("صفقات")),
+                              selectedIcon: const CustomSelectedIcon(
+                                icon: Icons.handshake_outlined,
+                                text: "صفقات",
+                              ),
+                              label: const Text(""),
+                            ),
+                            NavigationRailDestination(
+                              icon: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: const Text("المنتجات")),
+                              selectedIcon: const CustomSelectedIcon(
+                                icon: Icons.tab_outlined,
+                                text: "المنتجات",
+                              ),
+                              label: const Text(""),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.only(top: 5),
+                          width: MediaQuery.of(context).size.width * 0.80,
+                          child: navigationCubit.screens[navigationCubit.index])
+                    ],
                   ),
                 ),
               );
             },
           );
+        },
       ),
     );
   }

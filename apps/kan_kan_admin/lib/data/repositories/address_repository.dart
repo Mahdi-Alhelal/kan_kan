@@ -13,7 +13,7 @@ class AddressRepository {
   Future<List<Map<String, dynamic>>> addNewAddress(
       {required String city, required String userID}) async {
     try {
-      final dataFound = await supabase.client.from("address").insert({
+      final dataFound = await KanSupabase.supabase.client.from("address").insert({
         "city": city,
         "user_id": userID
       }).select(); // here we need to check if i can to deplicated or not
@@ -32,12 +32,12 @@ class AddressRepository {
 
   updateAddress({required String id, required String city}) async {
     try {
-      final dataFound = await supabase.client
+      final dataFound = await KanSupabase.supabase.client
           .from("address")
           .select("*")
           .match({"address_id": id}).select();
       if (dataFound.isNotEmpty) {
-        await supabase.client
+        await KanSupabase.supabase.client
             .from("address")
             .update({"city": city}).eq("address_id", id);
       }
@@ -55,7 +55,7 @@ class AddressRepository {
 
   deleteAddress({required String id}) async {
     try {
-      final dataFound = await supabase.client
+      final dataFound = await KanSupabase.supabase.client
           .from("orders")
           .select("*")
           .eq("address_id", id)
@@ -63,7 +63,7 @@ class AddressRepository {
 
       if (dataFound.isNotEmpty) {
       } else {
-        await supabase.client
+        await KanSupabase.supabase.client
             .from("address")
             .delete()
             .eq("address_id", id)
@@ -82,7 +82,7 @@ class AddressRepository {
   * */
   Future<List<Map<String, dynamic>>> getAllAddress() async {
     try {
-      final response = await supabase.client.from("address").select("*");
+      final response = await KanSupabase.supabase.client.from("address").select("*");
       return response;
     } catch (e) {
       throw Exception('Error in get all address: $e');

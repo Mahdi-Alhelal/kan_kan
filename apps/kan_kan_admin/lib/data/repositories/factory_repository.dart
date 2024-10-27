@@ -15,7 +15,7 @@ class FactoryRepository {
       required bool isBlackList}) async {
     try {
       final dataFound =
-          await supabase.client.from("factories").select("*").match({
+          await KanSupabase.supabase.client.from("factories").select("*").match({
         "factory_name": name,
         "contact_phone": contactPhone,
         "department": department,
@@ -24,7 +24,7 @@ class FactoryRepository {
 
       if (dataFound.isNotEmpty) {
       } else {
-        await supabase.client.from("factories").upsert({
+        await KanSupabase.supabase.client.from("factories").upsert({
           "factory_name": name,
           "contact_phone": contactPhone,
           "department": department,
@@ -49,11 +49,11 @@ class FactoryRepository {
       required bool isBlackList}) async {
     try {
       final dataFound =
-          await supabase.client.from("factories").select("*").match({
+          await KanSupabase.supabase.client.from("factories").select("*").match({
         "factory_id": id,
       }).select();
       if (dataFound.isNotEmpty) {
-        await supabase.client.from("factories").update({
+        await KanSupabase.supabase.client.from("factories").update({
           "contact_phone": contactPhone,
           "department": department,
           "factory_representative": person,
@@ -73,7 +73,7 @@ class FactoryRepository {
   * */
   Future<List<Map<String, dynamic>>> getAllfactories() async {
     try {
-      final response = await supabase.client.from("factories").select("*");
+      final response = await KanSupabase.supabase.client.from("factories").select("*");
       //print(response.first);
       return response;
     } catch (e) {

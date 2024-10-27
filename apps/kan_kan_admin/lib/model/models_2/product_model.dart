@@ -8,7 +8,6 @@ class ProductModel {
     required this.factory,
     required this.createdAt,
     required this.createdBy,
-    required this.factoryId,
     required this.productId,
     required this.updatedAt,
     required this.updatedBy,
@@ -16,26 +15,25 @@ class ProductModel {
     required this.productName,
     required this.productDescription,
   });
-  late final int width;
-  late final int height;
-  late final int length;
-  late final FactoryModel factory;
-  late final String createdAt;
-  late final String createdBy;
-  late final String factoryId;
-  late final String productId;
-  late final String updatedAt;
-  late final String updatedBy;
-  late final num defaultPrice;
-  late final String productName;
-  late final String productDescription;
-  
-  ProductModel.fromJson(Map<String, dynamic> json){
+  late int width;
+  late int height;
+  late int length;
+  late FactoryModel factory;
+  late String createdAt;
+  late String createdBy;
+  late String productId;
+  late String updatedAt;
+  late String updatedBy;
+  late num defaultPrice;
+  late String productName;
+  late String productDescription;
+
+  ProductModel.fromJson(Map<String, dynamic> json) {
     width = json['width'] ?? 0;
     height = json['height'] ?? 0;
     length = json['length'] ?? 0;
     factory = FactoryModel.fromJson(json['factories']);
-    createdAt = json['created_at']?? "";
+    createdAt = json['created_at'] ?? "";
     createdBy = json['created_by'] ?? "";
     productId = json['product_id'] ?? "";
     updatedAt = json['updated_at'] ?? "";
@@ -45,7 +43,7 @@ class ProductModel {
     productDescription = json['product_description'] ?? "";
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson(int factoryId) {
     final _data = <String, dynamic>{};
     _data['width'] = width;
     _data['height'] = height;

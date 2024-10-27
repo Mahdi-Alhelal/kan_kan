@@ -16,7 +16,7 @@ class OrderRepository {
       required String addressID,
       required double amount}) async {
     try {
-      final dataFound = await supabase.client.from("orders").insert({
+      final dataFound = await KanSupabase.supabase.client.from("orders").insert({
         "deal_id": dealID,
         "user_id": userID,
         "address_id": addressID,
@@ -40,12 +40,12 @@ class OrderRepository {
     required String status,
   }) async {
     try {
-      final dataFound = await supabase.client
+      final dataFound = await KanSupabase.supabase.client
           .from("orders")
           .select("*")
           .match({"order_id": id}).select();
       if (dataFound.isNotEmpty) {
-        await supabase.client.from("orders").update({
+        await KanSupabase.supabase.client.from("orders").update({
           "order_status": status,
         }).eq("order_id", id);
       }
@@ -57,12 +57,12 @@ class OrderRepository {
   static updateAllOrdersForOneDeal(
       {required String status, required String dealID}) async {
     try {
-      final dataFound = await supabase.client
+      final dataFound = await KanSupabase.supabase.client
           .from("orders")
           .select("*")
           .match({"deal_id": dealID}).select();
       if (dataFound.isNotEmpty) {
-        await supabase.client.from("orders").update({
+        await KanSupabase.supabase.client.from("orders").update({
           "order_status": status,
         }).eq("deal_id", dealID);
       }
@@ -79,7 +79,7 @@ class OrderRepository {
   * */
   static Future<List<Map<String, dynamic>>> getAllOrders() async {
     try {
-      final response = await supabase.client.from("orders").select("*");
+      final response = await KanSupabase.supabase.client.from("orders").select("*");
       return response;
     } catch (e) {
       throw Exception('Error in get all orders: $e');
@@ -95,7 +95,7 @@ class OrderRepository {
   static Future<List<Map<String, dynamic>>> getAllOrdersByUser(
       {required String userID}) async {
     try {
-      final response = await supabase.client
+      final response = await KanSupabase.supabase.client
           .from("orders")
           .select("*")
           .eq("user_id", userID);

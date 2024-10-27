@@ -1,36 +1,25 @@
+import 'package:kan_kan_admin/model/models_2/product_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../integrations/supabase/supabase_client.dart';
 
 class ProductRepository {
-  // Supabase client instance
-  // final SupabaseClient _supabase = SupabaseService().client;
-
   /*
   *
   * Tested
   * Add new Category
   *
   * */
-  static Future<List<Map<String, dynamic>>> addNewProduct(
-      {required String name,
-      required String productDescription,
-      required double price,
-      required double length,
-      required double width,
-      required double height,
-      required String factoryId}) async {
+  static Future<void> addNewProduct(
+      {required ProductModel product, required int factoryId}) async {
     try {
-      final dataFound = await supabase.client.from("products").insert({
-        "product_name": name,
-        "product_description": productDescription,
-        "defult_price": price,
-        "length": length,
-        "width": width,
-        "height": height,
-        "factory_id": factoryId
-      }).select(); // here we need to check if i can to deplicated or not
-      return dataFound;
+      await KanSupabase.supabase.client
+          .from("products")
+          .insert({product.toJson(factoryId)});
+    } on PostgrestException {
+      throw Exception('Error: in add product');
     } catch (e) {
-      throw Exception('Error in add product: $e');
+      throw Exception('Error: in add product: $e');
     }
   }
 
@@ -42,32 +31,16 @@ class ProductRepository {
   * */
 
   static updateProduct(
-      {required String id,
-      required String name,
-      required String productDescription,
-      required double price,
-      required double length,
-      required double width,
-      required double height,
-      required String factoryId}) async {
+      {required ProductModel product, required int factoryId}) async {
     try {
-      final dataFound = await supabase.client
+      await  KanSupabase.supabase.client
           .from("products")
-          .select("*")
-          .match({"product_id": id}).select();
-      if (dataFound.isNotEmpty) {
-        await supabase.client.from("products").update({
-          "product_name": name,
-          "product_description": productDescription,
-          "defult_price": price,
-          "length": length,
-          "width": width,
-          "height": height,
-          "factory_id": factoryId
-        }).eq("product_id", id);
-      }
+          .update(product.toJson(factoryId))
+          .eq("product_id", product.productId);
+    } on PostgrestException {
+      throw Exception('Error: does not exit');
     } catch (e) {
-      throw Exception('Error in update product: $e');
+      throw Exception('Error: in update product: $e');
     }
   }
 
@@ -80,22 +53,16 @@ class ProductRepository {
 
   static deleteProduct({required String id}) async {
     try {
-      final dataFound = await supabase.client
-          .from("deals")
-          .select("*")
-          .eq("product_id", id)
-          .select();
-
-      if (dataFound.isNotEmpty) {
-      } else {
-        await supabase.client
+        await KanSupabase.supabase.client
             .from("products")
             .delete()
             .eq("product_id", id)
             .select();
-      }
+      
+    } on PostgrestException {
+      throw Exception('Error: product does exit');
     } catch (e) {
-      throw Exception('Error in delete product: $e');
+      throw Exception('Error: in delete product: $e');
     }
   }
 
@@ -107,10 +74,12 @@ class ProductRepository {
   * */
   static Future<List<Map<String, dynamic>>> getAllProducts() async {
     try {
-      final response = await supabase.client.from("products").select("*");
+      final response = await KanSupabase.supabase.client.from("products").select("*");
       return response;
+    } on PostgrestException {
+      throw Exception('Error: no products');
     } catch (e) {
-      throw Exception('Error in get all products: $e');
+      throw Exception('Error: in get all products: $e');
     }
   }
 }

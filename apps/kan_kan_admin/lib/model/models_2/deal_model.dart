@@ -26,27 +26,27 @@ class DealModel {
     required this.product,
   });
   late final String dealId;
-  late final String dealTitle;
-  late final String dealDescription;
-  late final String startDate;
-  late final String endDate;
-  late final num costPrice;
-  late final num deliveryPrice;
-  late final num salePrice;
-  late final num totalPrice;
-  late final String productId;
-  late final String categoryId;
-  late final String estimateDeliveryDateFrom;
-  late final String estimateDeliveryTimeTo;
-  late final String dealStatus;
-  late final int maxOrdersPerUser;
-  late final int quantity;
-  late final String dealUrl;
-  late final String createdAt;
-  late final String createdBy;
-  late final String updatedBy;
-  late final String updatedAt;
-  late final ProductModel product;
+  late  String dealTitle;
+  late  String dealDescription;
+  late  String startDate;
+  late  String endDate;
+  late  num costPrice;
+  late  num deliveryPrice;
+  late  num salePrice;
+  late  num totalPrice;
+  late  String productId;
+  late  String categoryId;
+  late  String estimateDeliveryDateFrom;
+  late  String estimateDeliveryTimeTo;
+  late  String dealStatus;
+  late  int maxOrdersPerUser;
+  late  int quantity;
+  late  String dealUrl;
+  late  String createdAt;
+  late  String createdBy;
+  late  String updatedBy;
+  late  String updatedAt;
+  late  ProductModel product;
 
   DealModel.fromJson(Map<String, dynamic> json) {
     dealId = json['deal_id'] ?? "";
