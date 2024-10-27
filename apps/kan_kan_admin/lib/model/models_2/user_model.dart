@@ -1,5 +1,3 @@
-import 'package:postgrest/src/types.dart';
-
 class UserModel {
   UserModel({
     required this.userId,
