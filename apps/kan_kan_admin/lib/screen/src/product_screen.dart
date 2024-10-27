@@ -44,47 +44,47 @@ class ProductScreen extends StatelessWidget {
               );
             },
           ),
-          TableSizedBox(
-            child: CustomTableTheme(
-              child: PaginatedDataTable(
-                showEmptyRows: false,
-                source: TableDataRow(
-                  length: productsList.length,
-                  customRow: List.generate(
-                    productsList.length,
-                    (index) => DataRow(
-                      color: WidgetStateProperty.all(AppColor.white),
-                      cells: [
-                        DataCell(
-                          Row(
-                            children: [
-                              Text(
-                                  "${productsList[index].productName}\n${productsList[index].id}")
-                            ],
-                          ),
-                        ),
-                        DataCell(Text(productsList[index].factory)),
-                        DataCell(Text(productsList[index].modelNumber)),
-                      ],
-                    ),
-                  ),
-                ),
-                columns: const [
-                  DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("المنتج"),
-                  ),
-                  DataColumn(
-                    label: Text("مصنع"),
-                  ),
-                  DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("رقم الموديل "),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // TableSizedBox(
+          //   child: CustomTableTheme(
+          //     child: PaginatedDataTable(
+          //       showEmptyRows: false,
+          //       source: TableDataRow(
+          //         length: productsList.length,
+          //         customRow: List.generate(
+          //           productsList.length,
+          //           (index) => DataRow(
+          //             color: WidgetStateProperty.all(AppColor.white),
+          //             cells: [
+          //               DataCell(
+          //                 Row(
+          //                   children: [
+          //                     Text(
+          //                         "${productsList[index].productName}\n${productsList[index].id}")
+          //                   ],
+          //                 ),
+          //               ),
+          //               DataCell(Text(productsList[index].factory)),
+          //               DataCell(Text(productsList[index].modelNumber)),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //       columns: const [
+          //         DataColumn(
+          //           headingRowAlignment: MainAxisAlignment.center,
+          //           label: Text("المنتج"),
+          //         ),
+          //         DataColumn(
+          //           label: Text("مصنع"),
+          //         ),
+          //         DataColumn(
+          //           headingRowAlignment: MainAxisAlignment.center,
+          //           label: Text("رقم الموديل "),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
