@@ -1,7 +1,7 @@
 
 import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 
-class PaymentRepository {
+mixin PaymentRepository {
   /*
   *
   * NOT TESTED YET !!!!!!!

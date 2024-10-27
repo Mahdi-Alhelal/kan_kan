@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kan_kan_admin/data/data_repository.dart';
 import 'package:kan_kan_admin/data/repositories/users_repository.dart';
+import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
 import 'package:kan_kan_admin/screen/src/deals_screen.dart';
 import 'package:kan_kan_admin/screen/src/factory_screen.dart';
@@ -15,7 +17,7 @@ part 'navigation_state.dart';
 
 class NavigationCubit extends Cubit<NavigationState> {
   final userLayer = GetIt.I.get<UserLayer>();
-
+  final productLayer = GetIt.I.get<ProductDataLayer>();
   List<Widget> screens = const [
     HomeScreen(),
     UsersScreen(),
@@ -35,7 +37,15 @@ class NavigationCubit extends Cubit<NavigationState> {
     emit(NavigationToNewPage());
   }
 
-  getProductData(){}
+  getProductData() async {
+    await Future.delayed(Duration.zero);
+    try {
+     // productLayer.products = ;
+    } catch (errorMessage) {
+      emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
+  }
+
   getUsers() async {
     await Future.delayed(Duration.zero);
     try {

@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../integrations/supabase/supabase_client.dart';
 
-class ProductRepository {
+mixin ProductRepository {
   /*
   *
   * Tested

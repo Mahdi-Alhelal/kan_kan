@@ -2,7 +2,7 @@ import 'package:kan_kan_admin/model/models_2/user_model.dart';
 
 import '../../integrations/supabase/supabase_client.dart';
 
-class UsersRepository {
+mixin UsersRepository {
   static Future<List<UserModel>> getAllUsers() async {
     try {
       final response =

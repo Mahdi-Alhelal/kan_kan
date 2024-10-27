@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class KanSupabase {
+abstract class KanSupabase {
   static late Supabase supabase;
 
   static Future<void> connect() async {

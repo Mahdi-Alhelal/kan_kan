@@ -5,7 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../integrations/supabase/supabase_client.dart';
 
-class AuthRepository {
+mixin AuthRepository {
   //Tested
   Future loginToken({required String email}) async {
     try {

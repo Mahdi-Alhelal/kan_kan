@@ -1,6 +1,6 @@
 import '../../integrations/supabase/supabase_client.dart';
 
-class CategoryRepository {
+mixin CategoryRepository {
   // Supabase client instance
   // final SupabaseClient _supabase = SupabaseService().client;
 

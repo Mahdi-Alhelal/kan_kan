@@ -1,6 +1,6 @@
 import '../../integrations/supabase/supabase_client.dart';
 
-class AddressRepository {
+mixin AddressRepository {
   // Supabase client instance
   // final SupabaseClient _supabase = SupabaseService().client;
 

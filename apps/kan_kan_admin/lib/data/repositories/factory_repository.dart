@@ -1,6 +1,6 @@
 import '../../integrations/supabase/supabase_client.dart';
 
-class FactoryRepository {
+mixin FactoryRepository {
   /*
   *
   * Tested

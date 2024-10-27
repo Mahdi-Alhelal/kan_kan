@@ -4,7 +4,7 @@ import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan_admin/model/models_2/deal_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class DealRepository {
+mixin DealRepository {
   static Future<List<DealModel>> getAllDeals() async {
     log("getAllDeals");
     try {
