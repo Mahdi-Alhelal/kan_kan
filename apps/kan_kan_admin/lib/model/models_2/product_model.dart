@@ -15,13 +15,14 @@ class ProductModel {
     required this.productName,
     required this.productDescription,
   });
+  
   late int width;
   late int height;
   late int length;
   late FactoryModel factory;
   late String createdAt;
   late String createdBy;
-  late String productId;
+  late final String productId;
   late String updatedAt;
   late String updatedBy;
   late num defaultPrice;
@@ -45,6 +46,7 @@ class ProductModel {
 
   Map<String, dynamic> toJson(int factoryId) {
     final _data = <String, dynamic>{};
+    _data['product_id'] = productId;
     _data['width'] = width;
     _data['height'] = height;
     _data['length'] = length;
