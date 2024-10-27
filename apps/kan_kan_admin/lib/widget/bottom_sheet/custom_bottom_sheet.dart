@@ -14,7 +14,17 @@ void customBottomSheet(
         height: context.getHeight(value: height!),
         decoration: BoxDecoration(
             color: AppColor.white, borderRadius: BorderRadius.circular(12)),
-        child: Padding(padding: const EdgeInsets.all(8.0), child: child),
+        child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap: () {
+                  var f = FocusScope.of(context);
+
+                  if (!f.hasPrimaryFocus) {
+                    f.unfocus();
+                  }
+                },
+                child: child)),
       );
     },
   );

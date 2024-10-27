@@ -17,102 +17,113 @@ class NavigationPage extends StatelessWidget {
           final navigationCubit = context.read<NavigationCubit>();
           return BlocBuilder<NavigationCubit, NavigationState>(
             builder: (context, state) {
-              return Scaffold(
-                backgroundColor: AppColor.white,
-                body: SafeArea(
-                  bottom: false,
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 11),
-                        decoration: const BoxDecoration(
-                          color: AppColor.bg,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            bottomLeft: Radius.circular(30),
+              return GestureDetector(
+                onTap: () {
+                  var f = FocusScope.of(context);
+
+                  if (!f.hasPrimaryFocus) {
+                    f.unfocus();
+                  }
+                },
+                child: Scaffold(
+                  backgroundColor: AppColor.white,
+                  body: SafeArea(
+                    bottom: false,
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 11),
+                          decoration: const BoxDecoration(
+                            color: AppColor.bg,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              bottomLeft: Radius.circular(30),
+                            ),
+                          ),
+                          child: NavigationRail(
+                            onDestinationSelected: (value) =>
+                                navigationCubit.navigationEvent(value: value),
+                            selectedIndex: navigationCubit.index,
+                            labelType: NavigationRailLabelType.none,
+                            backgroundColor: Colors.transparent,
+                            useIndicator: false,
+                            minWidth: MediaQuery.of(context).size.width * .15,
+                            destinations: [
+                              NavigationRailDestination(
+                                icon: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text("الرئيسية")),
+                                selectedIcon: CustomSelectedIcon(
+                                    text: "الرئيسية",
+                                    icon: Icons.home_outlined),
+                                label: Text(''),
+                              ),
+                              NavigationRailDestination(
+                                icon: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text("العملاء")),
+                                selectedIcon: CustomSelectedIcon(
+                                  icon: Icons.people_alt_outlined,
+                                  text: "العملاء",
+                                ),
+                                label: Text(""),
+                              ),
+                              NavigationRailDestination(
+                                icon: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text("المصانع")),
+                                selectedIcon: CustomSelectedIcon(
+                                  icon: Icons.factory_outlined,
+                                  text: "المصانع",
+                                ),
+                                label: Text(""),
+                              ),
+                              NavigationRailDestination(
+                                icon: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text("الطلبات")),
+                                selectedIcon: CustomSelectedIcon(
+                                  icon: Icons.receipt_outlined,
+                                  text: "الطلبات",
+                                ),
+                                label: Text(""),
+                              ),
+                              NavigationRailDestination(
+                                icon: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text("الصفقات")),
+                                selectedIcon: CustomSelectedIcon(
+                                  icon: Icons.handshake_outlined,
+                                  text: "الصفقات",
+                                ),
+                                label: Text(""),
+                              ),
+                              NavigationRailDestination(
+                                icon: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text("المنتجات")),
+                                selectedIcon: CustomSelectedIcon(
+                                  icon: Icons.tab_outlined,
+                                  text: "المنتجات",
+                                ),
+                                label: Text(""),
+                              ),
+                            ],
                           ),
                         ),
-                        child: NavigationRail(
-                          onDestinationSelected: (value) =>
-                              navigationCubit.navigationEvent(value: value),
-                          selectedIndex: navigationCubit.index,
-                          labelType: NavigationRailLabelType.none,
-                          backgroundColor: Colors.transparent,
-                          useIndicator: false,
-                          minWidth: MediaQuery.of(context).size.width * .15,
-                          destinations: [
-                            NavigationRailDestination(
-                              icon: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("الرئيسية")),
-                              selectedIcon: CustomSelectedIcon(
-                                  text: "الرئيسية", icon: Icons.home_outlined),
-                              label: Text(''),
-                            ),
-                            NavigationRailDestination(
-                              icon: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("العملاء")),
-                              selectedIcon: CustomSelectedIcon(
-                                icon: Icons.people_alt_outlined,
-                                text: "العملاء",
-                              ),
-                              label: Text(""),
-                            ),
-                            NavigationRailDestination(
-                              icon: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("المصانع")),
-                              selectedIcon: CustomSelectedIcon(
-                                icon: Icons.factory_outlined,
-                                text: "المصانع",
-                              ),
-                              label: Text(""),
-                            ),
-                            NavigationRailDestination(
-                              icon: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("الطلبات")),
-                              selectedIcon: CustomSelectedIcon(
-                                icon: Icons.receipt_outlined,
-                                text: "الطلبات",
-                              ),
-                              label: Text(""),
-                            ),
-                            NavigationRailDestination(
-                              icon: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("الصفقات")),
-                              selectedIcon: CustomSelectedIcon(
-                                icon: Icons.handshake_outlined,
-                                text: "الصفقات",
-                              ),
-                              label: Text(""),
-                            ),
-                            NavigationRailDestination(
-                              icon: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("المنتجات")),
-                              selectedIcon: CustomSelectedIcon(
-                                icon: Icons.tab_outlined,
-                                text: "المنتجات",
-                              ),
-                              label: Text(""),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                          margin: const EdgeInsets.only(top: 5),
-                          width: MediaQuery.of(context).size.width * 0.80,
-                          child: navigationCubit.screens[navigationCubit.index])
-                    ],
+                        Container(
+                            margin: const EdgeInsets.only(top: 5),
+                            width: MediaQuery.of(context).size.width * 0.80,
+                            child:
+                                navigationCubit.screens[navigationCubit.index])
+                      ],
+                    ),
                   ),
                 ),
               );

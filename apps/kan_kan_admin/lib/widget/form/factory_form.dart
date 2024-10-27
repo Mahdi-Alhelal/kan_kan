@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kan_kan_admin/widget/form/form_divider.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field_form.dart';
@@ -12,19 +13,19 @@ class FactoryForm extends StatelessWidget {
     required this.repController,
     required this.phoneNumberController,
     required this.onPressed,
+    this.formKey,
   });
   final TextEditingController factoryNameController;
   final TextEditingController regionController;
-
   final TextEditingController typeController;
-
   final TextEditingController repController;
-
   final TextEditingController phoneNumberController;
   final void Function() onPressed;
+  final GlobalKey<FormState>? formKey;
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -38,13 +39,25 @@ class FactoryForm extends StatelessWidget {
                 Expanded(
                   child: CustomTextFieldForm(
                     controller: factoryNameController,
-                    title: "اسم",
+                    title: "اسم*",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'هذا حقل مطلوب';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Expanded(
                   child: CustomTextFieldForm(
                     controller: regionController,
-                    title: "المنطقة",
+                    title: "المنطقة*",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'هذا حقل مطلوب';
+                      }
+                      return null;
+                    },
                   ),
                 ),
               ],
@@ -55,7 +68,13 @@ class FactoryForm extends StatelessWidget {
             width: context.getWidth(value: .273),
             child: CustomTextFieldForm(
               controller: typeController,
-              title: "نوع تصنيع",
+              title: "نوع تصنيع*",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'هذا حقل مطلوب';
+                }
+                return null;
+              },
             ),
           ),
           const FormDivider(
@@ -67,13 +86,29 @@ class FactoryForm extends StatelessWidget {
                 Expanded(
                   child: CustomTextFieldForm(
                     controller: repController,
-                    title: "اسم",
+                    title: "اسم*",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'هذا حقل مطلوب';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Expanded(
                   child: CustomTextFieldForm(
                     controller: phoneNumberController,
-                    title: "رقم التواصل",
+                    title: "رقم التواصل*",
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9+]+'))
+                    ],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'هذا حقل مطلوب';
+                      }
+                      return null;
+                    },
                   ),
                 ),
               ],

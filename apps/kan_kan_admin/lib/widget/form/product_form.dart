@@ -31,6 +31,7 @@ class ProductForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       child: Form(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

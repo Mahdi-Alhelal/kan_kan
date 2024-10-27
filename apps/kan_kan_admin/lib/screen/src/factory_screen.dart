@@ -14,9 +14,15 @@ import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/ui.dart';
 import 'dart:ui' as ui;
 
-class FactoryScreen extends StatelessWidget {
+class FactoryScreen extends StatefulWidget {
   const FactoryScreen({super.key});
 
+  @override
+  State<FactoryScreen> createState() => _FactoryScreenState();
+}
+
+class _FactoryScreenState extends State<FactoryScreen> {
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -24,22 +30,33 @@ class FactoryScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final factoryCubit = context.read<FactoryCubit>();
         return SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AddButton(
-                onPressed: () {
-                  customBottomSheet(
-                    context: context,
-                    child: FactoryForm(
-                        factoryNameController:
-                            factoryCubit.factoryNameController,
-                        regionController: factoryCubit.regionController,
-                        typeController: factoryCubit.typeController,
-                        repController: factoryCubit.repController,
-                        phoneNumberController:
-                            factoryCubit.phoneNumberController,
-                        onPressed: () {}),
+              BlocBuilder<FactoryCubit, FactoryState>(
+                builder: (context, state) {
+                  return AddButton(
+                    onPressed: () {
+                      customBottomSheet(
+                        context: context,
+                        child: FactoryForm(
+                            formKey: formKey,
+                            factoryNameController:
+                                factoryCubit.factoryNameController,
+                            regionController: factoryCubit.regionController,
+                            typeController: factoryCubit.departmentController,
+                            repController: factoryCubit.repController,
+                            phoneNumberController:
+                                factoryCubit.phoneNumberController,
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                factoryCubit.addFactoryEvent();
+                                Navigator.pop(context);
+                              } else {}
+                            }),
+                      );
+                    },
                   );
                 },
               ),

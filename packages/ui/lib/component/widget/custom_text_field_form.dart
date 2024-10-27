@@ -8,23 +8,30 @@ class CustomTextFieldForm extends StatelessWidget {
       this.icon,
       this.controller,
       this.onTap,
-      this.readOnly = false, this.inputFormatters});
+      this.readOnly = false,
+      this.inputFormatters,
+      this.validator,
+      this.keyboardType});
   final String title;
   final Widget? icon;
   final TextEditingController? controller;
   final Function()? onTap;
   final bool readOnly;
   final List<TextInputFormatter>? inputFormatters;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        validator: validator,
         readOnly: readOnly,
         inputFormatters: inputFormatters,
         onTap: onTap,
         controller: controller,
-        decoration: InputDecoration( 
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
           hintText: title,
           prefixIcon: icon,
           border: OutlineInputBorder(

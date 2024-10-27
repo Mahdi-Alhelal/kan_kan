@@ -11,6 +11,7 @@ class AddDealForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       child: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
