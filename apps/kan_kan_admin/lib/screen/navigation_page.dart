@@ -45,20 +45,19 @@ class NavigationPage extends StatelessWidget {
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("صفحة الريئيسية")),
+                                  child: Text("الرئيسية")),
                               selectedIcon: CustomSelectedIcon(
-                                  text: "صفحة الريئيسية",
-                                  icon: Icons.home_outlined),
+                                  text: "الرئيسية", icon: Icons.home_outlined),
                               label: Text(''),
                             ),
                             NavigationRailDestination(
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("مستخدمين")),
+                                  child: Text("العملاء")),
                               selectedIcon: CustomSelectedIcon(
                                 icon: Icons.people_alt_outlined,
-                                text: "مستخدمين",
+                                text: "العملاء",
                               ),
                               label: Text(""),
                             ),
@@ -88,10 +87,10 @@ class NavigationPage extends StatelessWidget {
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text("صفقات")),
+                                  child: Text("الصفقات")),
                               selectedIcon: CustomSelectedIcon(
                                 icon: Icons.handshake_outlined,
-                                text: "صفقات",
+                                text: "الصفقات",
                               ),
                               label: Text(""),
                             ),

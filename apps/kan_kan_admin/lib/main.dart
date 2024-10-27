@@ -12,8 +12,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ui/ui.dart';
 
 void main() async {
-  await EasyLocalization.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   // await dotenv.load(fileName: ".env");
   // supabase = await Supabase.initialize(
   //   url: dotenv.env['SUPABASE_URL'] ?? '',
