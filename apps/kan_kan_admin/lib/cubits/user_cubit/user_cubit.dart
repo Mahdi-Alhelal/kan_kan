@@ -11,4 +11,8 @@ class UserCubit extends Cubit<UserState> {
   final userLayer = GetIt.I.get<UserLayer>();
 
   UserCubit() : super(UserInitial());
+
+  updateUserEvent({required String userID,required String role}){
+    
+  }
 }

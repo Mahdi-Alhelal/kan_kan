@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan_admin/cubits/user_cubit/user_cubit.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/helper/enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
 import 'package:kan_kan_admin/widget/dialog/update_status.dart';
@@ -52,20 +55,22 @@ class UsersScreen extends StatelessWidget {
                                 ),
                                 //DataCell(Text(userList[index].region!)),
                                 DataCell(CustomChips(
-                                  status: "فعال",
+                                  status: UserStatusEnum.values.first.value,
                                   onTap: () async {
                                     await updateStatus(
-                                        value: DropMenuList.userStatus.first,
-                                        onChanged: (value) {},
+                                        value: "نشط",
+                                        onChanged: (value) {
+                                          
+                                        },
                                         context: context,
                                         title: "حالة",
                                         onPressed: () {},
-                                        items: DropMenuList.userStatus
-                                            .map<DropdownMenuItem<String>>(
-                                                (String status) {
+                                        items:
+                                            UserStatusEnum.values.map((status) {
+                                          print(status.value);
                                           return DropdownMenuItem(
-                                            value: status,
-                                            child: Text(status),
+                                            value: status.value,
+                                            child: Text(status.value),
                                           );
                                         }).toList());
                                   },
