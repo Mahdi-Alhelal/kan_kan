@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_kan_admin/cubits/deal_cubit/deal_cubit.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
-import 'package:kan_kan_admin/dummy_data/deals_dummy.dart';
 import 'package:kan_kan_admin/screen/src/deals_details_screen.dart';
 import 'package:kan_kan_admin/widget/form/add_deal_form.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
@@ -17,93 +18,99 @@ class DealsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AddButton(
-            onPressed: () {
-              customBottomSheet(context: context, child: const AddDealForm());
-            },
-          ),
-          TableSizedBox(
-            child: CustomTableTheme(
-              child: PaginatedDataTable(
-                showEmptyRows: false,
-                source: TableDataRow(
-                  length: dealsList.length,
-                  customRow: List.generate(
-                    dealsList.length,
-                    (index) => DataRow(
-                      onLongPress: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DealsDetailsScreen(),
+    return BlocProvider(
+      create: (context) => DealCubit(),
+      child: Builder(builder: (context) {
+        final dealCubit = context.read<DealCubit>();
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AddButton(
+                onPressed: () {
+                  customBottomSheet(
+                      context: context, child: const AddDealForm());
+                },
+              ),
+              TableSizedBox(
+                child: CustomTableTheme(
+                  child: PaginatedDataTable(
+                    showEmptyRows: false,
+                    source: TableDataRow(
+                      length: dealCubit.dealLayer.deals.length,
+                      customRow: List.generate(
+                        dealCubit.dealLayer.deals.length,
+                        (index) => DataRow(
+                          onLongPress: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DealsDetailsScreen(),
+                            ),
+                          ),
+                          color: WidgetStateProperty.all(AppColor.white),
+                          cells: [
+                            DataCell(
+                              Row(
+                                children: [
+                                  Text(
+                                      "${dealCubit.dealLayer.deals[index].product.productName}\n${dealCubit.dealLayer.deals[index].dealId}")
+                                ],
+                              ),
+                            ),
+                            DataCell(Text(
+                                "${dealCubit.dealLayer.deals[index].startDate} الى ${dealCubit.dealLayer.deals[index].endDate}")),
+                            DataCell(Text(
+                                "${dealCubit.dealLayer.deals[index].quantity}/${dealCubit.dealLayer.deals[index].numberOfOrder}")),
+                            DataCell(CustomChips(
+                              status:
+                                  dealCubit.dealLayer.deals[index].dealStatus,
+                              onTap: () async {
+                                await updateStatus(
+                                    value: DropMenuList.dealStatus.first,
+                                    context: context,
+                                    title: "حالة",
+                                    onChanged: (value) {},
+                                    items: DropMenuList.dealStatus
+                                        .map<DropdownMenuItem<String>>(
+                                            (String status) {
+                                      return DropdownMenuItem(
+                                        value: status,
+                                        child: Text(status),
+                                      );
+                                    }).toList());
+                              },
+                            )),
+                          ],
                         ),
                       ),
-                      color: WidgetStateProperty.all(AppColor.white),
-                      cells: [
-                        DataCell(
-                          Row(
-                            children: [
-                              Text(
-                                  "${dealsList[index].productName}\n${dealsList[index].id}")
-                            ],
-                          ),
-                        ),
-                        DataCell(Text(
-                            "${dealsList[index].start} الى ${dealsList[index].end}")),
-                        DataCell(Text(
-                            "${dealsList[index].numberOfJoined}/${dealsList[index].max}")),
-                        DataCell(CustomChips(
-                          status: dealsList[index].status,
-                          onTap: () async {
-                            await updateStatus(
-                                value: DropMenuList.dealStatus.first,
-                                context: context,
-                                title: "حالة",
-                                onChanged: (value) {},
-                                items: DropMenuList.dealStatus
-                                    .map<DropdownMenuItem<String>>(
-                                        (String status) {
-                                  return DropdownMenuItem(
-                                    value: status,
-                                    child: Text(status),
-                                  );
-                                }).toList());
-                          },
-                        )),
-                      ],
                     ),
+                    columns: [
+                      const DataColumn(
+                        headingRowAlignment: MainAxisAlignment.center,
+                        label: Text("المنتج"),
+                      ),
+                      DataColumn(
+                        onSort: (columnIndex, ascending) {
+                          if (ascending) {}
+                        },
+                        label: const Text("مدة صفقة"),
+                      ),
+                      const DataColumn(
+                        headingRowAlignment: MainAxisAlignment.center,
+                        label: Text("عدد "),
+                      ),
+                      const DataColumn(
+                        headingRowAlignment: MainAxisAlignment.center,
+                        label: Text("الحالة"),
+                      ),
+                    ],
                   ),
                 ),
-                columns: [
-                  const DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("المنتج"),
-                  ),
-                  DataColumn(
-                    onSort: (columnIndex, ascending) {
-                      if (ascending) {
-                        dealsList = dealsList.reversed.toList();
-                      }
-                    },
-                    label: const Text("مدة صفقة"),
-                  ),
-                  const DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("عدد "),
-                  ),
-                  const DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("الحالة"),
-                  ),
-                ],
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      }),
     );
   }
 }

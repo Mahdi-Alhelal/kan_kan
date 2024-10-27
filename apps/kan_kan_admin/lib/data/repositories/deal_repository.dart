@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
-import 'package:kan_kan_admin/model/models_2/deal_model.dart';
+import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 mixin DealRepository {

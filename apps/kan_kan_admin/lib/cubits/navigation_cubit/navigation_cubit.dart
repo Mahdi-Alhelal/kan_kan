@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
 import 'package:kan_kan_admin/data/repositories/users_repository.dart';
+import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
@@ -20,6 +21,7 @@ class NavigationCubit extends Cubit<NavigationState> {
   final userLayer = GetIt.I.get<UserLayer>();
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
+  final dealLayer = GetIt.I.get<DealDataLayer>();
 
   final api = DataRepository();
   List<Widget> screens = const [
@@ -36,6 +38,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     getUsers();
     getProductData();
     getFactoryData();
+    getDealData();
   }
 
   navigationEvent({required int value}) {
@@ -47,6 +50,16 @@ class NavigationCubit extends Cubit<NavigationState> {
     await Future.delayed(Duration.zero);
     try {
       productLayer.products = await api.getAllProducts();
+      emit(SuccessState());
+    } catch (errorMessage) {
+      emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  getDealData() async {
+    await Future.delayed(Duration.zero);
+    try {
+      dealLayer.deals = await api.getAllDeals();
       emit(SuccessState());
     } catch (errorMessage) {
       emit(ErrorState(errorMessage: errorMessage.toString()));

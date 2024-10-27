@@ -1,4 +1,4 @@
-import 'package:kan_kan_admin/model/models_2/user_model.dart';
+import 'package:kan_kan_admin/model/user_model.dart';
 
 import '../../integrations/supabase/supabase_client.dart';
 
