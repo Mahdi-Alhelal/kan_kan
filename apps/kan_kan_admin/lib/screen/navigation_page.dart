@@ -45,66 +45,65 @@ class NavigationPage extends StatelessWidget {
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: const Text("صفحة الريئيسية")),
-                              selectedIcon: const CustomSelectedIcon(
-                                  text: "صفحة الريئيسية",
-                                  icon: Icons.home_outlined),
-                              label: const Text(''),
+                                  child: Text("الرئيسية")),
+                              selectedIcon: CustomSelectedIcon(
+                                  text: "الرئيسية", icon: Icons.home_outlined),
+                              label: Text(''),
                             ),
                             NavigationRailDestination(
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: const Text("مستخدمين")),
-                              selectedIcon: const CustomSelectedIcon(
+                                  child: Text("العملاء")),
+                              selectedIcon: CustomSelectedIcon(
                                 icon: Icons.people_alt_outlined,
-                                text: "مستخدمين",
+                                text: "العملاء",
                               ),
-                              label: const Text(""),
+                              label: Text(""),
                             ),
                             NavigationRailDestination(
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: const Text("المصانع")),
-                              selectedIcon: const CustomSelectedIcon(
+                                  child: Text("المصانع")),
+                              selectedIcon: CustomSelectedIcon(
                                 icon: Icons.factory_outlined,
                                 text: "المصانع",
                               ),
-                              label: const Text(""),
+                              label: Text(""),
                             ),
                             NavigationRailDestination(
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: const Text("الطلبات")),
-                              selectedIcon: const CustomSelectedIcon(
+                                  child: Text("الطلبات")),
+                              selectedIcon: CustomSelectedIcon(
                                 icon: Icons.receipt_outlined,
                                 text: "الطلبات",
                               ),
-                              label: const Text(""),
+                              label: Text(""),
                             ),
                             NavigationRailDestination(
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: const Text("صفقات")),
-                              selectedIcon: const CustomSelectedIcon(
+                                  child: Text("الصفقات")),
+                              selectedIcon: CustomSelectedIcon(
                                 icon: Icons.handshake_outlined,
-                                text: "صفقات",
+                                text: "الصفقات",
                               ),
-                              label: const Text(""),
+                              label: Text(""),
                             ),
                             NavigationRailDestination(
                               icon: Container(
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 10),
-                                  child: const Text("المنتجات")),
-                              selectedIcon: const CustomSelectedIcon(
+                                  child: Text("المنتجات")),
+                              selectedIcon: CustomSelectedIcon(
                                 icon: Icons.tab_outlined,
                                 text: "المنتجات",
                               ),
-                              label: const Text(""),
+                              label: Text(""),
                             ),
                           ],
                         ),

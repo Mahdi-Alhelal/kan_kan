@@ -10,7 +10,7 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: context.getWidth(value: 0.099),
+      width: context.getWidth(value: 0.15),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: const RoundedRectangleBorder(
@@ -21,7 +21,7 @@ class AddButton extends StatelessWidget {
         ),
         onPressed: onPressed,
         child: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [Icon(Icons.add), Text("إضافة")],
         ),
       ),

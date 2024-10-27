@@ -10,7 +10,7 @@ class AddressRepository {
   * Add new Address
   *
   * */
-  Future<List<Map<String, dynamic>>> addNewAddress(
+  static Future<List<Map<String, dynamic>>> addNewAddress(
       {required String city, required String userID}) async {
     try {
       final dataFound = await KanSupabase.supabase.client.from("address").insert({

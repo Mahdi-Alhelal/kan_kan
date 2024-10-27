@@ -4,10 +4,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class KanSupabase {
   static late Supabase supabase;
 
-  static Future<void> connect() async{
+  static Future<void> connect() async {
     final supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
     final supabaseKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
-    supabase =await Supabase.initialize(url: supabaseUrl, anonKey: supabaseKey);
+    supabase =
+        await Supabase.initialize(url: supabaseUrl, anonKey: supabaseKey);
     print("connect");
   }
 }

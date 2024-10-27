@@ -51,10 +51,10 @@ class AuthRepository {
         });
       }
       // } on AuthException {
-      //   // Handle Supabase Auth-related exceptions
+      //   // Handle KanSupabase.supabase Auth-related exceptions
       //   throw Exception('error during sign up email does not exit');
       // } on PostgrestException {
-      //   // Handle Supabase PostgREST API-related exceptions
+      //   // Handle KanSupabase.supabase PostgREST API-related exceptions
       //   throw Exception('can not connect to server');
     } catch (e) {
       // Handle any other exceptions
