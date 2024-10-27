@@ -11,3 +11,4 @@ final class ErrorState extends NavigationState {
   final String errorMessage;
   ErrorState({required this.errorMessage});
 }
+final class SuccessState extends NavigationState {}

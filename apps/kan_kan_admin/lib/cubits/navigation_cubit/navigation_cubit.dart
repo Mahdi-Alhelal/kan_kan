@@ -31,6 +31,7 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   NavigationCubit() : super(NavigationInitial()) {
     getUsers();
+    getProductData();
   }
 
   navigationEvent({required int value}) {
@@ -41,8 +42,10 @@ class NavigationCubit extends Cubit<NavigationState> {
   getProductData() async {
     await Future.delayed(Duration.zero);
     try {
-      productLayer.products =await api.getAllProducts();
+      productLayer.products = await api.getAllProducts();
+      emit(SuccessState());
     } catch (errorMessage) {
+      print(errorMessage);
       emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
@@ -51,7 +54,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     await Future.delayed(Duration.zero);
     try {
       userLayer.usersList = await UsersRepository.getAllUsers();
-      print(userLayer.usersList.length);
+      // print(userLayer.usersList.length);
       emit(NavigationToNewPage());
     } catch (e) {
       print(e);

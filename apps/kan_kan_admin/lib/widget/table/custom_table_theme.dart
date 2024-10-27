@@ -13,6 +13,7 @@ class CustomTableTheme extends StatelessWidget {
         data: ThemeData(
             cardTheme: const CardTheme(
               shape: RoundedRectangleBorder(
+                
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               color: AppColor.white,
@@ -24,7 +25,9 @@ class CustomTableTheme extends StatelessWidget {
                 iconColor: WidgetStatePropertyAll(AppColor.black),
               ),
             ),
-            dataTableTheme: const DataTableThemeData(),
+            dataTableTheme: const DataTableThemeData(
+              
+            ),
             dividerColor: AppColor.primary),
         child: child);
   }

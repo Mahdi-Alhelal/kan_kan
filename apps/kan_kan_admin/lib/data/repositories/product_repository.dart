@@ -10,7 +10,7 @@ mixin ProductRepository {
   * Add new Category
   *
   * */
-   Future<void> addNewProduct(
+  Future<void> addNewProduct(
       {required ProductModel product, required int factoryId}) async {
     try {
       await KanSupabase.supabase.client
@@ -51,7 +51,7 @@ mixin ProductRepository {
   *
   * */
 
-   deleteProduct({required String id}) async {
+  deleteProduct({required String id}) async {
     try {
       await KanSupabase.supabase.client
           .from("products")
@@ -71,10 +71,11 @@ mixin ProductRepository {
   * get all products
   *
   * */
-   Future<List<ProductModel>> getAllProducts() async {
+  Future<List<ProductModel>> getAllProducts() async {
     try {
       final response =
-          await KanSupabase.supabase.client.from("products").select("*");
+          await KanSupabase.supabase.client.from("products").select("*,factories(*)");
+      print(response);
       return response.map((element) => ProductModel.fromJson(element)).toList();
     } on PostgrestException {
       throw Exception('Error: no products');
