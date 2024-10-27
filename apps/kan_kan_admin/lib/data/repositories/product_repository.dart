@@ -1,4 +1,4 @@
-import 'package:kan_kan_admin/model/models_2/product_model.dart';
+import 'package:kan_kan_admin/model/product_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../integrations/supabase/supabase_client.dart';
@@ -15,7 +15,7 @@ class ProductRepository {
     try {
       await KanSupabase.supabase.client
           .from("products")
-          .insert({product.toJson(factoryId)});
+          .insert({product.toJson(factoryId:  factoryId)});
     } on PostgrestException {
       throw Exception('Error: in add product');
     } catch (e) {
@@ -35,7 +35,7 @@ class ProductRepository {
     try {
       await  KanSupabase.supabase.client
           .from("products")
-          .update(product.toJson(factoryId))
+          .update(product.toJson(factoryId:  factoryId))
           .eq("product_id", product.productId);
     } on PostgrestException {
       throw Exception('Error: does not exit');

@@ -1,16 +1,17 @@
 import 'dart:developer';
 
 import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
+import 'package:kan_kan_admin/model/models_2/deal_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DealRepository {
-  static Future getAllDeals() async {
+  static Future<List<DealModel>> getAllDeals() async {
     log("getAllDeals");
     try {
-      final data = await KanSupabase.supabase.client
+      final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
-          .select("*,products(*,factories(*))");
-      return data;
+          .select("*,categories(category_name) ,products(*,factories(*))");
+      return data.map((element)=>DealModel.fromJson(element)).toList();
     } on PostgrestException {
       throw Exception('Error in get deal data');
     } catch (e) {

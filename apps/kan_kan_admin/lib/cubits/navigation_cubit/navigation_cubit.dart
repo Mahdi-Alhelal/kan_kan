@@ -27,4 +27,6 @@ class NavigationCubit extends Cubit<NavigationState> {
     index = value;
     emit(NavigationToNewPage());
   }
+
+  getProductData(){}
 }

@@ -17,7 +17,7 @@ class FactoryModel {
   late String createdAt;
   late String createdBy;
   late String department;
-  late final String factoryId;
+  late int factoryId;
   late String updatedAt;
   late String updatedBy;
   late bool isBlackList;
