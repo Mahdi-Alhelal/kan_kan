@@ -1,7 +1,5 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:kan_kan_admin/data/repositories/deal_repository.dart';
 import 'package:kan_kan_admin/screen/navigation_page.dart';
 import 'package:kan_kan_admin/setup/setup.dart';
 import 'package:ui/ui.dart';
@@ -10,8 +8,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await setup();
-  final data = await DealRepository.getAllDeals();
-  log("${data.first.print()}");
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
