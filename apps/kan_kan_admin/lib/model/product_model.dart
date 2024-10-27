@@ -1,4 +1,4 @@
-import 'package:kan_kan_admin/model/models_2/factory_model.dart';
+import 'package:kan_kan_admin/model/factory_model.dart';
 
 class ProductModel {
   ProductModel(
@@ -23,12 +23,12 @@ class ProductModel {
   late String modelNumber;
 
   ProductModel.fromJson(Map<String, dynamic> json) {
+    productId = json['product_id'] ?? 0;
     width = json['width'] ?? 0;
     height = json['height'] ?? 0;
     length = json['length'] ?? 0;
     modelNumber = json['model_number'] ?? "";
     factory = FactoryModel.fromJson(json['factories']);
-    productId = json['product_id'] ?? 0;
     defaultPrice = json['default_price'] ?? 0.0;
     productName = json['product_name'] ?? "";
     productDescription = json['product_description'] ?? "";
@@ -36,7 +36,6 @@ class ProductModel {
 
   Map<String, dynamic> toJson({required int factoryId}) {
     final data = <String, dynamic>{};
-    data['product_id'] = productId;
     data['width'] = width;
     data['height'] = height;
     data['length'] = length;

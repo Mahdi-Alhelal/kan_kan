@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_kan_admin/cubits/factory_cubit/factory_cubit.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/helper/factory_status.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
-import 'package:kan_kan_admin/dummy_data/factory_dummy_data.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
@@ -17,108 +19,129 @@ class FactoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController factoryNameController = TextEditingController();
-    TextEditingController regionController = TextEditingController();
-    TextEditingController typeController = TextEditingController();
-    TextEditingController repController = TextEditingController();
-    TextEditingController phoneNumberController = TextEditingController();
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AddButton(
-            onPressed: () {
-              customBottomSheet(
-                context: context,
-                child: FactoryForm(
-                    factoryNameController: factoryNameController,
-                    regionController: regionController,
-                    typeController: typeController,
-                    repController: repController,
-                    phoneNumberController: phoneNumberController,
-                    onPressed: () {}),
-              );
-            },
-          ),
-          TableSizedBox(
-            child: CustomTableTheme(
-              child: PaginatedDataTable(
-                showEmptyRows: false,
-                source: TableDataRow(
-                  length: factoryList.length,
-                  customRow: List.generate(
-                    factoryList.length,
-                    (index) => DataRow(
-                      color: WidgetStateProperty.all(AppColor.white),
-                      cells: [
-                        DataCell(
-                          Row(
-                            children: [Text(factoryList[index].factoryName)],
+    return BlocProvider(
+      create: (context) => FactoryCubit(),
+      child: Builder(builder: (context) {
+        final factoryCubit = context.read<FactoryCubit>();
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AddButton(
+                onPressed: () {
+                  customBottomSheet(
+                    context: context,
+                    child: FactoryForm(
+                        factoryNameController:
+                            factoryCubit.factoryNameController,
+                        regionController: factoryCubit.regionController,
+                        typeController: factoryCubit.typeController,
+                        repController: factoryCubit.repController,
+                        phoneNumberController:
+                            factoryCubit.phoneNumberController,
+                        onPressed: () {}),
+                  );
+                },
+              ),
+              BlocBuilder<FactoryCubit, FactoryState>(
+                builder: (context, state) {
+                  return TableSizedBox(
+                    child: CustomTableTheme(
+                      child: PaginatedDataTable(
+                        showEmptyRows: false,
+                        source: TableDataRow(
+                          length: factoryCubit.factoryLayer.factories.length,
+                          customRow: List.generate(
+                            factoryCubit.factoryLayer.factories.length,
+                            (index) => DataRow(
+                              color: WidgetStateProperty.all(AppColor.white),
+                              cells: [
+                                DataCell(
+                                  Center(
+                                    child: Text(
+                                        "${factoryCubit.factoryLayer.factories[index].factoryName}\n${factoryCubit.factoryLayer.factories[index].factoryId}"),
+                                  ),
+                                ),
+                                DataCell(Center(
+                                  child: Text(factoryCubit.factoryLayer
+                                      .factories[index].factoryRepresentative),
+                                )),
+                                DataCell(Directionality(
+                                    textDirection: ui.TextDirection.ltr,
+                                    child: Center(
+                                      child: Text(factoryCubit.factoryLayer
+                                          .factories[index].contactPhone),
+                                    ))),
+                                DataCell(Center(
+                                  child: Text(factoryCubit.factoryLayer
+                                      .factories[index].department),
+                                )),
+                                DataCell(Center(
+                                  child: Text(factoryCubit
+                                      .factoryLayer.factories[index].region),
+                                )),
+                                DataCell(CustomChips(
+                                  status: factoryStatus(factoryCubit
+                                      .factoryLayer
+                                      .factories[index]
+                                      .isBlackList),
+                                  onTap: () async {
+                                    await updateStatus(
+                                        value: DropMenuList.factoryStatus.first,
+                                        context: context,
+                                        title: "حالة",
+                                        onChanged: (value) {},
+                                        items: DropMenuList.factoryStatus
+                                            .map<DropdownMenuItem<String>>(
+                                                (String status) {
+                                          return DropdownMenuItem(
+                                            value: status,
+                                            child: Text(status),
+                                          );
+                                        }).toList());
+                                  },
+                                )),
+                              ],
+                            ),
                           ),
                         ),
-                        DataCell(Text(factoryList[index].factoryRepsentive)),
-                        DataCell(Directionality(
-                            textDirection: ui.TextDirection.ltr,
-                            child: Text(factoryList[index].phoneNumber))),
-                        DataCell(Text(factoryList[index].type)),
-                        DataCell(Text(factoryList[index].region)),
-                        DataCell(CustomChips(
-                          status: factoryList[index].status,
-                          onTap: () async {
-                            await updateStatus(
-                                value: DropMenuList.factoryStatus.first,
-                                context: context,
-                                title: "حالة",
-                                onChanged: (value) {},
-                                items: DropMenuList.factoryStatus
-                                    .map<DropdownMenuItem<String>>(
-                                        (String status) {
-                                  return DropdownMenuItem(
-                                    value: status,
-                                    child: Text(status),
-                                  );
-                                }).toList());
-                          },
-                        )),
-                      ],
+                        columns: [
+                          const DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: Text("المصنع"),
+                          ),
+                          DataColumn(
+                            onSort: (columnIndex, ascending) {
+                              if (ascending) {}
+                            },
+                            label: const Text("ممثل المصنع"),
+                          ),
+                          const DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: Text("رقم التواصل"),
+                          ),
+                          const DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: Text("نوع تصنيع"),
+                          ),
+                          const DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: Text("المنطقة"),
+                          ),
+                          const DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: Text("حالة المصنع"),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                columns: [
-                  const DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("المصنع"),
-                  ),
-                  DataColumn(
-                    onSort: (columnIndex, ascending) {
-                      if (ascending) {
-                        factoryList = factoryList.reversed.toList();
-                      }
-                    },
-                    label: const Text("ممثل المصنع"),
-                  ),
-                  const DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("رقم التواصل"),
-                  ),
-                  const DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("نوع تصنيع"),
-                  ),
-                  const DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("المنطقة"),
-                  ),
-                  const DataColumn(
-                    headingRowAlignment: MainAxisAlignment.center,
-                    label: Text("حالة المصنع"),
-                  ),
-                ],
+                  );
+                },
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      }),
     );
   }
 }

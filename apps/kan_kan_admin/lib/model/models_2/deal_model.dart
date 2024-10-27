@@ -56,13 +56,11 @@ class DealModel {
     maxOrdersPerUser = json['max_orders_per_user'] ?? 0;
     quantity = json['quantity'] ?? 0;
     dealUrl = json['deal_url'] ?? "";
- 
     product = ProductModel.fromJson(json['products']);
   }
 
   Map<String, dynamic> toJson({required int productId}) {
     final _data = <String, dynamic>{};
-    _data['deal_id'] = dealId;
     _data['deal_title'] = dealTitle;
     _data['deal_description'] = dealDescription;
     _data['start_date'] = startDate;

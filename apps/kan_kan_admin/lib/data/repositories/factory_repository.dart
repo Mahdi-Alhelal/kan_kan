@@ -1,3 +1,6 @@
+import 'package:kan_kan_admin/model/factory_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../integrations/supabase/supabase_client.dart';
 
 mixin FactoryRepository {
@@ -7,31 +10,16 @@ mixin FactoryRepository {
   * Add new Factory
   *
   * */
-  addNewFactory(
-      {required String name,
-      required String department,
-      required String person,
-      required String contactPhone,
-      required bool isBlackList}) async {
+  addNewFactory({required FactoryModel factory}) async {
     try {
-      final dataFound =
-          await KanSupabase.supabase.client.from("factories").select("*").match({
-        "factory_name": name,
-        "contact_phone": contactPhone,
-        "department": department,
-        "factory_representative": person
-      }).select();
-
-      if (dataFound.isNotEmpty) {
-      } else {
-        await KanSupabase.supabase.client.from("factories").upsert({
-          "factory_name": name,
-          "contact_phone": contactPhone,
-          "department": department,
-          "factory_representative": person
-        });
-      }
-    } catch (e) {}
+      await KanSupabase.supabase.client
+          .from("factories")
+          .upsert(factory.toJson());
+    } on PostgrestException {
+      throw Exception('Error in add new factory');
+    } catch (e) {
+      throw Exception('invalid factory data');
+    }
   }
 
   /*
@@ -41,25 +29,14 @@ mixin FactoryRepository {
   *
   * */
 
-  updateFactory(
-      {required String id,
-      required String department,
-      required String person,
-      required String contactPhone,
-      required bool isBlackList}) async {
+  updateFactory({required FactoryModel factory}) async {
     try {
-      final dataFound =
-          await KanSupabase.supabase.client.from("factories").select("*").match({
-        "factory_id": id,
-      }).select();
-      if (dataFound.isNotEmpty) {
-        await KanSupabase.supabase.client.from("factories").update({
-          "contact_phone": contactPhone,
-          "department": department,
-          "factory_representative": person,
-          "isBlackList": isBlackList
-        }).eq("factory_id", id);
-      }
+      await KanSupabase.supabase.client
+          .from("factories")
+          .update(factory.toJson())
+          .eq("factory_id", factory.factoryId);
+    } on PostgrestException {
+      throw Exception('Error in update factory');
     } catch (e) {
       throw Exception('Error in update factory: $e');
     }
@@ -71,13 +48,16 @@ mixin FactoryRepository {
   * get all factories
   *
   * */
-  Future<List<Map<String, dynamic>>> getAllfactories() async {
+  Future<List<FactoryModel>> getAllFactories() async {
     try {
-      final response = await KanSupabase.supabase.client.from("factories").select("*");
-      //print(response.first);
-      return response;
+      final response =
+          await KanSupabase.supabase.client.from("factories").select("*");
+
+      return response.map((element) => FactoryModel.fromJson(element)).toList();
+    } on PostgrestException {
+      throw Exception('Error in get factories data');
     } catch (e) {
-      throw Exception('Error in get all factory: $e');
+      throw Exception('Error in get  factories data: $e');
     }
   }
 }
