@@ -15,7 +15,7 @@ mixin ProductRepository {
     try {
       await KanSupabase.supabase.client
           .from("products")
-          .insert({product.toJson(factoryId: factoryId)});
+          .upsert(product.toJson(factoryId: factoryId));
     } on PostgrestException {
       throw Exception('Error: in add product');
     } catch (e) {
@@ -73,8 +73,9 @@ mixin ProductRepository {
   * */
   Future<List<ProductModel>> getAllProducts() async {
     try {
-      final response =
-          await KanSupabase.supabase.client.from("products").select("*,factories(*)");
+      final response = await KanSupabase.supabase.client
+          .from("products")
+          .select("*,factories(*)");
       print(response);
       return response.map((element) => ProductModel.fromJson(element)).toList();
     } on PostgrestException {

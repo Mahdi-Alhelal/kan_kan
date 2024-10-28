@@ -5,13 +5,13 @@ import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 mixin DealRepository {
-   Future<List<DealModel>> getAllDeals() async {
+  Future<List<DealModel>> getAllDeals() async {
     log("getAllDeals");
     try {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
           .select("*,categories(category_name) ,products(*,factories(*))");
-      return data.map((element)=>DealModel.fromJson(element)).toList();
+      return data.map((element) => DealModel.fromJson(element)).toList();
     } on PostgrestException {
       throw Exception('Error in get deal data');
     } catch (e) {
@@ -20,20 +20,20 @@ mixin DealRepository {
   }
 
 //Todo testing insertDeal
-   Future<bool> insertDeal() async {
-    log("insertDeal");
+  Future<bool> addNewDeal(
+      {required DealModel deal, required int productId}) async {
     try {
-      // KanSupabase.supabase.client.from("deals").insert();
+      await KanSupabase.supabase.client
+          .from("deals")
+          .insert(deal.toJson(productId: productId));
       return true;
-    } on PostgrestException {
-      throw Exception('Error in get deal data');
     } catch (e) {
       throw Exception('$e');
     }
   }
 
   //Todo testing updateDeal
-   Future<bool> updateDeal() async {
+  Future<bool> updateDeal() async {
     log("insertDeal");
     try {
       //  KanSupabase.supabase.client.from("deals").update("values").eq("deal_id", "value");

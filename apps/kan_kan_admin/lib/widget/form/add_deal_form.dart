@@ -1,15 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/model/product_model.dart';
 import 'package:kan_kan_admin/widget/form/form_divider.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_drop_down_menu.dart';
 import 'package:ui/component/widget/custom_text_field_form.dart';
 
 class AddDealForm extends StatelessWidget {
-  const AddDealForm({super.key});
+  const AddDealForm({
+    super.key,
+    required this.dealNameController,
+    required this.productController,
+    required this.quantityController,
+    required this.maxNumberController,
+    required this.dealStatusController,
+    required this.dealTypeController,
+    required this.dealDurationController,
+    required this.priceController,
+    required this.costController,
+    required this.formKey,
+    required this.add,
+    required this.uploadImage,
+    required this.productsList,
+    required this.dealDuration,
+    required this.deliveryCostController,
+    required this.estimatedTimeFromController,
+    required this.estimatedTimeToController,
+  });
+  final TextEditingController dealNameController;
+  final TextEditingController productController;
+  final TextEditingController quantityController;
+  final TextEditingController maxNumberController;
+  final TextEditingController dealStatusController;
+  final TextEditingController dealTypeController;
+  final TextEditingController dealDurationController;
+  final TextEditingController priceController;
+  final TextEditingController costController;
+  final TextEditingController deliveryCostController;
+  final TextEditingController estimatedTimeFromController;
+  final TextEditingController estimatedTimeToController;
+
+  final GlobalKey<FormState> formKey;
+  final void Function() add;
+  final void Function() uploadImage;
+  final List<ProductModel> productsList;
+  final dynamic Function()? dealDuration;
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
@@ -25,60 +65,113 @@ class AddDealForm extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(child: CustomTextFieldForm(title: "اسم الصفقة")),
                 Expanded(
-                  child: CustomDropDownMenu(
-                      onSelected: (value) {
-                        print("onSelected");
-                        print(value);
-                      },
-                      dropdownMenuEntries: DropMenuList.productName
-                          .map<DropdownMenuEntry>((productName) {
-                        return DropdownMenuEntry(
-                          value: productName,
-                          label: productName,
-                        );
-                      }).toList(),
-                      hintText: "إختار منتج"),
+                  child: CustomTextFieldForm(
+                    title: "اسم الصفقة",
+                    controller: dealNameController,
+                    validator: (value) =>
+                        value == null || value.isEmpty ? "required" : null,
+                  ),
                 ),
-              ],
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(child: CustomTextFieldForm(title: "الكمية")),
-                Expanded(child: CustomTextFieldForm(title: "حدد اقصى لكل شخص")),
+                Expanded(
+                  child: CustomDropDownButton(
+                    hint: const Text("المنتج"),
+                    validator: (value) =>
+                        value == null || value.toString().isEmpty
+                            ? "required"
+                            : null,
+                    onChanged: (value) =>
+                        productController.text = value.toString(),
+                    items: productsList.map<DropdownMenuItem>(
+                      (product) {
+                        return DropdownMenuItem(
+                          value: product.productId,
+                          child: Text(product.productName),
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: CustomDropDownMenu(
-                      onSelected: (value) {
-                        print("onSelected");
-                        print(value);
-                      },
-                      dropdownMenuEntries: DropMenuList.dealStatus
-                          .map<DropdownMenuEntry>((status) {
-                        return DropdownMenuEntry(
-                          value: status,
-                          label: status,
-                        );
-                      }).toList(),
-                      hintText: "حالة صفقة"),
+                  child: CustomTextFieldForm(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) =>
+                        value == null || value.toString().isEmpty
+                            ? "required"
+                            : null,
+                    title: "الكمية",
+                    controller: quantityController,
+                  ),
                 ),
                 Expanded(
-                  child: CustomDropDownMenu(
-                      onSelected: (value) {},
-                      dropdownMenuEntries: DropMenuList.dealCategory
-                          .map<DropdownMenuEntry>((category) {
-                        return DropdownMenuEntry(
-                          value: category,
-                          label: category,
+                  child: CustomTextFieldForm(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) {
+                      if (value == null || value.toString().isEmpty) {
+                        return "required";
+                      }
+                      if (int.parse(value) >
+                          int.parse(quantityController.text)) {
+                        return "عدد يجب ان يكون اعلى من الكمية";
+                      }
+
+                      if (value == "0") {
+                        return "-_-";
+                      }
+
+                      return null;
+                    },
+                    title: "حدد اقصى لكل شخص",
+                    controller: maxNumberController,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: CustomDropDownButton(
+                    validator: (value) =>
+                        value == null || value.toString().isEmpty
+                            ? "required"
+                            : null,
+                    hint: const Text("حالة الصفقة"),
+                    onChanged: (value) =>
+                        dealStatusController.text = value.toString(),
+                    items: DropMenuList.dealStatus.map<DropdownMenuItem>(
+                      (status) {
+                        return DropdownMenuItem(
+                          value: status,
+                          child: Text(status),
                         );
-                      }).toList(),
-                      hintText: "نوع الصفقة"),
+                      },
+                    ).toList(),
+                  ),
+                ),
+                Expanded(
+                  child: CustomDropDownButton(
+                    validator: (value) =>
+                        value == null || value.toString().isEmpty
+                            ? "required"
+                            : null,
+                    onChanged: (value) =>
+                        dealTypeController.text = value.toString(),
+                    hint: const Text("نوع الصفقة"),
+                    items: DropMenuList.dealCategory.map<DropdownMenuItem>(
+                      (category) {
+                        return DropdownMenuItem(
+                          value: category,
+                          child: Text(category),
+                        );
+                      },
+                    ).toList(),
+                  ),
                 ),
               ],
             ),
@@ -91,14 +184,11 @@ class AddDealForm extends StatelessWidget {
             ),
             CustomTextFieldForm(
               readOnly: true,
+              validator: (value) =>
+                  value == null || value.toString().isEmpty ? "required" : null,
+              controller: dealDurationController,
               title: "مدة الصفقة",
-              onTap: () {
-                showDateRangePicker(
-                  context: context,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(DateTime.now().year + 20),
-                );
-              },
+              onTap: dealDuration,
             ),
             const SizedBox(
               height: 39,
@@ -107,21 +197,41 @@ class AddDealForm extends StatelessWidget {
             const SizedBox(
               height: 39,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                    child: CustomTextFieldForm(title: "سعر الصفقة بدون شحن")),
+                  child: CustomTextFieldForm(
+                    controller: costController,
+                    validator: (value) =>
+                        value == null || value.toString().isEmpty
+                            ? "required"
+                            : null,
+                    title: "التكلفة",
+                  ),
+                ),
                 Expanded(
-                    child: CustomTextFieldForm(title: "رسوم الجمارك والتوصيل")),
+                    child: CustomTextFieldForm(
+                        controller: deliveryCostController,
+                        validator: (value) =>
+                            value == null || value.toString().isEmpty
+                                ? "required"
+                                : null,
+                        title: "رسوم الجمارك والتوصيل")),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
-                    child: const CustomTextFieldForm(
-                        title: "سعر الصفقة بدون شحن")),
+                Expanded(
+                    child: CustomTextFieldForm(
+                  title: "سعر البيع",
+                  controller: priceController,
+                  validator: (value) =>
+                      value == null || value.toString().isEmpty
+                          ? "required"
+                          : null,
+                )),
                 SizedBox(
                     width: context.getWidth(value: .3),
                     child: const Center(child: Text("الإجمالي: 1599 ريال"))),
@@ -134,16 +244,39 @@ class AddDealForm extends StatelessWidget {
             const SizedBox(
               height: 39,
             ),
-            CustomTextFieldForm(
-              readOnly: true,
-              title: "الوقت المتوقع للتوصيل",
-              onTap: () {
-                showDateRangePicker(
-                  context: context,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(DateTime.now().year + 20),
-                );
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: CustomTextFieldForm(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) =>
+                        value == null || value.toString().isEmpty
+                            ? "required"
+                            : null,
+                    title: "من",
+                    controller: estimatedTimeFromController,
+                  ),
+                ),
+                Expanded(
+                  child: CustomTextFieldForm(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) {
+                      if (value == null || value.toString().isEmpty) {
+                        return "required";
+                      }
+
+                      if (value == "0") {
+                        return "-_-";
+                      }
+
+                      return null;
+                    },
+                    title: "الى",
+                    controller: estimatedTimeToController,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 39,
@@ -152,8 +285,8 @@ class AddDealForm extends StatelessWidget {
               width: context.getWidth(value: 0.75),
               height: 50,
               child: ElevatedButton(
-                onPressed: () {},
-                child: Text("إرفاق صورة"),
+                onPressed: uploadImage,
+                child: const Text("إرفاق صورة"),
               ),
             ),
             const SizedBox(
@@ -163,8 +296,8 @@ class AddDealForm extends StatelessWidget {
               width: context.getWidth(value: 0.75),
               height: 50,
               child: ElevatedButton(
-                onPressed: () {},
-                child: Text("اضافة"),
+                onPressed: add,
+                child: const Text("اضافة"),
               ),
             ),
             const SizedBox(

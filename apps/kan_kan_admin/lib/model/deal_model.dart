@@ -20,6 +20,23 @@ class DealModel {
       required this.dealUrl,
       required this.product,
       required this.numberOfOrder});
+
+  DealModel.newDeal(
+      {required this.dealTitle,
+      required this.dealDescription,
+      required this.startDate,
+      required this.endDate,
+      required this.costPrice,
+      required this.deliveryPrice,
+      required this.salePrice,
+      required this.totalPrice,
+      required this.categoryId,
+      required this.estimateDeliveryDateFrom,
+      required this.estimateDeliveryTimeTo,
+      required this.dealStatus,
+      required this.maxOrdersPerUser,
+      required this.quantity,
+      required this.dealUrl});
   late final int dealId;
   late String dealTitle;
   late String dealDescription;

@@ -8,7 +8,7 @@ class FactoryModel {
     required this.contactPhone,
     required this.factoryRepresentative,
   });
-
+  FactoryModel.empty();
   late String region;
   late String department;
   late int factoryId;

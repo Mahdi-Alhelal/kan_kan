@@ -22,7 +22,7 @@ class FactoryScreen extends StatefulWidget {
 }
 
 class _FactoryScreenState extends State<FactoryScreen> {
-  final formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

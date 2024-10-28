@@ -49,34 +49,36 @@ class ProductForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'هذا حقل مطلوب';
-                      }
-                      return null;
-                    },
+                    validator: (value) => value == null || value.isEmpty
+                        ? "هذا الحقل مطلوي"
+                        : null,
                     title: "المنتج",
                     controller: productNameController,
                   ),
                 ),
                 Expanded(
-                  child: CustomDropDownMenu(
-                      onSelected: (value) => factoryNameController.text = value,
-                      dropdownMenuEntries: factoryList
-                          .map<DropdownMenuEntry>(
-                            (element) => DropdownMenuEntry(
-                              label: element.factoryName,
-                              value: "",
-                            ),
-                          )
-                          .toList(),
-                      hintText: "مصنع"),
+                  child: CustomDropDownButton(
+                    validator: (value) =>
+                        value == null ? "هذا الحقل مطلوب" : null,
+                    onChanged: (value) =>
+                        factoryNameController.text = value.toString(),
+                    items: factoryList
+                        .map<DropdownMenuItem>(
+                          (element) => DropdownMenuItem(
+                            value: element.factoryId,
+                            child: Text(element.factoryName),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ],
             ),
             SizedBox(
               height: context.getHeight(value: 0.1),
               child: CustomTextFieldForm(
+                validator: (value) =>
+                    value == null || value.isEmpty ? "هذا الحقل مطلوي" : null,
                 title: "رقم الموديل",
                 controller: modelNumberController,
               ),
@@ -86,12 +88,18 @@ class ProductForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
+                    validator: (value) => value == null || value.isEmpty
+                        ? "هذا الحقل مطلوي"
+                        : null,
                     title: "وزن KG",
                     controller: wightController,
                   ),
                 ),
                 Expanded(
                   child: CustomTextFieldForm(
+                    validator: (value) => value == null || value.isEmpty
+                        ? "هذا الحقل مطلوي"
+                        : null,
                     title: "إرتفاع cm",
                     controller: hightController,
                   ),
@@ -102,12 +110,18 @@ class ProductForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
+                    validator: (value) => value == null || value.isEmpty
+                        ? "هذا الحقل مطلوي"
+                        : null,
                     title: "طول cm",
                     controller: lengthController,
                   ),
                 ),
                 Expanded(
                   child: CustomTextFieldForm(
+                    validator: (value) => value == null || value.isEmpty
+                        ? "هذا الحقل مطلوي"
+                        : null,
                     title: "العرض cm",
                     controller: widthController,
                   ),
@@ -118,18 +132,20 @@ class ProductForm extends StatelessWidget {
             SizedBox(
               height: context.getHeight(value: 0.1),
               child: CustomTextFieldForm(
+                validator: (value) =>
+                    value == null || value.isEmpty ? "هذا الحقل مطلوي" : null,
                 title: "",
                 controller: descriptionController,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             CustomButton(
               text: "إرفاق صورة",
               onPressed: uploadImage,
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             CustomButton(

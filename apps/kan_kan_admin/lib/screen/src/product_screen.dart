@@ -17,7 +17,7 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  final formKey = GlobalKey<FormState>();
+ final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -43,10 +43,12 @@ class _ProductScreenState extends State<ProductScreen> {
                       hightController: productCubit.hightController,
                       lengthController: productCubit.lengthController,
                       widthController: productCubit.widthController,
-                      add: () {},
-                      uploadImage: () {
-                        
+                      add: () {
+                        if (formKey.currentState!.validate()) {
+                          productCubit.addProduct();
+                        }
                       },
+                      uploadImage: () {},
                     ),
                   );
                 },
