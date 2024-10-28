@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:meta/meta.dart';
 
@@ -9,6 +10,8 @@ part 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
   final productLayer = GetIt.I.get<ProductDataLayer>();
+    final factoryLayer = GetIt.I.get<FactoryDataLayer>();
+
   final api = DataRepository();
 
   //?-- controllers

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/model/factory_model.dart';
 import 'package:kan_kan_admin/widget/button/custom_button.dart';
 import 'package:kan_kan_admin/widget/form/form_divider.dart';
 import 'package:ui/component/helper/screen.dart';
+import 'package:ui/component/widget/custom_drop_down_menu.dart';
 import 'package:ui/component/widget/custom_text_field_form.dart';
 
 class ProductForm extends StatelessWidget {
@@ -16,7 +18,9 @@ class ProductForm extends StatelessWidget {
       required this.widthController,
       required this.descriptionController,
       required this.add,
-      required this.uploadImage});
+      required this.uploadImage,
+      this.formKey,
+      required this.factoryList});
 
   final TextEditingController productNameController;
   final TextEditingController factoryNameController;
@@ -28,11 +32,14 @@ class ProductForm extends StatelessWidget {
   final TextEditingController descriptionController;
   final void Function()? uploadImage;
   final void Function()? add;
+  final GlobalKey<FormState>? formKey;
+  final List<FactoryModel> factoryList;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       child: Form(
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -42,15 +49,28 @@ class ProductForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'هذا حقل مطلوب';
+                      }
+                      return null;
+                    },
                     title: "المنتج",
                     controller: productNameController,
                   ),
                 ),
                 Expanded(
-                  child: CustomTextFieldForm(
-                    title: "مصنع",
-                    controller: factoryNameController,
-                  ),
+                  child: CustomDropDownMenu(
+                      onSelected: (value) => factoryNameController.text = value,
+                      dropdownMenuEntries: factoryList
+                          .map<DropdownMenuEntry>(
+                            (element) => DropdownMenuEntry(
+                              label: element.factoryName,
+                              value: "",
+                            ),
+                          )
+                          .toList(),
+                      hintText: "مصنع"),
                 ),
               ],
             ),

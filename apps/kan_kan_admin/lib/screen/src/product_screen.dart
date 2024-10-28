@@ -9,9 +9,15 @@ import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
 
+  @override
+  State<ProductScreen> createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -27,6 +33,8 @@ class ProductScreen extends StatelessWidget {
                   customBottomSheet(
                     context: context,
                     child: ProductForm(
+                      factoryList: productCubit.factoryLayer.factories,
+                      formKey: formKey,
                       descriptionController: productCubit.descriptionController,
                       productNameController: productCubit.productNameController,
                       factoryNameController: productCubit.factoryNameController,
@@ -36,7 +44,9 @@ class ProductScreen extends StatelessWidget {
                       lengthController: productCubit.lengthController,
                       widthController: productCubit.widthController,
                       add: () {},
-                      uploadImage: () {},
+                      uploadImage: () {
+                        
+                      },
                     ),
                   );
                 },
