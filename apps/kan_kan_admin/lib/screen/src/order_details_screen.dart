@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan_admin/model/deal_model.dart';
+import 'package:kan_kan_admin/model/order_model2.dart';
+import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
-  const OrderDetailsScreen({super.key});
+  const OrderDetailsScreen(
+      {super.key,
+      required this.orderDetails,
+      required this.dealDetails,
+      required this.userDetails});
+
+  final OrderModel orderDetails;
+  final DealModel dealDetails;
+  final UserModel userDetails;
 
   @override
   State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
@@ -14,6 +25,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
   @override
   Widget build(BuildContext context) {
     TabController _tabBar = TabController(length: 3, vsync: this);
+    //final dealTitle =
 
     return SafeArea(
       child: Scaffold(
@@ -55,25 +67,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: AppColor.primary,
-                                  )),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
                               Text(
-                                "تلفزيون 75 بوصة",
-                                style: TextStyle(fontSize: 16),
+                                widget.dealDetails.dealTitle.toString(),
+                                style: const TextStyle(fontSize: 16),
                               ),
-                              Text("2000 ريال", style: TextStyle(fontSize: 16))
+                              Text(
+                                  "${widget.dealDetails.salePrice.toString()} ريال",
+                                  style: const TextStyle(fontSize: 16))
                             ],
                           ),
                           const SizedBox(
@@ -112,236 +112,244 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                             child: Container(
                               width: context.getWidth(),
                               height: 150,
-                              child: TabBarView(
-                                  controller: _tabBar,
-                                  children: const [
-                                    Column(
+                              child: TabBarView(controller: _tabBar, children: [
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.calendar_month,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text(
-                                                  "البداية : ",
-                                                  style: TextStyle(
-                                                      color: AppColor.primary),
-                                                ),
-                                                Text(
-                                                  "2024/11/07",
-                                                  style: TextStyle(
-                                                      color: AppColor.primary),
-                                                ),
-                                              ],
+                                            Icon(
+                                              Icons.calendar_month,
+                                              color: AppColor.primary,
                                             ),
-                                            SizedBox(
-                                              height: 5,
+                                            Text(
+                                              "البداية : ",
+                                              style: TextStyle(
+                                                  color: AppColor.primary),
                                             ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.calendar_month,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text(
-                                                  "النهاية : ",
-                                                  style: TextStyle(
-                                                      color: AppColor.primary),
-                                                ),
-                                                Text(
-                                                  "2024/11/07",
-                                                  style: TextStyle(
-                                                      color: AppColor.primary),
-                                                ),
-                                              ],
+                                            Text(
+                                              "2024/11/07",
+                                              style: TextStyle(
+                                                  color: AppColor.primary),
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.local_shipping,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("التوصيل :"),
-                                                Text("15 - 45 "),
-                                                Text("يوم")
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons
-                                                      .production_quantity_limits,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text(" 2 "),
-                                                Text("عدد لكل شخص")
-                                              ],
-                                            )
-                                          ],
+                                        SizedBox(
+                                          height: 5,
                                         ),
                                         Row(
                                           children: [
                                             Icon(
-                                              Icons.handshake,
+                                              Icons.calendar_month,
                                               color: AppColor.primary,
                                             ),
-                                            Text("يتشارك عدد"),
-                                            Text(" 15 "),
-                                            Text("شخص / أشخاص في هذه الصفقة")
+                                            Text(
+                                              "النهاية : ",
+                                              style: TextStyle(
+                                                  color: AppColor.primary),
+                                            ),
+                                            Text(
+                                              "2024/11/07",
+                                              style: TextStyle(
+                                                  color: AppColor.primary),
+                                            ),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
-                                    Column(
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
-                                            Text("وصف المنتج : "),
-                                            SizedBox(
-                                              width: 300,
-                                              child: Text(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 5,
-                                                  softWrap: false,
-                                                  "تلفزيون زين وحلو ورخيص وتلاقي فيهتلفزيون زين وحلو ورخيص وتلاقي فيه"),
-                                            )
+                                            const Icon(
+                                              Icons.local_shipping,
+                                              color: AppColor.primary,
+                                            ),
+                                            const Text("التوصيل :"),
+                                            Text(
+                                                "${widget.dealDetails.estimateDeliveryDateFrom} - ${widget.dealDetails.estimateDeliveryTimeTo} "),
+                                            const Text("يوم")
                                           ],
                                         ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.align_vertical_center,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("الطول : "),
-                                                Text("100 سم")
-                                              ],
+                                            const Icon(
+                                              Icons.production_quantity_limits,
+                                              color: AppColor.primary,
                                             ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.align_horizontal_center,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("العرض : "),
-                                                Text("100 سم")
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.height,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("الإرتفاع : "),
-                                                Text("100 سم")
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.line_weight,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("  الوزن : "),
-                                                Text("100 سم")
-                                              ],
-                                            ),
+                                            Text(
+                                                "${widget.dealDetails.maxOrdersPerUser} "),
+                                            const Text("لكل شخص")
                                           ],
                                         )
                                       ],
                                     ),
-                                    Column(
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.handshake,
+                                          color: AppColor.primary,
+                                        ),
+                                        const Text("يتشارك عدد"),
+                                        Text(
+                                            " ${widget.dealDetails.numberOfOrder} "),
+                                        const Text("شخص / أشخاص في هذه الصفقة")
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text("وصف المنتج : "),
+                                        SizedBox(
+                                          width: 300,
+                                          child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 5,
+                                              softWrap: false,
+                                              widget.dealDetails.product
+                                                  .productDescription),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.factory,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("المصنع : "),
-                                                Text("Something factory")
-                                              ],
+                                            const Icon(
+                                              Icons.align_vertical_center,
+                                              color: AppColor.primary,
                                             ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.place,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("المنطقة :"),
-                                                Text("Ganzo")
-                                              ],
-                                            )
+                                            const Text("الطول : "),
+                                            Text(
+                                                "${widget.dealDetails.product.length} سم")
                                           ],
                                         ),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.factory,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("ممثل المصنع : "),
-                                                Text("Ali Sami")
-                                              ],
+                                            const Icon(
+                                              Icons.align_horizontal_center,
+                                              color: AppColor.primary,
                                             ),
-                                            Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.phone,
-                                                  color: AppColor.primary,
-                                                ),
-                                                Text("رقم التواصل :"),
-                                                Text("+966597555447")
-                                              ],
-                                            )
+                                            const Text("العرض : "),
+                                            Text(
+                                                "${widget.dealDetails.product.width} سم")
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.height,
+                                              color: AppColor.primary,
+                                            ),
+                                            const Text("الإرتفاع : "),
+                                            Text(
+                                                "${widget.dealDetails.product.height} سم")
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.line_weight,
+                                              color: AppColor.primary,
+                                            ),
+                                            const Text("  الوزن : "),
+                                            Text(
+                                                "${widget.dealDetails.product.length} سم")
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.factory,
+                                              color: AppColor.primary,
+                                            ),
+                                            const Text("المصنع : "),
+                                            Text(widget.dealDetails.product
+                                                .factory.factoryName)
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.place,
+                                              color: AppColor.primary,
+                                            ),
+                                            const Text("المنطقة :"),
+                                            Text(widget.dealDetails.product
+                                                .factory.region)
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.factory,
+                                              color: AppColor.primary,
+                                            ),
+                                            const Text("ممثل المصنع : "),
+                                            Text(widget.dealDetails.product
+                                                .factory.factoryName)
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.phone,
+                                              color: AppColor.primary,
+                                            ),
+                                            const Text("رقم التواصل :"),
+                                            Text(widget.dealDetails.product
+                                                .factory.contactPhone)
                                           ],
                                         )
                                       ],
                                     )
-                                  ]),
+                                  ],
+                                )
+                              ]),
                             ),
                           ),
                         ],
@@ -374,54 +382,58 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: AppColor.white),
-                    child: const SingleChildScrollView(
+                    child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("بيانات الفاتورة"),
+                          const Text("بيانات الفاتورة"),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 "رقم الطلب",
                                 style: TextStyle(color: AppColor.secondary),
                               ),
                               Text(
-                                "#1001",
-                                style: TextStyle(
+                                "#${widget.orderDetails.orderId}",
+                                style: const TextStyle(
                                     fontSize: 16, color: AppColor.secondary),
                               )
                             ],
                           ),
-                          Divider(
-                            color: AppColor.bg,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text("السعر"), Text("1399 ريال")],
-                          ),
-                          Divider(
+                          const Divider(
                             color: AppColor.bg,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("رسوم التوصيل والجمارك"),
-                              Text("300 ريال")
+                              const Text("السعر"),
+                              Text("${widget.dealDetails.salePrice} ريال")
                             ],
                           ),
-                          Divider(
+                          const Divider(
+                            color: AppColor.bg,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("رسوم التوصيل والجمارك"),
+                              Text("${widget.dealDetails.deliveryPrice} ريال")
+                            ],
+                          ),
+                          const Divider(
                             color: AppColor.bg,
                             thickness: 1,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 "الإجمالي",
                                 style: TextStyle(fontSize: 16),
                               ),
-                              Text("2000 ريال", style: TextStyle(fontSize: 16))
+                              Text("${widget.orderDetails.amount} ريال",
+                                  style: const TextStyle(fontSize: 16))
                             ],
                           )
                         ],
@@ -435,58 +447,58 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: AppColor.white),
-                    child: const SingleChildScrollView(
+                    child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("بيانات العميل"),
+                          const Text("بيانات العميل"),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 "اسم العميل",
                                 style: TextStyle(
                                     fontSize: 14, color: AppColor.secondary),
                               ),
                               Text(
-                                "علي التاروتي",
-                                style: TextStyle(
+                                widget.userDetails.fullName,
+                                style: const TextStyle(
                                     fontSize: 14, color: AppColor.secondary),
                               )
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: AppColor.bg,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("رقم التواصل"),
-                              Text("+966597555447")
+                              const Text("رقم التواصل"),
+                              Text(widget.userDetails.phone)
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: AppColor.bg,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("الإيميل"),
-                              Text("tarooti14@gmail.com")
+                              const Text("الإيميل"),
+                              Text(widget.userDetails.email)
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: AppColor.bg,
                             thickness: 1,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 "موقع العميل",
                                 style: TextStyle(fontSize: 14),
                               ),
-                              Text("جزيرة تاروت",
+                              Text(widget.orderDetails.address,
                                   style: TextStyle(fontSize: 14))
                             ],
                           )
@@ -496,7 +508,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -515,7 +527,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                             width: context.getWidth(value: 0.20),
                             child: ElevatedButton(
                                 onPressed: () {},
-                                child: Text("تحديث حالة الطلب")),
+                                child: const Text("تحديث حالة الطلب")),
                           ),
                           SizedBox(
                             width: context.getWidth(value: 0.20),
@@ -527,7 +539,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                   ),
                                 ),
                                 onPressed: () {},
-                                child: Text("إلغاء الطلب")),
+                                child: const Text("إلغاء الطلب")),
                           ),
                         ],
                       ),
@@ -536,7 +548,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                   Container(
                     color: AppColor.secondary,
                     width: context.getWidth(value: 0.75),
-                    child: Text("التتبع هنا "),
+                    child: const Text("التتبع هنا "),
                   )
                 ],
               )

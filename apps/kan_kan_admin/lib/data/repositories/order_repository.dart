@@ -1,3 +1,5 @@
+import 'package:kan_kan_admin/model/order_model2.dart';
+
 import '../../integrations/supabase/supabase_client.dart';
 
 mixin OrderRepository {
@@ -10,13 +12,15 @@ mixin OrderRepository {
   * Add new Order
   *
   * */
-   Future<List<Map<String, dynamic>>> addNewOrder(
+  Future<List<Map<String, dynamic>>> addNewOrder(
       {required String userID,
       required String dealID,
       required String addressID,
       required double amount}) async {
     try {
-      final dataFound = await KanSupabase.supabase.client.from("orders").insert({
+      final dataFound = await KanSupabase.supabase.client
+          .from("orders")
+          .insert({
         "deal_id": dealID,
         "user_id": userID,
         "address_id": addressID,
@@ -35,7 +39,7 @@ mixin OrderRepository {
   *
   * */
 
-   updateOrder({
+  updateOrder({
     required String id,
     required String status,
   }) async {
@@ -54,7 +58,7 @@ mixin OrderRepository {
     }
   }
 
-   updateAllOrdersForOneDeal(
+  updateAllOrdersForOneDeal(
       {required String status, required String dealID}) async {
     try {
       final dataFound = await KanSupabase.supabase.client
@@ -77,10 +81,11 @@ mixin OrderRepository {
   * get all orders
   *
   * */
-   Future<List<Map<String, dynamic>>> getAllOrders() async {
+  Future<List<OrderModel>> getAllOrders() async {
     try {
-      final response = await KanSupabase.supabase.client.from("orders").select("*");
-      return response;
+      final List<Map<String, dynamic>> response =
+          await KanSupabase.supabase.client.from("orders").select("*");
+      return response.map((element) => OrderModel.fromJson(element)).toList();
     } catch (e) {
       throw Exception('Error in get all orders: $e');
     }
@@ -92,14 +97,14 @@ mixin OrderRepository {
   * get all orders for one user
   *
   * */
-   Future<List<Map<String, dynamic>>> getAllOrdersByUser(
-      {required String userID}) async {
+  Future<List<OrderModel>> getAllOrdersByUser({required String userID}) async {
     try {
-      final response = await KanSupabase.supabase.client
+      final List<Map<String, dynamic>> response = await KanSupabase
+          .supabase.client
           .from("orders")
           .select("*")
           .eq("user_id", userID);
-      return response;
+      return response.map((element) => OrderModel.fromJson(element)).toList();
     } catch (e) {
       throw Exception('Error in get all orders: $e');
     }

@@ -124,11 +124,11 @@ class _DealsScreenState extends State<DealsScreen> {
                                     title: "حالة",
                                     onChanged: (value) {},
                                     items: DropMenuList.dealStatus
-                                        .map<DropdownMenuItem<String>>(
+                                        .map<DropdownMenuEntry<String>>(
                                             (String status) {
-                                      return DropdownMenuItem(
+                                      return DropdownMenuEntry(
                                         value: status,
-                                        child: Text(status),
+                                        label: status,
                                       );
                                     }).toList());
                               },
