@@ -467,11 +467,11 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                           title: "حالة",
                                           onChanged: (value) {},
                                           items: DropMenuList.paymentStatus
-                                              .map<DropdownMenuItem<String>>(
+                                              .map<DropdownMenuEntry<String>>(
                                                   (String status) {
-                                            return DropdownMenuItem(
+                                            return DropdownMenuEntry(
                                               value: status,
-                                              child: Text(status),
+                                              label: status,
                                             );
                                           }).toList());
                                     },
@@ -486,11 +486,11 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                           title: "حالة",
                                           onChanged: (value) {},
                                           items: DropMenuList.shipmentStatus
-                                              .map<DropdownMenuItem<String>>(
+                                              .map<DropdownMenuEntry<String>>(
                                                   (String status) {
-                                            return DropdownMenuItem(
+                                            return DropdownMenuEntry(
                                               value: status,
-                                              child: Text(status),
+                                              label:status,
                                             );
                                           }).toList());
                                     },

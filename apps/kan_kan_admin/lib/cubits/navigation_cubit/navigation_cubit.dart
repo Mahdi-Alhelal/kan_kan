@@ -5,6 +5,7 @@ import 'package:kan_kan_admin/data/data_repository.dart';
 import 'package:kan_kan_admin/data/repositories/users_repository.dart';
 import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
+import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
 import 'package:kan_kan_admin/screen/src/deals_screen.dart';
@@ -22,6 +23,7 @@ class NavigationCubit extends Cubit<NavigationState> {
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
   final dealLayer = GetIt.I.get<DealDataLayer>();
+  final orderLayer = GetIt.I.get<OrderDataLayer>();
 
   final api = DataRepository();
   List<Widget> screens = const [
@@ -39,6 +41,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     getProductData();
     getFactoryData();
     getDealData();
+    getOrderData();
   }
 
   navigationEvent({required int value}) {
@@ -60,6 +63,16 @@ class NavigationCubit extends Cubit<NavigationState> {
     await Future.delayed(Duration.zero);
     try {
       dealLayer.deals = await api.getAllDeals();
+      emit(SuccessState());
+    } catch (errorMessage) {
+      emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  getOrderData() async {
+    await Future.delayed(Duration.zero);
+    try {
+      orderLayer.orders = await api.getAllOrders();
       emit(SuccessState());
     } catch (errorMessage) {
       emit(ErrorState(errorMessage: errorMessage.toString()));

@@ -6,10 +6,13 @@ import 'package:kan_kan_admin/cubits/user_cubit/user_cubit.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
+import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
 import 'package:kan_kan_admin/widget/dialog/update_status.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
+import 'package:ui/component/helper/screen.dart';
+import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:ui/ui.dart';
 import 'dart:ui' as ui;
 
@@ -37,6 +40,75 @@ class UsersScreen extends StatelessWidget {
                           customRow: List.generate(
                             userCubit.userLayer.usersList.length,
                             (index) => DataRow(
+                              onLongPress: () {
+                                userCubit.userPhoneController.text =
+                                    userCubit.userLayer.usersList[index].phone;
+
+                                userCubit.userFullNameController.text =
+                                    userCubit
+                                        .userLayer.usersList[index].fullName;
+                                userCubit.userEmaileController.text =
+                                    userCubit.userLayer.usersList[index].email;
+                                userCubit.userBalanceController.text = userCubit
+                                    .userLayer.usersList[index].balance
+                                    .toString();
+
+                                customBottomSheet(
+                                    context: context,
+                                    height: 0.8,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          CustomTextField(
+                                            title: "اسم العميل",
+                                            controller: userCubit
+                                                .userFullNameController,
+                                          ),
+                                          CustomTextField(
+                                            title: "البريد الإلكتروني",
+                                            controller:
+                                                userCubit.userEmaileController,
+                                            readOnly: true,
+                                          ),
+                                          CustomTextField(
+                                            title: "رقم الجوال",
+                                            controller:
+                                                userCubit.userPhoneController,
+                                          ),
+                                          CustomTextField(
+                                            title: "الرصيد",
+                                            controller:
+                                                userCubit.userBalanceController,
+                                          ),
+                                          SizedBox(
+                                            width:
+                                                context.getWidth(value: 0.25),
+                                            child: ElevatedButton(
+                                                onPressed: () async {
+                                                  await userCubit.updateUserEvent(
+                                                      userID: userCubit
+                                                          .userLayer
+                                                          .usersList[index]
+                                                          .userId,
+                                                      fullName: userCubit
+                                                          .userFullNameController
+                                                          .text,
+                                                      phone: userCubit
+                                                          .userPhoneController
+                                                          .text,
+                                                      status: "active",
+                                                      balance: userCubit
+                                                          .userBalanceController
+                                                          .text);
+                                                  print("done");
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("حفظ")),
+                                          )
+                                        ],
+                                      ),
+                                    ));
+                              },
                               color: WidgetStateProperty.all(AppColor.white),
                               cells: [
                                 DataCell(Text(userCubit
@@ -58,19 +130,18 @@ class UsersScreen extends StatelessWidget {
                                   status: UserStatusEnum.values.first.value,
                                   onTap: () async {
                                     await updateStatus(
-                                        value: "نشط",
+                                        value: UserStatusEnum.values.first.name,
                                         onChanged: (value) {
-                                          
+                                          print(value);
                                         },
                                         context: context,
-                                        title: "حالة",
+                                        title: "حالة المصنع",
                                         onPressed: () {},
                                         items:
                                             UserStatusEnum.values.map((status) {
-                                          print(status.value);
-                                          return DropdownMenuItem(
-                                            value: status.value,
-                                            child: Text(status.value),
+                                          return DropdownMenuEntry(
+                                            value: status.name,
+                                            label: status.value,
                                           );
                                         }).toList());
                                   },

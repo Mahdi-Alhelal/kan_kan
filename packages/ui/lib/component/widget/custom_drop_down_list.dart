@@ -8,7 +8,7 @@ class CustomDropDownList extends StatelessWidget {
       required this.value});
   final void Function(dynamic) onChanged;
   final List<DropdownMenuItem<dynamic>> items;
-  final String value;
+  final dynamic value;
   @override
   Widget build(BuildContext context) {
     return DropdownButton(

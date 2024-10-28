@@ -24,4 +24,24 @@ mixin UsersRepository {
       throw Exception('Error in update user role: $e');
     }
   }
+
+  static updateUserProfile(
+      {required String userID,
+      required String status,
+      required String phone,
+      required double balance,
+      required String fullName}) async {
+    try {
+      await KanSupabase.supabase.client.from("users").update({
+        "user_status": status,
+        "phone": phone,
+        "full_name": fullName,
+        "balance": balance,
+        "role": "user"
+      }).eq("user_id", userID);
+      print("here 2");
+    } catch (e) {
+      throw Exception('Error in update user role: $e');
+    }
+  }
 }
