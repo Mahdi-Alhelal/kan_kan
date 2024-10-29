@@ -5,7 +5,6 @@ import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
-import 'package:kan_kan_admin/model/order_model2.dart';
 import 'package:meta/meta.dart';
 
 part 'order_state.dart';

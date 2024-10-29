@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +64,6 @@ class DealCubit extends Cubit<DealState> {
       );
       emit(SuccessSate());
     } catch (errorMessage) {
-      print(errorMessage);
       emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }

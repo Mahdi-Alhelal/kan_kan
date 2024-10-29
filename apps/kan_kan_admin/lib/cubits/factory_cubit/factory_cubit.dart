@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -25,20 +23,37 @@ class FactoryCubit extends Cubit<FactoryState> {
   void addFactoryEvent() async {
     await Future.delayed(Duration.zero);
     FactoryModel factory = FactoryModel(
-        region: regionController.text,
-        department: departmentController.text,
-        factoryId: 0,
-        isBlackList: false,
-        factoryName: factoryNameController.text,
-        contactPhone: phoneNumberController.text,
-        factoryRepresentative: repController.text);
+      region: regionController.text.trim(),
+      department: departmentController.text.trim(),
+      factoryId: 0,
+      isBlackList: false,
+      factoryName: factoryNameController.text.trim(),
+      contactPhone: phoneNumberController.text.trim(),
+      factoryRepresentative: repController.text.trim(),
+    );
     try {
       await api.addNewFactory(factory: factory);
+      emit(SuccessState());
     } catch (errorMessage) {
-      log(errorMessage.toString());
       emit(ErrorState(errorMessage: errorMessage.toString()));
     }
+  }
 
-    emit(SuccessState());
+  updateFactoryEvent({required int factoryId}) async {
+    try {
+      await api.updateFactory(
+        factory: FactoryModel(
+          region: regionController.text.trim(),
+          department: departmentController.text.trim(),
+          factoryId: factoryId,
+          isBlackList: false,
+          factoryName: factoryNameController.text.trim(),
+          contactPhone: phoneNumberController.text.trim(),
+          factoryRepresentative: repController.text.trim(),
+        ),
+      );
+    } catch (errorMessage) {
+      emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
   }
 }

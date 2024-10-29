@@ -53,7 +53,7 @@ class _FactoryScreenState extends State<FactoryScreen> {
                               if (formKey.currentState!.validate()) {
                                 factoryCubit.addFactoryEvent();
                                 Navigator.pop(context);
-                              } else {}
+                              }
                             }),
                       );
                     },
@@ -71,6 +71,48 @@ class _FactoryScreenState extends State<FactoryScreen> {
                           customRow: List.generate(
                             factoryCubit.factoryLayer.factories.length,
                             (index) => DataRow(
+                              onLongPress: () {
+                                factoryCubit.factoryNameController.text =
+                                    factoryCubit.factoryLayer.factories[index]
+                                        .factoryName;
+                                factoryCubit.regionController.text =
+                                    factoryCubit
+                                        .factoryLayer.factories[index].region;
+                                factoryCubit.departmentController.text =
+                                    factoryCubit.factoryLayer.factories[index]
+                                        .department;
+                                factoryCubit.repController.text = factoryCubit
+                                    .factoryLayer
+                                    .factories[index]
+                                    .factoryRepresentative;
+
+                                factoryCubit.phoneNumberController.text =
+                                    factoryCubit.factoryLayer.factories[index]
+                                        .contactPhone;
+
+                                customBottomSheet(
+                                  context: context,
+                                  child: FactoryForm(
+                                      formKey: formKey,
+                                      factoryNameController:
+                                          factoryCubit.factoryNameController,
+                                      regionController:
+                                          factoryCubit.regionController,
+                                      typeController:
+                                          factoryCubit.departmentController,
+                                      repController: factoryCubit.repController,
+                                      phoneNumberController:
+                                          factoryCubit.phoneNumberController,
+                                      onPressed: () {
+                                        if (formKey.currentState!.validate()) {
+                                          factoryCubit.updateFactoryEvent(
+                                              factoryId: factoryCubit.factoryLayer
+                                                  .factories[index].factoryId);
+                                          Navigator.pop(context);
+                                        }
+                                      }),
+                                );
+                              },
                               color: WidgetStateProperty.all(AppColor.white),
                               cells: [
                                 DataCell(
