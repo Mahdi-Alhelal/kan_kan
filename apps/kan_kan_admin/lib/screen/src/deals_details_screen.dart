@@ -1,8 +1,8 @@
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/cubits/deal_details_cubit/deal_details_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/order_dummy.dart';
 import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
@@ -25,6 +25,7 @@ class DealsDetailsScreen extends StatefulWidget {
 
 class _DealsDetailsScreenState extends State<DealsDetailsScreen>
     with TickerProviderStateMixin {
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     TabController tabBar = TabController(length: 3, vsync: this);
@@ -58,8 +59,119 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                       widget.deal.quantity)
                                     IconButton(
                                       onPressed: () {
+                                        detailCubit.dealNameController.text =
+                                            widget.deal.dealTitle;
+                                        detailCubit.productController.text =
+                                            widget.deal.product.productId
+                                                .toString();
+                                        detailCubit.quantityController.text =
+                                            widget.deal.quantity.toString();
+                                        detailCubit.maxNumberController.text =
+                                            widget.deal.maxOrdersPerUser
+                                                .toString();
+                                        detailCubit.dealStatusController.text =
+                                            widget.deal.dealStatus;
+                                        detailCubit.dealTypeController.text =
+                                            widget.deal.categoryId.toString();
+                                        detailCubit
+                                                .dealDurationController.text =
+                                            "${DateConverter.saDateFormate(widget.deal.startDate)} الى ${DateConverter.saDateFormate(widget.deal.endDate)}";
+                                        detailCubit.priceController.text =
+                                            widget.deal.salePrice.toString();
+                                        detailCubit.costController.text =
+                                            widget.deal.costPrice.toString();
+                                        detailCubit
+                                                .deliveryCostController.text =
+                                            widget.deal.deliveryPrice
+                                                .toString();
+                                        detailCubit.estimatedTimeFromController
+                                                .text =
+                                            widget
+                                                .deal.estimateDeliveryDateFrom;
+                                        detailCubit.estimatedTimeToController
+                                                .text =
+                                            widget.deal.estimateDeliveryTimeTo;
+                                        detailCubit.dealDuration.add(
+                                            DateTime.tryParse(DateConverter
+                                                .supabaseDateFormate(
+                                                    widget.deal.startDate)));
+                                        detailCubit.dealDuration.add(
+                                            DateTime.tryParse(DateConverter
+                                                .supabaseDateFormate(
+                                                    widget.deal.endDate)));
                                         customBottomSheet(
-                                            context: context, child: Text(""));
+                                            context: context,
+                                            child: AddDealForm(
+                                                dealNameController: detailCubit
+                                                    .dealNameController,
+                                                productController: detailCubit
+                                                    .productController,
+                                                quantityController: detailCubit
+                                                    .quantityController,
+                                                maxNumberController: detailCubit
+                                                    .maxNumberController,
+                                                dealStatusController:
+                                                    detailCubit
+                                                        .dealStatusController,
+                                                dealTypeController: detailCubit
+                                                    .dealTypeController,
+                                                dealDurationController:
+                                                    detailCubit
+                                                        .dealDurationController,
+                                                priceController:
+                                                    detailCubit.priceController,
+                                                costController:
+                                                    detailCubit.costController,
+                                                formKey: formKey,
+                                                add: () async {
+                                                  await detailCubit
+                                                      .updateDealEvent(
+                                                          dealId: widget
+                                                              .deal.dealId);
+                                                  Navigator.pop(context);
+                                                },
+                                                uploadImage: () {},
+                                                productsList: detailCubit
+                                                    .productLayer.products,
+                                                dealDuration: () async {
+                                                  final date =
+                                                      await showCalendarDatePicker2Dialog(
+                                                    context: context,
+                                                    config: CalendarDatePicker2WithActionButtonsConfig(
+                                                        firstDate:
+                                                            DateTime.now(),
+                                                        calendarType:
+                                                            CalendarDatePicker2Type
+                                                                .range),
+                                                    dialogSize: Size(
+                                                      context.getWidth(
+                                                          value: 0.5),
+                                                      context.getHeight(
+                                                          value: 0.5),
+                                                    ),
+                                                  );
+                                                  try {
+                                                    detailCubit.dealDuration =
+                                                        date!;
+                                                    detailCubit
+                                                            .dealDurationController
+                                                            .text =
+                                                        "${DateConverter.saDateFormate(detailCubit.dealDuration.first.toString())} الى ${DateConverter.saDateFormate(detailCubit.dealDuration.last.toString())}";
+                                                  } catch (e) {
+                                                    detailCubit
+                                                        .dealDurationController
+                                                        .clear();
+                                                  }
+                                                },
+                                                deliveryCostController:
+                                                    detailCubit
+                                                        .deliveryCostController,
+                                                estimatedTimeFromController:
+                                                    detailCubit
+                                                        .estimatedTimeFromController,
+                                                estimatedTimeToController:
+                                                    detailCubit
+                                                        .estimatedTimeToController));
                                       },
                                       icon: const Icon(
                                         Icons.edit,
@@ -217,8 +329,8 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                     .production_quantity_limits,
                                                 color: AppColor.primary,
                                               ),
-                                              Text(widget.deal.maxOrdersPerUser
-                                                  .toString()),
+                                              Text(
+                                                  " (${widget.deal.maxOrdersPerUser.toString()}) "),
                                               const Text("عدد لكل شخص")
                                             ],
                                           )
@@ -502,7 +614,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                       ),
                                       //Todo! to add payment status
                                       DataCell(CustomChips(
-                                        status: "need to fix",
+                                        status: "need payment",
                                         onTap: () async {
                                           await updateStatus(
                                               value: DropMenuList

@@ -6,7 +6,6 @@ import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/order_enums.dart';
 import 'package:kan_kan_admin/helper/payment_enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
-import 'package:kan_kan_admin/dummy_data/order_dummy.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:kan_kan_admin/model/product_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
@@ -170,7 +169,6 @@ class OrderScreen extends StatelessWidget {
                       DataColumn(
                         onSort: (columnIndex, ascending) {
                           if (ascending) {
-                            orderList = orderList.reversed.toList();
                           }
                         },
                         label: const Text("السعر"),

@@ -33,6 +33,7 @@ class DealCubit extends Cubit<DealState> {
   final TextEditingController estimatedTimeToController =
       TextEditingController();
 
+
   List<DateTime?> dealDuration = [];
   DealCubit() : super(DealInitial());
 

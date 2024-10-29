@@ -75,6 +75,13 @@ class AddDealForm extends StatelessWidget {
                 ),
                 Expanded(
                   child: CustomDropDownButton(
+                    value: productController.text.isNotEmpty
+                        ? productsList
+                            .firstWhere((product) =>
+                                product.productId.toString() ==
+                                productController.text)
+                            .productId
+                        : null,
                     hint: const Text("المنتج"),
                     validator: (value) =>
                         value == null || value.toString().isEmpty
@@ -137,6 +144,7 @@ class AddDealForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomDropDownButton(
+                    
                     validator: (value) =>
                         value == null || value.toString().isEmpty
                             ? "required"
