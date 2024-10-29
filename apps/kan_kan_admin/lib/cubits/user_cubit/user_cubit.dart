@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan_admin/data/repositories/users_repository.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
-import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:meta/meta.dart';
 
 part 'user_state.dart';
@@ -11,7 +10,7 @@ part 'user_state.dart';
 class UserCubit extends Cubit<UserState> {
   final userLayer = GetIt.I.get<UserLayer>();
   final TextEditingController userFullNameController = TextEditingController();
-  final TextEditingController userEmaileController = TextEditingController();
+  final TextEditingController userEmailController = TextEditingController();
   final TextEditingController userPhoneController = TextEditingController();
   final TextEditingController userBalanceController = TextEditingController();
 

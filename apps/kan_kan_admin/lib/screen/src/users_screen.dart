@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan_admin/cubits/user_cubit/user_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
 import 'package:kan_kan_admin/helper/enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
@@ -47,7 +44,7 @@ class UsersScreen extends StatelessWidget {
                                 userCubit.userFullNameController.text =
                                     userCubit
                                         .userLayer.usersList[index].fullName;
-                                userCubit.userEmaileController.text =
+                                userCubit.userEmailController.text =
                                     userCubit.userLayer.usersList[index].email;
                                 userCubit.userBalanceController.text = userCubit
                                     .userLayer.usersList[index].balance
@@ -67,7 +64,7 @@ class UsersScreen extends StatelessWidget {
                                           CustomTextField(
                                             title: "البريد الإلكتروني",
                                             controller:
-                                                userCubit.userEmaileController,
+                                                userCubit.userEmailController,
                                             readOnly: true,
                                           ),
                                           CustomTextField(
@@ -125,7 +122,6 @@ class UsersScreen extends StatelessWidget {
                                         .userLayer.usersList[index].phone),
                                   ),
                                 ),
-                                //DataCell(Text(userList[index].region!)),
                                 DataCell(CustomChips(
                                   status: UserStatusEnum.values.first.value,
                                   onTap: () async {
@@ -150,22 +146,22 @@ class UsersScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        columns: const [
+                        columns: [
                           DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
-                            // onSort: (columnIndex, ascending) {
-                            //   if (ascending) {
-                            //     userList.sort(
-                            //       (a, b) => a.userId.compareTo(b.userId),
-                            //     );
-                            //   } else {
-                            //     userList.sort(
-                            //         (a, b) => b.userId.compareTo(a.userId));
-                            //   }
-                            // },
-                            label: Text("#"),
+                            onSort: (columnIndex, ascending) {
+                              if (ascending) {
+                                userCubit.userLayer.usersList.sort(
+                                  (a, b) => a.userId.compareTo(b.userId),
+                                );
+                              } else {
+                                userCubit.userLayer.usersList.sort(
+                                    (a, b) => b.userId.compareTo(a.userId));
+                              }
+                            },
+                            label: const Text("#"),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             // onSort: (columnIndex, ascending) {
                             //   if (ascending) {
@@ -174,11 +170,11 @@ class UsersScreen extends StatelessWidget {
                             // },
                             label: Text("اسم"),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text("البريد"),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text("رقم الهاتف"),
                           ),
@@ -186,7 +182,7 @@ class UsersScreen extends StatelessWidget {
                           //   headingRowAlignment: MainAxisAlignment.center,
                           //   label: Text("منطقة"),
                           // ),
-                          DataColumn(
+                          const DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text("حالة المستخدم"),
                           ),

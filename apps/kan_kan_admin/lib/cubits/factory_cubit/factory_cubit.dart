@@ -56,4 +56,8 @@ class FactoryCubit extends Cubit<FactoryState> {
       emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
+
+  sortEvent() {
+    emit(SuccessState());
+  }
 }

@@ -186,15 +186,28 @@ class _FactoryScreenState extends State<FactoryScreen> {
                           ),
                         ),
                         columns: [
-                          const DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("المصنع"),
-                          ),
                           DataColumn(
                             onSort: (columnIndex, ascending) {
-                              if (ascending) {}
+                              
+
+                              if (ascending) {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) =>
+                                      a.factoryName.compareTo(b.factoryName),
+                                );
+                              } else {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) =>
+                                      b.factoryName.compareTo(a.factoryName),
+                                );
+                              }
+                              factoryCubit.sortEvent();
                             },
-                            label: const Text("ممثل المصنع"),
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: const Text("المصنع"),
+                          ),
+                          const DataColumn(
+                            label: Text("ممثل المصنع"),
                           ),
                           const DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
