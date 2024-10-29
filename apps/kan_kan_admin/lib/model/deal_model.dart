@@ -55,7 +55,7 @@ class DealModel {
   late String dealUrl;
   late ProductModel product;
   late int numberOfOrder;
-
+  late String trackingNumber;
   DealModel.fromJson(Map<String, dynamic> json) {
     dealId = json['deal_id'] ?? 0;
     dealTitle = json['deal_title'] ?? "";
@@ -75,6 +75,7 @@ class DealModel {
     dealUrl = json['deal_url'] ?? "";
     numberOfOrder = json['number_of_order'] ?? 0;
     product = ProductModel.fromJson(json['products']);
+    trackingNumber = json['tracking_number'] ?? "";
   }
 
   Map<String, dynamic> toJson({required int productId}) {
@@ -95,6 +96,7 @@ class DealModel {
     data['max_orders_per_user'] = maxOrdersPerUser;
     data['quantity'] = quantity;
     data['deal_url'] = dealUrl;
+    data['tracking_number'] = trackingNumber;
     return data;
   }
 
@@ -118,6 +120,7 @@ class DealModel {
     data['quantity'] = quantity;
     data['deal_url'] = dealUrl;
     data["number_of_order"] = numberOfOrder;
+    data['tracking_number'] = trackingNumber;
     return data;
   }
 }

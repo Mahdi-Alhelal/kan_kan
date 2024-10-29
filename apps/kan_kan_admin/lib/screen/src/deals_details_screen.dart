@@ -55,8 +55,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                         widget.deal.endDate) !=
                                     DateConverter.saDateFormate(
                                         DateTime.now().toIso8601String()))
-                                  if (widget.deal.numberOfOrder ==
-                                      widget.deal.quantity)
+                                  if (widget.deal.numberOfOrder == 0)
                                     IconButton(
                                       onPressed: () {
                                         detailCubit.dealNameController.text =
@@ -92,13 +91,17 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                 .text =
                                             widget.deal.estimateDeliveryTimeTo;
                                         detailCubit.dealDuration.add(
-                                            DateTime.tryParse(DateConverter
-                                                .supabaseDateFormate(
-                                                    widget.deal.startDate)));
+                                          DateTime.tryParse(
+                                            DateConverter.supabaseDateFormate(
+                                                widget.deal.startDate),
+                                          ),
+                                        );
                                         detailCubit.dealDuration.add(
-                                            DateTime.tryParse(DateConverter
-                                                .supabaseDateFormate(
-                                                    widget.deal.endDate)));
+                                          DateTime.tryParse(
+                                            DateConverter.supabaseDateFormate(
+                                                widget.deal.endDate),
+                                          ),
+                                        );
                                         customBottomSheet(
                                             context: context,
                                             child: AddDealForm(
