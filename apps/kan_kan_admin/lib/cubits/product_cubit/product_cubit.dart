@@ -13,16 +13,18 @@ import 'package:meta/meta.dart';
 part 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
+  //?-- data layer
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
 
+  //?-- supabase repository
   final api = DataRepository();
 
   //?-- controllers
   final TextEditingController productNameController = TextEditingController();
   final TextEditingController factoryNameController = TextEditingController();
   final TextEditingController modelNumberController = TextEditingController();
-  final TextEditingController wightController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
   final TextEditingController hightController = TextEditingController();
   final TextEditingController lengthController = TextEditingController();
   final TextEditingController widthController = TextEditingController();
@@ -34,18 +36,45 @@ class ProductCubit extends Cubit<ProductState> {
     await Future.delayed(Duration.zero);
     try {
       await api.addNewProduct(
-          product: ProductModel(
-              width: num.parse(widthController.text.trim()),
-              height: num.parse(hightController.text.trim()),
-              length: num.parse(lengthController.text.trim()),
-              wight: num.parse(wightController.text.trim()),
-              productId: 0,
-              defaultPrice: 0,
-              factory: FactoryModel.empty(),
-              productName: productNameController.text.trim(),
-              productDescription: descriptionController.text.trim(),
-              modelNumber: modelNumberController.text.trim()),
-          factoryId: int.parse(factoryNameController.text.trim()));
+        product: ProductModel(
+            width: num.parse(widthController.text.trim()),
+            height: num.parse(hightController.text.trim()),
+            length: num.parse(lengthController.text.trim()),
+            weight: num.parse(weightController.text.trim()),
+            productId: 0,
+            defaultPrice: 0,
+            factory: FactoryModel.empty(),
+            productName: productNameController.text.trim(),
+            productDescription: descriptionController.text.trim(),
+            modelNumber: modelNumberController.text.trim()),
+        factoryId: int.parse(factoryNameController.text.trim()),
+      );
+      emit(AddProductSuccessState());
+    } catch (errorMessage) {
+      log(errorMessage.toString());
+      emit(
+        ErrorState(errorMessage: errorMessage.toString()),
+      );
+    }
+  }
+
+  void updateProductEvent({required int productId}) async {
+    await Future.delayed(Duration.zero);
+    try {
+      await api.updateProduct(
+        product: ProductModel(
+            width: num.parse(widthController.text.trim()),
+            height: num.parse(hightController.text.trim()),
+            length: num.parse(lengthController.text.trim()),
+            weight: num.parse(weightController.text.trim()),
+            productId: productId,
+            defaultPrice: 0,
+            factory: FactoryModel.empty(),
+            productName: productNameController.text.trim(),
+            productDescription: descriptionController.text.trim(),
+            modelNumber: modelNumberController.text.trim()),
+        factoryId: int.parse(factoryNameController.text.trim()),
+      );
       emit(AddProductSuccessState());
     } catch (errorMessage) {
       log(errorMessage.toString());

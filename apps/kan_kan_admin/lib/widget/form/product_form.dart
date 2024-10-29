@@ -12,7 +12,7 @@ class ProductForm extends StatelessWidget {
       required this.productNameController,
       required this.factoryNameController,
       required this.modelNumberController,
-      required this.wightController,
+      required this.weightController,
       required this.hightController,
       required this.lengthController,
       required this.widthController,
@@ -20,12 +20,12 @@ class ProductForm extends StatelessWidget {
       required this.add,
       required this.uploadImage,
       this.formKey,
-      required this.factoryList});
+      required this.factoryList, required this.text});
 
   final TextEditingController productNameController;
   final TextEditingController factoryNameController;
   final TextEditingController modelNumberController;
-  final TextEditingController wightController;
+  final TextEditingController weightController;
   final TextEditingController hightController;
   final TextEditingController lengthController;
   final TextEditingController widthController;
@@ -34,6 +34,8 @@ class ProductForm extends StatelessWidget {
   final void Function()? add;
   final GlobalKey<FormState>? formKey;
   final List<FactoryModel> factoryList;
+  final String text;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -44,7 +46,7 @@ class ProductForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const FormDivider(text: "إضافة المنتج"),
+            FormDivider(text: text),
             Row(
               children: [
                 Expanded(
@@ -58,6 +60,13 @@ class ProductForm extends StatelessWidget {
                 ),
                 Expanded(
                   child: CustomDropDownButton(
+                    value: factoryNameController.text.isNotEmpty
+                        ? factoryList
+                            .firstWhere((factory) =>
+                                factory.factoryId.toString() ==
+                                factoryNameController.text)
+                            .factoryId
+                        : null,
                     validator: (value) =>
                         value == null ? "هذا الحقل مطلوب" : null,
                     onChanged: (value) =>
@@ -92,7 +101,7 @@ class ProductForm extends StatelessWidget {
                         ? "هذا الحقل مطلوي"
                         : null,
                     title: "وزن KG",
-                    controller: wightController,
+                    controller: weightController,
                   ),
                 ),
                 Expanded(

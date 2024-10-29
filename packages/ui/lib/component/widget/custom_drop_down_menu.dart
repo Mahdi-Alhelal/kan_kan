@@ -32,11 +32,16 @@ class CustomDropDownMenu extends StatelessWidget {
 
 class CustomDropDownButton extends StatelessWidget {
   const CustomDropDownButton(
-      {super.key, required this.items, this.onChanged, this.validator, this.hint});
+      {super.key,
+      required this.items,
+      this.onChanged,
+      this.validator,
+      this.hint, this.value});
   final List<DropdownMenuItem<dynamic>> items;
   final void Function(dynamic)? onChanged;
   final String? Function(dynamic)? validator;
   final Widget? hint;
+  final dynamic value;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -51,6 +56,7 @@ class CustomDropDownButton extends StatelessWidget {
         ),
         hint: hint,
         items: items,
+        value: value,
         onChanged: onChanged,
         validator: validator,
         dropdownColor: AppColor.white,

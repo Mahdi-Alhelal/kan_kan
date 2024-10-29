@@ -51,9 +51,10 @@ class _DealsScreenState extends State<DealsScreen> {
                       priceController: dealCubit.priceController,
                       costController: dealCubit.costController,
                       deliveryCostController: dealCubit.deliveryCostController,
-                      estimatedTimeToController: dealCubit.estimatedTimeToController,
-                      estimatedTimeFromController: dealCubit.estimatedTimeFromController,
-                      
+                      estimatedTimeToController:
+                          dealCubit.estimatedTimeToController,
+                      estimatedTimeFromController:
+                          dealCubit.estimatedTimeFromController,
                       formKey: formKey,
                       dealDuration: () async {
                         final date = await showCalendarDatePicker2Dialog(
@@ -74,7 +75,6 @@ class _DealsScreenState extends State<DealsScreen> {
                           dealCubit.dealDurationController.clear();
                         }
                       },
-                    
                       add: () {
                         if (formKey.currentState!.validate()) {
                           dealCubit.addDeal();
@@ -97,7 +97,9 @@ class _DealsScreenState extends State<DealsScreen> {
                           onLongPress: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const DealsDetailsScreen(),
+                              builder: (context) => DealsDetailsScreen(
+                                deal: dealCubit.dealLayer.deals[index],
+                              ),
                             ),
                           ),
                           color: WidgetStateProperty.all(AppColor.white),

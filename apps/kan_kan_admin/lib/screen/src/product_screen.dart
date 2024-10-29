@@ -17,7 +17,7 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
- final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -32,14 +32,15 @@ class _ProductScreenState extends State<ProductScreen> {
                 onPressed: () {
                   customBottomSheet(
                     context: context,
-                    child: ProductForm(
+                    child: ProductForm( 
+                      text:  "إضافة المنتج",
                       factoryList: productCubit.factoryLayer.factories,
                       formKey: formKey,
                       descriptionController: productCubit.descriptionController,
                       productNameController: productCubit.productNameController,
                       factoryNameController: productCubit.factoryNameController,
                       modelNumberController: productCubit.modelNumberController,
-                      wightController: productCubit.wightController,
+                      weightController: productCubit.weightController,
                       hightController: productCubit.hightController,
                       lengthController: productCubit.lengthController,
                       widthController: productCubit.widthController,
@@ -68,8 +69,101 @@ class _ProductScreenState extends State<ProductScreen> {
                               cells: [
                                 DataCell(
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          productCubit
+                                                  .descriptionController.text =
+                                              productCubit
+                                                  .productLayer
+                                                  .products[index]
+                                                  .productDescription;
+                                          productCubit
+                                                  .productNameController.text =
+                                              productCubit.productLayer
+                                                  .products[index].productName;
+
+                                          productCubit
+                                                  .modelNumberController.text =
+                                              productCubit.productLayer
+                                                  .products[index].modelNumber;
+
+                                          productCubit.weightController.text =
+                                              productCubit.productLayer
+                                                  .products[index].weight
+                                                  .toString();
+
+                                          productCubit.hightController.text =
+                                              productCubit.productLayer
+                                                  .products[index].height
+                                                  .toString();
+
+                                          productCubit.lengthController.text =
+                                              productCubit.productLayer
+                                                  .products[index].length
+                                                  .toString();
+
+                                          productCubit.widthController.text =
+                                              productCubit.productLayer
+                                                  .products[index].width
+                                                  .toString();
+                                          productCubit
+                                                  .factoryNameController.text =
+                                              productCubit
+                                                  .productLayer
+                                                  .products[index]
+                                                  .factory
+                                                  .factoryId
+                                                  .toString();
+                                          customBottomSheet(
+                                            context: context,
+                                            child: ProductForm(
+                                              text:  "تعديل المنتج",
+                                              factoryList: productCubit
+                                                  .factoryLayer.factories,
+                                              formKey: formKey,
+                                              descriptionController:
+                                                  productCubit
+                                                      .descriptionController,
+                                              productNameController:
+                                                  productCubit
+                                                      .productNameController,
+                                              factoryNameController:
+                                                  productCubit
+                                                      .factoryNameController,
+                                              modelNumberController:
+                                                  productCubit
+                                                      .modelNumberController,
+                                              weightController:
+                                                  productCubit.weightController,
+                                              hightController:
+                                                  productCubit.hightController,
+                                              lengthController:
+                                                  productCubit.lengthController,
+                                              widthController:
+                                                  productCubit.widthController,
+                                              add: () {
+                                                if (formKey.currentState!
+                                                    .validate()) {
+                                                  productCubit
+                                                      .updateProductEvent(
+                                                          productId:
+                                                              productCubit
+                                                                  .productLayer
+                                                                  .products[
+                                                                      index]
+                                                                  .productId,
+                                                                  );
+                                                  Navigator.pop(context);
+                                                }
+                                              },
+                                              uploadImage: () {},
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(Icons.edit),
+                                      ),
                                       Text(
                                           "${productCubit.productLayer.products[index].productName}\n${productCubit.productLayer.products[index].productId}")
                                     ],

@@ -11,7 +11,7 @@ class ProductModel {
       required this.productName,
       required this.productDescription,
       required this.modelNumber,
-      required this.wight});
+      required this.weight});
   ProductModel.noFactory(
       {required this.width,
       required this.height,
@@ -21,11 +21,11 @@ class ProductModel {
       required this.productName,
       required this.productDescription,
       required this.modelNumber,
-      required this.wight});
+      required this.weight});
   late num width;
   late num height;
   late num length;
-  late num wight;
+  late num weight;
   late FactoryModel factory;
   late final int productId;
   late num defaultPrice;
@@ -38,7 +38,7 @@ class ProductModel {
     width = json['width'] ?? 0;
     height = json['height'] ?? 0;
     length = json['length'] ?? 0;
-    wight = json["wight"] ?? 0;
+    weight = json["wight"] ?? 0;
     modelNumber = json['model_number'] ?? "";
     factory = FactoryModel.fromJson(json['factories']);
     defaultPrice = json['default_price'] ?? 0.0;
@@ -51,7 +51,7 @@ class ProductModel {
     data['width'] = width;
     data['height'] = height;
     data['length'] = length;
-    data["wight"] = wight;
+    data["weight"] = weight;
     data['factory_id'] = factoryId;
     data['default_price'] = defaultPrice;
     data['product_name'] = productName;
@@ -66,7 +66,7 @@ class ProductModel {
     data['width'] = width;
     data['height'] = height;
     data['length'] = length;
-    data["wight"] = wight;
+    data["weight"] = weight;
     data['factory'] = factory.toJson();
     data['product_id'] = productId;
     data['default_price'] = defaultPrice;

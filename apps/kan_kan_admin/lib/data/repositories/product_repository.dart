@@ -30,7 +30,7 @@ mixin ProductRepository {
   *
   * */
 
-  static updateProduct(
+   updateProduct(
       {required ProductModel product, required int factoryId}) async {
     try {
       await KanSupabase.supabase.client
