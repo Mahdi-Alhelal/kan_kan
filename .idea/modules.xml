@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/packages/helper/melos_helper.iml" filepath="$PROJECT_DIR$/packages/helper/melos_helper.iml" />
       <module fileurl="file://$PROJECT_DIR$/apps/kan_kan/melos_kan_kan.iml" filepath="$PROJECT_DIR$/apps/kan_kan/melos_kan_kan.iml" />
       <module fileurl="file://$PROJECT_DIR$/apps/kan_kan_admin/melos_kan_kan_admin.iml" filepath="$PROJECT_DIR$/apps/kan_kan_admin/melos_kan_kan_admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apps/kan_kan/build/app/intermediates/flutter/debug/flutter_assets/packages/pay_platform_interface/melos_pay_platform_interface.iml" filepath="$PROJECT_DIR$/apps/kan_kan/build/app/intermediates/flutter/debug/flutter_assets/packages/pay_platform_interface/melos_pay_platform_interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/ui/melos_ui.iml" filepath="$PROJECT_DIR$/packages/ui/melos_ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_kan_kan.iml" filepath="$PROJECT_DIR$/melos_kan_kan.iml" />
     </modules>

@@ -15,4 +15,9 @@ class DateConverter {
   static supabaseDateFormate(String date) {
     return _supaDateFormate.format(DateTime.parse(date)).toString();
   }
+
+  static int differenceInDays(
+      {required DateTime startDate, required DateTime endDate}) {
+    return endDate.difference(startDate).inDays + 1;
+  }
 }

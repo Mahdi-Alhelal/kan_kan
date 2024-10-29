@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan/model/deal_model.dart';
 import 'package:ui/ui.dart';
+import 'package:helper/helper.dart';
 
 class DealCard extends StatelessWidget {
-  const DealCard({super.key, required this.onTap});
-
+  const DealCard({super.key, required this.onTap, required this.dealData});
+  final DealModel dealData;
   final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
+    DateTime startDate = DateTime.now();
+    DateTime endDate = DateTime.parse(dealData.endDate);
+
+    int daysInterval =
+        DateConverter.differenceInDays(endDate: endDate, startDate: startDate);
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -42,9 +49,9 @@ class DealCard extends StatelessWidget {
                     const SizedBox(height: 5),
                     Row(
                       children: [
-                        const Text(
-                          'تلفزيون 75 بوصة',
-                          style: TextStyle(
+                        Text(
+                          dealData.dealTitle,
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: AppColor.primary),
@@ -57,27 +64,27 @@ class DealCard extends StatelessWidget {
                             color: Colors.redAccent,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.calendar_month,
                                 size: 20,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
-                                '100 يوم/أيام',
-                                style: TextStyle(color: AppColor.white),
+                                '${daysInterval} يوم/أيام',
+                                style: const TextStyle(color: AppColor.white),
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    const Text(
-                      '1599 ريال',
-                      style: TextStyle(
+                    Text(
+                      '${dealData.salePrice} ريال',
+                      style: const TextStyle(
                         fontSize: 20,
                         color: AppColor.secondary,
                       ),
@@ -88,19 +95,20 @@ class DealCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: LinearProgressIndicator(
-                  value: 15 / 20,
+                  value: dealData.numberOfOrder / dealData.quantity,
                   backgroundColor: AppColor.bg,
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColor.primary),
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(AppColor.primary),
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
-                '15/20',
-                style: TextStyle(
+                '${dealData.numberOfOrder} / ${dealData.quantity} ',
+                style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black,
                 ),

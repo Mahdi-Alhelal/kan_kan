@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
+import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 
@@ -82,20 +83,20 @@ class DealsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  DealCard(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DealDetailsScreen()));
-                    },
-                  ),
-                  DealCard(onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DealDetailsScreen()));
-                  }),
+                  // DealCard(
+                  //   onTap: () {
+                  //     // Navigator.push(
+                  //     //     context,
+                  //     //     MaterialPageRoute(
+                  //     //         builder: (context) => const DealDetailsScreen()));
+                  //   },
+                  // ),
+                  // DealCard(onTap: () {
+                  //   // Navigator.push(
+                  //   //     context,
+                  //   //     MaterialPageRoute(
+                  //   //         builder: (context) => const DealDetailsScreen()));
+                  // }, dealData: null,),
                 ],
               ),
             ],
