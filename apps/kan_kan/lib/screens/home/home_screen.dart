@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_kan/cubit/home_cubit/home_cubit.dart';
+import 'package:kan_kan/screens/home/deals_screen.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
+import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:ui/ui.dart';
 
 import 'deal_details_screen.dart';
@@ -9,110 +13,123 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfileScreen()));
-                },
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: AppColor.black.withOpacity(20 / 100),
-                    child: Icon(
-                      Icons.person,
-                      color: AppColor.white,
-                    ),
-                  ),
-                  title: Text(
-                    "مرحباً بعودتك ، 👋",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    "علي التاروتي",
-                    style: TextStyle(color: AppColor.secondary),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return BlocProvider(
+      create: (context) => HomeCubit(),
+      child: Builder(builder: (context) {
+        final homeCubit = context.read<HomeCubit>();
+
+        return Scaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: AppColor.primary,
-                        borderRadius: BorderRadius.circular(8)),
-                    width: 100,
-                    height: 50,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "الأجهزة التقنية",
-                      style: TextStyle(color: AppColor.white),
-                    ),
+                  const SizedBox(
+                    height: 20,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: AppColor.secondary,
-                        borderRadius: BorderRadius.circular(8)),
-                    width: 100,
-                    height: 50,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "الأثاث",
-                      style: TextStyle(color: AppColor.white),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: AppColor.primary,
-                        borderRadius: BorderRadius.circular(8)),
-                    width: 100,
-                    height: 50,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "قريباً",
-                      style: TextStyle(color: AppColor.white),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  DealCard(
+                  GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const DealDetailsScreen()));
+                              builder: (context) => const ProfileScreen()));
+                    },
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: AppColor.black.withOpacity(20 / 100),
+                        child: Icon(
+                          Icons.person,
+                          color: AppColor.white,
+                        ),
+                      ),
+                      title: Text(
+                        "مرحباً بعودتك ، 👋",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        "علي التاروتي",
+                        style: TextStyle(color: AppColor.secondary),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: AppColor.primary,
+                            borderRadius: BorderRadius.circular(8)),
+                        width: 100,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "الأجهزة التقنية",
+                          style: TextStyle(color: AppColor.white),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: AppColor.secondary,
+                            borderRadius: BorderRadius.circular(8)),
+                        width: 100,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "الأثاث",
+                          style: TextStyle(color: AppColor.white),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: AppColor.primary,
+                            borderRadius: BorderRadius.circular(8)),
+                        width: 100,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "قريباً",
+                          style: TextStyle(color: AppColor.white),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      if (state is SuccessHomeState) {
+                        return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: homeCubit.dealLayer.deals.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return DealCard(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DealDetailsScreen(
+                                              dealData: homeCubit
+                                                  .dealLayer.deals[index],
+                                            )));
+                              },
+                              dealData: homeCubit.dealLayer.deals[index],
+                            );
+                          },
+                        );
+                      }
+                      return CircularProgressIndicator();
                     },
                   ),
-                  DealCard(onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DealDetailsScreen()));
-                  }),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

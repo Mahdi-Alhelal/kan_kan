@@ -13,8 +13,10 @@ dependencies:
   ui: ^0.0.1
   flutter_dotenv: ^5.2.1
   moyasar: ^2.0.13
+  supabase_flutter: ^2.8.0
+  get_it: ^8.0.1
+  helper: 1.0.0
 
-  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -30,6 +32,7 @@ flutter:
     - assets/images/
     - assets/images/logo/
     - assets/images/products-sample/
+    - .env
   fonts:
      - family: Tajawal
        fonts:

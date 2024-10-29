@@ -82,20 +82,20 @@ class MyDealsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  DealCard(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DealDetailsScreen()));
-                    },
-                  ),
-                  DealCard(onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DealDetailsScreen()));
-                  }),
+                  // DealCard(
+                  //   onTap: () {
+                  //     // Navigator.push(
+                  //     //     context,
+                  //     //     MaterialPageRoute(
+                  //     //         builder: (context) => const DealDetailsScreen()));
+                  //   },
+                  // ),
+                  // DealCard(onTap: () {
+                  //   // Navigator.push(
+                  //   //     context,
+                  //   //     MaterialPageRoute(
+                  //   //         builder: (context) => const DealDetailsScreen()));
+                  // }),
                 ],
               ),
             ],
