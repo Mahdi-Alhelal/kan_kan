@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kan_kan/cubit/address_cubit/address_cubit.dart';
+import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/order_screen.dart';
 import 'package:kan_kan/screens/sucess_payment_screen.dart.dart';
+import 'package:kan_kan/widgets/custom_choice_chip.dart';
 import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 
 class PrePaymentScreen extends StatelessWidget {
-  const PrePaymentScreen({super.key});
+  const PrePaymentScreen(
+      {super.key, required this.dealData, required this.items});
+  final DealModel dealData;
+  final int items;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +58,7 @@ class PrePaymentScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 "باقي خطوة واحدة :)",
                 style: TextStyle(fontSize: 20),
               ),
@@ -69,34 +76,34 @@ class PrePaymentScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "رقم الصفقة",
                             style: TextStyle(
                                 fontSize: 20, color: AppColor.primary),
                           ),
                           Text(
-                            "#1001",
-                            style: TextStyle(
+                            "#${dealData.dealId}",
+                            style: const TextStyle(
                                 fontSize: 20, color: AppColor.primary),
                           )
                         ],
                       ),
                       Image.asset(
                           "assets/images/products-sample/tv-sample.png"),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "تلفزيون 75 بوصة",
-                            style: TextStyle(
+                            dealData.dealTitle,
+                            style: const TextStyle(
                                 fontSize: 20, color: AppColor.primary),
                           ),
                           Text(
-                            "2x",
-                            style: TextStyle(
+                            "${items}x",
+                            style: const TextStyle(
                                 fontSize: 20, color: AppColor.secondary),
                           )
                         ],
@@ -104,34 +111,37 @@ class PrePaymentScreen extends StatelessWidget {
                       const Divider(
                         color: AppColor.bg,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("السعر"), Text("1399 ريال")],
+                        children: [
+                          const Text("السعر"),
+                          Text("${dealData.salePrice * items} ريال")
+                        ],
                       ),
                       const Divider(
                         color: AppColor.bg,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("رسوم التوصيل والجمارك"),
-                          Text("300 ريال")
+                          const Text("رسوم التوصيل والجمارك"),
+                          Text("${dealData.deliveryPrice * items} ريال")
                         ],
                       ),
                       const Divider(
                         color: AppColor.bg,
                         thickness: 1,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "الإجمالي",
                             style: TextStyle(
                                 color: AppColor.secondary, fontSize: 16),
                           ),
-                          Text("2000 ريال",
-                              style: TextStyle(
+                          Text("${dealData.totalPrice * items} ريال",
+                              style: const TextStyle(
                                   color: AppColor.secondary, fontSize: 16))
                         ],
                       )
@@ -139,30 +149,41 @@ class PrePaymentScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
                   width: context.getWidth(value: 0.75),
-                  height: context.getHeight(value: 0.20),
+                  height: context.getHeight(value: 0.50),
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: AppColor.white),
-                  child: Column(
-                    children: [
-                      Text(
-                        "المنطقة",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      //dropdownList
-                      CustomTextField(title: "المنطقة"),
-                    ],
+                  child: BlocProvider(
+                    create: (context) => AddressCubit(),
+                    child: Builder(builder: (context) {
+                      final address_cubit = context.read<AddressCubit>();
+                      address_cubit.fetchAddressEvent(
+                          userID: "83efec21-2fc7-416e-9825-a86a8af3a63a");
+                      return const Column(
+                        children: [
+                          Text(
+                            "المنطقة",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          //dropdownList
+                          //CustomTextField(title: "المنطقة"),
+                          CustomChoiceChip(title: "aaa", isSelected: true),
+                          CustomChoiceChip(title: "bbb", isSelected: false),
+                          CustomChoiceChip(title: "ccc", isSelected: false)
+                        ],
+                      );
+                    }),
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -195,7 +216,7 @@ class PrePaymentScreen extends StatelessWidget {
                       },
                     );
                   },
-                  child: Text("إدفع الآن"),
+                  child: const Text("إدفع الآن"),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -203,17 +224,18 @@ class PrePaymentScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => OrderScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const OrderScreen()),
                     );
                   },
-                  child: Text("تجربة"))
+                  child: const Text("تجربة"))
             ],
           ),
         ),
