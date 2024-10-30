@@ -32,8 +32,8 @@ class _ProductScreenState extends State<ProductScreen> {
                 onPressed: () {
                   customBottomSheet(
                     context: context,
-                    child: ProductForm( 
-                      text:  "إضافة المنتج",
+                    child: ProductForm(
+                      text: "إضافة المنتج",
                       factoryList: productCubit.factoryLayer.factories,
                       formKey: formKey,
                       descriptionController: productCubit.descriptionController,
@@ -60,6 +60,8 @@ class _ProductScreenState extends State<ProductScreen> {
                     child: CustomTableTheme(
                       child: PaginatedDataTable(
                         showEmptyRows: false,
+                        sortColumnIndex: productCubit.columnIndex,
+                        sortAscending: productCubit.sort,
                         source: TableDataRow(
                           length: productCubit.productLayer.products.length,
                           customRow: List.generate(
@@ -119,7 +121,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                           customBottomSheet(
                                             context: context,
                                             child: ProductForm(
-                                              text:  "تعديل المنتج",
+                                              text: "تعديل المنتج",
                                               factoryList: productCubit
                                                   .factoryLayer.factories,
                                               formKey: formKey,
@@ -148,13 +150,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                                     .validate()) {
                                                   productCubit
                                                       .updateProductEvent(
-                                                          productId:
-                                                              productCubit
-                                                                  .productLayer
-                                                                  .products[
-                                                                      index]
-                                                                  .productId,
-                                                                  );
+                                                    productId: productCubit
+                                                        .productLayer
+                                                        .products[index]
+                                                        .productId,
+                                                  );
                                                   Navigator.pop(context);
                                                 }
                                               },
@@ -181,18 +181,66 @@ class _ProductScreenState extends State<ProductScreen> {
                             ),
                           ),
                         ),
-                        columns: const [
+                        columns: [
                           DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text("المنتج"),
+                            onSort: (columnIndex, ascending) {
+                              if (productCubit.sort) {
+                                productCubit.productLayer.products.sort(
+                                  (a, b) =>
+                                      a.productName.compareTo(b.productName),
+                                );
+                              } else {
+                                productCubit.productLayer.products.sort(
+                                  (a, b) =>
+                                      b.productName.compareTo(a.productName),
+                                );
+                              }
+                              productCubit.columnIndex = columnIndex;
+                              productCubit.sort = !productCubit.sort;
+                              productCubit.sortEvent();
+                            },
                           ),
                           DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text("مصنع"),
+                            onSort: (columnIndex, ascending) {
+                              if (productCubit.sort) {
+                                productCubit.productLayer.products.sort(
+                                  (a, b) => a.factory.factoryName
+                                      .compareTo(b.factory.factoryName),
+                                );
+                              } else {
+                                productCubit.productLayer.products.sort(
+                                  (a, b) => b.factory.factoryName
+                                      .compareTo(a.factory.factoryName),
+                                );
+                              }
+                              productCubit.columnIndex = columnIndex;
+                              productCubit.sort = !productCubit.sort;
+                              productCubit.sortEvent();
+                            },
                           ),
                           DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text("رقم الموديل "),
+                            onSort: (columnIndex, ascending) {
+                              if (productCubit.sort) {
+                                productCubit.productLayer.products.sort(
+                                  (a, b) =>
+                                      a.modelNumber.compareTo(b.modelNumber),
+                                );
+                              } else {
+                                productCubit.productLayer.products.sort(
+                                  (a, b) =>
+                                      b.modelNumber.compareTo(a.modelNumber),
+                                );
+                              }
+                              productCubit.columnIndex = columnIndex;
+                              productCubit.sort = !productCubit.sort;
+                              productCubit.sortEvent();
+                            },
                           ),
                         ],
                       ),

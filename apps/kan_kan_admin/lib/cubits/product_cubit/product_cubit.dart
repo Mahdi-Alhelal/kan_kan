@@ -30,6 +30,10 @@ class ProductCubit extends Cubit<ProductState> {
   final TextEditingController widthController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
+  //?-- table sorting
+  bool sort = true;
+  int columnIndex = 0;
+
   ProductCubit() : super(ProductInitial());
 
   void addProduct() async {
@@ -75,12 +79,16 @@ class ProductCubit extends Cubit<ProductState> {
             modelNumber: modelNumberController.text.trim()),
         factoryId: int.parse(factoryNameController.text.trim()),
       );
-      emit(AddProductSuccessState());
+      emit(UpdateProductSuccessState());
     } catch (errorMessage) {
       log(errorMessage.toString());
       emit(
         ErrorState(errorMessage: errorMessage.toString()),
       );
     }
+  }
+
+  sortEvent() {
+    emit(SortSuccessState());
   }
 }

@@ -6,6 +6,10 @@ sealed class ProductState {}
 final class ProductInitial extends ProductState {}
 
 final class AddProductSuccessState extends ProductState {}
+final class UpdateProductSuccessState extends ProductState {}
+
+final class SortSuccessState extends ProductState {}
+
 
 final class ErrorState extends ProductState {
   final String errorMessage;
