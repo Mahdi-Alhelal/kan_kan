@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
+import 'package:kan_kan/cubit/deal_deatails_cubit/deal_details_cubit.dart';
+import 'package:kan_kan/helper/colors_deal.dart';
+import 'package:kan_kan/helper/deal_enums.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/auth/register_screen.dart';
 import 'package:kan_kan/screens/pre_payment_screen.dart';
@@ -16,6 +20,11 @@ class DealDetailsScreen extends StatelessWidget {
     String strEndDate = DateConverter.saDateFormate(dealData.endDate);
     DateTime startDate = DateTime.now();
     DateTime endDate = DateTime.parse(dealData.endDate);
+    String languageCode = Localizations.localeOf(context).languageCode;
+    DealEnums dealStatus =
+        EnumDealsHelper.stringToDealStatus(dealData.dealStatus);
+    String localizedDealStatus =
+        LocalizedDealsEnums.getDealsStatusName(dealStatus, languageCode);
 
     int daysInterval =
         DateConverter.differenceInDays(endDate: endDate, startDate: startDate);
@@ -38,30 +47,42 @@ class DealDetailsScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8, right: 8),
                 child: Row(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 2),
-                      width: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_month,
-                            size: 20,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${daysInterval} يوم/أيام',
-                            style: const TextStyle(color: AppColor.white),
-                          ),
-                        ],
-                      ),
-                    ),
+                    dealData.dealStatus != "active"
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: getDealEnumColor(dealStatus),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              localizedDealStatus,
+                              style: const TextStyle(color: AppColor.white),
+                            ),
+                          )
+                        : Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.calendar_month,
+                                  size: 20,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '${daysInterval} يوم/أيام',
+                                  style: const TextStyle(color: AppColor.white),
+                                ),
+                              ],
+                            ),
+                          )
                   ],
                 ),
               ),
@@ -84,37 +105,6 @@ class DealDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Container(
-              //         width: context.getWidth(value: 0.45),
-              //         height: 35,
-              //         alignment: Alignment.center,
-              //         decoration: BoxDecoration(
-              //             color: AppColor.secondary,
-              //             borderRadius: BorderRadius.circular(8),
-              //             border: Border.all(color: AppColor.secondary)),
-              //         child: Text(
-              //           "تفاصيل الصفقة",
-              //           style: TextStyle(color: AppColor.white),
-              //         ),
-              //       ),
-              //       Container(
-              //         width: context.getWidth(value: 0.45),
-              //         height: 35,
-              //         alignment: Alignment.center,
-              //         decoration: BoxDecoration(
-              //             color: AppColor.white,
-              //             borderRadius: BorderRadius.circular(8),
-              //             border: Border.all(color: AppColor.secondary)),
-              //         child: Text("تفاصيل المنتج"),
-              //       )
-              //     ],
-              //   ),
-              // ),
               Container(
                 width: context.getWidth(),
                 height: 35,
@@ -140,7 +130,7 @@ class DealDetailsScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
+                child: SizedBox(
                   width: context.getWidth(),
                   height: 150,
                   child: TabBarView(children: [
@@ -301,43 +291,78 @@ class DealDetailsScreen extends StatelessWidget {
                   ]),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    width: context.getWidth(value: 0.3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: AppColor.secondary),
-                          child: const Icon(Icons.add),
-                        ),
-                        const Text("1"),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: AppColor.secondary),
-                          child: const Icon(Icons.remove),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: context.getWidth(value: 0.6),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const PrePaymentScreen()),
-                          );
-                        },
-                        child: const Text("إنضمام إلى الصفقة")),
-                  ),
-                ],
+              BlocProvider(
+                create: (context) => DealDetailsCubit(),
+                child: Builder(builder: (context) {
+                  final dealDCubit = context.read<DealDetailsCubit>();
+                  return dealData.dealStatus == "active"
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              width: context.getWidth(value: 0.3),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      print("++++++${dealDCubit.index}");
+
+                                      dealDCubit.increseEvent(
+                                          maxOrderPerUser:
+                                              dealData.maxOrdersPerUser);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: AppColor.secondary),
+                                      child: const Icon(Icons.add),
+                                    ),
+                                  ),
+                                  BlocBuilder<DealDetailsCubit,
+                                      DealDetailsState>(
+                                    builder: (context, state) {
+                                      return Text(dealDCubit.index.toString());
+                                    },
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      print("------${dealDCubit.index}");
+                                      dealDCubit.decreseEvent();
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: AppColor.secondary),
+                                      child: const Icon(Icons.remove),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: context.getWidth(value: 0.6),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PrePaymentScreen(
+                                                dealData: dealData,
+                                                items: dealDCubit.index,
+                                              )),
+                                    );
+                                  },
+                                  child: const Text("إنضمام إلى الصفقة")),
+                            )
+                          ],
+                        )
+                      : SizedBox();
+                }),
               )
             ],
           )),

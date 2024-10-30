@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kan_kan/helper/colors_deal.dart';
+import 'package:kan_kan/helper/deal_enums.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:ui/ui.dart';
 import 'package:helper/helper.dart';
@@ -12,7 +14,11 @@ class DealCard extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime startDate = DateTime.now();
     DateTime endDate = DateTime.parse(dealData.endDate);
-
+    String languageCode = Localizations.localeOf(context).languageCode;
+    DealEnums dealStatus =
+        EnumDealsHelper.stringToDealStatus(dealData.dealStatus);
+    String localizedDealStatus =
+        LocalizedDealsEnums.getDealsStatusName(dealStatus, languageCode);
     int daysInterval =
         DateConverter.differenceInDays(endDate: endDate, startDate: startDate);
     return Container(
@@ -57,29 +63,43 @@ class DealCard extends StatelessWidget {
                               color: AppColor.primary),
                         ),
                         const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.redAccent,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.calendar_month,
-                                size: 20,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '${daysInterval} يوم/أيام',
-                                style: const TextStyle(color: AppColor.white),
-                              ),
-                            ],
-                          ),
-                        ),
+                        dealData.dealStatus != "active"
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: getDealEnumColor(dealStatus),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  localizedDealStatus,
+                                  style: const TextStyle(color: AppColor.white),
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: Colors.redAccent,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.calendar_month,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      '${daysInterval} يوم/أيام',
+                                      style: const TextStyle(
+                                          color: AppColor.white),
+                                    ),
+                                  ],
+                                ),
+                              )
                       ],
                     ),
                     Text(
