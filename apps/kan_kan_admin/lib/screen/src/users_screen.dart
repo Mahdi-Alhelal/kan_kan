@@ -32,6 +32,8 @@ class UsersScreen extends StatelessWidget {
                     return CustomTableTheme(
                       child: PaginatedDataTable(
                         showEmptyRows: false,
+                        sortAscending: userCubit.sort,
+                        sortColumnIndex: userCubit.columnIndex,
                         source: TableDataRow(
                           length: userCubit.userLayer.usersList.length,
                           customRow: List.generate(
@@ -98,7 +100,9 @@ class UsersScreen extends StatelessWidget {
                                                           .userBalanceController
                                                           .text);
                                                   print("done");
-                                                  Navigator.pop(context);
+                                                  if (context.mounted) {
+                                                    Navigator.pop(context);
+                                                  }
                                                 },
                                                 child: const Text("حفظ")),
                                           )
@@ -150,7 +154,7 @@ class UsersScreen extends StatelessWidget {
                           DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             onSort: (columnIndex, ascending) {
-                              if (ascending) {
+                              if (userCubit.sort) {
                                 userCubit.userLayer.usersList.sort(
                                   (a, b) => a.userId.compareTo(b.userId),
                                 );
@@ -158,33 +162,80 @@ class UsersScreen extends StatelessWidget {
                                 userCubit.userLayer.usersList.sort(
                                     (a, b) => b.userId.compareTo(a.userId));
                               }
+                              userCubit.sort = !userCubit.sort;
+                              userCubit.columnIndex = columnIndex;
+                              userCubit.sortEvent();
                             },
                             label: const Text("#"),
                           ),
-                          const DataColumn(
+                          DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
-                            // onSort: (columnIndex, ascending) {
-                            //   if (ascending) {
-                            //     userList = userList.reversed.toList();
-                            //   }
-                            // },
-                            label: Text("اسم"),
+                            onSort: (columnIndex, ascending) {
+                              if (userCubit.sort) {
+                                userCubit.userLayer.usersList.sort(
+                                  (a, b) => a.fullName.compareTo(b.fullName),
+                                );
+                              } else {
+                                userCubit.userLayer.usersList.sort(
+                                    (a, b) => b.fullName.compareTo(a.fullName));
+                              }
+                              userCubit.sort = !userCubit.sort;
+                              userCubit.columnIndex = columnIndex;
+                              userCubit.sortEvent();
+                            },
+                            label: const Text("اسم"),
                           ),
-                          const DataColumn(
+                          DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("البريد"),
+                            label: const Text("البريد"),
+                            onSort: (columnIndex, ascending) {
+                              if (userCubit.sort) {
+                                userCubit.userLayer.usersList.sort(
+                                  (a, b) => a.email.compareTo(b.email),
+                                );
+                              } else {
+                                userCubit.userLayer.usersList
+                                    .sort((a, b) => b.email.compareTo(a.email));
+                              }
+                              userCubit.sort = !userCubit.sort;
+                              userCubit.columnIndex = columnIndex;
+                              userCubit.sortEvent();
+                            },
                           ),
-                          const DataColumn(
+                          DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("رقم الهاتف"),
+                            label: const Text("رقم الهاتف"),
+                            onSort: (columnIndex, ascending) {
+                              if (userCubit.sort) {
+                                userCubit.userLayer.usersList.sort(
+                                  (a, b) => a.phone.compareTo(b.phone),
+                                );
+                              } else {
+                                userCubit.userLayer.usersList
+                                    .sort((a, b) => b.phone.compareTo(a.phone));
+                              }
+                              userCubit.sort = !userCubit.sort;
+                              userCubit.columnIndex = columnIndex;
+                              userCubit.sortEvent();
+                            },
                           ),
-                          // DataColumn(
-                          //   headingRowAlignment: MainAxisAlignment.center,
-                          //   label: Text("منطقة"),
-                          // ),
-                          const DataColumn(
+                          DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
                             label: Text("حالة المستخدم"),
+                            onSort: (columnIndex, ascending) {
+                              if (userCubit.sort) {
+                                userCubit.userLayer.usersList.sort(
+                                  (a, b) =>
+                                      a.userStatus.compareTo(b.userStatus),
+                                );
+                              } else {
+                                userCubit.userLayer.usersList.sort((a, b) =>
+                                    b.userStatus.compareTo(a.userStatus));
+                              }
+                              userCubit.sort = !userCubit.sort;
+                              userCubit.columnIndex = columnIndex;
+                              userCubit.sortEvent();
+                            },
                           ),
                         ],
                       ),

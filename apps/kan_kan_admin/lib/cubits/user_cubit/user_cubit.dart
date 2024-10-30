@@ -9,11 +9,17 @@ part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
   final userLayer = GetIt.I.get<UserLayer>();
+
+  //?--controller
   final TextEditingController userFullNameController = TextEditingController();
   final TextEditingController userEmailController = TextEditingController();
   final TextEditingController userPhoneController = TextEditingController();
   final TextEditingController userBalanceController = TextEditingController();
 
+  //?-- table sort
+  bool sort = true;
+  int columnIndex = 0;
+  //?cubit
   UserCubit() : super(UserInitial());
 
   updateUserRoleEvent({required String userID, required String role}) {}
@@ -37,5 +43,9 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {
       print(e);
     }
+  }
+
+  sortEvent() {
+    emit(SuccessSortState());
   }
 }
