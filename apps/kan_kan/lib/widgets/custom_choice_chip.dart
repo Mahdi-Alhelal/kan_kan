@@ -7,8 +7,8 @@ class CustomChoiceChip extends StatelessWidget {
       required this.title,
       required this.isSelected,
       this.lblColor = AppColor.white,
-      this.selectedColor = AppColor.primary,
-      this.backgroundColor = AppColor.secondary,
+      this.selectedColor = AppColor.secondary,
+      this.backgroundColor = AppColor.primary,
       this.onSelected});
   final String title;
   final bool isSelected;
@@ -24,10 +24,10 @@ class CustomChoiceChip extends StatelessWidget {
       selectedColor: selectedColor,
       backgroundColor: backgroundColor,
       side: BorderSide(
-          color: isSelected == true ? lblColor : AppColor.secondary,
+          color: isSelected == true ? lblColor : AppColor.primary,
           width: isSelected == true ? 2 : 1),
       labelStyle:
-          TextStyle(color: isSelected == true ? lblColor : AppColor.secondary),
+          TextStyle(color: isSelected == true ? lblColor : AppColor.white),
       showCheckmark: false,
       onSelected: onSelected,
     );
