@@ -7,7 +7,6 @@ import 'package:kan_kan_admin/helper/order_enums.dart';
 import 'package:kan_kan_admin/helper/payment_enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
-import 'package:kan_kan_admin/model/product_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:kan_kan_admin/screen/src/order_details_screen.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
@@ -78,9 +77,8 @@ class OrderScreen extends StatelessWidget {
                                 .getProductDeal(
                                     id: orderCubit
                                         .ordersData.orders[index].dealId);
-                            ProductModel orderProduct =
-                                orderCubit.userOrderProduct.getProductOrder(
-                                    id: orderDeal.product.productId);
+                            orderCubit.userOrderProduct.getProductOrder(
+                                id: orderDeal.product.productId);
                             String languageCode =
                                 Localizations.localeOf(context).languageCode;
 
