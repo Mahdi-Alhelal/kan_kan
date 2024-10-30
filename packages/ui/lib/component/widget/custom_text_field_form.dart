@@ -25,6 +25,8 @@ class CustomTextFieldForm extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        scrollPadding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 50),
         validator: validator,
         readOnly: readOnly,
         inputFormatters: inputFormatters,
