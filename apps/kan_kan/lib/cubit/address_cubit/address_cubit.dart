@@ -9,6 +9,7 @@ part 'address_state.dart';
 class AddressCubit extends Cubit<AddressState> {
   AddressCubit() : super(AddressInitial());
   final addressLayer = GetIt.I.get<AddressLayer>();
+  int address = 1;
 
   fetchAddressEvent({required String userID}) async {
     Future.delayed(Duration.zero);
@@ -21,5 +22,9 @@ class AddressCubit extends Cubit<AddressState> {
     } catch (e) {
       if (!isClosed) emit(ErrorAddressState());
     }
+  }
+
+  updateChipEvent() {
+    emit(SuccessAddressState());
   }
 }

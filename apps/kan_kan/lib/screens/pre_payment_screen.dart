@@ -19,9 +19,14 @@ class PrePaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    toInteger({required num amount}) {
+      int amountInt = (amount * 100).toInt();
+      return amountInt;
+    }
+
     final paymentConfig = PaymentConfig(
         publishableApiKey: "pk_test_eMwVbFMRpumqb8dxpcU2fTQwv6MFavNZLPuNgjhj",
-        amount: 25758, // SAR 257.58
+        amount: toInteger(amount: dealData.totalPrice * items), // SAR 257.58
         description: 'order #1324',
         metadata: {'size': '250g'},
         creditCard: CreditCardConfig(saveCard: true, manual: false));
@@ -154,7 +159,7 @@ class PrePaymentScreen extends StatelessWidget {
               ),
               Container(
                   width: context.getWidth(value: 0.75),
-                  height: context.getHeight(value: 0.50),
+                  height: context.getHeight(value: 0.15),
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -165,7 +170,7 @@ class PrePaymentScreen extends StatelessWidget {
                       final address_cubit = context.read<AddressCubit>();
                       address_cubit.fetchAddressEvent(
                           userID: "83efec21-2fc7-416e-9825-a86a8af3a63a");
-                      return const Column(
+                      return Column(
                         children: [
                           Text(
                             "المنطقة",
@@ -176,9 +181,45 @@ class PrePaymentScreen extends StatelessWidget {
                           ),
                           //dropdownList
                           //CustomTextField(title: "المنطقة"),
-                          CustomChoiceChip(title: "aaa", isSelected: true),
-                          CustomChoiceChip(title: "bbb", isSelected: false),
-                          CustomChoiceChip(title: "ccc", isSelected: false)
+                          BlocBuilder<AddressCubit, AddressState>(
+                            builder: (context, state) {
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: List.generate(
+                                      address_cubit.addressLayer.addressUserList
+                                          .length, (int index) {
+                                    return Row(
+                                      children: [
+                                        CustomChoiceChip(
+                                          title: address_cubit.addressLayer
+                                              .addressUserList[index]["city"],
+                                          isSelected: address_cubit.address ==
+                                              address_cubit.addressLayer
+                                                      .addressUserList[index]
+                                                  ["address_id"],
+                                          onSelected: (value) {
+                                            address_cubit.updateChipEvent();
+                                            address_cubit.address =
+                                                address_cubit.addressLayer
+                                                        .addressUserList[index]
+                                                    ["address_id"];
+                                            print(address_cubit.address);
+                                          },
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                                ),
+                              );
+                            },
+                          ),
+                          // CustomChoiceChip(title: "aaa", isSelected: true),
+                          // CustomChoiceChip(title: "bbb", isSelected: false),
+                          // CustomChoiceChip(title: "ccc", isSelected: false)
                         ],
                       );
                     }),
