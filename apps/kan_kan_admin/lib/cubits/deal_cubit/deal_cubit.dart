@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -33,6 +32,9 @@ class DealCubit extends Cubit<DealState> {
   final TextEditingController estimatedTimeToController =
       TextEditingController();
 
+  //?-- table sorting
+  bool sort = true;
+  int columnIndex = 0;
 
   List<DateTime?> dealDuration = [];
   DealCubit() : super(DealInitial());
@@ -67,5 +69,9 @@ class DealCubit extends Cubit<DealState> {
     } catch (errorMessage) {
       emit(ErrorState(errorMessage: errorMessage.toString()));
     }
+  }
+
+  sortEvent() {
+    emit(SortSuccessSate());
   }
 }

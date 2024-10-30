@@ -87,78 +87,135 @@ class _DealsScreenState extends State<DealsScreen> {
               ),
               TableSizedBox(
                 child: CustomTableTheme(
-                  child: PaginatedDataTable(
-                    showEmptyRows: false,
-                    source: TableDataRow(
-                      length: dealCubit.dealLayer.deals.length,
-                      customRow: List.generate(
-                        dealCubit.dealLayer.deals.length,
-                        (index) => DataRow(
-                          onLongPress: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DealsDetailsScreen(
-                                deal: dealCubit.dealLayer.deals[index],
+                  child: BlocBuilder<DealCubit, DealState>(
+                    builder: (context, state) {
+                      return PaginatedDataTable(
+                        sortAscending: dealCubit.sort,
+                        sortColumnIndex: dealCubit.columnIndex,
+                        showEmptyRows: false,
+                        source: TableDataRow(
+                          length: dealCubit.dealLayer.deals.length,
+                          customRow: List.generate(
+                            dealCubit.dealLayer.deals.length,
+                            (index) => DataRow(
+                              onLongPress: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DealsDetailsScreen(
+                                    deal: dealCubit.dealLayer.deals[index],
+                                  ),
+                                ),
                               ),
+                              color: WidgetStateProperty.all(AppColor.white),
+                              cells: [
+                                DataCell(
+                                  Row(
+                                    children: [
+                                      Text(
+                                          "${dealCubit.dealLayer.deals[index].product.productName}\n${dealCubit.dealLayer.deals[index].dealId}")
+                                    ],
+                                  ),
+                                ),
+                                DataCell(Text(
+                                    "${dealCubit.dealLayer.deals[index].startDate} الى ${dealCubit.dealLayer.deals[index].endDate}")),
+                                DataCell(Text(
+                                    "${dealCubit.dealLayer.deals[index].quantity}/${dealCubit.dealLayer.deals[index].numberOfOrder}")),
+                                DataCell(CustomChips(
+                                  status: dealCubit
+                                      .dealLayer.deals[index].dealStatus,
+                                  onTap: () async {
+                                    await updateStatus(
+                                        value: DropMenuList.dealStatus.first,
+                                        context: context,
+                                        title: "حالة",
+                                        onChanged: (value) {},
+                                        items: DropMenuList.dealStatus
+                                            .map<DropdownMenuEntry<String>>(
+                                                (String status) {
+                                          return DropdownMenuEntry(
+                                            value: status,
+                                            label: status,
+                                          );
+                                        }).toList());
+                                  },
+                                )),
+                              ],
                             ),
                           ),
-                          color: WidgetStateProperty.all(AppColor.white),
-                          cells: [
-                            DataCell(
-                              Row(
-                                children: [
-                                  Text(
-                                      "${dealCubit.dealLayer.deals[index].product.productName}\n${dealCubit.dealLayer.deals[index].dealId}")
-                                ],
-                              ),
-                            ),
-                            DataCell(Text(
-                                "${dealCubit.dealLayer.deals[index].startDate} الى ${dealCubit.dealLayer.deals[index].endDate}")),
-                            DataCell(Text(
-                                "${dealCubit.dealLayer.deals[index].quantity}/${dealCubit.dealLayer.deals[index].numberOfOrder}")),
-                            DataCell(CustomChips(
-                              status:
-                                  dealCubit.dealLayer.deals[index].dealStatus,
-                              onTap: () async {
-                                await updateStatus(
-                                    value: DropMenuList.dealStatus.first,
-                                    context: context,
-                                    title: "حالة",
-                                    onChanged: (value) {},
-                                    items: DropMenuList.dealStatus
-                                        .map<DropdownMenuEntry<String>>(
-                                            (String status) {
-                                      return DropdownMenuEntry(
-                                        value: status,
-                                        label: status,
-                                      );
-                                    }).toList());
-                              },
-                            )),
-                          ],
                         ),
-                      ),
-                    ),
-                    columns: [
-                      const DataColumn(
-                        headingRowAlignment: MainAxisAlignment.center,
-                        label: Text("المنتج"),
-                      ),
-                      DataColumn(
-                        onSort: (columnIndex, ascending) {
-                          if (ascending) {}
-                        },
-                        label: const Text("مدة صفقة"),
-                      ),
-                      const DataColumn(
-                        headingRowAlignment: MainAxisAlignment.center,
-                        label: Text("عدد "),
-                      ),
-                      const DataColumn(
-                        headingRowAlignment: MainAxisAlignment.center,
-                        label: Text("الحالة"),
-                      ),
-                    ],
+                        columns: [
+                          DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: Text("المنتج"),
+                            onSort: (columnIndex, ascending) {
+                              if (dealCubit.sort) {
+                                dealCubit.dealLayer.deals.sort(
+                                  (a, b) => a.product.productName
+                                      .compareTo(b.product.productName),
+                                );
+                              } else {
+                                dealCubit.dealLayer.deals.sort(
+                                  (a, b) => b.product.productName
+                                      .compareTo(a.product.productName),
+                                );
+                              }
+                              dealCubit.sort = !dealCubit.sort;
+                              dealCubit.columnIndex = columnIndex;
+                              dealCubit.sortEvent();
+                            },
+                          ),
+                          DataColumn(
+                            onSort: (columnIndex, ascending) {
+                              if (dealCubit.sort) {
+                                dealCubit.dealLayer.deals.sort((a, b) =>
+                                    DateTime.parse(a.startDate).compareTo(
+                                        DateTime.parse(b.startDate)));
+                              } else {
+                                dealCubit.dealLayer.deals.sort((a, b) =>
+                                    DateTime.parse(b.startDate).compareTo(
+                                        DateTime.parse(a.startDate)));
+                              }
+                              dealCubit.sort = !dealCubit.sort;
+                              dealCubit.columnIndex = columnIndex;
+                              dealCubit.sortEvent();
+                            },
+                            label: const Text("مدة صفقة"),
+                          ),
+                          DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: Text("عدد "),
+                            onSort: (columnIndex, ascending) {
+                              if (dealCubit.sort) {
+                                dealCubit.dealLayer.deals.sort((a, b) =>
+                                    a.numberOfOrder.compareTo(b.numberOfOrder));
+                              } else {
+                                dealCubit.dealLayer.deals.sort((a, b) =>
+                                    b.numberOfOrder.compareTo(a.numberOfOrder));
+                              }
+                              dealCubit.sort = !dealCubit.sort;
+                              dealCubit.columnIndex = columnIndex;
+                              dealCubit.sortEvent();
+                            },
+                          ),
+                          DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: Text("الحالة"),
+                            onSort: (columnIndex, ascending) {
+                              if (dealCubit.sort) {
+                                dealCubit.dealLayer.deals.sort((a, b) =>
+                                    a.dealStatus.compareTo(b.dealStatus));
+                              } else {
+                                dealCubit.dealLayer.deals.sort((a, b) =>
+                                    b.dealStatus.compareTo(a.dealStatus));
+                              }
+                              dealCubit.sort = !dealCubit.sort;
+                              dealCubit.columnIndex = columnIndex;
+                              dealCubit.sortEvent();
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
