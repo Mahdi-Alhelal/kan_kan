@@ -126,7 +126,7 @@ class OrderScreen extends StatelessWidget {
                                     orderCubit
                                         .ordersData.orders[index].orderDate))),
                                 DataCell(CustomChips(
-                                  //Todo: link with paymentStatus  
+                                  //Todo: link with paymentStatus
                                   statusColor: true,
                                   status: localizedPaymentStatus,
                                   onTap: () async {
@@ -136,11 +136,11 @@ class OrderScreen extends StatelessWidget {
                                         title: "حالة",
                                         onChanged: (value) {},
                                         items: DropMenuList.paymentStatus
-                                            .map<DropdownMenuEntry<String>>(
+                                            .map<DropdownMenuItem>(
                                                 (String status) {
-                                          return DropdownMenuEntry(
+                                          return DropdownMenuItem(
                                             value: status,
-                                            label: status,
+                                            child: Text(status),
                                           );
                                         }).toList());
                                   },
@@ -159,11 +159,11 @@ class OrderScreen extends StatelessWidget {
                                         title: "حالة",
                                         onChanged: (value) {},
                                         items: DropMenuList.shipmentStatus
-                                            .map<DropdownMenuEntry<String>>(
+                                            .map<DropdownMenuItem>(
                                                 (String status) {
-                                          return DropdownMenuEntry(
+                                          return DropdownMenuItem(
                                             value: status,
-                                            label: status,
+                                            child: Text(status),
                                           );
                                         }).toList());
                                   },

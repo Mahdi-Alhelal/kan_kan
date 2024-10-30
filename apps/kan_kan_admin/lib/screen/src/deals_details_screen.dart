@@ -626,13 +626,11 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                               title: "حالة",
                                               onChanged: (value) {},
                                               items: DropMenuList.paymentStatus
-                                                  .map<
-                                                          DropdownMenuEntry<
-                                                              String>>(
+                                                  .map<DropdownMenuItem>(
                                                       (String status) {
-                                                return DropdownMenuEntry(
+                                                return DropdownMenuItem(
                                                   value: status,
-                                                  label: status,
+                                                  child: Text(status),
                                                 );
                                               }).toList());
                                         },
@@ -648,13 +646,11 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                               title: "حالة",
                                               onChanged: (value) {},
                                               items: DropMenuList.shipmentStatus
-                                                  .map<
-                                                          DropdownMenuEntry<
-                                                              String>>(
+                                                  .map<DropdownMenuItem>(
                                                       (String status) {
-                                                return DropdownMenuEntry(
+                                                return DropdownMenuItem(
                                                   value: status,
-                                                  label: status,
+                                                  child: Text(status),
                                                 );
                                               }).toList());
                                         },

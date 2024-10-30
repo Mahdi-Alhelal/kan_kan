@@ -295,19 +295,33 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                       .factories[index]
                                       .isBlackList),
                                   onTap: () async {
+                                    factoryCubit.tmpStatus = factoryCubit
+                                        .factoryLayer
+                                        .factories[index]
+                                        .isBlackList;
                                     await updateStatus(
-                                        value: DropMenuList.factoryStatus.first,
+                                        value: factoryCubit.factoryLayer
+                                            .factories[index].isBlackList,
                                         context: context,
                                         title: "حالة",
-                                        onChanged: (value) {},
+                                        onPressed: () async {
+                                          factoryCubit.updateFactoryStatusEvent(
+                                              id: factoryCubit.factoryLayer
+                                                  .factories[index].factoryId);
+                                        },
+                                        onChanged: (value) {
+                                          factoryCubit.tmpStatus = value;
+                                        },
                                         items: DropMenuList.factoryStatus
-                                            .map<DropdownMenuEntry<String>>(
-                                                (String status) {
-                                          return DropdownMenuEntry(
+                                            .map<DropdownMenuItem<bool>>(
+                                                (bool status) {
+                                          return DropdownMenuItem<bool>(
                                             value: status,
-                                            label: status,
+                                            child: Text(factoryStatus(status)),
                                           );
                                         }).toList());
+
+                                    
                                   },
                                 )),
                               ],

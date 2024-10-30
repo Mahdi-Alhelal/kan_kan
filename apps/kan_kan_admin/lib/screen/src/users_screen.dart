@@ -143,11 +143,11 @@ class UsersScreen extends StatelessWidget {
                                         context: context,
                                         title: "حالة المصنع",
                                         onPressed: () {},
-                                        items:
-                                            UserStatusEnum.values.map((status) {
-                                          return DropdownMenuEntry(
+                                        items: UserStatusEnum.values
+                                            .map<DropdownMenuItem>((status) {
+                                          return DropdownMenuItem(
                                             value: status.name,
-                                            label: status.value,
+                                            child: Text(status.value),
                                           );
                                         }).toList());
                                   },

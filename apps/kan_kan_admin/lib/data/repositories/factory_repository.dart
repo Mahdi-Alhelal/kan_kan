@@ -60,4 +60,16 @@ mixin FactoryRepository {
       throw Exception('Error in get  factories data: $e');
     }
   }
+
+  Future updateFactoryStatus({required bool status, required int id}) async {
+    try {
+      await KanSupabase.supabase.client
+          .from("factories")
+          .update({"is_black_list": status}).eq("factory_id", id);
+    } on PostgrestException {
+      throw Exception('Error in get factories data');
+    } catch (e) {
+      throw Exception('Error in get  factories data: $e');
+    }
+  }
 }

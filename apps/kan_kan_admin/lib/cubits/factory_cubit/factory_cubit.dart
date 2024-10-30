@@ -23,6 +23,9 @@ class FactoryCubit extends Cubit<FactoryState> {
   bool sort = true;
   int columnIndex = 0;
 
+//?-- temporary  Status
+  bool tmpStatus= false;
+
 //?-- cubit function
   FactoryCubit() : super(FactoryInitial());
 
@@ -65,5 +68,17 @@ class FactoryCubit extends Cubit<FactoryState> {
 
   sortEvent() {
     emit(SuccessState());
+  }
+
+  updateFactoryStatusEvent({required int id}) async {
+    await Future.delayed(Duration.zero);
+    try {
+      await api.updateFactoryStatus(status: tmpStatus, id: id);
+      emit(SuccessState());
+    } catch (errorMessage) {
+      print(errorMessage);
+      
+      emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
   }
 }

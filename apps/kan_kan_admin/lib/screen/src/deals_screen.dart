@@ -134,16 +134,17 @@ class _DealsScreenState extends State<DealsScreen> {
                                           context.locale.toString()),
                                   onTap: () async {
                                     await updateStatus(
-                                        value: DropMenuList.dealStatus.first,
+                                        value: dealCubit
+                                            .dealLayer.deals[index].dealStatus,
                                         context: context,
                                         title: "حالة",
                                         onChanged: (value) {},
                                         items: DropMenuList.dealStatus
-                                            .map<DropdownMenuEntry<String>>(
+                                            .map<DropdownMenuItem<String>>(
                                                 (String status) {
-                                          return DropdownMenuEntry(
+                                          return DropdownMenuItem(
                                             value: status,
-                                            label: status,
+                                            child: Text(status),
                                           );
                                         }).toList());
                                   },
