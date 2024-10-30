@@ -288,6 +288,8 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                       .factoryLayer.factories[index].region),
                                 )),
                                 DataCell(CustomChips(
+                                  statusColor: !factoryCubit.factoryLayer
+                                      .factories[index].isBlackList,
                                   status: factoryStatus(factoryCubit
                                       .factoryLayer
                                       .factories[index]

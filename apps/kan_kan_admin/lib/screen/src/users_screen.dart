@@ -127,7 +127,13 @@ class UsersScreen extends StatelessWidget {
                                   ),
                                 ),
                                 DataCell(CustomChips(
-                                  status: UserStatusEnum.values.first.value,
+                                  statusColor: userCubit.userLayer
+                                              .usersList[index].userStatus ==
+                                          'active'
+                                      ? true
+                                      : false,
+                                  status: userCubit
+                                      .userLayer.usersList[index].userStatus,
                                   onTap: () async {
                                     await updateStatus(
                                         value: UserStatusEnum.values.first.name,
@@ -221,7 +227,7 @@ class UsersScreen extends StatelessWidget {
                           ),
                           DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("حالة المستخدم"),
+                            label: const Text("حالة المستخدم"),
                             onSort: (columnIndex, ascending) {
                               if (userCubit.sort) {
                                 userCubit.userLayer.usersList.sort(

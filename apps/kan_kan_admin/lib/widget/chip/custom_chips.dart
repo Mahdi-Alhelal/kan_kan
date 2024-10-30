@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:helper/helper.dart';
 
-
-
 class CustomChips extends StatelessWidget {
   const CustomChips({
     super.key,
     required this.status,
     this.onTap,
+    this.statusColor,
   });
   final String status;
   final void Function()? onTap;
+  final dynamic statusColor;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -22,13 +22,13 @@ class CustomChips extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: statusColors(status: status),
+              color: getEnumColor(statusColor),
             ),
           ),
           child: Center(
             child: Text(
               style: TextStyle(
-                  color: statusColors(status: status),
+                  color: getEnumColor(statusColor),
                   fontWeight: FontWeight.bold),
               status,
             ),

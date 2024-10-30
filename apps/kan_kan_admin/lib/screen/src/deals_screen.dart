@@ -121,12 +121,17 @@ class _DealsScreenState extends State<DealsScreen> {
                                 DataCell(Text(
                                     "${dealCubit.dealLayer.deals[index].quantity}/${dealCubit.dealLayer.deals[index].numberOfOrder}")),
                                 DataCell(CustomChips(
+                                  statusColor:
+                                      EnumDealsHelper.stringToDealStatus(
+                                          dealCubit
+                                              .dealLayer.deals[index].dealStatus
+                                              .toString()),
                                   status:
                                       LocalizedDealsEnums.getDealsStatusName(
                                           EnumDealsHelper.stringToDealStatus(
                                               dealCubit.dealLayer.deals[index]
                                                   .dealStatus),
-                                          "ar"),
+                                          context.locale.toString()),
                                   onTap: () async {
                                     await updateStatus(
                                         value: DropMenuList.dealStatus.first,

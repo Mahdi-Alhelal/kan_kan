@@ -126,6 +126,8 @@ class OrderScreen extends StatelessWidget {
                                     orderCubit
                                         .ordersData.orders[index].orderDate))),
                                 DataCell(CustomChips(
+                                  //Todo: link with paymentStatus  
+                                  statusColor: true,
                                   status: localizedPaymentStatus,
                                   onTap: () async {
                                     await updateStatus(
@@ -144,6 +146,10 @@ class OrderScreen extends StatelessWidget {
                                   },
                                 )),
                                 DataCell(CustomChips(
+                                  statusColor:
+                                      EnumOrderHelper.stringToOrderStatus(
+                                          orderCubit.ordersData.orders[index]
+                                              .orderStatus),
                                   status: localizedOrderStatus,
                                   onTap: () async {
                                     await updateStatus(

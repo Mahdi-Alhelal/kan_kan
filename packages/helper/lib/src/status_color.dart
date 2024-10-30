@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helper/src/deal_enums.dart';
+import 'package:helper/src/order_enums.dart';
 
 Color statusColors({required String status}) {
   switch (status) {
@@ -17,8 +18,13 @@ Color statusColors({required String status}) {
   }
 }
 
-Color getDealEnumColor(var value) {
+Color getEnumColor(var value) {
+  print(value.toString());
   switch (value) {
+    case false:
+      return Colors.red;
+    case true:
+      return Colors.green;
     case DealEnums.completed:
       return Colors.green;
     case DealEnums.active:
@@ -29,7 +35,22 @@ Color getDealEnumColor(var value) {
       return Colors.red;
     case DealEnums.private:
       return Colors.grey;
-     
+    case OrderStatus.pending:
+      return Colors.orange;
+    case OrderStatus.processing:
+      return Colors.teal;
+    case OrderStatus.inChina:
+      return Colors.blueGrey;
+    case OrderStatus.inTransit:
+      return Colors.amber;
+    case OrderStatus.inSaudi:
+      return Colors.yellow;
+    case OrderStatus.withShipmentCompany:
+      return Colors.pink;
+    case OrderStatus.completed:
+      return Colors.green;
+    case OrderStatus.canceled:
+      return Colors.red;
     default:
       return Colors.black;
   }

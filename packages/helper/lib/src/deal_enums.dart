@@ -1,4 +1,4 @@
-enum DealEnums { completed, active, pending, closed, private }
+enum DealEnums { completed, active, pending, closed, private, processing }
 
 class EnumDealsHelper {
   static String dealStatusToString(DealEnums status) {
@@ -13,6 +13,8 @@ class EnumDealsHelper {
         return 'pending';
       case DealEnums.private:
         return 'private';
+      case DealEnums.processing:
+        return 'processing';
 
       default:
         return 'private';
@@ -31,6 +33,8 @@ class EnumDealsHelper {
         return DealEnums.pending;
       case 'private':
         return DealEnums.private;
+      case 'processing':
+        return DealEnums.processing;
       default:
         return DealEnums.private;
     }
@@ -64,11 +68,15 @@ class LocalizedDealsEnums {
       'ar': 'خاص',
       'zh': '私人',
     },
+    DealEnums.processing: {
+      'en': "processing",
+      "ar": "تحت المعالجة",
+      'zh': "-_-"
+    },
   };
 
   static String getDealsStatusName(DealEnums status, String languageCode) {
     return dealStatusNames[status]?[languageCode] ??
         dealStatusNames[status]!['en']!;
   }
-  
 }
