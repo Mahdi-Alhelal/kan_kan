@@ -7,3 +7,4 @@ final class OrderInitial extends OrderState {}
 final class LoadingOrderState extends OrderState {}
 final class SuccessOrderState extends OrderState {}
 final class ErrorOrderState extends OrderState {}
+final class SortSuccessState extends OrderState {}
