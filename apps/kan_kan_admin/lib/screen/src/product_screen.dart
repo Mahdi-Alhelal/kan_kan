@@ -34,7 +34,9 @@ class _ProductScreenState extends State<ProductScreen> {
                     context: context,
                     child: ProductForm(
                       text: "إضافة المنتج",
-                      factoryList: productCubit.factoryLayer.factories,
+                      factoryList: productCubit.factoryLayer.factories
+                          .where((element) => element.isBlackList == false)
+                          .toList(),
                       formKey: formKey,
                       descriptionController: productCubit.descriptionController,
                       productNameController: productCubit.productNameController,
