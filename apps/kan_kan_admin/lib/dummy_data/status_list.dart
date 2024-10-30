@@ -1,4 +1,4 @@
-import 'package:kan_kan_admin/helper/enums.dart';
+import 'package:helper/src/enums.dart';
 
 class DropMenuList {
   static List<String> factoryStatus = ["غير نشط", "نشط"];

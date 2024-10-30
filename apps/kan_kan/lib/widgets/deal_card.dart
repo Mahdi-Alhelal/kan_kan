@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kan_kan/helper/colors_deal.dart';
-import 'package:kan_kan/helper/deal_enums.dart';
+import 'package:helper/helper.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:ui/ui.dart';
-import 'package:helper/helper.dart';
 
 class DealCard extends StatelessWidget {
   const DealCard({super.key, required this.onTap, required this.dealData});

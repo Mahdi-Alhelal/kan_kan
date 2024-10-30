@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan_admin/cubits/user_cubit/user_cubit.dart';
-import 'package:kan_kan_admin/helper/enums.dart';
+import 'package:helper/src/enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan/cubit/deal_deatails_cubit/deal_details_cubit.dart';
-import 'package:kan_kan/helper/colors_deal.dart';
-import 'package:kan_kan/helper/deal_enums.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/auth/register_screen.dart';
 import 'package:kan_kan/screens/pre_payment_screen.dart';
