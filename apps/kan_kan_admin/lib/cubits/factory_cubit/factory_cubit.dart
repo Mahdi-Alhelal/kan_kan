@@ -18,6 +18,12 @@ class FactoryCubit extends Cubit<FactoryState> {
   TextEditingController departmentController = TextEditingController();
   TextEditingController repController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+
+  //?-- table sorting
+  bool sort = true;
+  int columnIndex = 0;
+
+//?-- cubit function
   FactoryCubit() : super(FactoryInitial());
 
   void addFactoryEvent() async {

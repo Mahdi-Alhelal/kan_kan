@@ -65,7 +65,134 @@ class _FactoryScreenState extends State<FactoryScreen> {
                   return TableSizedBox(
                     child: CustomTableTheme(
                       child: PaginatedDataTable(
+                        sortColumnIndex: factoryCubit.columnIndex,
+                        sortAscending: factoryCubit.sort,
                         showEmptyRows: false,
+                        columns: [
+                          DataColumn(
+                            onSort: (columnIndex, ascending) {
+                              if (factoryCubit.sort) {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) =>
+                                      a.factoryName.compareTo(b.factoryName),
+                                );
+                              } else {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) =>
+                                      b.factoryName.compareTo(a.factoryName),
+                                );
+                              }
+                              factoryCubit.columnIndex = columnIndex;
+                              factoryCubit.sort = !factoryCubit.sort;
+
+                              factoryCubit.sortEvent();
+                            },
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: const Text("المصنع"),
+                          ),
+                          DataColumn(
+                            onSort: (columnIndex, ascending) {
+                              if (factoryCubit.sort) {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) => a.factoryRepresentative
+                                      .compareTo(b.factoryRepresentative),
+                                );
+                              } else {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) => b.factoryRepresentative
+                                      .compareTo(a.factoryRepresentative),
+                                );
+                              }
+                              factoryCubit.columnIndex = columnIndex;
+                              factoryCubit.sort = !factoryCubit.sort;
+
+                              factoryCubit.sortEvent();
+                            },
+                            label: const Text("ممثل المصنع"),
+                          ),
+                          DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: const Text("رقم التواصل"),
+                            onSort: (columnIndex, ascending) {
+                              if (factoryCubit.sort) {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) =>
+                                      a.contactPhone.compareTo(b.contactPhone),
+                                );
+                              } else {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) =>
+                                      b.contactPhone.compareTo(a.contactPhone),
+                                );
+                              }
+                              factoryCubit.columnIndex = columnIndex;
+
+                              factoryCubit.sort = !factoryCubit.sort;
+
+                              factoryCubit.sortEvent();
+                            },
+                          ),
+                          DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: const Text("نوع تصنيع"),
+                            onSort: (columnIndex, ascending) {
+                              if (factoryCubit.sort) {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) =>
+                                      a.department.compareTo(b.department),
+                                );
+                              } else {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) =>
+                                      b.department.compareTo(a.department),
+                                );
+                              }
+                              factoryCubit.columnIndex = columnIndex;
+                              factoryCubit.sort = !factoryCubit.sort;
+                              factoryCubit.sortEvent();
+                            },
+                          ),
+                          DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: const Text("المنطقة"),
+                            onSort: (columnIndex, ascending) {
+                              if (factoryCubit.sort) {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) => a.region.compareTo(b.region),
+                                );
+                              } else {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) => b.region.compareTo(a.region),
+                                );
+                              }
+                              factoryCubit.columnIndex = columnIndex;
+                              factoryCubit.sort = !factoryCubit.sort;
+                              factoryCubit.sortEvent();
+                            },
+                          ),
+                          DataColumn(
+                            headingRowAlignment: MainAxisAlignment.center,
+                            label: const Text("حالة المصنع"),
+                            onSort: (columnIndex, ascending) {
+                              if (factoryCubit.sort) {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) => a.isBlackList
+                                      .toString()
+                                      .compareTo(b.isBlackList.toString()),
+                                );
+                              } else {
+                                factoryCubit.factoryLayer.factories.sort(
+                                  (a, b) => b.isBlackList
+                                      .toString()
+                                      .compareTo(a.isBlackList.toString()),
+                                );
+                              }
+                              factoryCubit.columnIndex = columnIndex;
+                              factoryCubit.sort = !factoryCubit.sort;
+                              factoryCubit.sortEvent();
+                            },
+                          ),
+                        ],
                         source: TableDataRow(
                           length: factoryCubit.factoryLayer.factories.length,
                           customRow: List.generate(
@@ -185,47 +312,6 @@ class _FactoryScreenState extends State<FactoryScreen> {
                             ),
                           ),
                         ),
-                        columns: [
-                          DataColumn(
-                            onSort: (columnIndex, ascending) {
-                              
-
-                              if (ascending) {
-                                factoryCubit.factoryLayer.factories.sort(
-                                  (a, b) =>
-                                      a.factoryName.compareTo(b.factoryName),
-                                );
-                              } else {
-                                factoryCubit.factoryLayer.factories.sort(
-                                  (a, b) =>
-                                      b.factoryName.compareTo(a.factoryName),
-                                );
-                              }
-                              factoryCubit.sortEvent();
-                            },
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: const Text("المصنع"),
-                          ),
-                          const DataColumn(
-                            label: Text("ممثل المصنع"),
-                          ),
-                          const DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("رقم التواصل"),
-                          ),
-                          const DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("نوع تصنيع"),
-                          ),
-                          const DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("المنطقة"),
-                          ),
-                          const DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("حالة المصنع"),
-                          ),
-                        ],
                       ),
                     ),
                   );
