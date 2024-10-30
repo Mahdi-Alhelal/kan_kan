@@ -139,18 +139,33 @@ class _DealsScreenState extends State<DealsScreen> {
                                                   .dealStatus),
                                           context.locale.toString()),
                                   onTap: () async {
+                                    dealCubit.tempStatus = dealCubit
+                                        .dealLayer.deals[index].dealStatus;
                                     await updateStatus(
                                         value: dealCubit
                                             .dealLayer.deals[index].dealStatus,
                                         context: context,
                                         title: "حالة",
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          dealCubit.tempStatus =
+                                              value.toString();
+                                        },
+                                        onPressed: () {
+                                          dealCubit.updateDealStatusEvent(
+                                              dealId: dealCubit.dealLayer
+                                                  .deals[index].dealId);
+                                        },
                                         items: DropMenuList.dealStatus
                                             .map<DropdownMenuItem<String>>(
                                                 (String status) {
                                           return DropdownMenuItem(
                                             value: status,
-                                            child: Text(status),
+                                            child: Text(LocalizedDealsEnums
+                                                .getDealsStatusName(
+                                                    EnumDealsHelper
+                                                        .stringToDealStatus(
+                                                            status),
+                                                    context.locale.toString())),
                                           );
                                         }).toList());
                                   },

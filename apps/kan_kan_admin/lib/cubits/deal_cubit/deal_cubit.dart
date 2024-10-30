@@ -37,6 +37,9 @@ class DealCubit extends Cubit<DealState> {
   bool sort = true;
   int columnIndex = 0;
 
+//?--temporary status
+  String tempStatus = "";
+
   List<DateTime?> dealDuration = [];
   DealCubit() : super(DealInitial());
 
@@ -74,5 +77,16 @@ class DealCubit extends Cubit<DealState> {
 
   sortEvent() {
     emit(SortSuccessSate());
+  }
+
+  updateDealStatusEvent({required int dealId}) async {
+    Future.delayed(Duration.zero);
+
+    try {
+      await api.updateDealStatus(dealId: dealId, dealStatus: tempStatus);
+    } catch (errorMessage) {
+      print(errorMessage);
+      emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
   }
 }

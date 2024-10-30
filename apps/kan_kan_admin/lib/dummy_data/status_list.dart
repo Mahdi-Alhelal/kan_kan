@@ -15,7 +15,7 @@ class DropMenuList {
     "ملغي"
   ];
 
-  static List<String> dealStatus = ["خاص", "مغلق", "متاح"];
+  static List<String> dealStatus = ["completed", 'active', 'pending', 'closed', 'private', 'processing' ];
 
   //static List<String> userStatus = ["نشط", "محجوب"];
 

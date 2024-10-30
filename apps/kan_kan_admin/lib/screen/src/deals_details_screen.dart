@@ -113,9 +113,8 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                     .quantityController,
                                                 maxNumberController: detailCubit
                                                     .maxNumberController,
-                                                dealStatusController:
-                                                    detailCubit
-                                                        .dealStatusController,
+                                                dealStatusController: detailCubit
+                                                    .dealStatusController,
                                                 dealTypeController: detailCubit
                                                     .dealTypeController,
                                                 dealDurationController:
@@ -135,7 +134,16 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                 },
                                                 uploadImage: () {},
                                                 productsList: detailCubit
-                                                    .productLayer.products,
+                                                    .productLayer.products
+                                                    .where((product) =>
+                                                        detailCubit.factoryLayer
+                                                            .getFactory(
+                                                                id: product
+                                                                    .factory
+                                                                    .factoryId)
+                                                            .isBlackList ==
+                                                        false)
+                                                    .toList(),
                                                 dealDuration: () async {
                                                   final date =
                                                       await showCalendarDatePicker2Dialog(
