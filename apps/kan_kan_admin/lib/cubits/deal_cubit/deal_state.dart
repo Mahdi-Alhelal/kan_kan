@@ -8,6 +8,7 @@ final class DealInitial extends DealState {}
 final class SuccessSate extends DealState {}
 
 final class SortSuccessSate extends DealState {}
+final class AfterPop extends DealState {}
 
 final class ErrorState extends DealState {
   final String errorMessage;

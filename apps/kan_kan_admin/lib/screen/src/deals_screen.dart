@@ -113,7 +113,9 @@ class _DealsScreenState extends State<DealsScreen> {
                                           .dealLayer.deals[index].dealId,
                                     ),
                                   ),
-                                );
+                                ).then((_) {
+                                  dealCubit.afterPop();
+                                });
                               },
                               color: WidgetStateProperty.all(AppColor.white),
                               cells: [
@@ -121,7 +123,7 @@ class _DealsScreenState extends State<DealsScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                          "${dealCubit.dealLayer.deals[index].product.productName}\n${dealCubit.dealLayer.deals[index].dealId}")
+                                          "${dealCubit.dealLayer.deals[index].dealTitle}\n${dealCubit.dealLayer.deals[index].dealId}")
                                     ],
                                   ),
                                 ),

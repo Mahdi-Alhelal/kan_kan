@@ -76,8 +76,12 @@ class DealCubit extends Cubit<DealState> {
     }
   }
 
-  sortEvent() {
+  void sortEvent() {
     emit(SortSuccessSate());
+  }
+
+  void afterPop() {
+    emit(AfterPop());
   }
 
   updateDealStatusEvent({required int dealId}) async {
@@ -86,7 +90,6 @@ class DealCubit extends Cubit<DealState> {
     try {
       await api.updateDealStatus(dealId: dealId, dealStatus: tempStatus);
     } catch (errorMessage) {
-      print(errorMessage);
       emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
