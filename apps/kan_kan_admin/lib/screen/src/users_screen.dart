@@ -84,22 +84,18 @@ class UsersScreen extends StatelessWidget {
                                                 context.getWidth(value: 0.25),
                                             child: ElevatedButton(
                                                 onPressed: () async {
-                                                  await userCubit.updateUserEvent(
-                                                      userID: userCubit
-                                                          .userLayer
-                                                          .usersList[index]
-                                                          .userId,
-                                                      fullName: userCubit
-                                                          .userFullNameController
-                                                          .text,
-                                                      phone: userCubit
-                                                          .userPhoneController
-                                                          .text,
-                                                      status: "active",
-                                                      balance: userCubit
-                                                          .userBalanceController
-                                                          .text);
-                                                  print("done");
+                                                  await userCubit
+                                                      .updateUserEvent(
+                                                          index: index,
+                                                          userId: userCubit
+                                                              .userLayer
+                                                              .usersList[index]
+                                                              .userId,
+                                                          userStatus: userCubit
+                                                              .userLayer
+                                                              .usersList[index]
+                                                              .userStatus);
+
                                                   if (context.mounted) {
                                                     Navigator.pop(context);
                                                   }
@@ -135,14 +131,27 @@ class UsersScreen extends StatelessWidget {
                                   status: userCubit
                                       .userLayer.usersList[index].userStatus,
                                   onTap: () async {
+                                    userCubit.tmpStatus = userCubit
+                                        .userLayer.usersList[index].userStatus;
                                     await updateStatus(
-                                        value: UserStatusEnum.values.first.name,
+                                        value: userCubit
+                                                    .userLayer
+                                                    .usersList[index]
+                                                    .userStatus ==
+                                                'active'
+                                            ? UserStatusEnum.values.first.name
+                                                .toString()
+                                            : UserStatusEnum.values.last.name,
                                         onChanged: (value) {
-                                          print(value);
+                                          userCubit.tmpStatus =
+                                              value.toString();
                                         },
                                         context: context,
                                         title: "حالة المصنع",
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          await userCubit.updateUserStatusEvent(
+                                              index: index);
+                                        },
                                         items: UserStatusEnum.values
                                             .map<DropdownMenuItem>((status) {
                                           return DropdownMenuItem(

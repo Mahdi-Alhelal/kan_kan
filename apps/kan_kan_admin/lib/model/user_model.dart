@@ -9,14 +9,14 @@ class UserModel {
     required this.userStatus,
     required this.role,
   });
-  late final String userId;
-  late final String fullName;
-  late final String email;
-  late final String phone;
-  late final String profileUrl;
-  late final double balance;
-  late final String userStatus;
-  late final String role;
+  late String userId;
+  late String fullName;
+  late String email;
+  late String phone;
+  late String profileUrl;
+  late double balance;
+  late String userStatus;
+  late String role;
 
   UserModel.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];

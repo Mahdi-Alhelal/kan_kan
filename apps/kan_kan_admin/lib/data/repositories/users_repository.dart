@@ -3,7 +3,7 @@ import 'package:kan_kan_admin/model/user_model.dart';
 import '../../integrations/supabase/supabase_client.dart';
 
 mixin UsersRepository {
-  static Future<List<UserModel>> getAllUsers() async {
+  Future<List<UserModel>> getAllUsers() async {
     try {
       final response =
           await KanSupabase.supabase.client.from("users").select("*");
@@ -13,7 +13,7 @@ mixin UsersRepository {
     }
   }
 
-  static Future<List<UserModel>> updateUserRole(
+  Future<List<UserModel>> updateUserRole(
       {required String userID, required String role}) async {
     try {
       final response = await KanSupabase.supabase.client
@@ -25,7 +25,18 @@ mixin UsersRepository {
     }
   }
 
-  static updateUserProfile(
+  updateUserStatus({required String userId, required String userStatus}) async {
+    try {
+      await KanSupabase.supabase.client
+          .from("users")
+          .update({"user_status": userStatus}).eq("user_id", userId);
+      return true;
+    } catch (e) {
+      throw Exception('Error in update user status: $e');
+    }
+  }
+
+  updateUserProfile(
       {required String userID,
       required String status,
       required String phone,
@@ -39,7 +50,7 @@ mixin UsersRepository {
         "balance": balance,
         "role": "user"
       }).eq("user_id", userID);
-      print("here 2");
+      return true;
     } catch (e) {
       throw Exception('Error in update user role: $e');
     }

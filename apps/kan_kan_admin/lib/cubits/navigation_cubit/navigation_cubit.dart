@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
-import 'package:kan_kan_admin/data/repositories/users_repository.dart';
 import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/order_data_layer.dart';
@@ -46,16 +45,16 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   navigationEvent({required int value}) {
     index = value;
-    emit(NavigationToNewPage());
+    if (!isClosed) emit(NavigationToNewPage());
   }
 
   getProductData() async {
     await Future.delayed(Duration.zero);
     try {
       productLayer.products = await api.getAllProducts();
-      emit(SuccessState());
+      if (!isClosed) emit(SuccessState());
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
 
@@ -63,9 +62,9 @@ class NavigationCubit extends Cubit<NavigationState> {
     await Future.delayed(Duration.zero);
     try {
       dealLayer.deals = await api.getAllDeals();
-      emit(SuccessState());
+      if (!isClosed) emit(SuccessState());
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
 
@@ -73,9 +72,9 @@ class NavigationCubit extends Cubit<NavigationState> {
     await Future.delayed(Duration.zero);
     try {
       orderLayer.orders = await api.getAllOrders();
-      emit(SuccessState());
+      if (!isClosed) emit(SuccessState());
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
 
@@ -83,20 +82,19 @@ class NavigationCubit extends Cubit<NavigationState> {
     await Future.delayed(Duration.zero);
     try {
       factoryLayer.factories = await api.getAllFactories();
-      emit(SuccessState());
+      if (!isClosed) emit(SuccessState());
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
 
   getUsers() async {
     await Future.delayed(Duration.zero);
     try {
-      userLayer.usersList = await UsersRepository.getAllUsers();
-      // print(userLayer.usersList.length);
-      emit(NavigationToNewPage());
-    } catch (e) {
-      print(e);
+      userLayer.usersList = await api.getAllUsers();
+      if (!isClosed) emit(NavigationToNewPage());
+    } catch (errorMessage) {
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
 }
