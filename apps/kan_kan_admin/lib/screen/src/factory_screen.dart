@@ -250,7 +250,7 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                                   if (formKey.currentState!
                                                       .validate()) {
                                                     factoryCubit
-                                                        .updateFactoryEvent(
+                                                        .updateFactoryEvent(index:index,
                                                             factoryId:
                                                                 factoryCubit
                                                                     .factoryLayer
@@ -305,9 +305,15 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                         context: context,
                                         title: "حالة",
                                         onPressed: () async {
-                                          factoryCubit.updateFactoryStatusEvent(
-                                              id: factoryCubit.factoryLayer
-                                                  .factories[index].factoryId);
+                                          await factoryCubit
+                                              .updateFactoryStatusEvent(
+                                                  id: factoryCubit
+                                                      .factoryLayer
+                                                      .factories[index]
+                                                      .factoryId);
+                                          if (context.mounted) {
+                                            Navigator.pop(context);
+                                          }
                                         },
                                         onChanged: (value) {
                                           factoryCubit.tmpStatus = value;
@@ -320,8 +326,6 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                             child: Text(factoryStatus(status)),
                                           );
                                         }).toList());
-
-                                    
                                   },
                                 )),
                               ],
