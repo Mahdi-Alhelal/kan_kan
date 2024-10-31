@@ -246,18 +246,21 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                                 phoneNumberController:
                                                     factoryCubit
                                                         .phoneNumberController,
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   if (formKey.currentState!
                                                       .validate()) {
-                                                    factoryCubit
-                                                        .updateFactoryEvent(index:index,
+                                                    await factoryCubit
+                                                        .updateFactoryEvent(
+                                                            index: index,
                                                             factoryId:
                                                                 factoryCubit
                                                                     .factoryLayer
                                                                     .factories[
                                                                         index]
                                                                     .factoryId);
-                                                    Navigator.pop(context);
+                                                    if (context.mounted) {
+                                                      Navigator.pop(context);
+                                                    }
                                                   }
                                                 }),
                                           );

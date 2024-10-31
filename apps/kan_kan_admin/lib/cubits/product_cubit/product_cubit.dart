@@ -62,23 +62,31 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  void updateProductEvent({required int productId}) async {
+  void updateProductEvent(
+      {required int index,
+      required int productId,
+      required int factoryId}) async {
     await Future.delayed(Duration.zero);
     try {
-      await api.updateProduct(
-        product: ProductModel(
-            width: num.parse(widthController.text.trim()),
-            height: num.parse(hightController.text.trim()),
-            length: num.parse(lengthController.text.trim()),
-            weight: num.parse(weightController.text.trim()),
-            productId: productId,
-            defaultPrice: 0,
-            factory: FactoryModel.empty(),
-            productName: productNameController.text.trim(),
-            productDescription: descriptionController.text.trim(),
-            modelNumber: modelNumberController.text.trim()),
+      ProductModel updateProduct = ProductModel(
+          width: num.parse(widthController.text.trim()),
+          height: num.parse(hightController.text.trim()),
+          length: num.parse(lengthController.text.trim()),
+          weight: num.parse(weightController.text.trim()),
+          productId: productId,
+          defaultPrice: 0,
+          factory: FactoryModel.empty(),
+          productName: productNameController.text.trim(),
+          productDescription: descriptionController.text.trim(),
+          modelNumber: modelNumberController.text.trim());
+      final response = await api.updateProduct(
+        product: updateProduct,
         factoryId: int.parse(factoryNameController.text.trim()),
       );
+      if (response) {
+        updateProduct.factory = factoryLayer.getFactory(id: factoryId);
+        productLayer.products[index] = updateProduct;
+      }
       emit(UpdateProductSuccessState());
     } catch (errorMessage) {
       log(errorMessage.toString());

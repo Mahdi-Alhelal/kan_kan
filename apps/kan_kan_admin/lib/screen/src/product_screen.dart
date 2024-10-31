@@ -152,6 +152,10 @@ class _ProductScreenState extends State<ProductScreen> {
                                                     .validate()) {
                                                   productCubit
                                                       .updateProductEvent(
+                                                        factoryId:productCubit
+                                                        .productLayer
+                                                        .products[index].factory.factoryId ,
+                                                        index:index,
                                                     productId: productCubit
                                                         .productLayer
                                                         .products[index]
