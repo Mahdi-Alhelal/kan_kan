@@ -155,10 +155,14 @@ class _DealsScreenState extends State<DealsScreen> {
                                           dealCubit.tempStatus =
                                               value.toString();
                                         },
-                                        onPressed: () {
-                                          dealCubit.updateDealStatusEvent(
+                                        onPressed: () async {
+                                          await dealCubit.updateDealStatusEvent(
+                                              index: index,
                                               dealId: dealCubit.dealLayer
                                                   .deals[index].dealId);
+                                          if (context.mounted) {
+                                            Navigator.pop(context);
+                                          }
                                         },
                                         items: DropMenuList.dealStatus
                                             .map<DropdownMenuItem<String>>(

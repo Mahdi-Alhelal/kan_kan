@@ -70,27 +70,32 @@ class DealCubit extends Cubit<DealState> {
         productId: int.parse(productController.text),
         deal: deal,
       );
-      emit(SuccessSate());
+      if (!isClosed) emit(SuccessSate());
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
 
   void sortEvent() {
-    emit(SortSuccessSate());
+    if (!isClosed) emit(SortSuccessSate());
   }
 
   void afterPop() {
-    emit(AfterPop());
+    if (!isClosed) emit(AfterPop());
   }
 
-  updateDealStatusEvent({required int dealId}) async {
+  updateDealStatusEvent({required int dealId, required int index}) async {
     Future.delayed(Duration.zero);
 
     try {
-      await api.updateDealStatus(dealId: dealId, dealStatus: tempStatus);
+      final response =
+          await api.updateDealStatus(dealId: dealId, dealStatus: tempStatus);
+      if (response) {
+        dealLayer.deals[index].dealStatus = tempStatus;
+        if (!isClosed) emit(SuccessSate());
+      }
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
 }
