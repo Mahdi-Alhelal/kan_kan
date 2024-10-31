@@ -19,7 +19,8 @@ class DealModel {
       required this.quantity,
       required this.dealUrl,
       required this.product,
-      required this.numberOfOrder});
+      required this.numberOfOrder,
+      required this.trackingNumber});
 
   DealModel.newDeal(
       {required this.dealTitle,
@@ -36,8 +37,9 @@ class DealModel {
       required this.dealStatus,
       required this.maxOrdersPerUser,
       required this.quantity,
-      required this.dealUrl});
-  late final int dealId;
+      required this.dealUrl,
+      required this.trackingNumber});
+  late int dealId;
   late String dealTitle;
   late String dealDescription;
   late String startDate;

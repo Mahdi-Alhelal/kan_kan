@@ -104,14 +104,17 @@ class _DealsScreenState extends State<DealsScreen> {
                           customRow: List.generate(
                             dealCubit.dealLayer.deals.length,
                             (index) => DataRow(
-                              onLongPress: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DealsDetailsScreen(
-                                    deal: dealCubit.dealLayer.deals[index],
+                              onLongPress: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DealsDetailsScreen(
+                                      dealId: dealCubit
+                                          .dealLayer.deals[index].dealId,
+                                    ),
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                               color: WidgetStateProperty.all(AppColor.white),
                               cells: [
                                 DataCell(

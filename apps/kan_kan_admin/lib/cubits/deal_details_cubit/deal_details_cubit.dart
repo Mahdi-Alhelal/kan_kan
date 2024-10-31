@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
@@ -21,6 +22,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   final userLayer = GetIt.I.get<UserLayer>();
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
+  final dealLayer = GetIt.I.get<DealDataLayer>();
 
   //?---controller
   final TextEditingController dealNameController = TextEditingController();
@@ -37,6 +39,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       TextEditingController();
   final TextEditingController estimatedTimeToController =
       TextEditingController();
+  late DealModel deal;
+  //?--
+  String tmpStatus = '';
 
   List<DateTime?> dealDuration = [];
   List<OrderModel> currentOrders = [];
@@ -45,37 +50,64 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
     currentOrders = orderLayer.orders
         .where((OrderModel order) => order.dealId == dealId)
         .toList();
+    deal = dealLayer.deals.firstWhere((deal) => deal.dealId == dealId);
   }
 
-  updateDealEvent({required int dealId}) async {
+  updateDealEvent() async {
     try {
-      print("create deal");
-      DealModel deal = DealModel.newDeal(
-          dealTitle: dealNameController.text.trim(),
-          dealDescription: "",
-          startDate:
-              DateConverter.supabaseDateFormate(dealDuration.first.toString()),
-          endDate:
-              DateConverter.supabaseDateFormate(dealDuration.last.toString()),
-          costPrice: num.parse(costController.text.trim()),
-          deliveryPrice: num.parse(deliveryCostController.text.trim()),
-          salePrice: num.parse(priceController.text.trim()),
-          totalPrice: num.parse(deliveryCostController.text.trim()) +
-              num.parse(priceController.text.trim()),
-          categoryId: 1,
-          estimateDeliveryDateFrom: estimatedTimeFromController.text.trim(),
-          estimateDeliveryTimeTo: estimatedTimeToController.text.trim(),
-          dealStatus: "private",
-          maxOrdersPerUser: int.parse(maxNumberController.text.trim()),
-          quantity: int.parse(quantityController.text),
-          dealUrl: "dealUrl");
-      print("call update deal");
-      await api.updateDeal(
-          deal: deal,
+      DealModel updateDeal = DealModel(
+        numberOfOrder: deal.numberOfOrder,
+        product: deal.product,
+        dealId: deal.dealId,
+        trackingNumber: '',
+        dealTitle: dealNameController.text.trim(),
+        dealDescription: "",
+        startDate:
+            DateConverter.supabaseDateFormate(dealDuration.first.toString()),
+        endDate:
+            DateConverter.supabaseDateFormate(dealDuration.last.toString()),
+        costPrice: num.parse(costController.text.trim()),
+        deliveryPrice: num.parse(deliveryCostController.text.trim()),
+        salePrice: num.parse(priceController.text.trim()),
+        totalPrice: num.parse(deliveryCostController.text.trim()) +
+            num.parse(priceController.text.trim()),
+        categoryId: 1,
+        estimateDeliveryDateFrom: estimatedTimeFromController.text.trim(),
+        estimateDeliveryTimeTo: estimatedTimeToController.text.trim(),
+        dealStatus: deal.dealStatus,
+        maxOrdersPerUser: int.parse(maxNumberController.text.trim()),
+        quantity: int.parse(quantityController.text),
+        dealUrl: "dealUrl",
+      );
+      final response = await api.updateDeal(
+          deal: updateDeal,
           productId: int.parse(productController.text),
-          dealId: dealId);
-    } catch (e) {
-      print(e);
+          dealId: deal.dealId);
+      if (response) {
+        int index = dealLayer.deals
+            .indexWhere((element) => element.dealId == deal.dealId);
+
+        dealLayer.deals[index] = updateDeal;
+        deal = updateDeal;
+      }
+      emit(UpdateDealStatusSuccessState());
+    } catch (errorMessage) {
+      emit(ErrorStatus(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  updateDealStatusEvent() async {
+    try {
+      final response = await api.updateDealStatus(
+          dealId: deal.dealId, dealStatus: tmpStatus);
+      if (response) {
+        dealLayer.deals.map((DealModel element) => element.dealId == deal.dealId
+            ? element.dealStatus = tmpStatus
+            : null);
+      }
+      emit(UpdateDealStatusSuccessState());
+    } catch (errorMessage) {
+      emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
 }

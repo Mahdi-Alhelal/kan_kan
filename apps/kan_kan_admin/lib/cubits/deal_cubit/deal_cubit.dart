@@ -47,6 +47,7 @@ class DealCubit extends Cubit<DealState> {
     Future.delayed(Duration.zero);
     try {
       DealModel deal = DealModel.newDeal(
+          trackingNumber: "",
           dealTitle: dealNameController.text.trim(),
           dealDescription: "",
           startDate:
