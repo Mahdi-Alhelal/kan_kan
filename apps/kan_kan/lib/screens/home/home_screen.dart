@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan/cubit/home_cubit/home_cubit.dart';
+import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/home/deals_screen.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ui/ui.dart';
 
 import 'deal_details_screen.dart';
@@ -100,28 +102,29 @@ class HomeScreen extends StatelessWidget {
                   ),
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, state) {
-                      if (state is SuccessHomeState) {
-                        return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: homeCubit.dealLayer.deals.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return DealCard(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DealDetailsScreen(
-                                              dealData: homeCubit
-                                                  .dealLayer.deals[index],
-                                            )));
-                              },
-                              dealData: homeCubit.dealLayer.deals[index],
-                            );
-                          },
-                        );
-                      }
-                      return CircularProgressIndicator();
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: homeCubit.dealLayer.deals.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return DealCard(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DealDetailsScreen(
+                                            dealData: homeCubit
+                                                .dealLayer.deals[index],
+                                          )));
+                            },
+                            dealData: homeCubit.dealLayer.deals[index],
+                            title: homeCubit.dealLayer.deals[index].dealTitle,
+                            orderBooked:
+                                homeCubit.dealLayer.deals[index].numberOfOrder,
+                            orderMax: homeCubit.dealLayer.deals[index].quantity,
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
