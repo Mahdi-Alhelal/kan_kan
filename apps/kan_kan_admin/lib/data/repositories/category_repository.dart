@@ -1,8 +1,8 @@
+import 'package:kan_kan_admin/model/category_model.dart';
+
 import '../../integrations/supabase/supabase_client.dart';
 
 mixin CategoryRepository {
-  // Supabase client instance
-  // final SupabaseClient _supabase = SupabaseService().client;
 
   /*
   *
@@ -10,13 +10,13 @@ mixin CategoryRepository {
   * Add new Category
   *
   * */
-  Future<List<Map<String, dynamic>>> addNewCategory(
+  Future addNewCategory(
       {required String name}) async {
     try {
-      final dataFound = await KanSupabase.supabase.client.from("categories").upsert({
-        "category_name": name
-      }).select(); // here we need to check if i can to deplicated or not
-      return dataFound;
+     await KanSupabase.supabase.client
+          .from("categories")
+          .upsert({"category_name": name});
+      return true;
     } catch (e) {
       throw Exception('Error in add category: $e');
     }
@@ -79,10 +79,11 @@ mixin CategoryRepository {
   * get all Categories
   *
   * */
-  Future<List<Map<String, dynamic>>> getAllCategories() async {
+  Future<List<CategoryModel>> getAllCategories() async {
     try {
-      final response = await KanSupabase.supabase.client.from("categories").select("*");
-      return response;
+      final response =
+          await KanSupabase.supabase.client.from("categories").select("*");
+      return response.map((element)=>CategoryModel.fromJson(element)).toList();
     } catch (e) {
       throw Exception('Error in update category: $e');
     }

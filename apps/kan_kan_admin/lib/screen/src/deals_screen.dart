@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/cubits/deal_cubit/deal_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/local_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/screen/src/deals_details_screen.dart';
 import 'package:kan_kan_admin/widget/form/add_deal_form.dart';
@@ -40,6 +40,7 @@ class _DealsScreenState extends State<DealsScreen> {
                   customBottomSheet(
                     context: context,
                     child: AddDealForm(
+                      dealCategory: dealCubit.categoryLayer.categories,
                       productsList: dealCubit.productLayer.products
                           .where((product) =>
                               dealCubit.factoryLayer

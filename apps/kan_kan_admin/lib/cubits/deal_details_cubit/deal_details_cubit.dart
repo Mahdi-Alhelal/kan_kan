@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/layer/category_data_layer.dart';
 import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/order_data_layer.dart';
@@ -22,6 +23,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
   final dealLayer = GetIt.I.get<DealDataLayer>();
+  final categoryLayer = GetIt.I.get<CategoryDataLayer>();
 
   //?---controller
   final TextEditingController dealNameController = TextEditingController();
@@ -34,6 +36,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController deliveryCostController = TextEditingController();
+
   final TextEditingController estimatedTimeFromController =
       TextEditingController();
   final TextEditingController estimatedTimeToController =
@@ -72,7 +75,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
         salePrice: num.parse(priceController.text.trim()),
         totalPrice: num.parse(deliveryCostController.text.trim()) +
             num.parse(priceController.text.trim()),
-        categoryId: 1,
+        categoryId: int.parse(dealTypeController.text),
         estimateDeliveryDateFrom: estimatedTimeFromController.text.trim(),
         estimateDeliveryTimeTo: estimatedTimeToController.text.trim(),
         dealStatus: deal.dealStatus,
@@ -102,9 +105,10 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       final response = await api.updateDealStatus(
           dealId: deal.dealId, dealStatus: tmpStatus);
       if (response) {
-        dealLayer.deals.map((DealModel element) => element.dealId == deal.dealId
-            ? element.dealStatus = tmpStatus
-            : null);
+        int index = dealLayer.deals
+            .indexWhere((element) => element.dealId == deal.dealId);
+        dealLayer.deals[index].dealStatus = tmpStatus;
+        deal.dealStatus = tmpStatus;
       }
       if (!isClosed) emit(UpdateDealStatusSuccessState());
     } catch (errorMessage) {

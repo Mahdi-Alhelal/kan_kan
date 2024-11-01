@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/cubits/deal_details_cubit/deal_details_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/local_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
@@ -106,6 +106,8 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                       customBottomSheet(
                                           context: context,
                                           child: AddDealForm(
+                                              dealCategory: detailCubit
+                                                  .categoryLayer.categories,
                                               dealNameController: detailCubit
                                                   .dealNameController,
                                               productController: detailCubit
@@ -645,6 +647,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                       ))
                                               .toList(),
                                           value: detailCubit.deal.dealStatus);
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                      }
                                     },
                                     child: const Text("تحديث حالة الصفقة")),
                               ),

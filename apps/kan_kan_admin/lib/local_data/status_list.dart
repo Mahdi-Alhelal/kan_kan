@@ -25,13 +25,10 @@ class DropMenuList {
     'processing'
   ];
 
-  //static List<String> userStatus = ["نشط", "محجوب"];
 
   static Map<UserStatusEnum, String> userStatusTranslations = {
     UserStatusEnum.active: 'نشط',
     UserStatusEnum.blocked: 'محجوب'
   };
 
-  static List<String> productName = ["كامراة", "شاشة"];
-  static List<String> dealCategory = ["اثاث", "الكترونيات"];
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan_admin/cubits/factory_cubit/factory_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/local_data/status_list.dart';
 import 'package:helper/src/factory_status.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';

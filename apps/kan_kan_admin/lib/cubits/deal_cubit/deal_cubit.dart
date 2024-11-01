@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/layer/category_data_layer.dart';
 import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
@@ -17,6 +18,8 @@ class DealCubit extends Cubit<DealState> {
   final dealLayer = GetIt.I.get<DealDataLayer>();
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
+    final categoryLayer = GetIt.I.get<CategoryDataLayer>();
+
   //?---controller
   final TextEditingController dealNameController = TextEditingController();
   final TextEditingController productController = TextEditingController();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/cubits/order_cubit/order_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/local_data/status_list.dart';
 import 'package:helper/src/order_enums.dart';
 import 'package:helper/src/payment_enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';

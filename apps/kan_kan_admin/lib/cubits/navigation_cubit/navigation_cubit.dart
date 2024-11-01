@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/layer/category_data_layer.dart';
 import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/order_data_layer.dart';
@@ -23,6 +24,7 @@ class NavigationCubit extends Cubit<NavigationState> {
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
   final dealLayer = GetIt.I.get<DealDataLayer>();
   final orderLayer = GetIt.I.get<OrderDataLayer>();
+  final categoryLayer = GetIt.I.get<CategoryDataLayer>();
 
   final api = DataRepository();
   List<Widget> screens = const [
@@ -41,6 +43,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     getFactoryData();
     getDealData();
     getOrderData();
+    getCategories();
   }
 
   navigationEvent({required int value}) {
@@ -92,6 +95,16 @@ class NavigationCubit extends Cubit<NavigationState> {
     await Future.delayed(Duration.zero);
     try {
       userLayer.usersList = await api.getAllUsers();
+      if (!isClosed) emit(NavigationToNewPage());
+    } catch (errorMessage) {
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  getCategories() async {
+    await Future.delayed(Duration.zero);
+    try {
+      categoryLayer.categories = await api.getAllCategories();
       if (!isClosed) emit(NavigationToNewPage());
     } catch (errorMessage) {
       if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
