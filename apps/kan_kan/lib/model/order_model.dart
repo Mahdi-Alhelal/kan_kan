@@ -18,7 +18,7 @@ class OrderModel {
   late String? trackingNumber;
   late String? trackingCompany;
   late final int quantity;
-  late final int amount;
+  late final num amount;
   late final String address;
 
   OrderModel.fromJson(Map<String, dynamic> json) {

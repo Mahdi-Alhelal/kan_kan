@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kan_kan/model/deal_model.dart';
+import 'package:kan_kan/model/order_model.dart';
 import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 
 class SucessPaymentScreen extends StatelessWidget {
-  const SucessPaymentScreen({super.key});
+  const SucessPaymentScreen(
+      {super.key, required this.orderDetails, required this.dealDetails});
+  final OrderModel orderDetails;
+  final DealModel dealDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -14,29 +19,29 @@ class SucessPaymentScreen extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 20,
-              ),
               Container(
                 width: context.getWidth(value: 0.75),
-                height: context.getHeight(value: 0.5),
+                height: context.getHeight(value: 0.6),
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: AppColor.white),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    const Text(
-                      "رقم الطلب : 1002",
-                      style: TextStyle(fontSize: 16),
+                    Text(
+                      "رقم الطلب : ${orderDetails.orderId}#",
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    SizedBox(
-                      height: 20,
+                    const SizedBox(
+                      height: 10,
                     ),
                     Stack(
                       alignment: Alignment.center,
@@ -65,7 +70,7 @@ class SucessPaymentScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     const Text(
                       "تمت عملية الدفع بنجاح",
@@ -75,18 +80,18 @@ class SucessPaymentScreen extends StatelessWidget {
                       color: AppColor.bg,
                       thickness: 1,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "تلفزيون 75 بوصة",
-                          style:
-                              TextStyle(fontSize: 14, color: AppColor.primary),
+                          dealDetails.dealTitle,
+                          style: const TextStyle(
+                              fontSize: 14, color: AppColor.primary),
                         ),
                         Text(
-                          "2x",
-                          style:
-                              TextStyle(fontSize: 14, color: AppColor.primary),
+                          orderDetails.quantity.toString(),
+                          style: const TextStyle(
+                              fontSize: 14, color: AppColor.primary),
                         )
                       ],
                     ),
@@ -94,18 +99,18 @@ class SucessPaymentScreen extends StatelessWidget {
                       color: AppColor.bg,
                       thickness: 1,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "رقم الصفقة",
                           style:
                               TextStyle(fontSize: 14, color: AppColor.primary),
                         ),
                         Text(
-                          "#1001",
-                          style:
-                              TextStyle(fontSize: 14, color: AppColor.primary),
+                          "#${dealDetails.dealId}",
+                          style: const TextStyle(
+                              fontSize: 14, color: AppColor.primary),
                         )
                       ],
                     ),
@@ -113,34 +118,39 @@ class SucessPaymentScreen extends StatelessWidget {
                       color: AppColor.bg,
                       thickness: 1,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("السعر"), Text("1399 ريال")],
+                      children: [
+                        const Text("السعر"),
+                        Text(
+                            "${dealDetails.salePrice * orderDetails.quantity} ريال")
+                      ],
                     ),
                     const Divider(
                       color: AppColor.bg,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("رسوم التوصيل والجمارك"),
-                        Text("300 ريال")
+                        const Text("رسوم التوصيل والجمارك"),
+                        Text(
+                            "${dealDetails.deliveryPrice * orderDetails.quantity} ريال")
                       ],
                     ),
                     const Divider(
                       color: AppColor.bg,
                       thickness: 1,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "الإجمالي",
                           style: TextStyle(
                               color: AppColor.secondary, fontSize: 16),
                         ),
-                        Text("2000 ريال",
-                            style: TextStyle(
+                        Text("${orderDetails.amount} ريال",
+                            style: const TextStyle(
                                 color: AppColor.secondary, fontSize: 16))
                       ],
                     )
@@ -148,7 +158,7 @@ class SucessPaymentScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               SizedBox(
                 width: context.getWidth(value: 0.75),
@@ -162,12 +172,6 @@ class SucessPaymentScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 20,
               ),
             ],
           ),

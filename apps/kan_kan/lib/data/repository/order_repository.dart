@@ -11,21 +11,24 @@ mixin OrderRepository {
   * Add new Order
   *
   * */
-  Future<List<Map<String, dynamic>>> addNewOrder(
+  Future<OrderModel> addNewOrder(
       {required String userID,
-      required String dealID,
-      required String addressID,
+      required int dealID,
+      required String address,
+      required int quantity,
       required double amount}) async {
     try {
-      final dataFound = await KanSupabase.supabase.client
-          .from("orders")
-          .insert({
+      final dataFound =
+          await KanSupabase.supabase.client.from("orders").insert({
         "deal_id": dealID,
         "user_id": userID,
-        "address_id": addressID,
-        "amount": amount
-      }).select(); // here we need to check if i can to deplicated or not
-      return dataFound;
+        "address": address,
+        "amount": amount,
+        "quantity": quantity
+      }).select();
+
+      return OrderModel.fromJson(dataFound.first);
+      ;
     } catch (e) {
       throw Exception('Error in add order: $e');
     }
@@ -56,8 +59,6 @@ mixin OrderRepository {
       throw Exception('Error in update order: $e');
     }
   }
-
-
 
   /*
   *

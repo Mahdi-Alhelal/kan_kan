@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan/cubit/address_cubit/address_cubit.dart';
+import 'package:kan_kan/cubit/payment_cubit/payment_cubit.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/order_screen.dart';
+import 'package:kan_kan/screens/sucess_payment_screen.dart.dart';
 import 'package:kan_kan/widgets/custom_choice_chip.dart';
 import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
@@ -21,17 +23,35 @@ class PrePaymentScreen extends StatelessWidget {
       return amountInt;
     }
 
+    toDouble({required num amount}) {
+      double amountDouble = amount.toDouble();
+      return amountDouble;
+    }
+
+    late String address;
+
     final paymentConfig = PaymentConfig(
         publishableApiKey: "pk_test_eMwVbFMRpumqb8dxpcU2fTQwv6MFavNZLPuNgjhj",
-        amount: toInteger(amount: dealData.totalPrice * items), // SAR 257.58
-        description: 'order #1324',
-        metadata: {'size': '250g'},
-        creditCard: CreditCardConfig(saveCard: true, manual: false));
+        amount: toInteger(amount: dealData.totalPrice * items),
+        description: 'deal #${dealData.dealId}',
+        metadata: {
+          'product_name': dealData.dealTitle.toString(),
+        },
+        creditCard: CreditCardConfig(saveCard: false, manual: false));
     void onPaymentResult(result) {
       if (result is PaymentResponse) {
         switch (result.status) {
           case PaymentStatus.paid:
             // handle success.
+
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //       builder: (context) => const SucessPaymentScreen(
+            //             orderDetails: null,
+            //             dealDetails: null,
+            //           )),
+            // );
             break;
           case PaymentStatus.failed:
             // handle failure.
@@ -164,8 +184,8 @@ class PrePaymentScreen extends StatelessWidget {
                   child: BlocProvider(
                     create: (context) => AddressCubit(),
                     child: Builder(builder: (context) {
-                      final address_cubit = context.read<AddressCubit>();
-                      address_cubit.fetchAddressEvent(
+                      final cubitAddress = context.read<AddressCubit>();
+                      cubitAddress.fetchAddressEvent(
                           userID: "83efec21-2fc7-416e-9825-a86a8af3a63a");
                       return Column(
                         children: [
@@ -176,32 +196,33 @@ class PrePaymentScreen extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          //dropdownList
-                          //CustomTextField(title: "المنطقة"),
                           BlocBuilder<AddressCubit, AddressState>(
                             builder: (context, state) {
                               return SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: List.generate(
-                                      address_cubit.addressLayer.addressUserList
+                                      cubitAddress.addressLayer.addressUserList
                                           .length, (int index) {
+                                    address = cubitAddress.addressLayer
+                                        .addressUserList[index]["city"];
                                     return Row(
                                       children: [
                                         CustomChoiceChip(
-                                          title: address_cubit.addressLayer
+                                          title: cubitAddress.addressLayer
                                               .addressUserList[index]["city"],
-                                          isSelected: address_cubit.address ==
-                                              address_cubit.addressLayer
+                                          isSelected: cubitAddress.address ==
+                                              cubitAddress.addressLayer
                                                       .addressUserList[index]
                                                   ["address_id"],
                                           onSelected: (value) {
-                                            address_cubit.updateChipEvent();
-                                            address_cubit.address =
-                                                address_cubit.addressLayer
-                                                        .addressUserList[index]
-                                                    ["address_id"];
-                                            print(address_cubit.address);
+                                            cubitAddress.updateChipEvent();
+                                            cubitAddress.address = cubitAddress
+                                                    .addressLayer
+                                                    .addressUserList[index]
+                                                ["address_id"];
+                                            address = cubitAddress.addressLayer
+                                                .addressUserList[index]["city"];
                                           },
                                         ),
                                         const SizedBox(
@@ -214,9 +235,6 @@ class PrePaymentScreen extends StatelessWidget {
                               );
                             },
                           ),
-                          // CustomChoiceChip(title: "aaa", isSelected: true),
-                          // CustomChoiceChip(title: "bbb", isSelected: false),
-                          // CustomChoiceChip(title: "ccc", isSelected: false)
                         ],
                       );
                     }),
@@ -242,9 +260,58 @@ class PrePaymentScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  CreditCard(
-                                    config: paymentConfig,
-                                    onPaymentResult: onPaymentResult,
+                                  BlocProvider(
+                                    create: (context) => PaymentCubit(),
+                                    child: Builder(builder: (context) {
+                                      final paymentCubit =
+                                          context.read<PaymentCubit>();
+                                      return CreditCard(
+                                        config: paymentConfig,
+                                        onPaymentResult: (result) async {
+                                          if (result is PaymentResponse) {
+                                            switch (result.status) {
+                                              case PaymentStatus.paid:
+                                                final orderdetails =
+                                                    await paymentCubit.addPaymentEvent(
+                                                        userID:
+                                                            "83efec21-2fc7-416e-9825-a86a8af3a63a",
+                                                        paymentMethod: "MADA",
+                                                        paymentStatus: "paid",
+                                                        dealID: dealData.dealId,
+                                                        address: address,
+                                                        transactionID:
+                                                            result.id,
+                                                        amount: toDouble(
+                                                            amount: dealData
+                                                                    .totalPrice *
+                                                                items),
+                                                        quantity: items);
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SucessPaymentScreen(
+                                                            orderDetails:
+                                                                orderdetails,
+                                                            dealDetails:
+                                                                dealData,
+                                                          )),
+                                                );
+                                                break;
+                                              case PaymentStatus.failed:
+                                                // handle failure.
+                                                break;
+                                              case PaymentStatus.initiated:
+                                              // TODO: Handle this case.
+                                              case PaymentStatus.authorized:
+                                              // TODO: Handle this case.
+                                              case PaymentStatus.captured:
+                                              // TODO: Handle this case.
+                                            }
+                                          }
+                                        },
+                                      );
+                                    }),
                                   ),
                                 ],
                               ),
@@ -262,18 +329,6 @@ class PrePaymentScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OrderScreen()),
-                    );
-                  },
-                  child: const Text("تجربة"))
             ],
           ),
         ),

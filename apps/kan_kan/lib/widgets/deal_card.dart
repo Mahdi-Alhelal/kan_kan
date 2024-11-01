@@ -4,8 +4,18 @@ import 'package:kan_kan/model/deal_model.dart';
 import 'package:ui/ui.dart';
 
 class DealCard extends StatelessWidget {
-  const DealCard({super.key, required this.onTap, required this.dealData});
+  const DealCard(
+      {super.key,
+      required this.onTap,
+      required this.dealData,
+      required this.orderBooked,
+      required this.orderMax,
+      required this.title});
   final DealModel dealData;
+  final String title;
+  final int orderBooked;
+  final int orderMax;
+
   final Function()? onTap;
 
   @override
@@ -54,7 +64,7 @@ class DealCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          dealData.dealTitle,
+                          title,
                           style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -66,7 +76,7 @@ class DealCard extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 2),
                                 decoration: BoxDecoration(
-                                  color: getDealEnumColor(dealStatus),
+                                  color: getEnumColor(dealStatus),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
@@ -117,7 +127,7 @@ class DealCard extends StatelessWidget {
             children: [
               Expanded(
                 child: LinearProgressIndicator(
-                  value: dealData.numberOfOrder / dealData.quantity,
+                  value: orderBooked / orderMax,
                   backgroundColor: AppColor.bg,
                   valueColor:
                       const AlwaysStoppedAnimation<Color>(AppColor.primary),
@@ -125,7 +135,7 @@ class DealCard extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                '${dealData.numberOfOrder} / ${dealData.quantity} ',
+                '$orderBooked / $orderMax ',
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black,
