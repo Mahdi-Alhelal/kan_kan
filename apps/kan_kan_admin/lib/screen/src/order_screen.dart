@@ -73,12 +73,14 @@ class OrderScreen extends StatelessWidget {
                                 .getOrderUser(
                                     id: orderCubit
                                         .ordersData.orders[index].userId);
-                            DealModel orderDeal = orderCubit.userOrderDeal
-                                .getProductDeal(
-                                    id: orderCubit
-                                        .ordersData.orders[index].dealId);
-                            orderCubit.userOrderProduct.getProductOrder(
-                                id: orderDeal.product.productId);
+
+                            DealModel myDeal = orderCubit.userOrderDeal.deals
+                                .firstWhere((element) =>
+                                    element.dealId ==
+                                    orderCubit.ordersData.orders[index].dealId);
+
+                            orderCubit.userOrderProduct
+                                .getProductOrder(id: myDeal.product.productId);
                             String languageCode =
                                 Localizations.localeOf(context).languageCode;
 
@@ -104,7 +106,7 @@ class OrderScreen extends StatelessWidget {
                                     builder: (context) => OrderDetailsScreen(
                                         orderDetails:
                                             orderCubit.ordersData.orders[index],
-                                        dealDetails: orderDeal,
+                                        dealDetails: myDeal,
                                         userDetails: orderUser),
                                   ),
                                 );
@@ -121,7 +123,7 @@ class OrderScreen extends StatelessWidget {
                                 ),
                                 DataCell(Text(
                                     "${orderCubit.ordersData.orders[index].amount}")),
-                                DataCell(Text(orderDeal.dealTitle)),
+                                DataCell(Text(myDeal.dealTitle)),
                                 DataCell(Text(DateConverter.usDateFormate(
                                     orderCubit
                                         .ordersData.orders[index].orderDate))),
