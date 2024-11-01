@@ -36,7 +36,8 @@ class CustomDropDownButton extends StatelessWidget {
       required this.items,
       this.onChanged,
       this.validator,
-      this.hint, this.value});
+      this.hint,
+      this.value});
   final List<DropdownMenuItem<dynamic>> items;
   final void Function(dynamic)? onChanged;
   final String? Function(dynamic)? validator;
@@ -55,6 +56,7 @@ class CustomDropDownButton extends StatelessWidget {
           ),
         ),
         hint: hint,
+        
         items: items,
         value: value,
         onChanged: onChanged,

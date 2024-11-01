@@ -26,101 +26,118 @@ class FactoryForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const FormDivider(
-            text: "معلومات المصنع",
-          ),
-          SizedBox(
-            child: Row(
-              children: [
-                Expanded(
-                  child: CustomTextFieldForm(
-                    controller: factoryNameController,
-                    title: "اسم*",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'هذا حقل مطلوب';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: CustomTextFieldForm(
-                    controller: regionController,
-                    title: "المنطقة*",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'هذا حقل مطلوب';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const SizedBox(
+              height: 30,
             ),
-          ),
-          SizedBox(
-            height: context.getHeight(value: .1),
-            width: context.getWidth(value: .273),
-            child: CustomTextFieldForm(
-              controller: typeController,
-              title: "نوع تصنيع*",
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'هذا حقل مطلوب';
-                }
-                return null;
-              },
+            const FormDivider(
+              text: "معلومات المصنع",
             ),
-          ),
-          const FormDivider(
-            text: "معلومات ممثل المصنع",
-          ),
-          SizedBox(
-            child: Row(
-              children: [
-                Expanded(
-                  child: CustomTextFieldForm(
-                    controller: repController,
-                    title: "اسم*",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'هذا حقل مطلوب';
-                      }
-                      return null;
-                    },
+            SizedBox(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomTextFieldForm(
+                      controller: factoryNameController,
+                      title: "اسم*",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا حقل مطلوب';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: CustomTextFieldForm(
-                    controller: phoneNumberController,
-                    title: "رقم التواصل*",
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9+]+'))
-                    ],
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'هذا حقل مطلوب';
-                      }
-                      return null;
-                    },
+                  Expanded(
+                    child: CustomTextFieldForm(
+                      controller: regionController,
+                      title: "المنطقة*",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا حقل مطلوب';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: onPressed,
-              child: const Text('اضافة'),
+            const SizedBox(
+              height: 30,
             ),
-          ),
-        ],
+            SizedBox(
+              height: context.getHeight(value: .1),
+              width: context.getWidth(value: .273),
+              child: CustomTextFieldForm(
+                controller: typeController,
+                title: "نوع تصنيع*",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'هذا حقل مطلوب';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const FormDivider(
+              text: "معلومات ممثل المصنع",
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomTextFieldForm(
+                      controller: repController,
+                      title: "اسم*",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا حقل مطلوب';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomTextFieldForm(
+                      controller: phoneNumberController,
+                      title: "رقم التواصل*",
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9+]+'))
+                      ],
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'هذا حقل مطلوب';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: onPressed,
+                child: const Text('اضافة'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

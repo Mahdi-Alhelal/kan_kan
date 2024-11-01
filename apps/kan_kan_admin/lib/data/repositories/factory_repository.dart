@@ -35,6 +35,7 @@ mixin FactoryRepository {
           .from("factories")
           .update(factory.toJson())
           .eq("factory_id", factory.factoryId);
+      return true;
     } on PostgrestException {
       throw Exception('Error in update factory');
     } catch (e) {
@@ -54,6 +55,19 @@ mixin FactoryRepository {
           await KanSupabase.supabase.client.from("factories").select("*");
 
       return response.map((element) => FactoryModel.fromJson(element)).toList();
+    } on PostgrestException {
+      throw Exception('Error in get factories data');
+    } catch (e) {
+      throw Exception('Error in get  factories data: $e');
+    }
+  }
+
+  Future updateFactoryStatus({required bool status, required int id}) async {
+    try {
+      await KanSupabase.supabase.client
+          .from("factories")
+          .update({"is_black_list": status}).eq("factory_id", id);
+      return true;
     } on PostgrestException {
       throw Exception('Error in get factories data');
     } catch (e) {

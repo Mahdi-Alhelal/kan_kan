@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/cubits/order_cubit/order_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/local_data/status_list.dart';
 import 'package:helper/src/order_enums.dart';
 import 'package:helper/src/payment_enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
@@ -126,7 +126,7 @@ class OrderScreen extends StatelessWidget {
                                     orderCubit
                                         .ordersData.orders[index].orderDate))),
                                 DataCell(CustomChips(
-                                  //Todo: link with paymentStatus  
+                                  //Todo: link with paymentStatus
                                   statusColor: true,
                                   status: localizedPaymentStatus,
                                   onTap: () async {
@@ -136,11 +136,11 @@ class OrderScreen extends StatelessWidget {
                                         title: "حالة",
                                         onChanged: (value) {},
                                         items: DropMenuList.paymentStatus
-                                            .map<DropdownMenuEntry<String>>(
+                                            .map<DropdownMenuItem>(
                                                 (String status) {
-                                          return DropdownMenuEntry(
+                                          return DropdownMenuItem(
                                             value: status,
-                                            label: status,
+                                            child: Text(status),
                                           );
                                         }).toList());
                                   },
@@ -153,17 +153,23 @@ class OrderScreen extends StatelessWidget {
                                   status: localizedOrderStatus,
                                   onTap: () async {
                                     await updateStatus(
-                                        value:
-                                            DropMenuList.shipmentStatus.first,
+                                        onPressed: () {
+                                          orderCubit.updateUserOrderStatus(
+                                              index: index);
+                                        },
+                                        value: orderCubit.ordersData
+                                            .orders[index].orderStatus,
                                         context: context,
                                         title: "حالة",
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          orderCubit.tmpUserOrderStatus = value;
+                                        },
                                         items: DropMenuList.shipmentStatus
-                                            .map<DropdownMenuEntry<String>>(
+                                            .map<DropdownMenuItem>(
                                                 (String status) {
-                                          return DropdownMenuEntry(
+                                          return DropdownMenuItem(
                                             value: status,
-                                            label: status,
+                                            child: Text(status),
                                           );
                                         }).toList());
                                   },

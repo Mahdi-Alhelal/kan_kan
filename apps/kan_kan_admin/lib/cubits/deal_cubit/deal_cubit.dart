@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/layer/category_data_layer.dart';
 import 'package:kan_kan_admin/layer/deal_data_layer.dart';
+import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:meta/meta.dart';
@@ -15,6 +17,8 @@ class DealCubit extends Cubit<DealState> {
   //?-- dataLayer
   final dealLayer = GetIt.I.get<DealDataLayer>();
   final productLayer = GetIt.I.get<ProductDataLayer>();
+  final factoryLayer = GetIt.I.get<FactoryDataLayer>();
+  final categoryLayer = GetIt.I.get<CategoryDataLayer>();
 
   //?---controller
   final TextEditingController dealNameController = TextEditingController();
@@ -36,6 +40,9 @@ class DealCubit extends Cubit<DealState> {
   bool sort = true;
   int columnIndex = 0;
 
+//?--temporary status
+  String tempStatus = "";
+
   List<DateTime?> dealDuration = [];
   DealCubit() : super(DealInitial());
 
@@ -43,6 +50,7 @@ class DealCubit extends Cubit<DealState> {
     Future.delayed(Duration.zero);
     try {
       DealModel deal = DealModel.newDeal(
+          trackingNumber: "",
           dealTitle: dealNameController.text.trim(),
           dealDescription: "",
           startDate:
@@ -61,17 +69,47 @@ class DealCubit extends Cubit<DealState> {
           maxOrdersPerUser: int.parse(maxNumberController.text.trim()),
           quantity: int.parse(quantityController.text),
           dealUrl: "dealUrl");
-      await api.addNewDeal(
+      final newDeal = await api.addNewDeal(
         productId: int.parse(productController.text),
         deal: deal,
       );
-      emit(SuccessSate());
+      dealLayer.deals.add(newDeal);
+      productController.clear();
+      quantityController.clear();
+      maxNumberController.clear();
+      estimatedTimeToController.clear();
+      estimatedTimeFromController.clear();
+      priceController.clear();
+      deliveryCostController.clear();
+      costController.clear();
+      dealNameController.clear();
+      dealDurationController.clear();
+      if (!isClosed) emit(SuccessSate());
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }
 
-  sortEvent() {
-    emit(SortSuccessSate());
+  void sortEvent() {
+    if (!isClosed) emit(SortSuccessSate());
+  }
+
+  void afterPop() {
+    if (!isClosed) emit(AfterPop());
+  }
+
+  updateDealStatusEvent({required int dealId, required int index}) async {
+    Future.delayed(Duration.zero);
+
+    try {
+      final response =
+          await api.updateDealStatus(dealId: dealId, dealStatus: tempStatus);
+      if (response) {
+        dealLayer.deals[index].dealStatus = tempStatus;
+        if (!isClosed) emit(SuccessSate());
+      }
+    } catch (errorMessage) {
+      if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
   }
 }

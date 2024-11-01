@@ -19,7 +19,6 @@ Color statusColors({required String status}) {
 }
 
 Color getEnumColor(var value) {
-  print(value.toString());
   switch (value) {
     case false:
       return Colors.red;

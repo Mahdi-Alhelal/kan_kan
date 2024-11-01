@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/model/category_model.dart';
 import 'package:kan_kan_admin/model/product_model.dart';
 import 'package:kan_kan_admin/widget/form/form_divider.dart';
 import 'package:ui/component/helper/screen.dart';
@@ -27,6 +27,7 @@ class AddDealForm extends StatelessWidget {
     required this.deliveryCostController,
     required this.estimatedTimeFromController,
     required this.estimatedTimeToController,
+    required this.dealCategory,
   });
   final TextEditingController dealNameController;
   final TextEditingController productController;
@@ -40,7 +41,7 @@ class AddDealForm extends StatelessWidget {
   final TextEditingController deliveryCostController;
   final TextEditingController estimatedTimeFromController;
   final TextEditingController estimatedTimeToController;
-
+  final List<CategoryModel> dealCategory;
   final GlobalKey<FormState> formKey;
   final void Function() add;
   final void Function() uploadImage;
@@ -73,32 +74,33 @@ class AddDealForm extends StatelessWidget {
                         value == null || value.isEmpty ? "required" : null,
                   ),
                 ),
-                Expanded(
-                  child: CustomDropDownButton(
-                    value: productController.text.isNotEmpty
-                        ? productsList
-                            .firstWhere((product) =>
-                                product.productId.toString() ==
-                                productController.text)
-                            .productId
-                        : null,
-                    hint: const Text("المنتج"),
-                    validator: (value) =>
-                        value == null || value.toString().isEmpty
-                            ? "required"
-                            : null,
-                    onChanged: (value) =>
-                        productController.text = value.toString(),
-                    items: productsList.map<DropdownMenuItem>(
-                      (product) {
-                        return DropdownMenuItem(
-                          value: product.productId,
-                          child: Text(product.productName),
-                        );
-                      },
-                    ).toList(),
+                if (dealStatusController.text.isEmpty)
+                  Expanded(
+                    child: CustomDropDownButton(
+                      value: productController.text.isNotEmpty
+                          ? productsList
+                              .firstWhere((product) =>
+                                  product.productId.toString() ==
+                                  productController.text)
+                              .productId
+                          : null,
+                      hint: const Text("المنتج"),
+                      validator: (value) =>
+                          value == null || value.toString().isEmpty
+                              ? "required"
+                              : null,
+                      onChanged: (value) =>
+                          productController.text = value.toString(),
+                      items: productsList.map<DropdownMenuItem>(
+                        (product) {
+                          return DropdownMenuItem(
+                            value: product.productId,
+                            child: Text(product.productName),
+                          );
+                        },
+                      ).toList(),
+                    ),
                   ),
-                ),
               ],
             ),
             Row(
@@ -144,26 +146,6 @@ class AddDealForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomDropDownButton(
-                    
-                    validator: (value) =>
-                        value == null || value.toString().isEmpty
-                            ? "required"
-                            : null,
-                    hint: const Text("حالة الصفقة"),
-                    onChanged: (value) =>
-                        dealStatusController.text = value.toString(),
-                    items: DropMenuList.dealStatus.map<DropdownMenuItem>(
-                      (status) {
-                        return DropdownMenuItem(
-                          value: status,
-                          child: Text(status),
-                        );
-                      },
-                    ).toList(),
-                  ),
-                ),
-                Expanded(
-                  child: CustomDropDownButton(
                     validator: (value) =>
                         value == null || value.toString().isEmpty
                             ? "required"
@@ -171,11 +153,11 @@ class AddDealForm extends StatelessWidget {
                     onChanged: (value) =>
                         dealTypeController.text = value.toString(),
                     hint: const Text("نوع الصفقة"),
-                    items: DropMenuList.dealCategory.map<DropdownMenuItem>(
+                    items: dealCategory.map<DropdownMenuItem>(
                       (category) {
                         return DropdownMenuItem(
-                          value: category,
-                          child: Text(category),
+                          value: category.categoryId,
+                          child: Text(category.categoryName),
                         );
                       },
                     ).toList(),

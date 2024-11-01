@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/cubits/deal_cubit/deal_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/local_data/status_list.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/screen/src/deals_details_screen.dart';
 import 'package:kan_kan_admin/widget/form/add_deal_form.dart';
@@ -40,7 +40,14 @@ class _DealsScreenState extends State<DealsScreen> {
                   customBottomSheet(
                     context: context,
                     child: AddDealForm(
-                      productsList: dealCubit.productLayer.products,
+                      dealCategory: dealCubit.categoryLayer.categories,
+                      productsList: dealCubit.productLayer.products
+                          .where((product) =>
+                              dealCubit.factoryLayer
+                                  .getFactory(id: product.factory.factoryId)
+                                  .isBlackList ==
+                              false)
+                          .toList(),
                       dealNameController: dealCubit.dealNameController,
                       productController: dealCubit.productController,
                       quantityController: dealCubit.quantityController,
@@ -98,21 +105,26 @@ class _DealsScreenState extends State<DealsScreen> {
                           customRow: List.generate(
                             dealCubit.dealLayer.deals.length,
                             (index) => DataRow(
-                              onLongPress: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DealsDetailsScreen(
-                                    deal: dealCubit.dealLayer.deals[index],
+                              onLongPress: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DealsDetailsScreen(
+                                      dealId: dealCubit
+                                          .dealLayer.deals[index].dealId,
+                                    ),
                                   ),
-                                ),
-                              ),
+                                ).then((_) {
+                                  dealCubit.afterPop();
+                                });
+                              },
                               color: WidgetStateProperty.all(AppColor.white),
                               cells: [
                                 DataCell(
                                   Row(
                                     children: [
                                       Text(
-                                          "${dealCubit.dealLayer.deals[index].product.productName}\n${dealCubit.dealLayer.deals[index].dealId}")
+                                          "${dealCubit.dealLayer.deals[index].dealTitle}\n${dealCubit.dealLayer.deals[index].dealId}")
                                     ],
                                   ),
                                 ),
@@ -133,17 +145,34 @@ class _DealsScreenState extends State<DealsScreen> {
                                                   .dealStatus),
                                           context.locale.toString()),
                                   onTap: () async {
+                                    dealCubit.tempStatus = dealCubit
+                                        .dealLayer.deals[index].dealStatus;
                                     await updateStatus(
-                                        value: DropMenuList.dealStatus.first,
+                                        value: dealCubit
+                                            .dealLayer.deals[index].dealStatus,
                                         context: context,
                                         title: "حالة",
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          dealCubit.tempStatus =
+                                              value.toString();
+                                        },
+                                        onPressed: () async {
+                                          await dealCubit.updateDealStatusEvent(
+                                              index: index,
+                                              dealId: dealCubit.dealLayer
+                                                  .deals[index].dealId);
+                                        },
                                         items: DropMenuList.dealStatus
-                                            .map<DropdownMenuEntry<String>>(
+                                            .map<DropdownMenuItem<String>>(
                                                 (String status) {
-                                          return DropdownMenuEntry(
+                                          return DropdownMenuItem(
                                             value: status,
-                                            label: status,
+                                            child: Text(LocalizedDealsEnums
+                                                .getDealsStatusName(
+                                                    EnumDealsHelper
+                                                        .stringToDealStatus(
+                                                            status),
+                                                    context.locale.toString())),
                                           );
                                         }).toList());
                                   },
@@ -155,7 +184,7 @@ class _DealsScreenState extends State<DealsScreen> {
                         columns: [
                           DataColumn(
                             headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("المنتج"),
+                            label: const Text("المنتج"),
                             onSort: (columnIndex, ascending) {
                               if (dealCubit.sort) {
                                 dealCubit.dealLayer.deals.sort(

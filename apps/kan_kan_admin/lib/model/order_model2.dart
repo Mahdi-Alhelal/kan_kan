@@ -10,16 +10,16 @@ class OrderModel {
       required this.quantity,
       required this.amount,
       required this.address});
-  late final int orderId;
-  late final int dealId;
-  late final String userId;
-  late final String orderDate;
-  late final String orderStatus;
+  late int orderId;
+  late int dealId;
+  late String userId;
+  late String orderDate;
+  late String orderStatus;
   late String? trackingNumber;
   late String? trackingCompany;
-  late final int quantity;
-  late final int amount;
-  late final String address;
+  late int quantity;
+  late num amount;
+  late String address;
 
   OrderModel.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];

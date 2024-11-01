@@ -5,18 +5,20 @@ Future<void> updateStatus({
   required BuildContext context,
   required String title,
   required void Function(dynamic) onChanged,
-  required List<DropdownMenuEntry<dynamic>> items,
+  required List<DropdownMenuItem<dynamic>> items,
   Widget? icon,
   void Function()? onPressed,
-  required String value,
+  required dynamic value,
 }) {
   return showDialog<void>(
+    
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      content: CustomDropDownMenu(
-        hintText: "",
-        dropdownMenuEntries: items,
-        onSelected: onChanged,
+    
+      content: CustomDropDownButton(
+        value: value,
+        items: items,
+        onChanged: onChanged,
       ),
       actions: [TextButton(onPressed: onPressed, child: const Text("تحديث"))],
     ),

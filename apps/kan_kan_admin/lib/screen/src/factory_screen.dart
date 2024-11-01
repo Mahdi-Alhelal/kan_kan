@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan_admin/cubits/factory_cubit/factory_cubit.dart';
-import 'package:kan_kan_admin/dummy_data/status_list.dart';
+import 'package:kan_kan_admin/local_data/status_list.dart';
 import 'package:helper/src/factory_status.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
@@ -246,18 +246,21 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                                 phoneNumberController:
                                                     factoryCubit
                                                         .phoneNumberController,
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   if (formKey.currentState!
                                                       .validate()) {
-                                                    factoryCubit
+                                                    await factoryCubit
                                                         .updateFactoryEvent(
+                                                            index: index,
                                                             factoryId:
                                                                 factoryCubit
                                                                     .factoryLayer
                                                                     .factories[
                                                                         index]
                                                                     .factoryId);
-                                                    Navigator.pop(context);
+                                                    if (context.mounted) {
+                                                      Navigator.pop(context);
+                                                    }
                                                   }
                                                 }),
                                           );
@@ -295,17 +298,35 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                       .factories[index]
                                       .isBlackList),
                                   onTap: () async {
+                                    factoryCubit.tmpStatus = factoryCubit
+                                        .factoryLayer
+                                        .factories[index]
+                                        .isBlackList;
                                     await updateStatus(
-                                        value: DropMenuList.factoryStatus.first,
+                                        value: factoryCubit.factoryLayer
+                                            .factories[index].isBlackList,
                                         context: context,
                                         title: "حالة",
-                                        onChanged: (value) {},
+                                        onPressed: () async {
+                                          await factoryCubit
+                                              .updateFactoryStatusEvent(
+                                                  id: factoryCubit
+                                                      .factoryLayer
+                                                      .factories[index]
+                                                      .factoryId);
+                                          if (context.mounted) {
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        onChanged: (value) {
+                                          factoryCubit.tmpStatus = value;
+                                        },
                                         items: DropMenuList.factoryStatus
-                                            .map<DropdownMenuEntry<String>>(
-                                                (String status) {
-                                          return DropdownMenuEntry(
+                                            .map<DropdownMenuItem<bool>>(
+                                                (bool status) {
+                                          return DropdownMenuItem<bool>(
                                             value: status,
-                                            label: status,
+                                            child: Text(factoryStatus(status)),
                                           );
                                         }).toList());
                                   },

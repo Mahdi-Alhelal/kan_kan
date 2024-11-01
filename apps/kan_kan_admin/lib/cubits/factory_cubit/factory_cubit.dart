@@ -23,6 +23,9 @@ class FactoryCubit extends Cubit<FactoryState> {
   bool sort = true;
   int columnIndex = 0;
 
+//?-- temporary  Status
+  bool tmpStatus = false;
+
 //?-- cubit function
   FactoryCubit() : super(FactoryInitial());
 
@@ -39,31 +42,66 @@ class FactoryCubit extends Cubit<FactoryState> {
     );
     try {
       await api.addNewFactory(factory: factory);
-      emit(SuccessState());
+      if (!isClosed) {
+        emit(SuccessState());
+      }
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) {
+        emit(ErrorState(errorMessage: errorMessage.toString()));
+      }
     }
   }
 
-  updateFactoryEvent({required int factoryId}) async {
+  updateFactoryEvent({required int index, required int factoryId}) async {
     try {
-      await api.updateFactory(
-        factory: FactoryModel(
-          region: regionController.text.trim(),
-          department: departmentController.text.trim(),
-          factoryId: factoryId,
-          isBlackList: false,
-          factoryName: factoryNameController.text.trim(),
-          contactPhone: phoneNumberController.text.trim(),
-          factoryRepresentative: repController.text.trim(),
-        ),
+      FactoryModel updateFactory = FactoryModel(
+        region: regionController.text.trim(),
+        department: departmentController.text.trim(),
+        factoryId: factoryId,
+        isBlackList: false,
+        factoryName: factoryNameController.text.trim(),
+        contactPhone: phoneNumberController.text.trim(),
+        factoryRepresentative: repController.text.trim(),
       );
+      final response = await api.updateFactory(
+        factory: updateFactory,
+      );
+      if (response) {
+        factoryLayer.factories[index] = updateFactory;
+      }
+      if (!isClosed) {
+        emit(SuccessState());
+      }
     } catch (errorMessage) {
-      emit(ErrorState(errorMessage: errorMessage.toString()));
+      if (!isClosed) {
+        emit(ErrorState(errorMessage: errorMessage.toString()));
+      }
     }
   }
 
   sortEvent() {
-    emit(SuccessState());
+    if (!isClosed) {
+      emit(SuccessState());
+    }
+  }
+
+  updateFactoryStatusEvent({required int id}) async {
+    await Future.delayed(Duration.zero);
+    try {
+      final response = await api.updateFactoryStatus(status: tmpStatus, id: id);
+      if (response) {
+        int index = factoryLayer.factories
+            .indexWhere((element) => element.factoryId == id);
+        factoryLayer.factories[index].isBlackList = tmpStatus;
+      }
+      if (!isClosed) {
+        emit(SuccessState());
+      }
+    } catch (errorMessage) {
+      print(errorMessage);
+      if (!isClosed) {
+        emit(ErrorState(errorMessage: errorMessage.toString()));
+      }
+    }
   }
 }

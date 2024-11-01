@@ -17,6 +17,7 @@ class OrderCubit extends Cubit<OrderState> {
   final userOrderDeal = GetIt.I.get<DealDataLayer>();
   final userOrderProduct = GetIt.I.get<ProductDataLayer>();
 
+  final api = DataRepository();
   //?-- table sorting
   bool sort = true;
   int columnIndex = 0;
@@ -24,16 +25,19 @@ class OrderCubit extends Cubit<OrderState> {
   //?-- filters
   List<bool> selected = [true, false, false, false, false, false, false, false];
 
+  //?-- tmp status;
+  String tmpUserOrderStatus = '';
   OrderCubit() : super(OrderInitial());
 
   getAllOrdersEvent() async {
-    emit(LoadingOrderState());
-    print("here Order");
+    if (!isClosed) emit(LoadingOrderState());
     try {
-      ordersData.orders = await DataRepository().getAllOrders();
-      emit(SuccessOrderState());
-    } catch (e) {
-      print(e);
+      ordersData.orders = await api.getAllOrders();
+      if (!isClosed) emit(SuccessOrderState());
+    } catch (errorMessage) {
+      if (!isClosed) {
+        emit(ErrorOrderState(errorMessage: errorMessage.toString()));
+      }
     }
   }
 
@@ -41,10 +45,26 @@ class OrderCubit extends Cubit<OrderState> {
     int index = selected.indexOf(true);
     selected[index] = false;
     selected[value] = true;
-    emit(SuccessOrderState());
+    if (!isClosed) emit(SuccessOrderState());
   }
 
   void sortEvent() {
-    emit(SortSuccessState());
+    if (!isClosed) emit(SortSuccessState());
+  }
+
+  updateUserOrderStatus({required int index}) async {
+    try {
+      final response = await api.updateOrderStatus(
+          id: ordersData.orders[index].orderId, status: tmpUserOrderStatus);
+      if (response) {
+        ordersData.orders[index].orderStatus = tmpUserOrderStatus;
+      }
+      if (!isClosed) emit(SuccessOrderState());
+    } catch (errorMessage) {
+      print(errorMessage);
+      if (!isClosed) {
+        emit(ErrorOrderState(errorMessage: errorMessage.toString()));
+      }
+    }
   }
 }

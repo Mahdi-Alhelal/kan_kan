@@ -30,13 +30,13 @@ mixin ProductRepository {
   *
   * */
 
-   updateProduct(
-      {required ProductModel product, required int factoryId}) async {
+  updateProduct({required ProductModel product, required int factoryId}) async {
     try {
       await KanSupabase.supabase.client
           .from("products")
           .update(product.toJson(factoryId: factoryId))
           .eq("product_id", product.productId);
+      return true;
     } on PostgrestException {
       throw Exception('Error: does not exit');
     } catch (e) {
