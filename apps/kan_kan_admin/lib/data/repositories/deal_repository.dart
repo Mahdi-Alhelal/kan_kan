@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
@@ -25,10 +26,10 @@ mixin DealRepository {
       final response = await KanSupabase.supabase.client
           .from("deals")
           .insert(deal.toJson(productId: productId))
-          .select();
+          .select("*,categories(category_name) ,products(*,factories(*))");
       return DealModel.fromJson(response.first);
     } catch (e) {
-      throw Exception('$e');
+      throw Exception('upload deal $e');
     }
   }
 
@@ -58,6 +59,35 @@ mixin DealRepository {
       throw Exception('Error in get deal data');
     } catch (e) {
       throw Exception('$e');
+    }
+  }
+
+  uploadDealImage({required File image, required int dealId}) async {
+    print("upload image in the list");
+    //?-- change date formate
+    String imageName = DateTime.now().toIso8601String();
+    imageName = imageName.replaceAll("-", "_");
+    imageName = imageName.replaceAll(".", "_");
+    imageName = imageName.replaceAll(":", "_");
+    //?-- check image type for insert
+    final imageAsByte = await image.readAsBytes();
+    try {
+      //?--upload image to bucket
+      await KanSupabase.supabase.client.storage.from("images").uploadBinary(
+          imageName, imageAsByte,
+          fileOptions: FileOptions(
+              contentType: "image/${image.path.split(".").last}",
+              upsert: true));
+      //?-- upload image url to image table
+      String imageUrl = KanSupabase.supabase.client.storage
+          .from("images")
+          .getPublicUrl(imageName);
+      await KanSupabase.supabase.client
+          .from("deal_images")
+          .upsert({"image_url": imageUrl, "deal_id": dealId});
+      return true;
+    } catch (e) {
+      throw Exception('Error: in upload this image to database: $e');
     }
   }
 }

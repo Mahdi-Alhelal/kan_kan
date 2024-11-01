@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -44,11 +46,14 @@ class DealCubit extends Cubit<DealState> {
   String tempStatus = "";
 
   List<DateTime?> dealDuration = [];
+  File? image;
+
   DealCubit() : super(DealInitial());
 
   addDeal() async {
     Future.delayed(Duration.zero);
     try {
+      print("iam at add deal");
       DealModel deal = DealModel.newDeal(
           trackingNumber: "",
           dealTitle: dealNameController.text.trim(),
@@ -62,7 +67,7 @@ class DealCubit extends Cubit<DealState> {
           salePrice: num.parse(priceController.text.trim()),
           totalPrice: num.parse(deliveryCostController.text.trim()) +
               num.parse(priceController.text.trim()),
-          categoryId: 1,
+          categoryId: int.parse(dealTypeController.text),
           estimateDeliveryDateFrom: estimatedTimeFromController.text.trim(),
           estimateDeliveryTimeTo: estimatedTimeToController.text.trim(),
           dealStatus: "private",
@@ -84,8 +89,12 @@ class DealCubit extends Cubit<DealState> {
       costController.clear();
       dealNameController.clear();
       dealDurationController.clear();
+      if (image != null) {
+        await api.uploadDealImage(image: image!, dealId: newDeal.dealId);
+      }
       if (!isClosed) emit(SuccessSate());
     } catch (errorMessage) {
+      print(errorMessage);
       if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }

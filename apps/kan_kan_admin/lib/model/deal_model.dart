@@ -56,7 +56,7 @@ class DealModel {
   late int quantity;
   late String dealUrl;
   late ProductModel product;
-  late int numberOfOrder;
+  late num numberOfOrder;
   late String trackingNumber;
   DealModel.fromJson(Map<String, dynamic> json) {
     dealId = json['deal_id'] ?? 0;
@@ -68,7 +68,7 @@ class DealModel {
     deliveryPrice = json['delivery_price'] ?? 0;
     salePrice = json['sale_price'] ?? 0;
     totalPrice = json['total_price'] ?? 0;
-    categoryId = json['category_id'] ?? "";
+    categoryId = json['category_id'] ?? 0;
     estimateDeliveryDateFrom = json['estimate_delivery_date_from'] ?? "";
     estimateDeliveryTimeTo = json['estimate_delivery_time_to'] ?? "";
     dealStatus = json['deal_status'] ?? "";

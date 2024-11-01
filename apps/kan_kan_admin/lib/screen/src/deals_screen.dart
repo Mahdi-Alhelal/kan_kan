@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
@@ -87,7 +90,19 @@ class _DealsScreenState extends State<DealsScreen> {
                           dealCubit.addDeal();
                         }
                       },
-                      uploadImage: () {},
+                      uploadImage: () async {
+                        try {
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            type: FileType.image,
+                          );
+                          if (result != null) {
+                            dealCubit.image = File(result.files.single.path!);
+                          }
+                        } catch (e) {
+                          dealCubit.image = null;
+                        }
+                      },
                     ),
                   );
                 },
