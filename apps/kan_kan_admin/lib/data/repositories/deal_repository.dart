@@ -19,13 +19,14 @@ mixin DealRepository {
     }
   }
 
-  Future<bool> addNewDeal(
+  Future<DealModel> addNewDeal(
       {required DealModel deal, required int productId}) async {
     try {
-      await KanSupabase.supabase.client
+      final response = await KanSupabase.supabase.client
           .from("deals")
-          .insert(deal.toJson(productId: productId));
-      return true;
+          .insert(deal.toJson(productId: productId))
+          .select();
+      return DealModel.fromJson(response.first);
     } catch (e) {
       throw Exception('$e');
     }

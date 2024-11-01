@@ -243,9 +243,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                     DealDetailsState>(
                                   builder: (context, state) {
                                     return TabBar(
-                                        // indicatorPadding: EdgeInsets.zero,
-                                        //tabAlignment: TabAlignment.fill,
-
+                                      
                                         labelColor: AppColor.white,
                                         dividerColor: AppColor.bg,
                                         indicator: BoxDecoration(

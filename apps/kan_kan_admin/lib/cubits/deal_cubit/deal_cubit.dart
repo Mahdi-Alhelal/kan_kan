@@ -18,7 +18,7 @@ class DealCubit extends Cubit<DealState> {
   final dealLayer = GetIt.I.get<DealDataLayer>();
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
-    final categoryLayer = GetIt.I.get<CategoryDataLayer>();
+  final categoryLayer = GetIt.I.get<CategoryDataLayer>();
 
   //?---controller
   final TextEditingController dealNameController = TextEditingController();
@@ -69,10 +69,21 @@ class DealCubit extends Cubit<DealState> {
           maxOrdersPerUser: int.parse(maxNumberController.text.trim()),
           quantity: int.parse(quantityController.text),
           dealUrl: "dealUrl");
-      await api.addNewDeal(
+      final newDeal = await api.addNewDeal(
         productId: int.parse(productController.text),
         deal: deal,
       );
+      dealLayer.deals.add(newDeal);
+      productController.clear();
+      quantityController.clear();
+      maxNumberController.clear();
+      estimatedTimeToController.clear();
+      estimatedTimeFromController.clear();
+      priceController.clear();
+      deliveryCostController.clear();
+      costController.clear();
+      dealNameController.clear();
+      dealDurationController.clear();
       if (!isClosed) emit(SuccessSate());
     } catch (errorMessage) {
       if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));

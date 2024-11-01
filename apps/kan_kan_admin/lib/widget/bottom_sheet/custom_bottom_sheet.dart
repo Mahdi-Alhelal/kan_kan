@@ -11,7 +11,7 @@ void customBottomSheet(
     context: context,
     builder: (BuildContext context) {
       return Padding(
-        padding: MediaQuery.of(context).viewInsets,
+        padding: MediaQuery.of(context).viewInsets / 4,
         child: Container(
           height: context.getHeight(value: height!),
           decoration: BoxDecoration(
