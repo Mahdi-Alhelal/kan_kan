@@ -17,6 +17,7 @@ dependencies:
   ui: ^0.0.1
   helper: 1.0.0
   calendar_date_picker2: ^1.1.7
+  file_picker: ^8.1.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +34,15 @@ class ProductCubit extends Cubit<ProductState> {
   bool sort = true;
   int columnIndex = 0;
 
+  //? list of images
+  List<File> images = [];
+
   ProductCubit() : super(ProductInitial());
 
   void addProduct() async {
     await Future.delayed(Duration.zero);
     try {
-      await api.addNewProduct(
+      int productId = await api.addNewProduct(
         product: ProductModel(
             width: num.parse(widthController.text.trim()),
             height: num.parse(hightController.text.trim()),
@@ -53,9 +56,12 @@ class ProductCubit extends Cubit<ProductState> {
             modelNumber: modelNumberController.text.trim()),
         factoryId: int.parse(factoryNameController.text.trim()),
       );
+      if (images.isNotEmpty && images != []) {
+  
+        await api.uploadProductsImages(images: images, productId: productId);
+      }
       emit(AddProductSuccessState());
     } catch (errorMessage) {
-      log(errorMessage.toString());
       emit(
         ErrorState(errorMessage: errorMessage.toString()),
       );
@@ -89,7 +95,6 @@ class ProductCubit extends Cubit<ProductState> {
       }
       emit(UpdateProductSuccessState());
     } catch (errorMessage) {
-      log(errorMessage.toString());
       emit(
         ErrorState(errorMessage: errorMessage.toString()),
       );

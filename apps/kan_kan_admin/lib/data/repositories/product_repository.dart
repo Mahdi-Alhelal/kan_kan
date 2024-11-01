@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:kan_kan_admin/model/product_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -10,12 +12,16 @@ mixin ProductRepository {
   * Add new Category
   *
   * */
-  Future<void> addNewProduct(
-      {required ProductModel product, required int factoryId}) async {
+  Future<int> addNewProduct({
+    required ProductModel product,
+    required int factoryId,
+  }) async {
     try {
-      await KanSupabase.supabase.client
+      final productId = await KanSupabase.supabase.client
           .from("products")
-          .upsert(product.toJson(factoryId: factoryId));
+          .upsert(product.toJson(factoryId: factoryId))
+          .select('product_id');
+      return productId.first['product_id'];
     } on PostgrestException {
       throw Exception('Error: in add product');
     } catch (e) {
@@ -71,17 +77,60 @@ mixin ProductRepository {
   * get all products
   *
   * */
+
   Future<List<ProductModel>> getAllProducts() async {
     try {
       final response = await KanSupabase.supabase.client
           .from("products")
           .select("*,factories(*)");
-      print(response);
       return response.map((element) => ProductModel.fromJson(element)).toList();
     } on PostgrestException {
       throw Exception('Error: no products');
     } catch (e) {
       throw Exception('Error: in get all products: $e');
+    }
+  }
+
+  uploadProductsImages(
+      {required List<File> images, required int productId}) async {
+    try {
+      List<Future> uploadAction = [];
+      for (var element in images) {
+        uploadAction.add(uploadImage(productId: productId, image: element));
+      }
+      await Future.wait(uploadAction);
+      return true;
+    } catch (e) {
+      throw Exception('Error: in upload all images : $e');
+    }
+  }
+
+  Future uploadImage({required int productId, required File image}) async {
+    print("upload image in the list");
+    //?-- change date formate
+    String imageName = DateTime.now().toIso8601String();
+    imageName = imageName.replaceAll("-", "_");
+    imageName = imageName.replaceAll(".", "_");
+    imageName = imageName.replaceAll(":", "_");
+    //?-- check image type for insert
+    final imageAsByte = await image.readAsBytes();
+    try {
+      //?--upload image to bucket
+      await KanSupabase.supabase.client.storage.from("images").uploadBinary(
+          imageName, imageAsByte,
+          fileOptions: FileOptions(
+              contentType: "image/${image.path.split(".").last}",
+              upsert: true));
+      //?-- upload image url to image table
+      String imageUrl = KanSupabase.supabase.client.storage
+          .from("images")
+          .getPublicUrl(imageName);
+      await KanSupabase.supabase.client
+          .from("product_images")
+          .upsert({"image_url": imageUrl, "product_id": productId});
+      return true;
+    } catch (e) {
+      throw Exception('Error: in upload this image to database: $e');
     }
   }
 }

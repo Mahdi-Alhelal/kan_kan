@@ -102,12 +102,12 @@ mixin OrderRepository {
   }
 }
 
-
+//for add order tracking
 /*
  List<Future> futures = <Future>[];
 
        listOfId.map((orderId) =>
-           futures.add(KanSupabase.supabase.client.from("orders").update({
+           futures.add(KanSupabase.supabase.client.from("orders").insert({
              "order_status": status,
            }).eq("order_id", orderId)));
        await Future.wait(futures);

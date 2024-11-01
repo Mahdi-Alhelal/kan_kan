@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan_admin/cubits/product_cubit/product_cubit.dart';
@@ -8,6 +10,7 @@ import 'package:kan_kan_admin/widget/form/product_form.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/component/helper/custom_colors.dart';
+import 'package:file_picker/file_picker.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -49,9 +52,25 @@ class _ProductScreenState extends State<ProductScreen> {
                       add: () {
                         if (formKey.currentState!.validate()) {
                           productCubit.addProduct();
+                          Navigator.pop(context);
                         }
                       },
-                      uploadImage: () {},
+                      uploadImage: () async {
+                        try {
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            allowMultiple: true,
+                            type: FileType.image,
+                          );
+                          if (result != null) {
+                            productCubit.images = result.paths
+                                .map((path) => File(path!))
+                                .toList();
+                          }
+                        } catch (e) {
+                          productCubit.images.clear();
+                        }
+                      },
                     ),
                   );
                 },
@@ -152,10 +171,12 @@ class _ProductScreenState extends State<ProductScreen> {
                                                     .validate()) {
                                                   productCubit
                                                       .updateProductEvent(
-                                                        factoryId:productCubit
+                                                    factoryId: productCubit
                                                         .productLayer
-                                                        .products[index].factory.factoryId ,
-                                                        index:index,
+                                                        .products[index]
+                                                        .factory
+                                                        .factoryId,
+                                                    index: index,
                                                     productId: productCubit
                                                         .productLayer
                                                         .products[index]
