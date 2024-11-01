@@ -50,7 +50,7 @@ class DealDetailsScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 2),
                             decoration: BoxDecoration(
-                              color: getDealEnumColor(dealStatus),
+                              color: getEnumColor(dealStatus),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(

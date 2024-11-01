@@ -11,19 +11,19 @@ mixin PaymentRepository {
       {required String userID,
       required String paymentMethod,
       required String paymentStatus,
-      required int orderID,
       required String transactionID,
       required double amount}) async {
     try {
-      await KanSupabase.supabase.client.from("payments").insert({
-        "order_id": orderID,
-        "created_by": userID,
+      final response =
+          await KanSupabase.supabase.client.from("payments").insert({
+        "user_id": userID,
         "payment_amount": amount,
         "payment_status": paymentStatus,
         "transaction_id": transactionID,
       }).select();
+      return response.first["payment_id"].toString();
     } catch (e) {
-      throw Exception('Error in update factory: $e');
+      throw Exception('Error in add payment: $e');
     }
   }
 }
