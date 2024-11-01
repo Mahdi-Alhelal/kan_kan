@@ -82,7 +82,8 @@ mixin ProductRepository {
     try {
       final response = await KanSupabase.supabase.client
           .from("products")
-          .select("*,factories(*)");
+          .select("*,factories(*),product_images(id,image_url)");
+      print(response.last);
       return response.map((element) => ProductModel.fromJson(element)).toList();
     } on PostgrestException {
       throw Exception('Error: no products');

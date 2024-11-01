@@ -1,4 +1,5 @@
 import 'package:kan_kan_admin/model/factory_model.dart';
+import 'package:kan_kan_admin/model/image_model.dart';
 
 class ProductModel {
   ProductModel(
@@ -11,7 +12,8 @@ class ProductModel {
       required this.productName,
       required this.productDescription,
       required this.modelNumber,
-      required this.weight});
+      required this.weight,
+      this.images});
   ProductModel.noFactory(
       {required this.width,
       required this.height,
@@ -32,6 +34,7 @@ class ProductModel {
   late String productName;
   late String productDescription;
   late String modelNumber;
+  late List<ImageModel>? images;
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     productId = json['product_id'] ?? 0;
@@ -44,6 +47,10 @@ class ProductModel {
     defaultPrice = json['default_price'] ?? 0.0;
     productName = json['product_name'] ?? "";
     productDescription = json['product_description'] ?? "";
+
+    images = List.from(json['product_images'])
+        .map((e) => ImageModel.fromJson(e))
+        .toList();
   }
 
   Map<String, dynamic> toJson({required int factoryId}) {

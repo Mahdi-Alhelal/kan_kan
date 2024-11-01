@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
@@ -7,7 +6,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 mixin DealRepository {
   Future<List<DealModel>> getAllDeals() async {
-    log("getAllDeals");
     try {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
