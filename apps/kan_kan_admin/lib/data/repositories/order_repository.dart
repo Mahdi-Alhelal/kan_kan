@@ -3,9 +3,6 @@ import 'package:kan_kan_admin/model/order_model2.dart';
 import '../../integrations/supabase/supabase_client.dart';
 
 mixin OrderRepository {
-  // Supabase client instance
-  // final SupabaseClient _supabase = SupabaseService().client;
-
   /*
   *
   * Tested
@@ -39,39 +36,33 @@ mixin OrderRepository {
   *
   * */
 
-  updateOrder({
-    required String id,
+  updateOrderStatus({
+    required int id,
     required String status,
   }) async {
     try {
-      final dataFound = await KanSupabase.supabase.client
-          .from("orders")
-          .select("*")
-          .match({"order_id": id}).select();
-      if (dataFound.isNotEmpty) {
-        await KanSupabase.supabase.client.from("orders").update({
-          "order_status": status,
-        }).eq("order_id", id);
-      }
+      await KanSupabase.supabase.client.from("orders").update({
+        "order_status": status,
+      }).eq("order_id", id);
+      return true;
     } catch (e) {
       throw Exception('Error in update order: $e');
     }
   }
 
-  updateAllOrdersForOneDeal(
-      {required String status, required String dealID}) async {
+  updateOrdersStatus({
+    required String status,
+    required int dealId,
+  }) async {
     try {
-      final dataFound = await KanSupabase.supabase.client
-          .from("orders")
-          .select("*")
-          .match({"deal_id": dealID}).select();
-      if (dataFound.isNotEmpty) {
-        await KanSupabase.supabase.client.from("orders").update({
-          "order_status": status,
-        }).eq("deal_id", dealID);
-      }
+      print('updateOrdersStatus api');
+
+      await KanSupabase.supabase.client.from("orders").update({
+        "order_status": status,
+      }).eq("deal_id", dealId);
+      return true;
     } catch (e) {
-      throw Exception('Error in update all orders for one deal: $e');
+      throw Exception('Error in update order: $e');
     }
   }
 
@@ -110,3 +101,14 @@ mixin OrderRepository {
     }
   }
 }
+
+
+/*
+ List<Future> futures = <Future>[];
+
+       listOfId.map((orderId) =>
+           futures.add(KanSupabase.supabase.client.from("orders").update({
+             "order_status": status,
+           }).eq("order_id", orderId)));
+       await Future.wait(futures);
+ */

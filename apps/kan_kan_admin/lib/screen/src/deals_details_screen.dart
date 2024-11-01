@@ -590,7 +590,29 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                               SizedBox(
                                 width: context.getWidth(value: 0.20),
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      detailCubit.tmpOrderStatus = 'processing';
+                                      updateStatus(
+                                          context: context,
+                                          onPressed: () {
+                                            detailCubit.updateOrderStatus(
+                                              dealId: widget.dealId,
+                                            );
+                                            Navigator.pop(context);
+                                          },
+                                          title: "تحديث حالة الطلب",
+                                          onChanged: (value) {
+                                            detailCubit.tmpOrderStatus = value;
+                                          },
+                                          items: DropMenuList.shipmentStatus
+                                              .map(
+                                                  (element) => DropdownMenuItem(
+                                                        value: element,
+                                                        child: Text(element),
+                                                      ))
+                                              .toList(),
+                                          value: "processing");
+                                    },
                                     child: const Text("تحديث حالة الطلبات")),
                               ),
                               SizedBox(
@@ -635,106 +657,112 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                           width: context.getWidth(value: 0.72),
                           child: TableSizedBox(
                             child: CustomTableTheme(
-                              child: PaginatedDataTable(
-                                rowsPerPage: 3,
-                                showEmptyRows: false,
-                                source: TableDataRow(
-                                  length: detailCubit.currentOrders.length,
-                                  customRow: List.generate(
-                                      detailCubit.currentOrders.length,
-                                      (index) {
-                                    return DataRow(
-                                      color: WidgetStateProperty.all(
-                                          AppColor.white),
-                                      cells: [
-                                        DataCell(
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                  "${detailCubit.userLayer.getOrderUser(id: detailCubit.currentOrders[index].userId).fullName}\n${detailCubit.currentOrders[index].orderId}")
-                                            ],
-                                          ),
-                                        ),
-                                        DataCell(
-                                          Center(
-                                            child: Text(
-                                              DateConverter.saDateFormate(
-                                                  detailCubit
-                                                      .currentOrders[index]
-                                                      .orderDate),
+                              child: BlocBuilder<DealDetailsCubit,
+                                  DealDetailsState>(
+                                builder: (context, state) {
+                                  return PaginatedDataTable(
+                                    rowsPerPage: 3,
+                                    showEmptyRows: false,
+                                    source: TableDataRow(
+                                      length: detailCubit.currentOrders.length,
+                                      customRow: List.generate(
+                                          detailCubit.currentOrders.length,
+                                          (index) {
+                                        return DataRow(
+                                          color: WidgetStateProperty.all(
+                                              AppColor.white),
+                                          cells: [
+                                            DataCell(
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                      "${detailCubit.userLayer.getOrderUser(id: detailCubit.currentOrders[index].userId).fullName}\n${detailCubit.currentOrders[index].orderId}")
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        //Todo! to add payment status
-                                        DataCell(CustomChips(
-                                          status: "need payment",
-                                          onTap: () async {
-                                            await updateStatus(
-                                                value: DropMenuList
-                                                    .paymentStatus.first,
-                                                context: context,
-                                                title: "حالة",
-                                                onChanged: (value) {},
-                                                items: DropMenuList
-                                                    .paymentStatus
-                                                    .map<DropdownMenuItem>(
-                                                        (String status) {
-                                                  return DropdownMenuItem(
-                                                    value: status,
-                                                    child: Text(status),
-                                                  );
-                                                }).toList());
-                                          },
-                                        )),
-                                        DataCell(CustomChips(
-                                          status: detailCubit
-                                              .currentOrders[index].orderStatus,
-                                          onTap: () async {
-                                            await updateStatus(
-                                                value: DropMenuList
-                                                    .shipmentStatus.first,
-                                                context: context,
-                                                title: "حالة",
-                                                onChanged: (value) {},
-                                                items: DropMenuList
-                                                    .shipmentStatus
-                                                    .map<DropdownMenuItem>(
-                                                        (String status) {
-                                                  return DropdownMenuItem(
-                                                    value: status,
-                                                    child: Text(status),
-                                                  );
-                                                }).toList());
-                                          },
-                                        )),
-                                      ],
-                                    );
-                                  }),
-                                ),
-                                columns: const [
-                                  DataColumn(
-                                    headingRowAlignment:
-                                        MainAxisAlignment.center,
-                                    label: Text("العميل"),
-                                  ),
-                                  DataColumn(
-                                    headingRowAlignment:
-                                        MainAxisAlignment.center,
-                                    label: Text("تاريخ طلب"),
-                                  ),
-                                  DataColumn(
-                                    headingRowAlignment:
-                                        MainAxisAlignment.center,
-                                    label: Text("حالة الدفع"),
-                                  ),
-                                  DataColumn(
-                                    headingRowAlignment:
-                                        MainAxisAlignment.center,
-                                    label: Text("حالة"),
-                                  ),
-                                ],
+                                            DataCell(
+                                              Center(
+                                                child: Text(
+                                                  DateConverter.saDateFormate(
+                                                      detailCubit
+                                                          .currentOrders[index]
+                                                          .orderDate),
+                                                ),
+                                              ),
+                                            ),
+                                            //Todo! to add payment status
+                                            DataCell(CustomChips(
+                                              status: "need payment",
+                                              onTap: () async {
+                                                await updateStatus(
+                                                    value: DropMenuList
+                                                        .paymentStatus.first,
+                                                    context: context,
+                                                    title: "حالة",
+                                                    onChanged: (value) {},
+                                                    items: DropMenuList
+                                                        .paymentStatus
+                                                        .map<DropdownMenuItem>(
+                                                            (String status) {
+                                                      return DropdownMenuItem(
+                                                        value: status,
+                                                        child: Text(status),
+                                                      );
+                                                    }).toList());
+                                              },
+                                            )),
+                                            DataCell(CustomChips(
+                                              status: detailCubit
+                                                  .currentOrders[index]
+                                                  .orderStatus,
+                                              onTap: () async {
+                                                await updateStatus(
+                                                    value: DropMenuList
+                                                        .shipmentStatus.first,
+                                                    context: context,
+                                                    title: "حالة",
+                                                    onChanged: (value) {},
+                                                    items: DropMenuList
+                                                        .shipmentStatus
+                                                        .map<DropdownMenuItem>(
+                                                            (String status) {
+                                                      return DropdownMenuItem(
+                                                        value: status,
+                                                        child: Text(status),
+                                                      );
+                                                    }).toList());
+                                              },
+                                            )),
+                                          ],
+                                        );
+                                      }),
+                                    ),
+                                    columns: const [
+                                      DataColumn(
+                                        headingRowAlignment:
+                                            MainAxisAlignment.center,
+                                        label: Text("العميل"),
+                                      ),
+                                      DataColumn(
+                                        headingRowAlignment:
+                                            MainAxisAlignment.center,
+                                        label: Text("تاريخ طلب"),
+                                      ),
+                                      DataColumn(
+                                        headingRowAlignment:
+                                            MainAxisAlignment.center,
+                                        label: Text("حالة الدفع"),
+                                      ),
+                                      DataColumn(
+                                        headingRowAlignment:
+                                            MainAxisAlignment.center,
+                                        label: Text("حالة"),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                             ),
                           ))

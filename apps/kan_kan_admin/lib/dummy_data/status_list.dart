@@ -6,16 +6,24 @@ class DropMenuList {
   static List<String> paymentStatus = ["مدفوع ", "مسترجع"];
 
   static List<String> shipmentStatus = [
-    "مكتمل",
-    "تم إرسال الطلب",
-    "تم إرسال الطلب",
-    "في المستودع الصين",
-    "في الشحن",
-    "في سعودية",
-    "ملغي"
+    "processing",
+    "pending",
+    "inChina",
+    "inTransit",
+    "inSaudi",
+    "withShipmentCompany",
+    "completed",
+    'canceled',
   ];
 
-  static List<String> dealStatus = ["completed", 'active', 'pending', 'closed', 'private', 'processing' ];
+  static List<String> dealStatus = [
+    "completed",
+    'active',
+    'pending',
+    'closed',
+    'private',
+    'processing'
+  ];
 
   //static List<String> userStatus = ["نشط", "محجوب"];
 

@@ -153,11 +153,17 @@ class OrderScreen extends StatelessWidget {
                                   status: localizedOrderStatus,
                                   onTap: () async {
                                     await updateStatus(
-                                        value:
-                                            DropMenuList.shipmentStatus.first,
+                                        onPressed: () {
+                                          orderCubit.updateUserOrderStatus(
+                                              index: index);
+                                        },
+                                        value: orderCubit.ordersData
+                                            .orders[index].orderStatus,
                                         context: context,
                                         title: "حالة",
-                                        onChanged: (value) {},
+                                        onChanged: (value) {
+                                          orderCubit.tmpUserOrderStatus = value;
+                                        },
                                         items: DropMenuList.shipmentStatus
                                             .map<DropdownMenuItem>(
                                                 (String status) {

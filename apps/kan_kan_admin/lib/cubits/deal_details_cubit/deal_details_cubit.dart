@@ -15,7 +15,6 @@ import 'package:meta/meta.dart';
 part 'deal_details_state.dart';
 
 class DealDetailsCubit extends Cubit<DealDetailsState> {
-  DealDetailsCubit() : super(DealDetailsInitial());
   final api = DataRepository();
   //?-- data layer
   final orderLayer = GetIt.I.get<OrderDataLayer>();
@@ -42,9 +41,11 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   late DealModel deal;
   //?--
   String tmpStatus = '';
-
+  String tmpOrderStatus = 'processing';
   List<DateTime?> dealDuration = [];
   List<OrderModel> currentOrders = [];
+
+  DealDetailsCubit() : super(DealDetailsInitial());
 
   dealOrders({required int dealId}) {
     currentOrders = orderLayer.orders
@@ -90,9 +91,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
         dealLayer.deals[index] = updateDeal;
         deal = updateDeal;
       }
-      emit(UpdateDealStatusSuccessState());
+      if (!isClosed) emit(UpdateDealStatusSuccessState());
     } catch (errorMessage) {
-      emit(ErrorStatus(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
 
@@ -105,9 +106,40 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
             ? element.dealStatus = tmpStatus
             : null);
       }
-      emit(UpdateDealStatusSuccessState());
+      if (!isClosed) emit(UpdateDealStatusSuccessState());
     } catch (errorMessage) {
-      emit(ErrorStatus(errorMessage: errorMessage.toString()));
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  updateOrderStatus({required int dealId}) async {
+    try {
+      print("iam at updateOrderStatus");
+      List<int> orderIndex = [];
+      for (int index = 0; index < orderLayer.orders.length; index++) {
+        if (orderLayer.orders[index].dealId == dealId) {
+          orderIndex.add(index);
+          print('add order index:$index');
+        }
+      }
+      final response = await api.updateOrdersStatus(
+        dealId: dealId,
+        status: tmpOrderStatus,
+      );
+      if (response) {
+        print("if condition");
+        for (int index in orderIndex) {
+          orderLayer.orders[index].orderStatus = tmpOrderStatus;
+        }
+      }
+
+      currentOrders = orderLayer.orders
+          .where((OrderModel order) => order.dealId == dealId)
+          .toList();
+      if (!isClosed) emit(UpdateOrderStatusSuccessState());
+    } catch (errorMessage) {
+      print(errorMessage);
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
 }
