@@ -20,4 +20,10 @@ class DateConverter {
       {required DateTime startDate, required DateTime endDate}) {
     return endDate.difference(startDate).inDays + 1;
   }
+
+  static String? formatTime(String? dateTimeString) {
+  DateTime dateTime = DateTime.parse(dateTimeString!);
+  // Format time as HH:MM:SS
+  return "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+}
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/model/order_model.dart';
+import 'package:kan_kan/screens/order_screen.dart';
 import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
@@ -155,6 +156,31 @@ class SucessPaymentScreen extends StatelessWidget {
                       ],
                     )
                   ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: context.getWidth(value: 0.75),
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrderScreen(
+                                orderDetails: orderDetails,
+                                dealDetails: dealDetails,
+                              )),
+                    );
+                  },
+                  child: const Text("تفاصيل الطلب"),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(

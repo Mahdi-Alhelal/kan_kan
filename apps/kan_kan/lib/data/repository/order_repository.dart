@@ -16,6 +16,7 @@ mixin OrderRepository {
       required int dealID,
       required String address,
       required int quantity,
+      required int allQuantity,
       required double amount}) async {
     try {
       final dataFound =
@@ -26,8 +27,18 @@ mixin OrderRepository {
         "amount": amount,
         "quantity": quantity
       }).select();
+      allQuantity += quantity;
 
-      return OrderModel.fromJson(dataFound.first);
+      await KanSupabase.supabase.client
+          .from("deals")
+          .update({"number_of_order": allQuantity})
+          .eq("deal_id", dealID)
+          .select();
+      final jsonOrderToModel = OrderModel.fromJson(dataFound.first);
+      await KanSupabase.supabase.client.from("order_track").insert(
+          {"order_id": jsonOrderToModel.orderId, "status": "pending"}).select();
+
+      return jsonOrderToModel;
       ;
     } catch (e) {
       throw Exception('Error in add order: $e');
@@ -76,6 +87,34 @@ mixin OrderRepository {
       return response.map((element) => OrderModel.fromJson(element)).toList();
     } catch (e) {
       throw Exception('Error in get all orders: $e');
+    }
+  }
+
+  Future<List<OrderModel>> getOneOrdersByUser(
+      {required String userID, required int orderID}) async {
+    try {
+      final response = await KanSupabase.supabase.client
+          .from("orders")
+          .select("*")
+          .eq("order_id", orderID)
+          .eq("user_id", userID);
+      return response.map((element) => OrderModel.fromJson(element)).toList();
+    } catch (e) {
+      throw Exception('Error in get all orders: $e');
+    }
+  }
+
+  Stream<List<Map<String, dynamic>>> getAllTrackingForOneOrdersByUser(
+      {required int orderID}) {
+    try {
+      final response = KanSupabase.supabase.client
+          .from("order_track")
+          .stream(primaryKey: ["id"])
+          .eq("order_id", orderID)
+          .order("created_at");
+      return response;
+    } catch (e) {
+      throw Exception('Error in get all order tracking: $e');
     }
   }
 }

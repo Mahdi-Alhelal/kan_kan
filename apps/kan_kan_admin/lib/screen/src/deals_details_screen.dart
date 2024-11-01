@@ -605,7 +605,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                             detailCubit.tmpOrderStatus = value;
                                           },
                                           items: DropMenuList.shipmentStatus
-                                              .map(
+                                              .map( 
                                                   (element) => DropdownMenuItem(
                                                         value: element,
                                                         child: Text(element),

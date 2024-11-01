@@ -204,8 +204,8 @@ class PrePaymentScreen extends StatelessWidget {
                                   children: List.generate(
                                       cubitAddress.addressLayer.addressUserList
                                           .length, (int index) {
-                                    address = cubitAddress.addressLayer
-                                        .addressUserList[index]["city"];
+                                    print("-------");
+
                                     return Row(
                                       children: [
                                         CustomChoiceChip(
@@ -223,6 +223,8 @@ class PrePaymentScreen extends StatelessWidget {
                                                 ["address_id"];
                                             address = cubitAddress.addressLayer
                                                 .addressUserList[index]["city"];
+                                            print("-------");
+                                            print(address);
                                           },
                                         ),
                                         const SizedBox(
@@ -273,6 +275,7 @@ class PrePaymentScreen extends StatelessWidget {
                                               case PaymentStatus.paid:
                                                 final orderdetails =
                                                     await paymentCubit.addPaymentEvent(
+                                                      allQuantity: dealData.numberOfOrder,
                                                         userID:
                                                             "83efec21-2fc7-416e-9825-a86a8af3a63a",
                                                         paymentMethod: "MADA",

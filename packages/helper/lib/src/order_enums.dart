@@ -76,7 +76,7 @@ class LocalizedEnums {
     },
     OrderStatus.inTransit: {
       'en': 'In Transit',
-      'ar': 'في الطريق',
+      'ar': 'في الشحن',
       'zh': '运输中',
     },
     OrderStatus.inSaudi: {

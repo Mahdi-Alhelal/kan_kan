@@ -43,7 +43,7 @@ Color getEnumColor(var value) {
     case OrderStatus.inTransit:
       return Colors.amber;
     case OrderStatus.inSaudi:
-      return Colors.yellow;
+      return Colors.greenAccent;
     case OrderStatus.withShipmentCompany:
       return Colors.pink;
     case OrderStatus.completed:

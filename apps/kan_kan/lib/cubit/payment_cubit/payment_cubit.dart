@@ -16,6 +16,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       required String address,
       required int dealID,
       required int quantity,
+      required int allQuantity,
       required double amount}) async {
     emit(LoadingPaymentState());
     try {
@@ -27,7 +28,7 @@ class PaymentCubit extends Cubit<PaymentState> {
           amount: amount);
       print(response.toString());
       final responseOrder = await DataRepository().addNewOrder(
-          userID: userID, dealID: dealID, address: address, amount: amount,quantity :quantity);
+          userID: userID, dealID: dealID, address: address, amount: amount,quantity :quantity,allQuantity: allQuantity);
       emit(SuccessPaymentState());
 
       return responseOrder;
