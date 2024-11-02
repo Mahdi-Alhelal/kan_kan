@@ -48,8 +48,8 @@ class NavigationCubit extends Cubit<NavigationState> {
     getDealData();
     getOrderData();
     getCategories();
-    addNewOrder();
-    addNewUser();
+    getNewOrder();
+    getNewUser();
   }
 
   navigationEvent({required int value}) {
@@ -117,7 +117,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     }
   }
 
-  addNewUser() {
+  void getNewUser() {
     KanSupabase.supabase.client
         .channel('add_user')
         .onPostgresChanges(
@@ -132,7 +132,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     if (!isClosed) emit(SuccessState());
   }
 
-  addNewOrder() {
+  getNewOrder() {
     KanSupabase.supabase.client
         .channel('add_order')
         .onPostgresChanges(
