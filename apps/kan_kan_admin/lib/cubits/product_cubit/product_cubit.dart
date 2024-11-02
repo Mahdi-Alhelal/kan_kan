@@ -42,8 +42,9 @@ class ProductCubit extends Cubit<ProductState> {
   void addProduct() async {
     await Future.delayed(Duration.zero);
     try {
-      int productId = await api.addNewProduct(
+      ProductModel addedProduct = await api.addNewProduct(
         product: ProductModel(
+            images: [],
             width: num.parse(widthController.text.trim()),
             height: num.parse(hightController.text.trim()),
             length: num.parse(lengthController.text.trim()),
@@ -57,8 +58,11 @@ class ProductCubit extends Cubit<ProductState> {
         factoryId: int.parse(factoryNameController.text.trim()),
       );
       if (images.isNotEmpty && images != []) {
-  
-        await api.uploadProductsImages(images: images, productId: productId);
+        await api.uploadProductsImages(
+            images: images, productId: addedProduct.productId);
+      }
+      if (addedProduct.productId != 0) {
+        productLayer.products.add(addedProduct);
       }
       emit(AddProductSuccessState());
     } catch (errorMessage) {
@@ -75,6 +79,7 @@ class ProductCubit extends Cubit<ProductState> {
     await Future.delayed(Duration.zero);
     try {
       ProductModel updateProduct = ProductModel(
+          images: [],
           width: num.parse(widthController.text.trim()),
           height: num.parse(hightController.text.trim()),
           length: num.parse(lengthController.text.trim()),
@@ -101,7 +106,8 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  sortEvent() {
+  sortEvent() async {
+    await Future.delayed(Duration.zero);
     emit(SortSuccessState());
   }
 }

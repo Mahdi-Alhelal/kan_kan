@@ -12,16 +12,16 @@ mixin ProductRepository {
   * Add new Category
   *
   * */
-  Future<int> addNewProduct({
+  Future<ProductModel> addNewProduct({
     required ProductModel product,
     required int factoryId,
   }) async {
     try {
-      final productId = await KanSupabase.supabase.client
+      final response = await KanSupabase.supabase.client
           .from("products")
           .upsert(product.toJson(factoryId: factoryId))
-          .select('product_id');
-      return productId.first['product_id'];
+          .select("*,factories(*),product_images(id,image_url)");
+      return ProductModel.fromJson(response.first);
     } on PostgrestException {
       throw Exception('Error: in add product');
     } catch (e) {
@@ -83,7 +83,6 @@ mixin ProductRepository {
       final response = await KanSupabase.supabase.client
           .from("products")
           .select("*,factories(*),product_images(id,image_url)");
-      print(response.last);
       return response.map((element) => ProductModel.fromJson(element)).toList();
     } on PostgrestException {
       throw Exception('Error: no products');

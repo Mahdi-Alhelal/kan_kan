@@ -7,20 +7,22 @@ import 'package:ui/component/widget/custom_drop_down_menu.dart';
 import 'package:ui/component/widget/custom_text_field_form.dart';
 
 class ProductForm extends StatelessWidget {
-  const ProductForm(
-      {super.key,
-      required this.productNameController,
-      required this.factoryNameController,
-      required this.modelNumberController,
-      required this.weightController,
-      required this.hightController,
-      required this.lengthController,
-      required this.widthController,
-      required this.descriptionController,
-      required this.add,
-      required this.uploadImage,
-      this.formKey,
-      required this.factoryList, required this.text});
+  const ProductForm({
+    super.key,
+    required this.productNameController,
+    required this.factoryNameController,
+    required this.modelNumberController,
+    required this.weightController,
+    required this.hightController,
+    required this.lengthController,
+    required this.widthController,
+    required this.descriptionController,
+    required this.add,
+    required this.uploadImage,
+    this.formKey,
+    required this.factoryList,
+    required this.text,
+  });
 
   final TextEditingController productNameController;
   final TextEditingController factoryNameController;
@@ -35,7 +37,6 @@ class ProductForm extends StatelessWidget {
   final GlobalKey<FormState>? formKey;
   final List<FactoryModel> factoryList;
   final String text;
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -75,9 +76,9 @@ class ProductForm extends StatelessWidget {
                         .map<DropdownMenuItem>(
                           (FactoryModel element) => DropdownMenuItem(
                             value: element.factoryId,
-                            child: Text(element.factoryName), 
-                          )
-                        ) 
+                            child: Text(element.factoryName),
+                          ),
+                        )
                         .toList(),
                   ),
                 ),

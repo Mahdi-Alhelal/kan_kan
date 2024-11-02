@@ -142,6 +142,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                           customBottomSheet(
                                             context: context,
                                             child: ProductForm(
+                                                
                                               text: "تعديل المنتج",
                                               factoryList: productCubit
                                                   .factoryLayer.factories,
@@ -188,7 +189,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                               uploadImage: () {},
                                             ),
                                           );
-                                        },
+                                         },
                                         icon: const Icon(Icons.edit),
                                       ),
                                       Text(
@@ -280,5 +281,19 @@ class _ProductScreenState extends State<ProductScreen> {
         );
       }),
     );
+  }
+}
+
+class CustomCheckBox extends StatelessWidget {
+  const CustomCheckBox({
+    super.key,
+    required this.value,
+    required this.onChange,
+  });
+  final bool value;
+  final void Function(bool?) onChange;
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(value: value, onChanged: onChange);
   }
 }

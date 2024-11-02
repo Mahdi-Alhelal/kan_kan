@@ -9,7 +9,9 @@ mixin DealRepository {
     try {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
-          .select("*,categories(category_name) ,products(*,factories(*))");
+          .select(
+              "*,categories(category_name) ,products(*,factories(*),product_images(id,image_url))");
+
       return data.map((element) => DealModel.fromJson(element)).toList();
     } on PostgrestException {
       throw Exception('Error in get deal data');
@@ -24,7 +26,7 @@ mixin DealRepository {
       final response = await KanSupabase.supabase.client
           .from("deals")
           .insert(deal.toJson(productId: productId))
-          .select("*,categories(category_name) ,products(*,factories(*))");
+          .select("*,categories(category_name) ,products(*,factories(*),product_images(id,image_url))");
       return DealModel.fromJson(response.first);
     } catch (e) {
       throw Exception('upload deal $e');

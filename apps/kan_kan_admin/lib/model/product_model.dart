@@ -13,7 +13,7 @@ class ProductModel {
       required this.productDescription,
       required this.modelNumber,
       required this.weight,
-      this.images});
+      required this.images});
   ProductModel.noFactory(
       {required this.width,
       required this.height,
@@ -34,7 +34,7 @@ class ProductModel {
   late String productName;
   late String productDescription;
   late String modelNumber;
-  late List<ImageModel>? images;
+  late List<ImageModel> images;
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     productId = json['product_id'] ?? 0;
