@@ -12,6 +12,9 @@ mixin DealRepository {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
           .select("*,categories(category_name) ,products(*)")
+          .neq("deal_status", "private")
+          .neq("deal_status", "closed")
+          .neq("deal_status", "pending")
           .order("deal_id");
       return data.map((element) => DealModel.fromJson(element)).toList();
     } on PostgrestException {
@@ -29,6 +32,9 @@ mixin DealRepository {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
           .select("*,categories(category_name) ,products(*)")
+          .neq("deal_status", "private")
+          .neq("deal_status", "closed")
+          .neq("deal_status", "pending")
           .order("deal_id");
       return data.map((element) => DealModel.fromJson(element)).toList();
     } catch (e) {}

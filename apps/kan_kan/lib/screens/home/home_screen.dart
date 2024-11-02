@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        "علي التاروتي",
+                        homeCubit.userLayer.user.fullName,
                         style: TextStyle(color: AppColor.secondary),
                       ),
                     ),
