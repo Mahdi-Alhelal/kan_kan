@@ -129,7 +129,7 @@ class DealDetailsScreen extends StatelessWidget {
                   height: 35,
                   alignment: Alignment.center,
                   child: TabBar(
-                      // indicatorPadding: EdgeInsets.zero,
+                      indicatorPadding: EdgeInsets.only(left: -20, right: -20),
                       //tabAlignment: TabAlignment.fill,
 
                       labelColor: AppColor.white,

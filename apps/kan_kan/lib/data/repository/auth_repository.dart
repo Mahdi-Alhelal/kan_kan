@@ -1,12 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:kan_kan/model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../integrations/supabase/supabase_client.dart';
 
 mixin AuthRepository {
+  String getCurrentUser() {
+    return KanSupabase.supabase.client.auth.currentUser?.email ?? "";
+  }
+
   //Tested
+  int isExsit = 0;
   Future loginToken({required String email}) async {
     try {
       await Future.delayed(Duration.zero);
@@ -30,27 +36,29 @@ mixin AuthRepository {
   }
 
 //tested
-  Future<void> signUp(
-      {required String email,
-      required String fName,
-      required String phoneNumber}) async {
+  Future<bool> signUp({required UserModel userDetails}) async {
     try {
-      var x = Random().nextInt(999999);
-      // Sign up with email to send an email verification OTP
-      final response = await KanSupabase.supabase.client.auth
-          .signUp(email: email, password: "kankan$x");
+      await isExsitEmail(email: userDetails.email);
+      if (isExsit == 0) {
+        var x = Random().nextInt(999999);
+        // Sign up with email to send an email verification OTP
 
-      final user = response.user;
-      print(user?.email);
-      if (user != null) {
-        await KanSupabase.supabase.client.from('users').insert({
-          'user_id': user.id,
-          'email': user.email,
-          'full_name': fName,
-          'phone': phoneNumber,
-          'created_at': DateTime.now().toIso8601String(),
-        });
+        final response = await KanSupabase.supabase.client.auth
+            .signUp(email: userDetails.email, password: "kankan$x");
+
+        final user = response.user;
+        print(user?.email);
+        if (user != null) {
+          await KanSupabase.supabase.client
+              .from('users')
+              .insert(userDetails.toJson());
+          return true;
+        }
+      } else {
+        throw Exception('You are already Registerd before');
       }
+      return false;
+
       // } on AuthException {
       //   // Handle KanSupabase.supabase Auth-related exceptions
       //   throw Exception('error during sign up email does not exit');
@@ -65,9 +73,13 @@ mixin AuthRepository {
 
   Future login({required String email}) async {
     try {
-      await KanSupabase.supabase.client.auth.signInWithOtp(email: email);
-
-      return true;
+      await isExsitEmail(email: email);
+      if (isExsit != 0) {
+        await KanSupabase.supabase.client.auth.signInWithOtp(email: email);
+        return true;
+      } else {
+        return false;
+      }
     } on AuthException {
       return false;
     }
@@ -90,12 +102,10 @@ mixin AuthRepository {
           .from("users")
           .select("*")
           .eq("email", email);
-      // GetIt.I.get<UserLayer>().user = UserModel.fromJson(data.first);
-      return true;
+      print(data.first.toString());
+      return UserModel.fromJson(data.first);
     } on PostgrestException {
       throw Exception('Error inserting user data');
-    } on AuthException {
-      throw Exception('Error during OTP verification');
     } catch (e) {
       throw Exception('Error during OTP verification: $e');
     }
@@ -107,5 +117,14 @@ mixin AuthRepository {
     } catch (e) {
       throw Exception('Error during sign-out');
     }
+  }
+
+  Future isExsitEmail({required String email}) async {
+    final res = await KanSupabase.supabase.client
+        .from("users")
+        .count()
+        .eq("email", email);
+
+    isExsit = res;
   }
 }

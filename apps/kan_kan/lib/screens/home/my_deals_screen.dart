@@ -57,7 +57,7 @@ class MyDealsScreen extends StatelessWidget {
                     height: 50,
                     alignment: Alignment.center,
                     child: Text(
-                      "صفقاتي الحالية",
+                      "صفقاتي",
                       style: TextStyle(color: AppColor.white),
                     ),
                   ),
