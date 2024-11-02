@@ -17,7 +17,7 @@ class CustomChips extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          width: MediaQuery.of(context).size.width * .07,
+          width: MediaQuery.of(context).size.width * .09,
           height: MediaQuery.of(context).size.height * .05,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),

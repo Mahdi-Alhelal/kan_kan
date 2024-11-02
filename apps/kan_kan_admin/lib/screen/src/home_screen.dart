@@ -17,25 +17,34 @@ class HomeScreen extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                AppStatistics(
-                  icon: Icons.handshake_outlined,
-                  number: homeCubit.dealLayer.deals.length,
-                  type: "عدد الصفقات",
-                ),
-                AppStatistics(
-                  icon: Icons.factory,
-                  number: homeCubit.factoryLayer.factories.length,
-                  type: "عدد المصانع",
-                ),
-                AppStatistics(
-                  icon: Icons.people_outline,
-                  number: homeCubit.userLayer.usersList.length,
-                  type: "عدد المسخدمين",
-                ),
-              ],
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    AppStatistics(
+                      icon: Icons.handshake_outlined,
+                      number: homeCubit.dealLayer.deals.length,
+                      type: "عدد الصفقات",
+                    ),
+                    AppStatistics(
+                      icon: Icons.factory,
+                      number: homeCubit.factoryLayer.factories.length,
+                      type: "عدد المصانع",
+                    ),
+                    AppStatistics(
+                      icon: Icons.people_outline,
+                      number: homeCubit.userLayer.usersList.length,
+                      type: "عدد المسخدمين",
+                    ),
+                    AppStatistics(
+                      icon: Icons.production_quantity_limits,
+                      number: homeCubit.orderLayer.orders.length,
+                      type: "عدد الطلبات",
+                    ),
+                  ],
+                );
+              },
             ),
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
@@ -67,10 +76,21 @@ class HomeScreen extends StatelessWidget {
                                 borderData: FlBorderData(
                                   show: false,
                                 ),
-                                sectionsSpace: 0,
-                                centerSpaceRadius: 40,
-                                sections:
-                                    showingSections(homeCubit.touchedIndex),
+                                sectionsSpace: 9,
+                                centerSpaceRadius: 90,
+                                sections: showingSections(
+                                  touchedIndex: homeCubit.touchedIndex,
+                                  pendingNum: homeCubit.pendingNum,
+                                  processingNum: homeCubit.processingNum,
+                                  inChinaNum: homeCubit.inChinaNum,
+                                  inTransitNum: homeCubit.inTransitNum,
+                                  inSaudiNum: homeCubit.inSaudiNum,
+                                  withShipmentCompanyNum:
+                                      homeCubit.withShipmentCompanyNum,
+                                  completedNum: homeCubit.completedNum,
+                                  canceledNum: homeCubit.canceledNum,
+                                  total: homeCubit.total,
+                                ),
                               ),
                             ),
                           ),
@@ -123,18 +143,29 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-List<PieChartSectionData> showingSections(touchedIndex) {
-  return List.generate(4, (i) {
+List<PieChartSectionData> showingSections({
+  required int touchedIndex,
+  required num pendingNum,
+  required num processingNum,
+  required num inChinaNum,
+  required num inTransitNum,
+  required num inSaudiNum,
+  required num withShipmentCompanyNum,
+  required num completedNum,
+  required num canceledNum,
+  required num total,
+}) {
+  return List.generate(8, (i) {
     final isTouched = i == touchedIndex;
     final fontSize = isTouched ? 25.0 : 16.0;
-    final radius = isTouched ? 60.0 : 50.0;
+    final radius = isTouched ? 90.0 : 50.0;
     const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
     switch (i) {
       case 0:
         return PieChartSectionData(
           color: Colors.amberAccent,
-          value: 40,
-          title: '40%',
+          value: (pendingNum / total) * 100,
+          title: '${(pendingNum / total) * 100}%',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -146,8 +177,8 @@ List<PieChartSectionData> showingSections(touchedIndex) {
       case 1:
         return PieChartSectionData(
           color: Colors.brown,
-          value: 30,
-          title: '30%',
+          value: (processingNum / total) * 100,
+          title: '${(processingNum / total) * 100}%',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -159,8 +190,8 @@ List<PieChartSectionData> showingSections(touchedIndex) {
       case 2:
         return PieChartSectionData(
           color: Colors.yellow,
-          value: 15,
-          title: '15%',
+          value: (inChinaNum / total) * 100,
+          title: '${(inChinaNum / total) * 100}%',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -171,9 +202,61 @@ List<PieChartSectionData> showingSections(touchedIndex) {
         );
       case 3:
         return PieChartSectionData(
-          color: Colors.indigoAccent,
-          value: 15,
-          title: '15%',
+          color: Colors.lime,
+          value: (inTransitNum / total) * 100,
+          title: '${(inTransitNum / total) * 100}%',
+          radius: radius,
+          titleStyle: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            shadows: shadows,
+          ),
+        );
+      case 4:
+        return PieChartSectionData(
+          color: Colors.green,
+          value: (inSaudiNum / total) * 100,
+          title: '${(inSaudiNum / total) * 100}%',
+          radius: radius,
+          titleStyle: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            shadows: shadows,
+          ),
+        );
+      case 5:
+        return PieChartSectionData(
+          color: Colors.black,
+          value: (withShipmentCompanyNum / total) * 100,
+          title: '${(withShipmentCompanyNum / total) * 100}%',
+          radius: radius,
+          titleStyle: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            shadows: shadows,
+          ),
+        );
+      case 6:
+        return PieChartSectionData(
+          color: Colors.deepPurple,
+          value: (completedNum / total) * 100,
+          title: '${(completedNum / total) * 100}%',
+          radius: radius,
+          titleStyle: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            shadows: shadows,
+          ),
+        );
+      case 7:
+        return PieChartSectionData(
+          color: Colors.black,
+          value: (canceledNum / total),
+          title: '${(canceledNum / total) * 100}%',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,

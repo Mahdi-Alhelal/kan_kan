@@ -20,10 +20,70 @@ class HomeCubit extends Cubit<HomeState> {
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
   final userLayer = GetIt.I.get<UserLayer>();
   final orderLayer = GetIt.I.get<OrderDataLayer>();
-
+  num pendingNum = 0;
+  num processingNum = 0;
+  num inChinaNum = 0;
+  num inTransitNum = 0;
+  num inSaudiNum = 0;
+  num withShipmentCompanyNum = 0;
+  num completedNum = 0;
+  num canceledNum = 0;
+  num total = 0;
+  List<OrderModel> monthOrders = [];
   HomeCubit() : super(HomeInitial()) {
     getNewOrder();
     getNewUser();
+    monthOrders = orderLayer.orders
+        .where((order) =>
+            DateTime.parse(order.orderDate).month == DateTime.now().month)
+        .toList();
+    pendingNum = monthOrders
+        .where((order) => order.orderStatus == "pending")
+        .toList()
+        .length;
+
+    processingNum = monthOrders
+        .where((order) => order.orderStatus == "processing")
+        .toList()
+        .length;
+
+    inChinaNum = monthOrders
+        .where((order) => order.orderStatus == "inChina")
+        .toList()
+        .length;
+
+    inTransitNum = monthOrders
+        .where((order) => order.orderStatus == "inTransit")
+        .toList()
+        .length;
+
+    inSaudiNum = monthOrders
+        .where((order) => order.orderStatus == "inSaudi")
+        .toList()
+        .length;
+
+    withShipmentCompanyNum = monthOrders
+        .where((order) => order.orderStatus == "withShipmentCompany")
+        .toList()
+        .length;
+
+    completedNum = monthOrders
+        .where((order) => order.orderStatus == "completed")
+        .toList()
+        .length;
+
+    canceledNum = monthOrders
+        .where((order) => order.orderStatus == "canceled")
+        .toList()
+        .length;
+    total = pendingNum +
+        processingNum +
+        inChinaNum +
+        inTransitNum +
+        inSaudiNum +
+        withShipmentCompanyNum +
+        completedNum +
+        canceledNum;
   }
 
   update() {
