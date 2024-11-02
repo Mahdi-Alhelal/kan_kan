@@ -61,231 +61,239 @@ class OrderScreen extends StatelessWidget {
                 child: CustomTableTheme(
                   child: BlocBuilder<OrderCubit, OrderState>(
                     builder: (context, state) {
-                      return PaginatedDataTable(
-                        sortAscending: orderCubit.sort,
-                        sortColumnIndex: orderCubit.columnIndex,
-                        showEmptyRows: false,
-                        source: TableDataRow(
-                          length: orderCubit.ordersData.orders.length,
-                          customRow: List.generate(
-                              orderCubit.ordersData.orders.length, (index) {
-                            UserModel orderUser = orderCubit.userOrderData
-                                .getOrderUser(
-                                    id: orderCubit
-                                        .ordersData.orders[index].userId);
+                      if (orderCubit.ordersData.orders.isNotEmpty &&
+                          orderCubit.userOrderDeal.deals.isNotEmpty) {
+                        return PaginatedDataTable(
+                          sortAscending: orderCubit.sort,
+                          sortColumnIndex: orderCubit.columnIndex,
+                          showEmptyRows: false,
+                          source: TableDataRow(
+                            length: orderCubit.ordersData.orders.length,
+                            customRow: List.generate(
+                                orderCubit.ordersData.orders.length, (index) {
+                              UserModel orderUser = orderCubit.userOrderData
+                                  .getOrderUser(
+                                      id: orderCubit
+                                          .ordersData.orders[index].userId);
 
-                            DealModel myDeal = orderCubit.userOrderDeal.deals
-                                .firstWhere((element) =>
-                                    element.dealId ==
-                                    orderCubit.ordersData.orders[index].dealId);
+                              DealModel myDeal = orderCubit.userOrderDeal.deals
+                                  .firstWhere((element) =>
+                                      element.dealId ==
+                                      orderCubit
+                                          .ordersData.orders[index].dealId);
 
-                            orderCubit.userOrderProduct
-                                .getProductOrder(id: myDeal.product.productId);
-                            String languageCode =
-                                Localizations.localeOf(context).languageCode;
+                              orderCubit.userOrderProduct.getProductOrder(
+                                  id: myDeal.product.productId);
+                              String languageCode =
+                                  Localizations.localeOf(context).languageCode;
 
-                            OrderStatus orderStatus =
-                                EnumOrderHelper.stringToOrderStatus(orderCubit
-                                    .ordersData.orders[index].orderStatus);
-                            String localizedOrderStatus =
-                                LocalizedEnums.getOrderStatusName(
-                                    orderStatus, languageCode);
+                              OrderStatus orderStatus =
+                                  EnumOrderHelper.stringToOrderStatus(orderCubit
+                                      .ordersData.orders[index].orderStatus);
+                              String localizedOrderStatus =
+                                  LocalizedEnums.getOrderStatusName(
+                                      orderStatus, languageCode);
 
-                            PaymentEnums paymentStatus =
-                                EnumPaymentHelper.stringToOrderStatus(orderCubit
-                                    .ordersData.orders[index].orderStatus);
-                            String localizedPaymentStatus =
-                                LocalizedPaymentEnums.getPaymentStatusName(
-                                    paymentStatus, languageCode);
+                              PaymentEnums paymentStatus =
+                                  EnumPaymentHelper.stringToOrderStatus(
+                                      orderCubit.ordersData.orders[index]
+                                          .orderStatus);
+                              String localizedPaymentStatus =
+                                  LocalizedPaymentEnums.getPaymentStatusName(
+                                      paymentStatus, languageCode);
 
-                            return DataRow(
-                              onLongPress: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OrderDetailsScreen(
-                                        orderDetails:
-                                            orderCubit.ordersData.orders[index],
-                                        dealDetails: myDeal,
-                                        userDetails: orderUser),
+                              return DataRow(
+                                onLongPress: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderDetailsScreen(
+                                          orderDetails: orderCubit
+                                              .ordersData.orders[index],
+                                          dealDetails: myDeal,
+                                          userDetails: orderUser),
+                                    ),
+                                  );
+                                },
+                                color: WidgetStateProperty.all(AppColor.white),
+                                cells: [
+                                  DataCell(
+                                    Row(
+                                      children: [
+                                        Text(
+                                            "${orderUser.fullName}\n O${orderCubit.ordersData.orders[index].orderId}")
+                                      ],
+                                    ),
                                   ),
-                                );
-                              },
-                              color: WidgetStateProperty.all(AppColor.white),
-                              cells: [
-                                DataCell(
-                                  Row(
-                                    children: [
-                                      Text(
-                                          "${orderUser.fullName}\n O${orderCubit.ordersData.orders[index].orderId}")
-                                    ],
-                                  ),
-                                ),
-                                DataCell(Text(
-                                    "${orderCubit.ordersData.orders[index].amount}")),
-                                DataCell(Text(myDeal.dealTitle)),
-                                DataCell(Text(DateConverter.usDateFormate(
-                                    orderCubit
-                                        .ordersData.orders[index].orderDate))),
-                                DataCell(CustomChips(
-                                  //Todo: link with paymentStatus
-                                  statusColor: true,
-                                  status: localizedPaymentStatus,
-                                  onTap: () async {
-                                    await updateStatus(
-                                        value: DropMenuList.paymentStatus.first,
-                                        context: context,
-                                        title: "حالة",
-                                        onChanged: (value) {},
-                                        items: DropMenuList.paymentStatus
-                                            .map<DropdownMenuItem>(
-                                                (String status) {
-                                          return DropdownMenuItem(
-                                            value: status,
-                                            child: Text(status),
-                                          );
-                                        }).toList());
-                                  },
-                                )),
-                                DataCell(CustomChips(
-                                  statusColor:
-                                      EnumOrderHelper.stringToOrderStatus(
-                                          orderCubit.ordersData.orders[index]
-                                              .orderStatus),
-                                  status: localizedOrderStatus,
-                                  onTap: () async {
-                                    await updateStatus(
-                                        onPressed: () {
-                                          orderCubit.updateUserOrderStatus(
-                                              index: index);
-                                        },
-                                        value: orderCubit.ordersData
-                                            .orders[index].orderStatus,
-                                        context: context,
-                                        title: "حالة",
-                                        onChanged: (value) {
-                                          orderCubit.tmpUserOrderStatus = value;
-                                        },
-                                        items: DropMenuList.shipmentStatus
-                                            .map<DropdownMenuItem>(
-                                                (String status) {
-                                          return DropdownMenuItem(
-                                            value: status,
-                                            child: Text(status),
-                                          );
-                                        }).toList());
-                                  },
-                                )),
-                              ],
-                            );
-                          }),
-                        ),
-                        columns: [
-                          DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: const Text("العميل"),
-                            onSort: (columnIndex, ascending) {
-                              if (orderCubit.sort) {
-                                orderCubit.ordersData.orders.sort(
-                                    (a, b) => a.orderId.compareTo(b.orderId));
-                              } else {
-                                orderCubit.ordersData.orders.sort(
-                                    (a, b) => b.orderId.compareTo(a.orderId));
-                              }
-                              orderCubit.sort = !orderCubit.sort;
-                              orderCubit.columnIndex = columnIndex;
-                              orderCubit.sortEvent();
-                            },
+                                  DataCell(Text(
+                                      "${orderCubit.ordersData.orders[index].amount}")),
+                                  DataCell(Text(myDeal.dealTitle)),
+                                  DataCell(Text(DateConverter.usDateFormate(
+                                      orderCubit.ordersData.orders[index]
+                                          .orderDate))),
+                                  DataCell(CustomChips(
+                                    //Todo: link with paymentStatus
+                                    statusColor: true,
+                                    status: localizedPaymentStatus,
+                                    onTap: () async {
+                                      await updateStatus(
+                                          value:
+                                              DropMenuList.paymentStatus.first,
+                                          context: context,
+                                          title: "حالة",
+                                          onChanged: (value) {},
+                                          items: DropMenuList.paymentStatus
+                                              .map<DropdownMenuItem>(
+                                                  (String status) {
+                                            return DropdownMenuItem(
+                                              value: status,
+                                              child: Text(status),
+                                            );
+                                          }).toList());
+                                    },
+                                  )),
+                                  DataCell(CustomChips(
+                                    statusColor:
+                                        EnumOrderHelper.stringToOrderStatus(
+                                            orderCubit.ordersData.orders[index]
+                                                .orderStatus),
+                                    status: localizedOrderStatus,
+                                    onTap: () async {
+                                      await updateStatus(
+                                          onPressed: () {
+                                            orderCubit.updateUserOrderStatus(
+                                                index: index);
+                                          },
+                                          value: orderCubit.ordersData
+                                              .orders[index].orderStatus,
+                                          context: context,
+                                          title: "حالة",
+                                          onChanged: (value) {
+                                            orderCubit.tmpUserOrderStatus =
+                                                value;
+                                          },
+                                          items: DropMenuList.shipmentStatus
+                                              .map<DropdownMenuItem>(
+                                                  (String status) {
+                                            return DropdownMenuItem(
+                                              value: status,
+                                              child: Text(status),
+                                            );
+                                          }).toList());
+                                    },
+                                  )),
+                                ],
+                              );
+                            }),
                           ),
-                          DataColumn(
-                            onSort: (columnIndex, ascending) {
-                              if (orderCubit.sort) {
-                                orderCubit.ordersData.orders.sort(
-                                    (a, b) => a.amount.compareTo(b.amount));
-                              } else {
-                                orderCubit.ordersData.orders.sort(
-                                    (a, b) => b.amount.compareTo(a.amount));
-                              }
-                              orderCubit.sort = !orderCubit.sort;
-                              orderCubit.columnIndex = columnIndex;
-                              orderCubit.sortEvent();
-                            },
-                            label: const Text("السعر"),
-                          ),
-                          DataColumn(
+                          columns: [
+                            DataColumn(
                               headingRowAlignment: MainAxisAlignment.center,
-                              label: const Text("الصفقة"),
+                              label: const Text("العميل"),
                               onSort: (columnIndex, ascending) {
-                                //Todo: test sort by deal title
                                 if (orderCubit.sort) {
                                   orderCubit.ordersData.orders.sort(
-                                    (a, b) => orderCubit.userOrderDeal
-                                        .findDeal(a.dealId)
-                                        .dealTitle
-                                        .compareTo(orderCubit.userOrderDeal
-                                            .findDeal(b.dealId)
-                                            .dealTitle),
+                                      (a, b) => a.orderId.compareTo(b.orderId));
+                                } else {
+                                  orderCubit.ordersData.orders.sort(
+                                      (a, b) => b.orderId.compareTo(a.orderId));
+                                }
+                                orderCubit.sort = !orderCubit.sort;
+                                orderCubit.columnIndex = columnIndex;
+                                orderCubit.sortEvent();
+                              },
+                            ),
+                            DataColumn(
+                              onSort: (columnIndex, ascending) {
+                                if (orderCubit.sort) {
+                                  orderCubit.ordersData.orders.sort(
+                                      (a, b) => a.amount.compareTo(b.amount));
+                                } else {
+                                  orderCubit.ordersData.orders.sort(
+                                      (a, b) => b.amount.compareTo(a.amount));
+                                }
+                                orderCubit.sort = !orderCubit.sort;
+                                orderCubit.columnIndex = columnIndex;
+                                orderCubit.sortEvent();
+                              },
+                              label: const Text("السعر"),
+                            ),
+                            DataColumn(
+                                headingRowAlignment: MainAxisAlignment.center,
+                                label: const Text("الصفقة"),
+                                onSort: (columnIndex, ascending) {
+                                  //Todo: test sort by deal title
+                                  if (orderCubit.sort) {
+                                    orderCubit.ordersData.orders.sort(
+                                      (a, b) => orderCubit.userOrderDeal
+                                          .findDeal(a.dealId)
+                                          .dealTitle
+                                          .compareTo(orderCubit.userOrderDeal
+                                              .findDeal(b.dealId)
+                                              .dealTitle),
+                                    );
+                                  } else {
+                                    orderCubit.ordersData.orders.sort(
+                                      (a, b) => orderCubit.userOrderDeal
+                                          .findDeal(b.dealId)
+                                          .dealTitle
+                                          .compareTo(orderCubit.userOrderDeal
+                                              .findDeal(a.dealId)
+                                              .dealTitle),
+                                    );
+                                  }
+                                  orderCubit.sort = !orderCubit.sort;
+                                  orderCubit.columnIndex = columnIndex;
+                                  orderCubit.sortEvent();
+                                }),
+                            DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: const Text("تاريخ طلب"),
+                              onSort: (columnIndex, ascending) {
+                                if (orderCubit.sort) {
+                                  orderCubit.ordersData.orders.sort(
+                                    (a, b) =>
+                                        DateTime.parse(a.orderDate).compareTo(
+                                      DateTime.parse(b.orderDate),
+                                    ),
                                   );
                                 } else {
                                   orderCubit.ordersData.orders.sort(
-                                    (a, b) => orderCubit.userOrderDeal
-                                        .findDeal(b.dealId)
-                                        .dealTitle
-                                        .compareTo(orderCubit.userOrderDeal
-                                            .findDeal(a.dealId)
-                                            .dealTitle),
+                                    (a, b) =>
+                                        DateTime.parse(b.orderDate).compareTo(
+                                      DateTime.parse(a.orderDate),
+                                    ),
                                   );
                                 }
                                 orderCubit.sort = !orderCubit.sort;
                                 orderCubit.columnIndex = columnIndex;
                                 orderCubit.sortEvent();
-                              }),
-                          DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: const Text("تاريخ طلب"),
-                            onSort: (columnIndex, ascending) {
-                              if (orderCubit.sort) {
-                                orderCubit.ordersData.orders.sort(
-                                  (a, b) =>
-                                      DateTime.parse(a.orderDate).compareTo(
-                                    DateTime.parse(b.orderDate),
-                                  ),
-                                );
-                              } else {
-                                orderCubit.ordersData.orders.sort(
-                                  (a, b) =>
-                                      DateTime.parse(b.orderDate).compareTo(
-                                    DateTime.parse(a.orderDate),
-                                  ),
-                                );
-                              }
-                              orderCubit.sort = !orderCubit.sort;
-                              orderCubit.columnIndex = columnIndex;
-                              orderCubit.sortEvent();
-                            },
-                          ),
-                          DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: const Text("حالة الدفع"),
-                            onSort: (columnIndex, ascending) {
-                              if (orderCubit.sort) {
-                                orderCubit.ordersData.orders.sort((a, b) =>
-                                    a.orderStatus.compareTo(b.orderStatus));
-                              } else {
-                                orderCubit.ordersData.orders.sort((a, b) =>
-                                    b.orderStatus.compareTo(a.orderStatus));
-                              }
-                              orderCubit.sort = !orderCubit.sort;
-                              orderCubit.columnIndex = columnIndex;
-                              orderCubit.sortEvent();
-                            },
-                          ),
-                          const DataColumn(
-                            headingRowAlignment: MainAxisAlignment.center,
-                            label: Text("حالة"),
-                          ),
-                        ],
-                      );
+                              },
+                            ),
+                            DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: const Text("حالة الدفع"),
+                              onSort: (columnIndex, ascending) {
+                                if (orderCubit.sort) {
+                                  orderCubit.ordersData.orders.sort((a, b) =>
+                                      a.orderStatus.compareTo(b.orderStatus));
+                                } else {
+                                  orderCubit.ordersData.orders.sort((a, b) =>
+                                      b.orderStatus.compareTo(a.orderStatus));
+                                }
+                                orderCubit.sort = !orderCubit.sort;
+                                orderCubit.columnIndex = columnIndex;
+                                orderCubit.sortEvent();
+                              },
+                            ),
+                            const DataColumn(
+                              headingRowAlignment: MainAxisAlignment.center,
+                              label: Text("حالة"),
+                            ),
+                          ],
+                        );
+                      }
+                      return const SizedBox();
                     },
                   ),
                 ),

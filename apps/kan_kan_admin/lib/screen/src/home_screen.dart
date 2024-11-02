@@ -156,6 +156,8 @@ class HomeScreen extends StatelessWidget {
               builder: (context, state) {
                 if (homeCubit.orderLayer.orders.isNotEmpty &&
                     homeCubit.dealLayer.deals.isNotEmpty) {
+                  homeCubit.orderLayer.orders
+                      .sort((a, b) => b.orderId.compareTo(a.orderId));
                   return TableSizedBox(
                     child: CustomTableTheme(
                       child: BlocBuilder<HomeCubit, HomeState>(
@@ -292,7 +294,6 @@ List<PieChartSectionData> showingSections({
 }) {
   return List.generate(8, (i) {
     final isTouched = (i == touchedIndex);
-    print("$i ---$isTouched ");
     final fontSize = isTouched ? 25.0 : 16.0;
     final radius = isTouched ? 70.0 : 50.0;
     const shadows = [Shadow(color: Colors.white, blurRadius: 2)];
@@ -304,7 +305,9 @@ List<PieChartSectionData> showingSections({
             total: total,
             value: pendingNum,
           ),
-          title: '${(calPer(value: pendingNum, total: total) * 100).round()}%',
+          title: pendingNum != 0
+              ? '${calPer(value: pendingNum, total: total).round()}%'
+              : '',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -320,8 +323,9 @@ List<PieChartSectionData> showingSections({
             total: total,
             value: processingNum,
           ),
-          title:
-              '${(calPer(value: processingNum, total: total) * 100).round()}%',
+          title: processingNum != 0
+              ? '${calPer(value: processingNum, total: total).round()}%'
+              : '',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -338,7 +342,9 @@ List<PieChartSectionData> showingSections({
             total: total,
             value: inChinaNum,
           ),
-          title: '${(calPer(value: inChinaNum, total: total) * 100).round()}%',
+          title: inChinaNum != 0
+              ? '${calPer(value: inChinaNum, total: total).round()}%'
+              : '',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -354,8 +360,9 @@ List<PieChartSectionData> showingSections({
             total: total,
             value: inTransitNum,
           ),
-          title:
-              '${(calPer(value: inTransitNum, total: total) * 100).round()}%',
+          title: inTransitNum != 0
+              ? '${calPer(value: inTransitNum, total: total).round()}%'
+              : '',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -371,7 +378,9 @@ List<PieChartSectionData> showingSections({
             total: total,
             value: inSaudiNum,
           ),
-          title: '${(calPer(value: inSaudiNum, total: total) * 100).round()}%',
+          title: inSaudiNum != 0
+              ? '${calPer(value: inSaudiNum, total: total).round()}%'
+              : '',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -387,8 +396,9 @@ List<PieChartSectionData> showingSections({
             total: total,
             value: withShipmentCompanyNum,
           ),
-          title:
-              '${(calPer(value: withShipmentCompanyNum, total: total) * 100).round()}%',
+          title: withShipmentCompanyNum != 0
+              ? '${calPer(value: withShipmentCompanyNum, total: total).round()}%'
+              : '',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -401,8 +411,9 @@ List<PieChartSectionData> showingSections({
         return PieChartSectionData(
           color: Colors.deepPurple,
           value: calPer(total: total, value: completedNum),
-          title:
-              '${(calPer(value: completedNum, total: total) * 100).round()}%',
+          title: completedNum != 0
+              ? '${calPer(value: completedNum, total: total).round()}%'
+              : '',
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,
@@ -418,7 +429,9 @@ List<PieChartSectionData> showingSections({
             total: total,
             value: calPer(value: canceledNum, total: total),
           ),
-          title: '${(calPer(value: canceledNum, total: total) * 100).round()}%',
+          title: canceledNum != 0
+              ? '${calPer(value: canceledNum, total: total).round()}%'
+              : "",
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,

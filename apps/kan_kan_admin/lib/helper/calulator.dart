@@ -5,9 +5,8 @@ double calPer({required num value, required num total}) {
       return result;
     }
 
-    return 0;
+    return .0000000000000001;
   } catch (e) {
-    print(e);
-    return 0;
+    return .0000000000000001;
   }
 }
