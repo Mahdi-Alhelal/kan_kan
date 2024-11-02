@@ -2,8 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
+import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:meta/meta.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'user_state.dart';
 
@@ -21,8 +24,10 @@ class UserCubit extends Cubit<UserState> {
   int columnIndex = 0;
 
   String tmpStatus = "";
-  //?cubit
-  UserCubit() : super(UserInitial());
+  //?-- cubit
+  UserCubit() : super(UserInitial()) {
+    addNewUser();
+  }
 
   updateUserEvent(
       {required String userId,
@@ -68,6 +73,20 @@ class UserCubit extends Cubit<UserState> {
         emit(ErrorUserState(errorMessage: errorMessage.toString()));
       }
     }
+  }
+
+  addNewUser() {
+    KanSupabase.supabase.client
+        .channel('add_user')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'users',
+            callback: (newUser) {
+              userLayer.usersList.add(UserModel.fromJson(newUser.newRecord));
+              if (!isClosed) emit(SuccessUserState());
+            })
+        .subscribe();
   }
 
   sortEvent() {

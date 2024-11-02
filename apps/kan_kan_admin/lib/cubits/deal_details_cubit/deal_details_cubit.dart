@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan_admin/layer/category_data_layer.dart';
 import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
@@ -12,6 +13,7 @@ import 'package:kan_kan_admin/layer/user_layer.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:kan_kan_admin/model/order_model2.dart';
 import 'package:meta/meta.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'deal_details_state.dart';
 
@@ -145,5 +147,19 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       print(errorMessage);
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
+  }
+    addNewOrder() {
+    KanSupabase.supabase.client
+        .channel('add_order')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'orders',
+            callback: (newData) {
+              orderLayer.orders.add(OrderModel.fromJson(newData.newRecord));
+      if (!isClosed) emit(UpdateDealStatusSuccessState());
+            })
+        .subscribe();
+      if (!isClosed) emit(UpdateDealStatusSuccessState());
   }
 }
