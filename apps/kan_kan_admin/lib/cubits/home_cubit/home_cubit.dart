@@ -30,6 +30,11 @@ class HomeCubit extends Cubit<HomeState> {
   num canceledNum = 0;
   num total = 0;
   List<OrderModel> monthOrders = [];
+
+  //?-- table sorting
+  bool sort = true;
+  int columnIndex = 0;
+
   HomeCubit() : super(HomeInitial()) {
     getNewOrder();
     getNewUser();
