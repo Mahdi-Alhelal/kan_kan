@@ -54,147 +54,162 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // if (DateConverter.saDateFormate(
-                                    //         detailCubit.deal.endDate) !=
-                                    //     DateConverter.saDateFormate(
-                                    //         DateTime.now().toIso8601String()))
-                                    //   if (detailCubit.deal.numberOfOrder == 0)
-                                    IconButton(
-                                      onPressed: () {
-                                        detailCubit.dealNameController.text =
-                                            detailCubit.deal.dealTitle;
-                                        detailCubit.productController.text =
-                                            detailCubit.deal.product.productId
-                                                .toString();
-                                        detailCubit.quantityController.text =
-                                            detailCubit.deal.quantity
-                                                .toString();
-                                        detailCubit.maxNumberController.text =
-                                            detailCubit.deal.maxOrdersPerUser
-                                                .toString();
-                                        detailCubit.dealStatusController.text =
-                                            detailCubit.deal.dealStatus;
-                                        detailCubit.dealTypeController.text =
-                                            detailCubit.deal.categoryId
-                                                .toString();
-                                        detailCubit
-                                                .dealDurationController.text =
-                                            "${DateConverter.saDateFormate(detailCubit.deal.startDate)} الى ${DateConverter.saDateFormate(detailCubit.deal.endDate)}";
-                                        detailCubit.priceController.text =
-                                            detailCubit.deal.salePrice
-                                                .toString();
-                                        detailCubit.costController.text =
-                                            detailCubit.deal.costPrice
-                                                .toString();
-                                        detailCubit
-                                                .deliveryCostController.text =
-                                            detailCubit.deal.deliveryPrice
-                                                .toString();
-                                        detailCubit.estimatedTimeFromController
-                                                .text =
+                                    if (DateConverter.saDateFormate(
+                                            detailCubit.deal.endDate) !=
+                                        DateConverter.saDateFormate(
+                                            DateTime.now().toIso8601String()))
+                                      if (detailCubit.deal.numberOfOrder == 0)
+                                        IconButton(
+                                          onPressed: () {
                                             detailCubit
-                                                .deal.estimateDeliveryDateFrom;
-                                        detailCubit.estimatedTimeToController
-                                                .text =
+                                                    .dealNameController.text =
+                                                detailCubit.deal.dealTitle;
+                                            detailCubit.productController.text =
+                                                detailCubit
+                                                    .deal.product.productId
+                                                    .toString();
                                             detailCubit
-                                                .deal.estimateDeliveryTimeTo;
-                                        detailCubit.dealDuration.add(
-                                          DateTime.tryParse(
-                                            DateConverter.supabaseDateFormate(
-                                                detailCubit.deal.startDate),
-                                          ),
-                                        );
-                                        detailCubit.dealDuration.add(
-                                          DateTime.tryParse(
-                                            DateConverter.supabaseDateFormate(
-                                                detailCubit.deal.endDate),
-                                          ),
-                                        );
-                                        customBottomSheet(
-                                            context: context,
-                                            child: AddDealForm(
-                                                dealCategory: detailCubit
-                                                    .categoryLayer.categories,
-                                                dealNameController: detailCubit
-                                                    .dealNameController,
-                                                productController: detailCubit
-                                                    .productController,
-                                                quantityController: detailCubit
-                                                    .quantityController,
-                                                maxNumberController: detailCubit
-                                                    .maxNumberController,
-                                                dealStatusController: detailCubit
-                                                    .dealStatusController,
-                                                dealTypeController: detailCubit
-                                                    .dealTypeController,
-                                                dealDurationController: detailCubit
-                                                    .dealDurationController,
-                                                priceController:
-                                                    detailCubit.priceController,
-                                                costController:
-                                                    detailCubit.costController,
-                                                formKey: formKey,
-                                                add: () async {
-                                                  await detailCubit
-                                                      .updateDealEvent();
-                                                  if (context.mounted) {
-                                                    Navigator.pop(context);
-                                                  }
-                                                },
-                                                uploadImage: () {},
-                                                productsList: detailCubit
-                                                    .productLayer.products
-                                                    .where((product) =>
-                                                        detailCubit.factoryLayer
-                                                            .getFactory(
-                                                                id: product
-                                                                    .factory
-                                                                    .factoryId)
-                                                            .isBlackList ==
-                                                        false)
-                                                    .toList(),
-                                                dealDuration: () async {
-                                                  final date =
-                                                      await showCalendarDatePicker2Dialog(
-                                                    context: context,
-                                                    config: CalendarDatePicker2WithActionButtonsConfig(
-                                                        firstDate:
-                                                            DateTime.now(),
-                                                        calendarType:
-                                                            CalendarDatePicker2Type
-                                                                .range),
-                                                    dialogSize: Size(
-                                                      context.getWidth(
-                                                          value: 0.5),
-                                                      context.getHeight(
-                                                          value: 0.5),
-                                                    ),
-                                                  );
-                                                  try {
-                                                    detailCubit.dealDuration =
-                                                        date!;
-                                                    detailCubit
+                                                    .quantityController.text =
+                                                detailCubit.deal.quantity
+                                                    .toString();
+                                            detailCubit
+                                                    .maxNumberController.text =
+                                                detailCubit
+                                                    .deal.maxOrdersPerUser
+                                                    .toString();
+                                            detailCubit
+                                                    .dealStatusController.text =
+                                                detailCubit.deal.dealStatus;
+                                            detailCubit
+                                                    .dealTypeController.text =
+                                                detailCubit.deal.categoryId
+                                                    .toString();
+                                            detailCubit.dealDurationController
+                                                    .text =
+                                                "${DateConverter.saDateFormate(detailCubit.deal.startDate)} الى ${DateConverter.saDateFormate(detailCubit.deal.endDate)}";
+                                            detailCubit.priceController.text =
+                                                detailCubit.deal.salePrice
+                                                    .toString();
+                                            detailCubit.costController.text =
+                                                detailCubit.deal.costPrice
+                                                    .toString();
+                                            detailCubit.deliveryCostController
+                                                    .text =
+                                                detailCubit.deal.deliveryPrice
+                                                    .toString();
+                                            detailCubit
+                                                    .estimatedTimeFromController
+                                                    .text =
+                                                detailCubit.deal
+                                                    .estimateDeliveryDateFrom;
+                                            detailCubit
+                                                    .estimatedTimeToController
+                                                    .text =
+                                                detailCubit.deal
+                                                    .estimateDeliveryTimeTo;
+                                            detailCubit.dealDuration.add(
+                                              DateTime.tryParse(
+                                                DateConverter
+                                                    .supabaseDateFormate(
+                                                        detailCubit
+                                                            .deal.startDate),
+                                              ),
+                                            );
+                                            detailCubit.dealDuration.add(
+                                              DateTime.tryParse(
+                                                DateConverter
+                                                    .supabaseDateFormate(
+                                                        detailCubit
+                                                            .deal.endDate),
+                                              ),
+                                            );
+                                            customBottomSheet(
+                                                context: context,
+                                                child: AddDealForm(
+                                                    dealCategory: detailCubit
+                                                        .categoryLayer
+                                                        .categories,
+                                                    dealNameController: detailCubit
+                                                        .dealNameController,
+                                                    productController: detailCubit
+                                                        .productController,
+                                                    quantityController: detailCubit
+                                                        .quantityController,
+                                                    maxNumberController: detailCubit
+                                                        .maxNumberController,
+                                                    dealStatusController: detailCubit
+                                                        .dealStatusController,
+                                                    dealTypeController: detailCubit
+                                                        .dealTypeController,
+                                                    dealDurationController: detailCubit
+                                                        .dealDurationController,
+                                                    priceController: detailCubit
+                                                        .priceController,
+                                                    costController: detailCubit
+                                                        .costController,
+                                                    formKey: formKey,
+                                                    add: () async {
+                                                      await detailCubit
+                                                          .updateDealEvent();
+                                                      if (context.mounted) {
+                                                        Navigator.pop(context);
+                                                      }
+                                                    },
+                                                    uploadImage: () {},
+                                                    productsList: detailCubit
+                                                        .productLayer.products
+                                                        .where((product) =>
+                                                            detailCubit
+                                                                .factoryLayer
+                                                                .getFactory(
+                                                                    id: product
+                                                                        .factory
+                                                                        .factoryId)
+                                                                .isBlackList ==
+                                                            false)
+                                                        .toList(),
+                                                    dealDuration: () async {
+                                                      final date =
+                                                          await showCalendarDatePicker2Dialog(
+                                                        context: context,
+                                                        config: CalendarDatePicker2WithActionButtonsConfig(
+                                                            firstDate:
+                                                                DateTime.now(),
+                                                            calendarType:
+                                                                CalendarDatePicker2Type
+                                                                    .range),
+                                                        dialogSize: Size(
+                                                          context.getWidth(
+                                                              value: 0.5),
+                                                          context.getHeight(
+                                                              value: 0.5),
+                                                        ),
+                                                      );
+                                                      try {
+                                                        detailCubit
+                                                                .dealDuration =
+                                                            date!;
+                                                        detailCubit
+                                                                .dealDurationController
+                                                                .text =
+                                                            "${DateConverter.saDateFormate(detailCubit.dealDuration.first.toString())} الى ${DateConverter.saDateFormate(detailCubit.dealDuration.last.toString())}";
+                                                      } catch (e) {
+                                                        detailCubit
                                                             .dealDurationController
-                                                            .text =
-                                                        "${DateConverter.saDateFormate(detailCubit.dealDuration.first.toString())} الى ${DateConverter.saDateFormate(detailCubit.dealDuration.last.toString())}";
-                                                  } catch (e) {
-                                                    detailCubit
-                                                        .dealDurationController
-                                                        .clear();
-                                                  }
-                                                },
-                                                deliveryCostController: detailCubit
-                                                    .deliveryCostController,
-                                                estimatedTimeFromController: detailCubit
-                                                    .estimatedTimeFromController,
-                                                estimatedTimeToController: detailCubit
-                                                    .estimatedTimeToController));
-                                      },
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: AppColor.primary,
-                                      ),
-                                    ),
+                                                            .clear();
+                                                      }
+                                                    },
+                                                    deliveryCostController: detailCubit
+                                                        .deliveryCostController,
+                                                    estimatedTimeFromController:
+                                                        detailCubit.estimatedTimeFromController,
+                                                    estimatedTimeToController: detailCubit.estimatedTimeToController));
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: AppColor.primary,
+                                          ),
+                                        ),
                                     Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 10),
@@ -745,9 +760,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                           .paymentStatus,
                                                       context: context,
                                                       title: "حالة",
-                                                      onChanged: (value) {
-                                                        
-                                                      },
+                                                      onChanged: (value) {},
                                                       items: DropMenuList
                                                           .paymentStatus
                                                           .map<DropdownMenuItem>(
@@ -768,13 +781,25 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                     .currentOrders[index]
                                                     .orderStatus,
                                                 onTap: () async {
+                                                  detailCubit.oneOrderStatus =
+                                                      detailCubit
+                                                          .currentOrders[index]
+                                                          .orderStatus;
                                                   await updateStatus(
                                                       value: detailCubit
                                                           .currentOrders[index]
                                                           .orderStatus,
                                                       context: context,
                                                       title: "حالة",
-                                                      onChanged: (value) {},
+                                                      onChanged: (value) {
+                                                        detailCubit
+                                                                .oneOrderStatus =
+                                                            value.toString();
+                                                      },
+                                                      onPressed: () async{
+                                                      await  detailCubit
+                                                            .updateOneOrderStatus(index: index);
+                                                      },
                                                       items: DropMenuList
                                                           .shipmentStatus
                                                           .map<DropdownMenuItem>(

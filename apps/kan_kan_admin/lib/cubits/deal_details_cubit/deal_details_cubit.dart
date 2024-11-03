@@ -44,9 +44,13 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   final TextEditingController estimatedTimeToController =
       TextEditingController();
   late DealModel deal;
-  //?--
+  //?--tmp
   String tmpStatus = '';
   String tmpOrderStatus = 'processing';
+
+  String oneOrderStatus = '';
+  String onePaymentStatus = '';
+
   List<DateTime?> dealDuration = [];
   List<OrderModel> currentOrders = [];
 
@@ -151,6 +155,19 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       if (!isClosed) emit(UpdateOrderStatusSuccessState());
     } catch (errorMessage) {
       print(errorMessage);
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  updateOneOrderStatus({required int index}) async {
+    try {
+      final response = await api.updateOrderStatus(
+          id: currentOrders[index].orderId, status: oneOrderStatus);
+      if (response) {
+        currentOrders[index].orderStatus = oneOrderStatus;
+        if (!isClosed) emit(UpdateOrderStatusSuccessState());
+      }
+    } catch (errorMessage) {
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }

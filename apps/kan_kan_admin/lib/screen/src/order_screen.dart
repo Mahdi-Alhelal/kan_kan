@@ -120,9 +120,6 @@ class OrderScreen extends StatelessWidget {
                                       status: orderCubit.ordersData
                                           .orders[index].paymentStatus,
                                       onTap: () async {
-                                        print("here");
-                                        print(orderCubit.ordersData
-                                            .orders[index].paymentStatus);
                                         await updateStatus(
                                             value: orderCubit.ordersData
                                                 .orders[index].paymentStatus,
