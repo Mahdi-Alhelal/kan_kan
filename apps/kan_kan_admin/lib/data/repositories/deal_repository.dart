@@ -95,7 +95,6 @@ mixin DealRepository {
   addTrackingNumber(
       {required String trackingNumber, required int dealId}) async {
     try {
-      print(dealId);
       await KanSupabase.supabase.client
           .from("deals")
           .update({"tracking_number": trackingNumber}).eq("deal_id", dealId);

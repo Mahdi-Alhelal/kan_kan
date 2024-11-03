@@ -130,24 +130,26 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   updateOrderStatus({required int dealId}) async {
     try {
       print("iam at updateOrderStatus");
-      List<int> orderIndex = [];
-      List<int> ordersId = [];
+      List<int> listOrderIndex = [];
+      List<int> listOrdersId = [];
+
       for (int index = 0; index < orderLayer.orders.length; index++) {
         if (orderLayer.orders[index].dealId == dealId) {
-          orderIndex.add(index);
-          ordersId.add(orderLayer.orders[index].orderId);
-          print('add order index:$index');
+          listOrderIndex.add(index);
+          listOrdersId.add(orderLayer.orders[index].orderId);
         }
       }
       final response = await api.updateAllOrdersStatus(
         dealId: dealId,
         status: tmpOrderStatus,
       );
+      if (tmpOrderStatus == "withShipmentCompany") {
+        await api.sendTrackingNumber(
+            listOrdersId: listOrdersId, dealName: deal.dealTitle);
+      }
       if (response) {
-        await api.addToTracking(ordersId: ordersId, status: tmpOrderStatus);
-
-        print("if condition");
-        for (int index in orderIndex) {
+        await api.addToTracking(ordersId: listOrdersId, status: tmpOrderStatus);
+        for (int index in listOrderIndex) {
           orderLayer.orders[index].orderStatus = tmpOrderStatus;
         }
       }
@@ -205,11 +207,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
             .indexWhere((element) => element.dealId == deal.dealId);
         dealLayer.deals[index].trackingNumber =
             trackingNumberController.text.trim();
-        print("success");
       }
       if (!isClosed) emit(UpdateDealStatusSuccessState());
     } catch (errorMessage) {
-      print(errorMessage);
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }

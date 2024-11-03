@@ -1,4 +1,9 @@
+import 'package:get_it/get_it.dart';
+import 'package:kan_kan_admin/data/repositories/oto_api.dart';
+import 'package:kan_kan_admin/layer/order_data_layer.dart';
+import 'package:kan_kan_admin/layer/user_layer.dart';
 import 'package:kan_kan_admin/model/order_model.dart';
+import 'package:kan_kan_admin/model/oto_model.dart';
 
 import '../../integrations/supabase/supabase_client.dart';
 
@@ -97,6 +102,47 @@ mixin OrderRepository {
             .insert({"order_id": id, "status": status}));
       }
       await Future.wait(addAction);
+    } catch (e) {
+      throw Exception('Error in add all orders to tracking: $e');
+    }
+  }
+
+  sendTrackingNumber(
+      {required List<int> listOrdersId, required String dealName}) async {
+    try {
+      await OtoApi.getKey();
+
+      List<Future> sendAction = <Future>[];
+      for (int orderId in listOrdersId) {
+        final order = GetIt.I
+            .get<OrderDataLayer>()
+            .orders
+            .firstWhere((order) => order.orderId == orderId);
+        final customer = GetIt.I
+            .get<UserLayer>()
+            .usersList
+            .firstWhere((user) => user.userId == order.userId);
+        final oto = OtoModel(
+          orderId: orderId.toString(),
+          amount: order.amount.toInt(),
+          customer: Customer(
+              name: customer.fullName,
+              email: customer.email,
+              mobile: customer.phone,
+              address: order.address,
+              city: order.address),
+          item: Item(
+              productId: order.dealId,
+              name: dealName,
+              price: (order.amount / order.quantity).toInt(),
+              sku: "---",
+              quantity: order.quantity),
+        );
+
+        sendAction.add(OtoApi.sendNotification(order: oto));
+      }
+      await Future.wait(sendAction);
+      print("done send notification ");
     } catch (e) {
       throw Exception('Error in add all orders to tracking: $e');
     }

@@ -653,11 +653,11 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                             'processing';
                                         updateStatus(
                                             context: context,
-                                            onPressed: () {
-                                              detailCubit.updateOrderStatus(
+                                            onPressed: () async{
+                                              await detailCubit.updateOrderStatus(
                                                 dealId: widget.dealId,
                                               );
-                                              Navigator.pop(context);
+                                             
                                             },
                                             title: "تحديث حالة الطلب",
                                             onChanged: (value) {
