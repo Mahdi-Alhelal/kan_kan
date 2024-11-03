@@ -27,7 +27,7 @@ mixin OrderRepository {
     }
   }
 
-  updateOrdersStatus({
+  updateAllOrdersStatus({
     required String status,
     required int dealId,
   }) async {

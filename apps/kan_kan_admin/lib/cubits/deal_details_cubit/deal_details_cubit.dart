@@ -136,7 +136,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
           print('add order index:$index');
         }
       }
-      final response = await api.updateOrdersStatus(
+      final response = await api.updateAllOrdersStatus(
         dealId: dealId,
         status: tmpOrderStatus,
       );
