@@ -26,7 +26,8 @@ mixin DealRepository {
       final response = await KanSupabase.supabase.client
           .from("deals")
           .insert(deal.toJson(productId: productId))
-          .select("*,categories(category_name) ,products(*,factories(*),product_images(id,image_url))");
+          .select(
+              "*,categories(category_name) ,products(*,factories(*),product_images(id,image_url))");
       return DealModel.fromJson(response.first);
     } catch (e) {
       throw Exception('upload deal $e');
@@ -83,8 +84,8 @@ mixin DealRepository {
           .from("images")
           .getPublicUrl(imageName);
       await KanSupabase.supabase.client
-          .from("deal_images")
-          .upsert({"image_url": imageUrl, "deal_id": dealId});
+          .from("deals")
+          .update({"deal_url": imageUrl}).eq("deal_id", dealId);
       return true;
     } catch (e) {
       throw Exception('Error: in upload this image to database: $e');

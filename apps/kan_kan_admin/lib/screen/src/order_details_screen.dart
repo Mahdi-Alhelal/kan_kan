@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:kan_kan_admin/model/order_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
@@ -25,11 +26,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
   @override
   Widget build(BuildContext context) {
     TabController _tabBar = TabController(length: 3, vsync: this);
-    //final dealTitle =
 
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -86,9 +87,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                               height: 35,
                               alignment: Alignment.center,
                               child: TabBar(
-                                  // indicatorPadding: EdgeInsets.zero,
-                                  //tabAlignment: TabAlignment.fill,
-
                                   labelColor: AppColor.white,
                                   dividerColor: AppColor.bg,
                                   indicator: BoxDecoration(
@@ -111,7 +109,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Container(
+                              child: SizedBox(
                                 width: context.getWidth(),
                                 height: 150,
                                 child:
@@ -120,45 +118,48 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Row(
+                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.calendar_month,
                                                 color: AppColor.primary,
                                               ),
-                                              Text(
+                                              const Text(
                                                 "البداية : ",
                                                 style: TextStyle(
                                                     color: AppColor.primary),
                                               ),
                                               Text(
-                                                "2024/11/07",
-                                                style: TextStyle(
+                                                DateConverter.saDateFormate(
+                                                    widget
+                                                        .dealDetails.startDate),
+                                                style: const TextStyle(
                                                     color: AppColor.primary),
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           Row(
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.calendar_month,
                                                 color: AppColor.primary,
                                               ),
-                                              Text(
+                                              const Text(
                                                 "النهاية : ",
                                                 style: TextStyle(
                                                     color: AppColor.primary),
                                               ),
                                               Text(
-                                                "2024/11/07",
-                                                style: TextStyle(
+                                                DateConverter.saDateFormate(
+                                                    widget.dealDetails.endDate),
+                                                style: const TextStyle(
                                                     color: AppColor.primary),
                                               ),
                                             ],
@@ -214,19 +215,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Row(
-                                        children: [
-                                          const Text("وصف المنتج : "),
-                                          SizedBox(
-                                            width: 300,
-                                            child: Text(
+                                      SizedBox(
+                                        width: 300,
+                                        child: Wrap(
+                                          children: [
+                                            Text(
                                                 overflow: TextOverflow.ellipsis,
-                                                maxLines: 5,
                                                 softWrap: false,
                                                 widget.dealDetails.product
                                                     .productDescription),
-                                          )
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 10,
@@ -504,7 +503,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                   style: TextStyle(fontSize: 14),
                                 ),
                                 Text(widget.orderDetails.address,
-                                    style: TextStyle(fontSize: 14))
+                                    style: const TextStyle(fontSize: 14))
                               ],
                             )
                           ],

@@ -632,7 +632,11 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                               BorderRadius.circular(8),
                                         ),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        detailCubit.tmpStatus = "completed";
+                                        await detailCubit
+                                            .updateDealStatusEvent();
+                                      },
                                       child: const Text("إكمال الصفقة")),
                                 ),
                                 SizedBox(
@@ -682,17 +686,12 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                   value.toString();
                                             },
                                             items: DropMenuList.dealStatus
-                                                .map((element) =>
-                                                    DropdownMenuItem(
-                                                      value: element,
-                                                      child: Text(LocalizedDealsEnums
-                                                          .getDealsStatusName(
-                                                              EnumDealsHelper
-                                                                  .stringToDealStatus(
-                                                                      element),
-                                                              context.locale
-                                                                  .toString())),
-                                                    ))
+                                                .map(
+                                                  (element) => DropdownMenuItem(
+                                                    value: element,
+                                                    child: Text(element).tr(),
+                                                  ),
+                                                )
                                                 .toList(),
                                             value: detailCubit.deal.dealStatus);
                                         if (context.mounted) {

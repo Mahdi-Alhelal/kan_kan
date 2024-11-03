@@ -71,9 +71,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
         numberOfOrder: deal.numberOfOrder,
         product: deal.product,
         dealId: deal.dealId,
-        trackingNumber: '',
+        trackingNumber: deal.trackingNumber,
         dealTitle: dealNameController.text.trim(),
-        dealDescription: "",
+        dealDescription: deal.dealDescription,
         startDate:
             DateConverter.supabaseDateFormate(dealDuration.first.toString()),
         endDate:
