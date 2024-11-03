@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/cubits/factory_cubit/factory_cubit.dart';
 import 'package:kan_kan_admin/local_data/status_list.dart';
-import 'package:helper/src/factory_status.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/widget/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:kan_kan_admin/widget/button/add_button.dart';
@@ -291,9 +291,9 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                       .factoryLayer.factories[index].region),
                                 )),
                                 DataCell(CustomChips(
-                                  statusColor: factoryCubit.factoryLayer
+                                  statusColor: !factoryCubit.factoryLayer
                                       .factories[index].isBlackList,
-                                  status: factoryStatus(factoryCubit
+                                  status: factoryStatus(!factoryCubit
                                       .factoryLayer
                                       .factories[index]
                                       .isBlackList),
