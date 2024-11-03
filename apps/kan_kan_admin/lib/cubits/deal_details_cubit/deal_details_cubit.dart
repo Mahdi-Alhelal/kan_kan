@@ -164,9 +164,28 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       final response = await api.updateOrderStatus(
           id: currentOrders[index].orderId, status: oneOrderStatus);
       if (response) {
-        currentOrders[index].orderStatus = oneOrderStatus;
+        final globalIndex = orderLayer.orders.indexWhere(
+            (element) => element.orderId == currentOrders[index].orderId);
+        currentOrders[index].orderStatus == oneOrderStatus;
+        orderLayer.orders[globalIndex].orderStatus == oneOrderStatus;
         if (!isClosed) emit(UpdateOrderStatusSuccessState());
       }
+    } catch (errorMessage) {
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  updateOnePaymentStatus({required int index}) async {
+    try {
+      final response = await api.updatePaymentStatus(
+          orderId: currentOrders[index].orderId, status: onePaymentStatus);
+      if (response) {
+        int globalIndex = orderLayer.orders.indexWhere(
+            (element) => currentOrders[index].orderId == element.orderId);
+        currentOrders[index].paymentStatus = onePaymentStatus;
+        orderLayer.orders[globalIndex].paymentStatus = onePaymentStatus;
+      }
+      if (!isClosed) emit(UpdateOrderStatusSuccessState());
     } catch (errorMessage) {
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
@@ -181,6 +200,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
             table: 'orders',
             callback: (newData) {
               orderLayer.orders.add(OrderModel.fromJson(newData.newRecord));
+              currentOrders.add(OrderModel.fromJson(newData.newRecord));
               if (!isClosed) emit(UpdateDealStatusSuccessState());
             })
         .subscribe();

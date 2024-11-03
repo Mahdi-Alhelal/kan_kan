@@ -27,6 +27,17 @@ mixin OrderRepository {
     }
   }
 
+  updatePaymentStatus({required int orderId, required String status}) async {
+    try {
+      await KanSupabase.supabase.client
+          .from("orders")
+          .update({"payment_status": status}).eq("order_id", orderId);
+      return true;
+    } catch (e) {
+      throw Exception('Error in update order: $e');
+    }
+  }
+
   updateAllOrdersStatus({
     required String status,
     required int dealId,

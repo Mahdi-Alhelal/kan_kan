@@ -35,6 +35,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
       child: Builder(builder: (context) {
         final detailCubit = context.read<DealDetailsCubit>();
         return Scaffold(
+          appBar: AppBar(),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
@@ -754,13 +755,26 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                     .currentOrders[index]
                                                     .paymentStatus,
                                                 onTap: () async {
+                                                  detailCubit.onePaymentStatus =
+                                                      detailCubit
+                                                          .currentOrders[index]
+                                                          .paymentStatus;
                                                   await updateStatus(
                                                       value: detailCubit
                                                           .currentOrders[index]
                                                           .paymentStatus,
                                                       context: context,
                                                       title: "حالة",
-                                                      onChanged: (value) {},
+                                                      onChanged: (value) {
+                                                        detailCubit
+                                                                .onePaymentStatus =
+                                                            value;
+                                                      },
+                                                      onPressed: () async {
+                                                        await detailCubit
+                                                            .updateOnePaymentStatus(
+                                                                index: index);
+                                                      },
                                                       items: DropMenuList
                                                           .paymentStatus
                                                           .map<DropdownMenuItem>(
@@ -796,9 +810,10 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                                 .oneOrderStatus =
                                                             value.toString();
                                                       },
-                                                      onPressed: () async{
-                                                      await  detailCubit
-                                                            .updateOneOrderStatus(index: index);
+                                                      onPressed: () async {
+                                                        await detailCubit
+                                                            .updateOneOrderStatus(
+                                                                index: index);
                                                       },
                                                       items: DropMenuList
                                                           .shipmentStatus
