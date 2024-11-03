@@ -9,6 +9,7 @@ import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:kan_kan_admin/widget/card/app_statistics.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:kan_kan_admin/widget/chart/custom_bar_chart.dart';
 import 'package:kan_kan_admin/widget/chart/custom_pie_chart.dart';
 import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
@@ -71,18 +72,21 @@ class HomeScreen extends StatelessWidget {
                             SizedBox(
                               width: 200,
                               child: CustomPieChart(
-                                touchCallback:
-                                    (FlTouchEvent event, pieTouchResponse) {
-                                  if (!event.isInterestedForInteractions ||
-                                      pieTouchResponse == null ||
-                                      pieTouchResponse.touchedSection == null) {
-                                    homeCubit.touchedIndex = -1;
-                                    return;
-                                  }
-                                  homeCubit.touchedIndex = pieTouchResponse
-                                      .touchedSection!.touchedSectionIndex;
-                                  homeCubit.update();
-                                },
+                                pieTouchData: PieTouchData(
+                                  touchCallback:
+                                      (FlTouchEvent event, pieTouchResponse) {
+                                    if (!event.isInterestedForInteractions ||
+                                        pieTouchResponse == null ||
+                                        pieTouchResponse.touchedSection ==
+                                            null) {
+                                      homeCubit.touchedIndex = -1;
+                                      return;
+                                    }
+                                    homeCubit.touchedIndex = pieTouchResponse
+                                        .touchedSection!.touchedSectionIndex;
+                                    homeCubit.update();
+                                  },
+                                ),
                                 sections: showingSections(
                                   touchedIndex: homeCubit.touchedIndex,
                                   pendingNum: homeCubit.pendingNum,
@@ -94,7 +98,9 @@ class HomeScreen extends StatelessWidget {
                                       homeCubit.withShipmentCompanyNum,
                                   completedNum: homeCubit.completedNum,
                                   canceledNum: homeCubit.canceledNum,
-                                  total: homeCubit.total,
+                                  total: homeCubit.total != 0
+                                      ? homeCubit.total
+                                      : 1,
                                 ),
                               ),
                             ),
@@ -136,6 +142,12 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      const SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: CustomBarChart(
+                            barGroups: [],
+                          )),
                     ],
                   );
                 },
@@ -174,26 +186,6 @@ class HomeScreen extends StatelessWidget {
 
                                   homeCubit.productLayer.getProductOrder(
                                       id: myDeal.product.productId);
-                                  String languageCode =
-                                      Localizations.localeOf(context)
-                                          .languageCode;
-
-                                  OrderStatus orderStatus =
-                                      EnumOrderHelper.stringToOrderStatus(
-                                          homeCubit.orderLayer.orders[index]
-                                              .orderStatus);
-                                  String localizedOrderStatus =
-                                      LocalizedEnums.getOrderStatusName(
-                                          orderStatus, languageCode);
-
-                                  PaymentEnums paymentStatus =
-                                      EnumPaymentHelper.stringToOrderStatus(
-                                          homeCubit.orderLayer.orders[index]
-                                              .orderStatus);
-                                  String localizedPaymentStatus =
-                                      LocalizedPaymentEnums
-                                          .getPaymentStatusName(
-                                              paymentStatus, languageCode);
 
                                   return DataRow(
                                     color:
@@ -214,15 +206,16 @@ class HomeScreen extends StatelessWidget {
                                           homeCubit.orderLayer.orders[index]
                                               .orderDate))),
                                       DataCell(CustomChips(
-                                        statusColor: true,
-                                        status: localizedPaymentStatus,
+                                        statusColor: homeCubit.orderLayer
+                                            .orders[index].paymentStatus,
+                                        status: homeCubit.orderLayer
+                                            .orders[index].paymentStatus,
                                       )),
                                       DataCell(CustomChips(
-                                        statusColor:
-                                            EnumOrderHelper.stringToOrderStatus(
-                                                homeCubit.orderLayer
-                                                    .orders[index].orderStatus),
-                                        status: localizedOrderStatus,
+                                        statusColor: homeCubit.orderLayer
+                                            .orders[index].orderStatus,
+                                        status: homeCubit.orderLayer
+                                            .orders[index].orderStatus,
                                       )),
                                     ],
                                   );

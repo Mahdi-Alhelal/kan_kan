@@ -4,9 +4,9 @@ extension UserStatusExt on UserStatusEnum {
   String get value {
     switch (this) {
       case UserStatusEnum.active:
-        return "نشط";
+        return "active";
       case UserStatusEnum.blocked:
-        return "محجوب";
+        return "blocked";
     }
   }
 }

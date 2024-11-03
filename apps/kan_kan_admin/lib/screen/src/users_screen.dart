@@ -122,45 +122,45 @@ class UsersScreen extends StatelessWidget {
                                         .userLayer.usersList[index].phone),
                                   ),
                                 ),
-                                DataCell(CustomChips(
-                                  statusColor: userCubit.userLayer
-                                              .usersList[index].userStatus ==
-                                          'active'
-                                      ? true
-                                      : false,
-                                  status: userCubit
-                                      .userLayer.usersList[index].userStatus,
-                                  onTap: () async {
-                                    userCubit.tmpStatus = userCubit
-                                        .userLayer.usersList[index].userStatus;
-                                    await updateStatus(
-                                        value: userCubit
-                                                    .userLayer
-                                                    .usersList[index]
-                                                    .userStatus ==
-                                                'active'
-                                            ? UserStatusEnum.values.first.name
-                                                .toString()
-                                            : UserStatusEnum.values.last.name,
-                                        onChanged: (value) {
-                                          userCubit.tmpStatus =
-                                              value.toString();
-                                        },
-                                        context: context,
-                                        title: "حالة المصنع",
-                                        onPressed: () async {
-                                          await userCubit.updateUserStatusEvent(
-                                              index: index);
-                                        },
-                                        items: UserStatusEnum.values
-                                            .map<DropdownMenuItem>((status) {
-                                          return DropdownMenuItem(
-                                            value: status.name,
-                                            child: Text(status.value),
-                                          );
-                                        }).toList());
-                                  },
-                                )),
+                                DataCell(
+                                  CustomChips(
+                                    statusColor: userCubit
+                                        .userLayer.usersList[index].userStatus,
+                                    status: userCubit
+                                        .userLayer.usersList[index].userStatus,
+                                    onTap: () async {
+                                      userCubit.tmpStatus = userCubit.userLayer
+                                          .usersList[index].userStatus;
+                                      await updateStatus(
+                                          value: userCubit
+                                                      .userLayer
+                                                      .usersList[index]
+                                                      .userStatus ==
+                                                  'active'
+                                              ? UserStatusEnum.values.first.name
+                                                  .toString()
+                                              : UserStatusEnum.values.last.name,
+                                          onChanged: (value) {
+                                            userCubit.tmpStatus =
+                                                value.toString();
+                                          },
+                                          context: context,
+                                          title: "حالة المصنع",
+                                          onPressed: () async {
+                                            await userCubit
+                                                .updateUserStatusEvent(
+                                                    index: index);
+                                          },
+                                          items: UserStatusEnum.values
+                                              .map<DropdownMenuItem>((status) {
+                                            return DropdownMenuItem(
+                                              value: status.name,
+                                              child: Text(status.value).tr(),
+                                            );
+                                          }).toList());
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ),

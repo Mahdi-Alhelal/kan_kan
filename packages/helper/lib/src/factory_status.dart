@@ -1,11 +1,11 @@
 factoryStatus(status) {
   switch (status) {
     case true:
-      return "غير نشط";
+      return "active";
 
     case false:
-      return "نشط";
+      return "blocked";
     default:
-      return "غير نشط";
+      return "blocked";
   }
 }

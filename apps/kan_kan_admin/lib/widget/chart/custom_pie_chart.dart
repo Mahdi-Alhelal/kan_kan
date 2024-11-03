@@ -2,16 +2,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class CustomPieChart extends StatelessWidget {
-  const CustomPieChart({super.key, this.touchCallback, this.sections});
-  final void Function(FlTouchEvent, PieTouchResponse?)? touchCallback;
+  const CustomPieChart({super.key,  this.sections, required this.pieTouchData});
+  final PieTouchData pieTouchData;
   final List<PieChartSectionData>? sections;
   @override
   Widget build(BuildContext context) {
     return PieChart(
       PieChartData(
-          pieTouchData: PieTouchData(
-            touchCallback: touchCallback,
-          ),
+          pieTouchData: pieTouchData,
           borderData: FlBorderData(
             show: false,
           ),

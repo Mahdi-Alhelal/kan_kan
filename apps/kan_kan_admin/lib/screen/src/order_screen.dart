@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/cubits/order_cubit/order_cubit.dart';
 import 'package:kan_kan_admin/local_data/status_list.dart';
-import 'package:helper/src/order_enums.dart';
-import 'package:helper/src/payment_enums.dart';
 import 'package:kan_kan_admin/helper/table_data_row.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
@@ -84,23 +82,6 @@ class OrderScreen extends StatelessWidget {
 
                               orderCubit.userOrderProduct.getProductOrder(
                                   id: myDeal.product.productId);
-                              String languageCode =
-                                  Localizations.localeOf(context).languageCode;
-
-                              OrderStatus orderStatus =
-                                  EnumOrderHelper.stringToOrderStatus(orderCubit
-                                      .ordersData.orders[index].orderStatus);
-                              String localizedOrderStatus =
-                                  LocalizedEnums.getOrderStatusName(
-                                      orderStatus, languageCode);
-
-                              PaymentEnums paymentStatus =
-                                  EnumPaymentHelper.stringToOrderStatus(
-                                      orderCubit.ordersData.orders[index]
-                                          .orderStatus);
-                              String localizedPaymentStatus =
-                                  LocalizedPaymentEnums.getPaymentStatusName(
-                                      paymentStatus, languageCode);
 
                               return DataRow(
                                 onLongPress: () {
@@ -133,8 +114,10 @@ class OrderScreen extends StatelessWidget {
                                           .orderDate))),
                                   DataCell(CustomChips(
                                     //Todo: link with paymentStatus
-                                    statusColor: true,
-                                    status: localizedPaymentStatus,
+                                    statusColor: orderCubit
+                                        .ordersData.orders[index].paymentStatus,
+                                    status: orderCubit
+                                        .ordersData.orders[index].paymentStatus,
                                     onTap: () async {
                                       await updateStatus(
                                           value:
@@ -147,17 +130,16 @@ class OrderScreen extends StatelessWidget {
                                                   (String status) {
                                             return DropdownMenuItem(
                                               value: status,
-                                              child: Text(status),
+                                              child: Text(status).tr(),
                                             );
                                           }).toList());
                                     },
                                   )),
                                   DataCell(CustomChips(
-                                    statusColor:
-                                        EnumOrderHelper.stringToOrderStatus(
-                                            orderCubit.ordersData.orders[index]
-                                                .orderStatus),
-                                    status: localizedOrderStatus,
+                                    statusColor: orderCubit
+                                        .ordersData.orders[index].orderStatus,
+                                    status: orderCubit
+                                        .ordersData.orders[index].orderStatus,
                                     onTap: () async {
                                       await updateStatus(
                                           onPressed: () {
@@ -177,7 +159,7 @@ class OrderScreen extends StatelessWidget {
                                                   (String status) {
                                             return DropdownMenuItem(
                                               value: status,
-                                              child: Text(status),
+                                              child: Text(status).tr(),
                                             );
                                           }).toList());
                                     },

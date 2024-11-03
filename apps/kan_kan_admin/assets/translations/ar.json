@@ -1,4 +1,20 @@
 {
-    "HME-L1" : "الصفحة الرئيسية"
-
+    "HME-L1" : "الصفحة الرئيسية",
+    "active" : "نشط",
+    "blocked" : "محظور",
+    "admin" : "مشرف",
+    "user" : "مستخدم",
+    "paid" : "مدفوع",
+    "failed" : "فشل",
+    "refund" : "استرداد",
+    "pending" : "قيد الانتظار",
+    "processing" : "قيد المعالجة",
+    "inChina" : "في الصين",
+    "inTransit" : "قيد النقل",
+    "inSaudi" : "في السعودية",
+    "withShipmentCompany" : "مع شركة الشحن",
+    "completed" : "مكتمل",
+    "canceled" : "ملغى",
+    "private" : "خاص",
+    "closed" : "مغلق"
 }

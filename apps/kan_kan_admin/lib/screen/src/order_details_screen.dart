@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
-import 'package:kan_kan_admin/model/order_model2.dart';
+import 'package:kan_kan_admin/model/order_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';

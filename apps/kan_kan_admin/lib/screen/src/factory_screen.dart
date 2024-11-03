@@ -291,7 +291,7 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                       .factoryLayer.factories[index].region),
                                 )),
                                 DataCell(CustomChips(
-                                  statusColor: !factoryCubit.factoryLayer
+                                  statusColor: factoryCubit.factoryLayer
                                       .factories[index].isBlackList,
                                   status: factoryStatus(factoryCubit
                                       .factoryLayer
@@ -326,7 +326,8 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                                 (bool status) {
                                           return DropdownMenuItem<bool>(
                                             value: status,
-                                            child: Text(factoryStatus(status)),
+                                            child: Text(factoryStatus(status))
+                                                .tr(),
                                           );
                                         }).toList());
                                   },

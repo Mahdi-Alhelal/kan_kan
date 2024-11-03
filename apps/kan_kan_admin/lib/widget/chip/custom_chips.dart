@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helper/helper.dart';
+import 'package:ui/ui.dart';
 
 class CustomChips extends StatelessWidget {
   const CustomChips({
@@ -22,16 +23,15 @@ class CustomChips extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: getEnumColor(statusColor),
+              color: colorStatus(statusColor),
             ),
           ),
           child: Center(
             child: Text(
               style: TextStyle(
-                  color: getEnumColor(statusColor),
-                  fontWeight: FontWeight.bold),
+                  color: colorStatus(statusColor), fontWeight: FontWeight.bold),
               status,
-            ),
+            ).tr(),
           ),
         ),
       ),

@@ -642,7 +642,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                 .map((element) =>
                                                     DropdownMenuItem(
                                                       value: element,
-                                                      child: Text(element),
+                                                      child: Text(element).tr(),
                                                     ))
                                                 .toList(),
                                             value: "processing");
@@ -747,7 +747,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                               (String status) {
                                                         return DropdownMenuItem(
                                                           value: status,
-                                                          child: Text(status),
+                                                          child: Text(status).tr(),
                                                         );
                                                       }).toList());
                                                 },
@@ -769,7 +769,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                               (String status) {
                                                         return DropdownMenuItem(
                                                           value: status,
-                                                          child: Text(status),
+                                                          child: Text(status).tr(),
                                                         );
                                                       }).toList());
                                                 },
