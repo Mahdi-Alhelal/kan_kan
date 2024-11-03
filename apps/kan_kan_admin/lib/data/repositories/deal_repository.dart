@@ -91,4 +91,17 @@ mixin DealRepository {
       throw Exception('Error: in upload this image to database: $e');
     }
   }
+
+  addTrackingNumber(
+      {required String trackingNumber, required int dealId}) async {
+    try {
+      print(dealId);
+      await KanSupabase.supabase.client
+          .from("deals")
+          .update({"tracking_number": trackingNumber}).eq("deal_id", dealId);
+      return true;
+    } catch (e) {
+      throw Exception('Error: in upload this image to database: $e');
+    }
+  }
 }

@@ -584,18 +584,24 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                     ),
                     ElevatedButton(
                         onPressed: () {
+                          detailCubit.trackingNumberController.text =
+                              detailCubit.deal.trackingNumber;
                           customBottomSheet(
                             context: context,
                             height: 0.4,
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  const CustomTextField(
+                                  CustomTextField(
+                                      controller:
+                                          detailCubit.trackingNumberController,
                                       title: "رقم تتبع الصفقة"),
                                   SizedBox(
                                     width: context.getWidth(value: 0.25),
                                     child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          detailCubit.addTrackingNumberEvent();
+                                        },
                                         child: const Text("حفظ")),
                                   )
                                 ],
@@ -694,9 +700,6 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                 )
                                                 .toList(),
                                             value: detailCubit.deal.dealStatus);
-                                        if (context.mounted) {
-                                          Navigator.pop(context);
-                                        }
                                       },
                                       child: const Text("تحديث حالة الصفقة")),
                                 ),

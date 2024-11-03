@@ -28,6 +28,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   final categoryLayer = GetIt.I.get<CategoryDataLayer>();
 
   //?---controller
+  final TextEditingController trackingNumberController =
+      TextEditingController();
+
   final TextEditingController dealNameController = TextEditingController();
   final TextEditingController productController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
@@ -187,6 +190,26 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       }
       if (!isClosed) emit(UpdateOrderStatusSuccessState());
     } catch (errorMessage) {
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  addTrackingNumberEvent() async {
+    try {
+      final response = await api.addTrackingNumber(
+          dealId: deal.dealId,
+          trackingNumber: trackingNumberController.text.trim());
+      if (response) {
+        deal.trackingNumber = trackingNumberController.text.trim();
+        int index = dealLayer.deals
+            .indexWhere((element) => element.dealId == deal.dealId);
+        dealLayer.deals[index].trackingNumber =
+            trackingNumberController.text.trim();
+        print("success");
+      }
+      if (!isClosed) emit(UpdateDealStatusSuccessState());
+    } catch (errorMessage) {
+      print(errorMessage);
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
