@@ -6,32 +6,6 @@ mixin OrderRepository {
   /*
   *
   * Tested
-  * Add new Order
-  *
-  * */
-  Future<List<Map<String, dynamic>>> addNewOrder(
-      {required String userID,
-      required String dealID,
-      required String addressID,
-      required double amount}) async {
-    try {
-      final dataFound = await KanSupabase.supabase.client
-          .from("orders")
-          .insert({
-        "deal_id": dealID,
-        "user_id": userID,
-        "address_id": addressID,
-        "amount": amount
-      }).select(); // here we need to check if i can to deplicated or not
-      return dataFound;
-    } catch (e) {
-      throw Exception('Error in add order: $e');
-    }
-  }
-
-  /*
-  *
-  * Tested
   * Update order
   *
   * */
@@ -44,6 +18,9 @@ mixin OrderRepository {
       await KanSupabase.supabase.client.from("orders").update({
         "order_status": status,
       }).eq("order_id", id);
+      await KanSupabase.supabase.client
+          .from("order_track")
+          .insert({"order_id": id, "status": status});
       return true;
     } catch (e) {
       throw Exception('Error in update order: $e');
@@ -55,11 +32,10 @@ mixin OrderRepository {
     required int dealId,
   }) async {
     try {
-      print('updateOrdersStatus api');
-
       await KanSupabase.supabase.client.from("orders").update({
         "order_status": status,
       }).eq("deal_id", dealId);
+
       return true;
     } catch (e) {
       throw Exception('Error in update order: $e');
@@ -98,6 +74,20 @@ mixin OrderRepository {
       return response.map((element) => OrderModel.fromJson(element)).toList();
     } catch (e) {
       throw Exception('Error in get all orders: $e');
+    }
+  }
+
+  addToTracking({required List<int> ordersId, required String status}) async {
+    try {
+      List<Future> addAction = <Future>[];
+      for (int id in ordersId) {
+        addAction.add(KanSupabase.supabase.client
+            .from("order_track")
+            .insert({"order_id": id, "status": status}));
+      }
+      await Future.wait(addAction);
+    } catch (e) {
+      throw Exception('Error in add all orders to tracking: $e');
     }
   }
 }

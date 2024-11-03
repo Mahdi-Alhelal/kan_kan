@@ -142,12 +142,73 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                          height: 200,
-                          width: 200,
-                          child: CustomBarChart(
-                            barGroups: [],
-                          )),
+                      SizedBox(
+                        height: 200,
+                        width: 600,
+                        child: CustomBarChart(
+                          barGroups: [
+                            BarChartGroupData(
+                              x: 0,
+                              barRods: [
+                                BarChartRodData(
+                                    toY: homeCubit.dealLayer.deals
+                                        .where((element) =>
+                                            element.dealStatus == "private")
+                                        .length
+                                        .toDouble()),
+                              ],
+                            ),
+                            BarChartGroupData(
+                              x: 1,
+                              barRods: [
+                                BarChartRodData(
+                                  toY: homeCubit.dealLayer.deals
+                                      .where((element) =>
+                                          element.dealStatus == "closed ")
+                                      .length
+                                      .toDouble(),
+                                ),
+                              ],
+                            ),
+                            BarChartGroupData(
+                              x: 2,
+                              barRods: [
+                                BarChartRodData(
+                                  toY: homeCubit.dealLayer.deals
+                                      .where((element) =>
+                                          element.dealStatus == "active")
+                                      .length
+                                      .toDouble(),
+                                )
+                              ],
+                            ),
+                            BarChartGroupData(
+                              x: 3,
+                              barRods: [
+                                BarChartRodData(
+                                  toY: homeCubit.dealLayer.deals
+                                      .where((element) =>
+                                          element.dealStatus == "completed")
+                                      .length
+                                      .toDouble(),
+                                ),
+                              ],
+                            ),
+                            BarChartGroupData(
+                              x: 4,
+                              barRods: [
+                                BarChartRodData(
+                                  toY: homeCubit.dealLayer.deals
+                                      .where((element) =>
+                                          element.dealStatus == "pending")
+                                      .length
+                                      .toDouble(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   );
                 },

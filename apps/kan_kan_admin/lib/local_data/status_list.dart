@@ -3,7 +3,7 @@ import 'package:helper/src/enums.dart';
 class DropMenuList {
   static List<bool> factoryStatus = [false, true];
 
-  static List<String> paymentStatus = ["paid ", "refund","failed"];
+  static List<String> paymentStatus = ["paid", "refund", "failed"];
 
   static List<String> shipmentStatus = [
     "processing",
@@ -25,10 +25,8 @@ class DropMenuList {
     'processing'
   ];
 
-
   static Map<UserStatusEnum, String> userStatusTranslations = {
     UserStatusEnum.active: 'نشط',
     UserStatusEnum.blocked: 'محجوب'
   };
-
 }

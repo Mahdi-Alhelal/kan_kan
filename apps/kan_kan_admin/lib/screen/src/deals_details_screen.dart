@@ -731,23 +731,31 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                   ),
                                                 ),
                                               ),
-                                              //Todo! to add payment status
                                               DataCell(CustomChips(
-                                                status: "need payment",
+                                                status: detailCubit
+                                                    .currentOrders[index]
+                                                    .paymentStatus,
+                                                statusColor: detailCubit
+                                                    .currentOrders[index]
+                                                    .paymentStatus,
                                                 onTap: () async {
                                                   await updateStatus(
-                                                      value: DropMenuList
-                                                          .paymentStatus.first,
+                                                      value: detailCubit
+                                                          .currentOrders[index]
+                                                          .paymentStatus,
                                                       context: context,
                                                       title: "حالة",
-                                                      onChanged: (value) {},
+                                                      onChanged: (value) {
+                                                        
+                                                      },
                                                       items: DropMenuList
                                                           .paymentStatus
                                                           .map<DropdownMenuItem>(
                                                               (String status) {
                                                         return DropdownMenuItem(
                                                           value: status,
-                                                          child: Text(status).tr(),
+                                                          child:
+                                                              Text(status).tr(),
                                                         );
                                                       }).toList());
                                                 },
@@ -756,10 +764,14 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                 status: detailCubit
                                                     .currentOrders[index]
                                                     .orderStatus,
+                                                statusColor: detailCubit
+                                                    .currentOrders[index]
+                                                    .orderStatus,
                                                 onTap: () async {
                                                   await updateStatus(
-                                                      value: DropMenuList
-                                                          .shipmentStatus.first,
+                                                      value: detailCubit
+                                                          .currentOrders[index]
+                                                          .orderStatus,
                                                       context: context,
                                                       title: "حالة",
                                                       onChanged: (value) {},
@@ -769,7 +781,8 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                               (String status) {
                                                         return DropdownMenuItem(
                                                           value: status,
-                                                          child: Text(status).tr(),
+                                                          child:
+                                                              Text(status).tr(),
                                                         );
                                                       }).toList());
                                                 },

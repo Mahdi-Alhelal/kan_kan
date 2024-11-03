@@ -175,12 +175,7 @@ class _DealsScreenState extends State<DealsScreen> {
                                                 (String status) {
                                           return DropdownMenuItem(
                                             value: status,
-                                            child: Text(LocalizedDealsEnums
-                                                .getDealsStatusName(
-                                                    EnumDealsHelper
-                                                        .stringToDealStatus(
-                                                            status),
-                                                    context.locale.toString())),
+                                            child: Text(status).tr(),
                                           );
                                         }).toList());
                                   },

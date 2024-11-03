@@ -50,7 +50,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   List<DateTime?> dealDuration = [];
   List<OrderModel> currentOrders = [];
 
-  DealDetailsCubit() : super(DealDetailsInitial());
+  DealDetailsCubit() : super(DealDetailsInitial()) {
+    addNewOrder();
+  }
 
   dealOrders({required int dealId}) {
     currentOrders = orderLayer.orders
@@ -122,9 +124,11 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
     try {
       print("iam at updateOrderStatus");
       List<int> orderIndex = [];
+      List<int> ordersId = [];
       for (int index = 0; index < orderLayer.orders.length; index++) {
         if (orderLayer.orders[index].dealId == dealId) {
           orderIndex.add(index);
+          ordersId.add(orderLayer.orders[index].orderId);
           print('add order index:$index');
         }
       }
@@ -133,6 +137,8 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
         status: tmpOrderStatus,
       );
       if (response) {
+        await api.addToTracking(ordersId: ordersId, status: tmpOrderStatus);
+
         print("if condition");
         for (int index in orderIndex) {
           orderLayer.orders[index].orderStatus = tmpOrderStatus;
@@ -148,7 +154,8 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
-    addNewOrder() {
+
+  addNewOrder() {
     KanSupabase.supabase.client
         .channel('add_order')
         .onPostgresChanges(
@@ -157,9 +164,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
             table: 'orders',
             callback: (newData) {
               orderLayer.orders.add(OrderModel.fromJson(newData.newRecord));
-      if (!isClosed) emit(UpdateDealStatusSuccessState());
+              if (!isClosed) emit(UpdateDealStatusSuccessState());
             })
         .subscribe();
-      if (!isClosed) emit(UpdateDealStatusSuccessState());
+    if (!isClosed) emit(UpdateDealStatusSuccessState());
   }
 }

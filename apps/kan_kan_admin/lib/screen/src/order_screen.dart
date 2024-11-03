@@ -112,29 +112,34 @@ class OrderScreen extends StatelessWidget {
                                   DataCell(Text(DateConverter.usDateFormate(
                                       orderCubit.ordersData.orders[index]
                                           .orderDate))),
-                                  DataCell(CustomChips(
-                                    //Todo: link with paymentStatus
-                                    statusColor: orderCubit
-                                        .ordersData.orders[index].paymentStatus,
-                                    status: orderCubit
-                                        .ordersData.orders[index].paymentStatus,
-                                    onTap: () async {
-                                      await updateStatus(
-                                          value:
-                                              DropMenuList.paymentStatus.first,
-                                          context: context,
-                                          title: "حالة",
-                                          onChanged: (value) {},
-                                          items: DropMenuList.paymentStatus
-                                              .map<DropdownMenuItem>(
-                                                  (String status) {
-                                            return DropdownMenuItem(
-                                              value: status,
-                                              child: Text(status).tr(),
-                                            );
-                                          }).toList());
-                                    },
-                                  )),
+                                  DataCell(
+                                    CustomChips(
+                                      //Todo: link with paymentStatus
+                                      statusColor: orderCubit.ordersData
+                                          .orders[index].paymentStatus,
+                                      status: orderCubit.ordersData
+                                          .orders[index].paymentStatus,
+                                      onTap: () async {
+                                        print("here");
+                                        print(orderCubit.ordersData
+                                            .orders[index].paymentStatus);
+                                        await updateStatus(
+                                            value: orderCubit.ordersData
+                                                .orders[index].paymentStatus,
+                                            context: context,
+                                            title: "حالة",
+                                            onChanged: (value) {},
+                                            items: DropMenuList.paymentStatus
+                                                .map<DropdownMenuItem>(
+                                                    (String status) {
+                                              return DropdownMenuItem(
+                                                value: status,
+                                                child: Text(status).tr(),
+                                              );
+                                            }).toList());
+                                      },
+                                    ),
+                                  ),
                                   DataCell(CustomChips(
                                     statusColor: orderCubit
                                         .ordersData.orders[index].orderStatus,

@@ -5,8 +5,8 @@ class OrderModel {
       required this.userId,
       required this.orderDate,
       required this.orderStatus,
-      this.trackingNumber,
-      this.trackingCompany,
+      required this.trackingNumber,
+      required this.trackingCompany,
       required this.quantity,
       required this.amount,
       required this.address,
@@ -16,24 +16,24 @@ class OrderModel {
   late String userId;
   late String orderDate;
   late String orderStatus;
-  late String? trackingNumber;
-  late String? trackingCompany;
+  late String trackingNumber;
+  late String trackingCompany;
   late int quantity;
   late num amount;
   late String address;
   late String paymentStatus;
   OrderModel.fromJson(Map<String, dynamic> json) {
-    orderId = json['order_id'];
-    dealId = json['deal_id'];
-    userId = json['user_id'];
-    orderDate = json['order_date'];
-    orderStatus = json['order_status'];
-    trackingNumber = json['tracking_number'];
-    trackingCompany = json['tracking_company'];
-    quantity = json['quantity'];
-    amount = json['amount'];
-    address = json['address'];
-    paymentStatus = json['payment_status'];
+    orderId = json['order_id'] ?? 0;
+    dealId = json['deal_id'] ?? 0;
+    userId = json['user_id'] ?? "";
+    orderDate = json['order_date'] ?? "";
+    orderStatus = json['order_status'] ?? "";
+    trackingNumber = json['tracking_number'] ?? "";
+    trackingCompany = json['tracking_company'] ?? "";
+    quantity = json['quantity'] ?? 0;
+    amount = json['amount'] ?? 0;
+    address = json['address'] ?? "";
+    paymentStatus = json['payment_status'] ?? "failed";
   }
 
   Map<String, dynamic> toJson() {
