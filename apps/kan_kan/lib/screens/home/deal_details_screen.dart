@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan/cubit/deal_deatails_cubit/deal_details_cubit.dart';
+import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/deal_model.dart';
+import 'package:kan_kan/screens/auth/login_screen.dart';
 import 'package:kan_kan/screens/pre_payment_screen.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
@@ -236,18 +239,12 @@ class DealDetailsScreen extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              const Text("وصف المنتج : "),
-                              SizedBox(
-                                width: 300,
-                                child: Text(
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 5,
-                                    softWrap: false,
-                                    dealData.product.productDescription),
-                              )
-                            ],
+                          Flexible(
+                            child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 5,
+                                softWrap: false,
+                                dealData.product.productDescription),
                           ),
                           const SizedBox(
                             height: 10,
@@ -315,55 +312,75 @@ class DealDetailsScreen extends StatelessWidget {
                   child: Builder(builder: (context) {
                     final dealDCubit = context.read<DealDetailsCubit>();
                     return dealData.dealStatus == "active"
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                width: context.getWidth(value: 0.3),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        print("++++++${dealDCubit.index}");
+                        ? GetIt.I.get<UserDataLayer>().email != ""
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                    width: context.getWidth(value: 0.3),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            print("++++++${dealDCubit.index}");
 
-                                        dealDCubit.increseEvent(
-                                            maxOrderPerUser:
-                                                dealData.maxOrdersPerUser);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: AppColor.secondary),
-                                        child: const Icon(Icons.add),
-                                      ),
+                                            dealDCubit.increseEvent(
+                                                maxOrderPerUser:
+                                                    dealData.maxOrdersPerUser);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: AppColor.secondary),
+                                            child: const Icon(Icons.add),
+                                          ),
+                                        ),
+                                        BlocBuilder<DealDetailsCubit,
+                                            DealDetailsState>(
+                                          builder: (context, state) {
+                                            return Text(
+                                                dealDCubit.index.toString());
+                                          },
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            print("------${dealDCubit.index}");
+                                            dealDCubit.decreseEvent();
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: AppColor.secondary),
+                                            child: const Icon(Icons.remove),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    BlocBuilder<DealDetailsCubit,
-                                        DealDetailsState>(
-                                      builder: (context, state) {
-                                        return Text(
-                                            dealDCubit.index.toString());
-                                      },
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        print("------${dealDCubit.index}");
-                                        dealDCubit.decreseEvent();
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: AppColor.secondary),
-                                        child: const Icon(Icons.remove),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
+                                  ),
+                                  SizedBox(
+                                    width: context.getWidth(value: 0.6),
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PrePaymentScreen(
+                                                      dealData: dealData,
+                                                      items: dealDCubit.index,
+                                                    )),
+                                          );
+                                        },
+                                        child: const Text("إنضمام إلى الصفقة")),
+                                  )
+                                ],
+                              )
+                            : SizedBox(
                                 width: context.getWidth(value: 0.6),
                                 child: ElevatedButton(
                                     onPressed: () {
@@ -371,16 +388,12 @@ class DealDetailsScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                PrePaymentScreen(
-                                                  dealData: dealData,
-                                                  items: dealDCubit.index,
-                                                )),
+                                                LoginScreen()),
                                       );
                                     },
-                                    child: const Text("إنضمام إلى الصفقة")),
+                                    child: const Text(
+                                        "سجل الآن وانضم إلى الصفقة")),
                               )
-                            ],
-                          )
                         : const SizedBox();
                   }),
                 )

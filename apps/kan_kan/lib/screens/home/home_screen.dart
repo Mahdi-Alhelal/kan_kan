@@ -29,30 +29,32 @@ class HomeScreen extends StatelessWidget {
                     height: 20,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProfileScreen()));
-                    },
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: AppColor.black.withOpacity(20 / 100),
-                        child: Icon(
-                          Icons.person,
-                          color: AppColor.white,
-                        ),
-                      ),
-                      title: Text(
-                        "مرحباً بعودتك ، 👋",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        homeCubit.userLayer.user.fullName,
-                        style: TextStyle(color: AppColor.secondary),
-                      ),
-                    ),
-                  ),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProfileScreen()));
+                      },
+                      child: homeCubit.userLayer.email != ""
+                          ? ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor:
+                                    AppColor.black.withOpacity(20 / 100),
+                                child: Icon(
+                                  Icons.person,
+                                  color: AppColor.white,
+                                ),
+                              ),
+                              title: Text(
+                                "مرحباً بعودتك ، 👋",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                homeCubit.userLayer.user.fullName,
+                                style: TextStyle(color: AppColor.secondary),
+                              ),
+                            )
+                          : SizedBox()),
                   SizedBox(
                     height: 30,
                   ),

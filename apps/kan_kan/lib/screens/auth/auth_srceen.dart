@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan/cubit/auth_cubit/auth_cubit.dart';
+import 'package:kan_kan/screens/buttom_nav.dart';
 import 'package:kan_kan/screens/home/home_screen.dart';
 import 'package:kan_kan/widgets/custom_pinout.dart';
 import 'package:ui/component/helper/screen.dart';
@@ -54,7 +55,7 @@ class AuthScreen extends StatelessWidget {
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => const ButtomNav(),
                         ),
                         (Route<dynamic> route) => false);
                   }

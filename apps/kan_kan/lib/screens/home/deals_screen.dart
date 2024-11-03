@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:ui/component/helper/screen.dart';
@@ -26,23 +28,25 @@ class DealsScreen extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => const ProfileScreen()));
                 },
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: AppColor.black.withOpacity(20 / 100),
-                    child: Icon(
-                      Icons.person,
-                      color: AppColor.white,
-                    ),
-                  ),
-                  title: Text(
-                    "مرحباً بعودتك ، 👋",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    "علي التاروتي",
-                    style: TextStyle(color: AppColor.secondary),
-                  ),
-                ),
+                child: GetIt.I.get<UserDataLayer>().email != ""
+                    ? ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: AppColor.black.withOpacity(20 / 100),
+                          child: Icon(
+                            Icons.person,
+                            color: AppColor.white,
+                          ),
+                        ),
+                        title: Text(
+                          "مرحباً بعودتك ، 👋",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          "علي التاروتي",
+                          style: TextStyle(color: AppColor.secondary),
+                        ),
+                      )
+                    : SizedBox(),
               ),
               SizedBox(
                 height: 30,

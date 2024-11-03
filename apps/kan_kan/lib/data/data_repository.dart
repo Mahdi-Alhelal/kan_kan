@@ -4,6 +4,7 @@ import 'package:kan_kan/data/repository/category_repository.dart';
 import 'package:kan_kan/data/repository/deal_repository.dart';
 import 'package:kan_kan/data/repository/order_repository.dart';
 import 'package:kan_kan/data/repository/payment_repository.dart';
+import 'package:kan_kan/data/repository/profile_repository.dart';
 import 'package:kan_kan/integrations/supabase/supabase_client.dart';
 
 class DataRepository extends KanSupabase
@@ -13,4 +14,5 @@ class DataRepository extends KanSupabase
         DealRepository,
         OrderRepository,
         PaymentRepository,
+        ProfileRepository,
         AddressRepository {}
