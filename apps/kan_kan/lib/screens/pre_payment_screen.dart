@@ -28,7 +28,7 @@ class PrePaymentScreen extends StatelessWidget {
       return amountDouble;
     }
 
-    late String address;
+    String address = "Dammam";
 
     final paymentConfig = PaymentConfig(
         publishableApiKey: "pk_test_eMwVbFMRpumqb8dxpcU2fTQwv6MFavNZLPuNgjhj",
@@ -38,58 +38,28 @@ class PrePaymentScreen extends StatelessWidget {
           'product_name': dealData.dealTitle.toString(),
         },
         creditCard: CreditCardConfig(saveCard: false, manual: false));
-    void onPaymentResult(result) {
-      if (result is PaymentResponse) {
-        switch (result.status) {
-          case PaymentStatus.paid:
-            // handle success.
-
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => const SucessPaymentScreen(
-            //             orderDetails: null,
-            //             dealDetails: null,
-            //           )),
-            // );
-            break;
-          case PaymentStatus.failed:
-            // handle failure.
-            break;
-          case PaymentStatus.initiated:
-          // TODO: Handle this case.
-          case PaymentStatus.authorized:
-          // TODO: Handle this case.
-          case PaymentStatus.captured:
-          // TODO: Handle this case.
-        }
-      }
-    }
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.bg,
-        leading: const Icon(Icons.arrow_back),
         title: const Text("صفحة الدفع"),
       ),
-      body: Center(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 20,
               ),
               const Text(
-                "باقي خطوة واحدة :)",
+                "باقي خطوة واحدة ⏳",
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(
                 height: 20,
               ),
               Container(
-                width: context.getWidth(value: 0.75),
-                height: context.getHeight(value: 0.5),
+                width: context.getWidth(value: 0.85),
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -113,8 +83,12 @@ class PrePaymentScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      Image.asset(
-                          "assets/images/products-sample/tv-sample.png"),
+                      dealData.dealUrl != ""
+                          ? Image.network(dealData.dealUrl)
+                          : Image.asset(
+                              "assets/images/logo/kan_kan_logo.png",
+                              width: 200,
+                            ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -175,8 +149,7 @@ class PrePaymentScreen extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                  width: context.getWidth(value: 0.75),
-                  height: context.getHeight(value: 0.15),
+                  width: context.getWidth(value: 0.85),
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -204,7 +177,6 @@ class PrePaymentScreen extends StatelessWidget {
                                   children: List.generate(
                                       cubitAddress.addressLayer.addressUserList
                                           .length, (int index) {
-
                                     return Row(
                                       children: [
                                         CustomChoiceChip(
@@ -244,7 +216,7 @@ class PrePaymentScreen extends StatelessWidget {
                 height: 20,
               ),
               SizedBox(
-                width: context.getWidth(value: 0.75),
+                width: context.getWidth(value: 0.85),
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
@@ -274,7 +246,8 @@ class PrePaymentScreen extends StatelessWidget {
                                               case PaymentStatus.paid:
                                                 final orderdetails =
                                                     await paymentCubit.addPaymentEvent(
-                                                      allQuantity: dealData.numberOfOrder,
+                                                        allQuantity: dealData
+                                                            .numberOfOrder,
                                                         userID:
                                                             "83efec21-2fc7-416e-9825-a86a8af3a63a",
                                                         paymentMethod: "MADA",
@@ -330,6 +303,9 @@ class PrePaymentScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
             ],
           ),

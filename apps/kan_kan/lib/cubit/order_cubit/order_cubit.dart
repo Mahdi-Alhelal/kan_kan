@@ -20,12 +20,12 @@ class OrderCubit extends Cubit<OrderState> {
   final userOrderDeal = GetIt.I.get<DealDataLayer>();
   final userOrderProduct = GetIt.I.get<ProductDataLayer>();
 
-  getOneOrderUser({required int orderID, required String userID}) async {
+  getOneOrderUser({required int orderID}) async {
     emit(LoadingOrderState());
 
     try {
       ordersData.orders = await DataRepository()
-          .getOneOrdersByUser(orderID: orderID, userID: userID);
+          .getOneOrdersByUser(orderID: orderID);
 
       return ordersData.orders.first;
     } catch (e) {

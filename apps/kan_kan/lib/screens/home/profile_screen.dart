@@ -6,6 +6,7 @@ import 'package:kan_kan/cubit/profile_cubit/profile_cubit.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/order_model.dart';
 import 'package:kan_kan/screens/home/deal_details_screen.dart';
+import 'package:kan_kan/widgets/alert.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:kan_kan/widgets/order_card.dart';
 import 'package:ui/component/helper/screen.dart';
@@ -110,73 +111,98 @@ class ProfileScreen extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        BlocBuilder<ProfileCubit, ProfileState>(
+                        BlocConsumer<ProfileCubit, ProfileState>(
                           builder: (context, state) {
                             const CircularProgressIndicator(
                               color: AppColor.primary,
                             );
 
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  width: context.getWidth(value: 0.3),
-                                  height: context.getWidth(value: 0.2),
-                                  decoration: BoxDecoration(
-                                    color: AppColor.white,
-                                    borderRadius: BorderRadius.circular(8),
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: context.getWidth(value: 0.33),
+                                    height: context.getWidth(value: 0.2),
+                                    decoration: BoxDecoration(
+                                      color: AppColor.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          "الصفقات الحالية",
+                                          style: TextStyle(
+                                              color: AppColor.secondary),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          cubitProfile.listOrdersNow.length
+                                              .toString(),
+                                          style: const TextStyle(fontSize: 18),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        "الصفقات الحالية",
-                                        style: TextStyle(
-                                            color: AppColor.secondary),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        cubitProfile.listOrdersNow.length
-                                            .toString(),
-                                        style: const TextStyle(fontSize: 18),
-                                      ),
-                                    ],
+                                  Container(
+                                    width: context.getWidth(value: 0.33),
+                                    height: context.getWidth(value: 0.2),
+                                    decoration: BoxDecoration(
+                                      color: AppColor.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Center(
+                                          child: Text(
+                                            "الصفقات السابقة",
+                                            style: TextStyle(
+                                                color: AppColor.secondary),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          cubitProfile.listPreviosOrders.length
+                                              .toString(),
+                                          style: const TextStyle(fontSize: 18),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  width: context.getWidth(value: 0.3),
-                                  height: context.getWidth(value: 0.2),
-                                  decoration: BoxDecoration(
-                                    color: AppColor.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        "الصفقات السابقة",
-                                        style: TextStyle(
-                                            color: AppColor.secondary),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        cubitProfile.listPreviosOrders.length
-                                            .toString(),
-                                        style: const TextStyle(fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             );
+                          },
+                          listener: (BuildContext context, ProfileState state) {
+                            CircularProgressIndicator(
+                              color: AppColor.primary,
+                            );
+                            if (state is SuccessUpdateProfileState) {
+                              alert(
+                                  context: context,
+                                  msg: "تم تحديث البيانات بنجاح",
+                                  isCompleted: true);
+                            }
+                            if (state is ErrorProfileState) {
+                              alert(
+                                  context: context,
+                                  msg: "يوجد خطأ في البيانات",
+                                  isCompleted: false);
+                            }
                           },
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(32.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: AppColor.white,
@@ -236,6 +262,14 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: const Row(
+                            children: [
+                              Text("الطلبات الحالية"),
+                            ],
+                          ),
+                        ),
                         BlocBuilder<ProfileCubit, ProfileState>(
                           builder: (context, state) {
                             return SizedBox(
@@ -245,7 +279,6 @@ class ProfileScreen extends StatelessWidget {
                                   itemCount: cubitProfile.listOrdersNow.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                   
                                     return OrderCard(
                                       dealDetails: cubitProfile.userDeals
                                           .findDeal(cubitProfile
@@ -256,7 +289,42 @@ class ProfileScreen extends StatelessWidget {
                                   }),
                             );
                           },
-                        )
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: const Row(
+                            children: [
+                              Text("الطلبات السابقة"),
+                            ],
+                          ),
+                        ),
+                        BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            return SizedBox(
+                              height: context.getHeight(value: 0.30),
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                      cubitProfile.listPreviosOrders.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return OrderCard(
+                                      dealDetails: cubitProfile.userDeals
+                                          .findDeal(cubitProfile
+                                              .listPreviosOrders[index].dealId),
+                                      orderDetails:
+                                          cubitProfile.listPreviosOrders[index],
+                                    );
+                                  }),
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                       ],
                     ),
                   )

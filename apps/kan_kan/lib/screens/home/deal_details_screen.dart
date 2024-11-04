@@ -200,19 +200,22 @@ class DealDetailsScreen extends StatelessWidget {
                             ],
                           ),
                           dealData.numberOfOrder > 0
-                              ? Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.handshake,
-                                      color: AppColor.primary,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    const Text("يتشارك عدد"),
-                                    Text(" ${dealData.numberOfOrder} "),
-                                    const Text("شخص / أشخاص في هذه الصفقة")
-                                  ],
+                              ? SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.handshake,
+                                        color: AppColor.primary,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      const Text("يتشارك عدد"),
+                                      Text(" ${dealData.numberOfOrder} "),
+                                      const Text("شخص / أشخاص في هذه الصفقة")
+                                    ],
+                                  ),
                                 )
                               : const Row(
                                   children: [

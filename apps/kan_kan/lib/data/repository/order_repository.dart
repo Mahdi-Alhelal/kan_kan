@@ -83,21 +83,20 @@ mixin OrderRepository {
           .supabase.client
           .from("orders")
           .select("*")
-          .eq("user_id", userID);
+          .eq("user_id", userID)
+          .order("order_id");
       return response.map((element) => OrderModel.fromJson(element)).toList();
     } catch (e) {
       throw Exception('Error in get all orders: $e');
     }
   }
 
-  Future<List<OrderModel>> getOneOrdersByUser(
-      {required String userID, required int orderID}) async {
+  Future<List<OrderModel>> getOneOrdersByUser({required int orderID}) async {
     try {
       final response = await KanSupabase.supabase.client
           .from("orders")
           .select("*")
-          .eq("order_id", orderID)
-          .eq("user_id", userID);
+          .eq("order_id", orderID);
       return response.map((element) => OrderModel.fromJson(element)).toList();
     } catch (e) {
       throw Exception('Error in get all orders: $e');
