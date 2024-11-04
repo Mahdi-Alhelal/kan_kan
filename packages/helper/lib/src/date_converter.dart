@@ -21,7 +21,7 @@ class DateConverter {
     final date = DateTime.parse(endDate);
     if (DateTime.now().isBefore(date)) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
         decoration: BoxDecoration(
           color: Colors.redAccent,
           borderRadius: BorderRadius.circular(8),
@@ -45,7 +45,7 @@ class DateConverter {
       );
     }
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
         color: Colors.grey,
         borderRadius: BorderRadius.circular(8),
@@ -58,8 +58,8 @@ class DateConverter {
   }
 
   static String? formatTime(String? dateTimeString) {
-  DateTime dateTime = DateTime.parse(dateTimeString!);
-  // Format time as HH:MM:SS
-  return "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
-}
+    DateTime dateTime = DateTime.parse(dateTimeString!);
+    // Format time as HH:MM:SS
+    return "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+  }
 }

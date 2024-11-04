@@ -102,11 +102,13 @@ class HomeScreen extends StatelessWidget {
                   ),
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, state) {
+              
                       return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: homeCubit.deals.length,
                         itemBuilder: (BuildContext context, int index) {
+                    
                           return DealCard(
                             onTap: () {
                               Navigator.push(

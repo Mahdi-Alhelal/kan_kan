@@ -7,6 +7,7 @@ import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/auth/login_screen.dart';
 import 'package:kan_kan/screens/pre_payment_screen.dart';
+import 'package:kan_kan/widgets/alert.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -27,8 +28,9 @@ class DealDetailsScreen extends StatelessWidget {
     String localizedDealStatus =
         LocalizedDealsEnums.getDealsStatusName(dealStatus, languageCode);
 
-    int daysInterval =
-        DateConverter.differenceInDays(endDate: endDate, startDate: startDate);
+    Widget daysInterval = DateConverter.differenceInDays(
+      endDate: endDate.toString(),
+    );
 
     return DefaultTabController(
       length: 2,
@@ -42,14 +44,9 @@ class DealDetailsScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   child: CarouselSlider(
-                    items: [
-                      Image.asset(
-                          "assets/images/products-sample/tv-sample.png"),
-                      Image.asset(
-                          "assets/images/products-sample/tv-sample.png"),
-                      Image.asset(
-                          "assets/images/products-sample/tv-sample.png"),
-                    ],
+                    items: dealData.product.imgList
+                        .map((element) => Image.network(element))
+                        .toList(),
                     options: CarouselOptions(
                         autoPlay: true,
                         enlargeCenterPage: true,
@@ -78,29 +75,10 @@ class DealDetailsScreen extends StatelessWidget {
                                 style: const TextStyle(color: AppColor.white),
                               ),
                             )
-                          : Container(
+                          : Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.redAccent,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.calendar_month,
-                                    size: 20,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    '$daysInterval يوم/أيام',
-                                    style:
-                                        const TextStyle(color: AppColor.white),
-                                  ),
-                                ],
-                              ),
+                              child: daysInterval,
                             )
                     ],
                   ),
@@ -376,16 +354,36 @@ class DealDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     width: context.getWidth(value: 0.6),
                                     child: ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PrePaymentScreen(
-                                                      dealData: dealData,
-                                                      items: dealDCubit.index,
-                                                    )),
-                                          );
+                                        onPressed: () async {
+                                          int p_qnt =
+                                              await dealDCubit.checkQuantity(
+                                                  dealID: dealData.dealId);
+                                          p_qnt += dealDCubit.index;
+                                          if (p_qnt > dealData.quantity) {
+                                            alert(
+                                                context: context,
+                                                msg: "عذراً!يرجى تغيير الكمية",
+                                                isCompleted: false);
+                                          } else if (await dealDCubit
+                                                  .checkQuantity(
+                                                      dealID:
+                                                          dealData.dealId) ==
+                                              dealData.quantity) {
+                                            alert(
+                                                context: context,
+                                                msg: "عذراً!تم إكمال الصفقة",
+                                                isCompleted: false);
+                                          } else {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PrePaymentScreen(
+                                                        dealData: dealData,
+                                                        items: dealDCubit.index,
+                                                      )),
+                                            );
+                                          }
                                         },
                                         child: const Text("إنضمام إلى الصفقة")),
                                   )

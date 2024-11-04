@@ -28,8 +28,8 @@ class DealCard extends StatelessWidget {
         EnumDealsHelper.stringToDealStatus(dealData.dealStatus);
     String localizedDealStatus =
         LocalizedDealsEnums.getDealsStatusName(dealStatus, languageCode);
-    int daysInterval =
-        DateConverter.differenceInDays(endDate: endDate, startDate: startDate);
+    Widget daysInterval =
+        DateConverter.differenceInDays(endDate: endDate.toString());
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -96,30 +96,7 @@ class DealCard extends StatelessWidget {
                                   style: const TextStyle(color: AppColor.white),
                                 ),
                               )
-                            : Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.redAccent,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.calendar_month,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      '${daysInterval} يوم/أيام',
-                                      style: const TextStyle(
-                                          color: AppColor.white),
-                                    ),
-                                  ],
-                                ),
-                              )
+                            : daysInterval
                       ],
                     ),
                     Text(

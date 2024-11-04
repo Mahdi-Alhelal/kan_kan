@@ -204,7 +204,6 @@ class PrePaymentScreen extends StatelessWidget {
                                   children: List.generate(
                                       cubitAddress.addressLayer.addressUserList
                                           .length, (int index) {
-                                    print("-------");
 
                                     return Row(
                                       children: [
