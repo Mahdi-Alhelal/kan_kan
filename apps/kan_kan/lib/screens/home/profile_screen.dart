@@ -15,26 +15,12 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileCubit(),
       child: Builder(builder: (context) {
-        final cubitProfile = context.read<ProfileCubit>()..getAllUserOrders();
+        final cubitProfile = context.read<ProfileCubit>();
         if (cubitProfile.userLayer.email != "") {
           cubitProfile.controllerEmail.text =
               cubitProfile.userLayer.user.email.toString();
           cubitProfile.controllerPhone.text =
               cubitProfile.userLayer.user.phone.toString();
-          cubitProfile.ordersNow = cubitProfile.userOrders.orders
-              .where(
-                (element) =>
-                    element.orderStatus != "completed" ||
-                    element.orderStatus != "canceled",
-              )
-              .length;
-          cubitProfile.preOrder = cubitProfile.userOrders.orders
-              .where(
-                (element) =>
-                    element.orderStatus == "completed" ||
-                    element.orderStatus == "canceled",
-              )
-              .length;
         }
 
         return Scaffold(
@@ -119,58 +105,70 @@ class ProfileScreen extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              width: context.getWidth(value: 0.3),
-                              height: context.getWidth(value: 0.2),
-                              decoration: BoxDecoration(
-                                color: AppColor.white,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "الصفقات الحالية",
-                                    style: TextStyle(color: AppColor.secondary),
+                        BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            CircularProgressIndicator(
+                              color: AppColor.primary,
+                            );
+
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: context.getWidth(value: 0.3),
+                                  height: context.getWidth(value: 0.2),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.white,
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                  SizedBox(
-                                    height: 5,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "الصفقات الحالية",
+                                        style: TextStyle(
+                                            color: AppColor.secondary),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        cubitProfile.listOrdersNow.length
+                                            .toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    cubitProfile.ordersNow.toString(),
-                                    style: TextStyle(fontSize: 18),
+                                ),
+                                Container(
+                                  width: context.getWidth(value: 0.3),
+                                  height: context.getWidth(value: 0.2),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.white,
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: context.getWidth(value: 0.3),
-                              height: context.getWidth(value: 0.2),
-                              decoration: BoxDecoration(
-                                color: AppColor.white,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "الصفقات السابقة",
-                                    style: TextStyle(color: AppColor.secondary),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "الصفقات السابقة",
+                                        style: TextStyle(
+                                            color: AppColor.secondary),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        cubitProfile.listPreviosOrders
+                                            .toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    cubitProfile.preOrder.toString(),
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         Padding(
                           padding: const EdgeInsets.all(32.0),

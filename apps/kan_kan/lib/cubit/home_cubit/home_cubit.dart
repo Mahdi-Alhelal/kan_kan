@@ -11,7 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-    final userLayer = GetIt.I.get<UserDataLayer>();
+  final userLayer = GetIt.I.get<UserDataLayer>();
 
   HomeCubit() : super(HomeInitial()) {
     call();
@@ -21,6 +21,7 @@ class HomeCubit extends Cubit<HomeState> {
   call() async {
     await getAllDeals();
     await getAllDealsAndCategories();
+    await getAllActiveDeals();
   }
 
   getAllDeals() async {
@@ -34,6 +35,22 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (e) {
       print(e);
     }
+  }
+
+  getAllActiveDeals() async {
+    dealLayer.deals = await DataRepository().getAllDeals();
+
+    emit(LoadingHomeState());
+    dealLayer.deals = dealLayer.getActiveDeals();
+    emit(SuccessHomeState());
+  }
+
+  getAllPreviosDeals() async {
+    dealLayer.deals = await DataRepository().getAllDeals();
+
+    emit(LoadingHomeState());
+    dealLayer.deals = dealLayer.getPreviosDeals();
+    emit(SuccessHomeState());
   }
 
   getAllDealsAndCategories() async {

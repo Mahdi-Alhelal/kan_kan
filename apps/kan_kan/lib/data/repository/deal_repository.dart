@@ -73,6 +73,10 @@ mixin DealRepository {
     //   //KanSupabase.supabase.client.removeChannel(productsSubscription);
     //   // KanSupabase.supabase.client.removeChannel(categoriesSubscription);
     // };
+
+
+
+ 
   }
 
 

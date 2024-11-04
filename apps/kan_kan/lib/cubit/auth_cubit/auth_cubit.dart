@@ -32,7 +32,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(LoginAuthState());
       }
     } catch (error) {
-      emit(ErrorAuthState(msg: error.toString()));
+      emit(ErrorAuthState(msg: "خطأ!يرجى المحاولة مرة أخرى"));
     }
   }
 
@@ -56,7 +56,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
       emit(SuccessAuthState());
     } catch (e) {
-      emit(ErrorAuthState(msg: "Error e"));
+      emit(ErrorAuthState(msg: "خطأ!يرجى المحاولة مرة أخرى"));
       print(e);
     }
   }
@@ -77,7 +77,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(SuccessAuthState());
     } catch (error) {
       // Handle any errors during the process
-      emit(ErrorAuthState(msg: "Error e"));
+      emit(ErrorAuthState(msg: "خطأ!يرجى المحاولة مرة أخرى"));
       print(error);
     }
   }
@@ -91,9 +91,10 @@ class AuthCubit extends Cubit<AuthState> {
           await DataRepository().login(email: emailController.text.trim());
       status == true
           ? emit(SuccessAuthState())
-          : emit(ErrorAuthState(msg: "عذراً، الإيميل مسجّل من قبل 😞"));
+          : emit(ErrorAuthState(msg: "عذراً، الإيميل غير مسجّل من قبل 😞"));
     } catch (error) {
-      emit(ErrorAuthState(msg: 'Failed to send OTP. Please try again.'));
+      emit(ErrorAuthState(
+          msg: 'خطأ عند إرسال كود التحقق ، يرجى المحاولة مرة أخرى!'));
     }
   }
 }

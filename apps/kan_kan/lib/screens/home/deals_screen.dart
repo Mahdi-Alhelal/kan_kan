@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kan_kan/cubit/home_cubit/home_cubit.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
@@ -13,100 +15,125 @@ class DealsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfileScreen()));
-                },
-                child: GetIt.I.get<UserDataLayer>().email != ""
-                    ? ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: AppColor.black.withOpacity(20 / 100),
-                          child: Icon(
-                            Icons.person,
-                            color: AppColor.white,
+    return BlocProvider(
+      create: (context) => HomeCubit(),
+      child: Builder(builder: (context) {
+        final cubitHome = context.read<HomeCubit>();
+        cubitHome.getAllActiveDeals();
+        return Scaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProfileScreen()));
+                    },
+                    child: cubitHome.userLayer.email != ""
+                        ? ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor:
+                                  AppColor.black.withOpacity(20 / 100),
+                              child: Icon(
+                                Icons.person,
+                                color: AppColor.white,
+                              ),
+                            ),
+                            title: Text(
+                              "مرحباً بعودتك ، 👋",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                              cubitHome.userLayer.user.fullName,
+                              style: TextStyle(color: AppColor.secondary),
+                            ),
+                          )
+                        : SizedBox(),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          cubitHome.getAllActiveDeals();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: AppColor.primary,
+                              borderRadius: BorderRadius.circular(8)),
+                          width: context.getWidth(value: 0.45),
+                          height: 50,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "الصفقات الحالية",
+                            style: TextStyle(color: AppColor.white),
                           ),
                         ),
-                        title: Text(
-                          "مرحباً بعودتك ، 👋",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          cubitHome.getAllPreviosDeals();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: AppColor.secondary,
+                              borderRadius: BorderRadius.circular(8)),
+                          width: context.getWidth(value: 0.45),
+                          height: 50,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "الصفقات السابقة",
+                            style: TextStyle(color: AppColor.white),
+                          ),
                         ),
-                        subtitle: Text(
-                          "علي التاروتي",
-                          style: TextStyle(color: AppColor.secondary),
-                        ),
-                      )
-                    : SizedBox(),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: AppColor.primary,
-                        borderRadius: BorderRadius.circular(8)),
-                    width: context.getWidth(value: 0.45),
-                    height: 50,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "الصفقات الحالية",
-                      style: TextStyle(color: AppColor.white),
-                    ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: AppColor.secondary,
-                        borderRadius: BorderRadius.circular(8)),
-                    width: context.getWidth(value: 0.45),
-                    height: 50,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "الصفقات السابقة",
-                      style: TextStyle(color: AppColor.white),
-                    ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: cubitHome.dealLayer.deals.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return DealCard(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DealDetailsScreen(
+                                            dealData: cubitHome
+                                                .dealLayer.deals[index],
+                                          )));
+                            },
+                            dealData: cubitHome.dealLayer.deals[index],
+                            title: cubitHome.dealLayer.deals[index].dealTitle,
+                            orderBooked:
+                                cubitHome.dealLayer.deals[index].numberOfOrder,
+                            orderMax: cubitHome.dealLayer.deals[index].quantity,
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // DealCard(
-                  //   onTap: () {
-                  //     // Navigator.push(
-                  //     //     context,
-                  //     //     MaterialPageRoute(
-                  //     //         builder: (context) => const DealDetailsScreen()));
-                  //   },
-                  // ),
-                  // DealCard(onTap: () {
-                  //   // Navigator.push(
-                  //   //     context,
-                  //   //     MaterialPageRoute(
-                  //   //         builder: (context) => const DealDetailsScreen()));
-                  // }, dealData: null,),
-                ],
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

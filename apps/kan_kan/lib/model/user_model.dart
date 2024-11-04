@@ -35,9 +35,8 @@ class UserModel {
 
   Map<String, dynamic> toJsonUpdate() {
     final data = <String, dynamic>{};
-    data['full_name'] = fullName;
     data['phone'] = phone;
-    data['balance'] =balance;
+    data['balance'] = balance;
 
     return data;
   }
