@@ -17,6 +17,8 @@ mixin DealRepository {
           .neq("deal_status", "private")
           .neq("deal_status", "closed")
           .neq("deal_status", "pending")
+          .gte("end_date",
+              DateConverter.supabaseDateFormate(DateTime.now().toString()))
           .order("start_date");
       print(data[1]);
       return data.map((element) => DealModel.fromJson(element)).toList();

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateConverter {
-  static final DateFormat _saDateFormate = DateFormat("yyyy/MM/dd");
-  static final DateFormat _usDateFormate = DateFormat("yyyy-dd-MM");
-  static final DateFormat _supaDateFormate = DateFormat("yyyy-MM-dd");
+  static final DateFormat _saDateFormate = DateFormat("yyyy/MM/dd","en");
+  static final DateFormat _usDateFormate = DateFormat("yyyy-dd-MM","en");
+  static final DateFormat _supaDateFormate = DateFormat("yyyy-MM-dd","en");
   static String saDateFormate(String date) {
     return _saDateFormate.format(DateTime.parse(date)).toString();
   }
