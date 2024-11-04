@@ -153,9 +153,6 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                     add: () async {
                                                       await detailCubit
                                                           .updateDealEvent();
-                                                      if (context.mounted) {
-                                                        Navigator.pop(context);
-                                                      }
                                                     },
                                                     uploadImage: () {},
                                                     productsList: detailCubit
@@ -219,18 +216,18 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                         color: Colors.redAccent,
                                         borderRadius: BorderRadius.circular(8),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.calendar_month,
                                             size: 20,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 5,
                                           ),
                                           Text(
-                                            '100 يوم/أيام',
-                                            style: TextStyle(
+                                            '${DateTime.parse(detailCubit.deal.endDate).difference(DateTime.parse(detailCubit.deal.startDate)).inDays} يوم/أيام',
+                                            style: const TextStyle(
                                                 color: AppColor.white),
                                           ),
                                         ],
