@@ -11,7 +11,7 @@ import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
-import 'package:kan_kan_admin/model/order_model2.dart';
+import 'package:kan_kan_admin/model/order_model.dart';
 import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -28,6 +28,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   final categoryLayer = GetIt.I.get<CategoryDataLayer>();
 
   //?---controller
+  final TextEditingController trackingNumberController =
+      TextEditingController();
+
   final TextEditingController dealNameController = TextEditingController();
   final TextEditingController productController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
@@ -38,19 +41,27 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController deliveryCostController = TextEditingController();
+    final TextEditingController totalCostController = TextEditingController();
+
 
   final TextEditingController estimatedTimeFromController =
       TextEditingController();
   final TextEditingController estimatedTimeToController =
       TextEditingController();
   late DealModel deal;
-  //?--
+  //?--tmp
   String tmpStatus = '';
   String tmpOrderStatus = 'processing';
+
+  String oneOrderStatus = '';
+  String onePaymentStatus = '';
+
   List<DateTime?> dealDuration = [];
   List<OrderModel> currentOrders = [];
 
-  DealDetailsCubit() : super(DealDetailsInitial());
+  DealDetailsCubit() : super(DealDetailsInitial()) {
+    addNewOrder();
+  }
 
   dealOrders({required int dealId}) {
     currentOrders = orderLayer.orders
@@ -65,9 +76,9 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
         numberOfOrder: deal.numberOfOrder,
         product: deal.product,
         dealId: deal.dealId,
-        trackingNumber: '',
+        trackingNumber: deal.trackingNumber,
         dealTitle: dealNameController.text.trim(),
-        dealDescription: "",
+        dealDescription: deal.dealDescription,
         startDate:
             DateConverter.supabaseDateFormate(dealDuration.first.toString()),
         endDate:
@@ -104,6 +115,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
 
   updateDealStatusEvent() async {
     try {
+      print("here");
       final response = await api.updateDealStatus(
           dealId: deal.dealId, dealStatus: tmpStatus);
       if (response) {
@@ -114,6 +126,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       }
       if (!isClosed) emit(UpdateDealStatusSuccessState());
     } catch (errorMessage) {
+      print(errorMessage);
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
@@ -121,20 +134,26 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   updateOrderStatus({required int dealId}) async {
     try {
       print("iam at updateOrderStatus");
-      List<int> orderIndex = [];
+      List<int> listOrderIndex = [];
+      List<int> listOrdersId = [];
+
       for (int index = 0; index < orderLayer.orders.length; index++) {
         if (orderLayer.orders[index].dealId == dealId) {
-          orderIndex.add(index);
-          print('add order index:$index');
+          listOrderIndex.add(index);
+          listOrdersId.add(orderLayer.orders[index].orderId);
         }
       }
-      final response = await api.updateOrdersStatus(
+      final response = await api.updateAllOrdersStatus(
         dealId: dealId,
         status: tmpOrderStatus,
       );
+      if (tmpOrderStatus == "withShipmentCompany") {
+        await api.sendTrackingNumber(
+            listOrdersId: listOrdersId, dealName: deal.dealTitle);
+      }
       if (response) {
-        print("if condition");
-        for (int index in orderIndex) {
+        await api.addToTracking(ordersId: listOrdersId, status: tmpOrderStatus);
+        for (int index in listOrderIndex) {
           orderLayer.orders[index].orderStatus = tmpOrderStatus;
         }
       }
@@ -148,7 +167,58 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
-    addNewOrder() {
+
+  updateOneOrderStatus({required int index}) async {
+    try {
+      final response = await api.updateOrderStatus(
+          id: currentOrders[index].orderId, status: oneOrderStatus);
+      if (response) {
+        final globalIndex = orderLayer.orders.indexWhere(
+            (element) => element.orderId == currentOrders[index].orderId);
+        currentOrders[index].orderStatus = oneOrderStatus;
+        orderLayer.orders[globalIndex].orderStatus = oneOrderStatus;
+        if (!isClosed) emit(UpdateOrderStatusSuccessState());
+      }
+    } catch (errorMessage) {
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  updateOnePaymentStatus({required int index}) async {
+    try {
+      final response = await api.updatePaymentStatus(
+          orderId: currentOrders[index].orderId, status: onePaymentStatus);
+      if (response) {
+        int globalIndex = orderLayer.orders.indexWhere(
+            (element) => currentOrders[index].orderId == element.orderId);
+        currentOrders[index].paymentStatus = onePaymentStatus;
+        orderLayer.orders[globalIndex].paymentStatus = onePaymentStatus;
+      }
+      if (!isClosed) emit(UpdateOrderStatusSuccessState());
+    } catch (errorMessage) {
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  addTrackingNumberEvent() async {
+    try {
+      final response = await api.addTrackingNumber(
+          dealId: deal.dealId,
+          trackingNumber: trackingNumberController.text.trim());
+      if (response) {
+        deal.trackingNumber = trackingNumberController.text.trim();
+        int index = dealLayer.deals
+            .indexWhere((element) => element.dealId == deal.dealId);
+        dealLayer.deals[index].trackingNumber =
+            trackingNumberController.text.trim();
+      }
+      if (!isClosed) emit(UpdateDealStatusSuccessState());
+    } catch (errorMessage) {
+      if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  addNewOrder() {
     KanSupabase.supabase.client
         .channel('add_order')
         .onPostgresChanges(
@@ -157,9 +227,10 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
             table: 'orders',
             callback: (newData) {
               orderLayer.orders.add(OrderModel.fromJson(newData.newRecord));
-      if (!isClosed) emit(UpdateDealStatusSuccessState());
+              currentOrders.add(OrderModel.fromJson(newData.newRecord));
+              if (!isClosed) emit(UpdateDealStatusSuccessState());
             })
         .subscribe();
-      if (!isClosed) emit(UpdateDealStatusSuccessState());
+    if (!isClosed) emit(UpdateDealStatusSuccessState());
   }
 }

@@ -1,4 +1,22 @@
 {
-    "HME-L1" : "Home Screen"
+    "HME-L1" : "Home Page",
+    "active" : "Active",
+    "blocked" : "Blocked",
+    "admin" : "Admin",
+    "user" : "User",
+    "paid" : "Paid",
+    "failed" : "Failed",
+    "refund" : "Refund",
+    "pending" : "Pending",
+    "processing" : "Processing",
+    "inChina" : "In China",
+    "inTransit" : "In Transit",
+    "inSaudi" : "In Saudi Arabia",
+    "withShipmentCompany" : "with Shipment",
+    "completed" : "Completed",
+    "canceled" : "Canceled",
+    "private" : "Private",
+    "closed" : "Closed",
+    "product:":"Product"
 
 }

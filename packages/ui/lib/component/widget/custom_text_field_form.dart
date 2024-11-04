@@ -11,7 +11,9 @@ class CustomTextFieldForm extends StatelessWidget {
       this.readOnly = false,
       this.inputFormatters,
       this.validator,
-      this.keyboardType});
+      this.keyboardType,
+      this.onChanged,
+      this.total = false});
   final String title;
   final Widget? icon;
   final TextEditingController? controller;
@@ -20,27 +22,33 @@ class CustomTextFieldForm extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
+  final Function(String)? onChanged;
+  final bool? total;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-        scrollPadding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom + 50),
-        validator: validator,
-        readOnly: readOnly,
-        inputFormatters: inputFormatters,
-        onTap: onTap,
-        controller: controller,
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          hintText: title,
-          prefixIcon: icon,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
+          onChanged: onChanged,
+          scrollPadding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom + 50),
+          validator: validator,
+          readOnly: readOnly,
+          inputFormatters: inputFormatters,
+          onTap: onTap,
+          textAlign: !total! ? TextAlign.start : TextAlign.center,
+          controller: controller,
+          keyboardType: keyboardType,
+          decoration: !total!
+              ? InputDecoration(
+                  hintText: title,
+                  prefixIcon: icon,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                )
+              : InputDecoration(
+                  hintText: title, prefixIcon: icon, border: InputBorder.none)),
     );
   }
 }

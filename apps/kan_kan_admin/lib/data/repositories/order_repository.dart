@@ -1,34 +1,13 @@
-import 'package:kan_kan_admin/model/order_model2.dart';
+import 'package:get_it/get_it.dart';
+import 'package:kan_kan_admin/data/repositories/oto_api.dart';
+import 'package:kan_kan_admin/layer/order_data_layer.dart';
+import 'package:kan_kan_admin/layer/user_layer.dart';
+import 'package:kan_kan_admin/model/order_model.dart';
+import 'package:kan_kan_admin/model/oto_model.dart';
 
 import '../../integrations/supabase/supabase_client.dart';
 
 mixin OrderRepository {
-  /*
-  *
-  * Tested
-  * Add new Order
-  *
-  * */
-  Future<List<Map<String, dynamic>>> addNewOrder(
-      {required String userID,
-      required String dealID,
-      required String addressID,
-      required double amount}) async {
-    try {
-      final dataFound = await KanSupabase.supabase.client
-          .from("orders")
-          .insert({
-        "deal_id": dealID,
-        "user_id": userID,
-        "address_id": addressID,
-        "amount": amount
-      }).select(); // here we need to check if i can to deplicated or not
-      return dataFound;
-    } catch (e) {
-      throw Exception('Error in add order: $e');
-    }
-  }
-
   /*
   *
   * Tested
@@ -44,22 +23,35 @@ mixin OrderRepository {
       await KanSupabase.supabase.client.from("orders").update({
         "order_status": status,
       }).eq("order_id", id);
+      await KanSupabase.supabase.client
+          .from("order_track")
+          .insert({"order_id": id, "status": status});
       return true;
     } catch (e) {
       throw Exception('Error in update order: $e');
     }
   }
 
-  updateOrdersStatus({
+  updatePaymentStatus({required int orderId, required String status}) async {
+    try {
+      await KanSupabase.supabase.client
+          .from("orders")
+          .update({"payment_status": status}).eq("order_id", orderId);
+      return true;
+    } catch (e) {
+      throw Exception('Error in update order: $e');
+    }
+  }
+
+  updateAllOrdersStatus({
     required String status,
     required int dealId,
   }) async {
     try {
-      print('updateOrdersStatus api');
-
       await KanSupabase.supabase.client.from("orders").update({
         "order_status": status,
       }).eq("deal_id", dealId);
+
       return true;
     } catch (e) {
       throw Exception('Error in update order: $e');
@@ -100,15 +92,59 @@ mixin OrderRepository {
       throw Exception('Error in get all orders: $e');
     }
   }
+
+  addToTracking({required List<int> ordersId, required String status}) async {
+    try {
+      List<Future> addAction = <Future>[];
+      for (int id in ordersId) {
+        addAction.add(KanSupabase.supabase.client
+            .from("order_track")
+            .insert({"order_id": id, "status": status}));
+      }
+      await Future.wait(addAction);
+    } catch (e) {
+      throw Exception('Error in add all orders to tracking: $e');
+    }
+  }
+
+  sendTrackingNumber(
+      {required List<int> listOrdersId, required String dealName}) async {
+    try {
+      await OtoApi.getKey();
+
+      List<Future> sendAction = <Future>[];
+      for (int orderId in listOrdersId) {
+        final order = GetIt.I
+            .get<OrderDataLayer>()
+            .orders
+            .firstWhere((order) => order.orderId == orderId);
+        final customer = GetIt.I
+            .get<UserLayer>()
+            .usersList
+            .firstWhere((user) => user.userId == order.userId);
+        final oto = OtoModel(
+          orderId: orderId.toString(),
+          amount: order.amount.toInt(),
+          customer: Customer(
+              name: customer.fullName,
+              email: customer.email,
+              mobile: customer.phone,
+              address: order.address,
+              city: order.address),
+          item: Item(
+              productId: order.dealId,
+              name: dealName,
+              price: (order.amount / order.quantity).toInt(),
+              sku: "---",
+              quantity: order.quantity),
+        );
+
+        sendAction.add(OtoApi.sendNotification(order: oto));
+      }
+      await Future.wait(sendAction);
+    return true;
+    } catch (e) {
+      throw Exception('Error in add all orders to tracking: $e');
+    }
+  }
 }
-
-//for add order tracking
-/*
- List<Future> futures = <Future>[];
-
-       listOfId.map((orderId) =>
-           futures.add(KanSupabase.supabase.client.from("orders").insert({
-             "order_status": status,
-           }).eq("order_id", orderId)));
-       await Future.wait(futures);
- */

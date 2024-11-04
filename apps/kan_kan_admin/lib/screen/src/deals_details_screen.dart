@@ -14,6 +14,7 @@ import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:ui/ui.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DealsDetailsScreen extends StatefulWidget {
   const DealsDetailsScreen({super.key, required this.dealId});
@@ -54,171 +55,164 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // if (DateConverter.saDateFormate(
-                                    //         detailCubit.deal.endDate) !=
-                                    //     DateConverter.saDateFormate(
-                                    //         DateTime.now().toIso8601String()))
-                                    //   if (detailCubit.deal.numberOfOrder == 0)
-                                    IconButton(
-                                      onPressed: () {
-                                        detailCubit.dealNameController.text =
-                                            detailCubit.deal.dealTitle;
-                                        detailCubit.productController.text =
-                                            detailCubit.deal.product.productId
-                                                .toString();
-                                        detailCubit.quantityController.text =
-                                            detailCubit.deal.quantity
-                                                .toString();
-                                        detailCubit.maxNumberController.text =
-                                            detailCubit.deal.maxOrdersPerUser
-                                                .toString();
-                                        detailCubit.dealStatusController.text =
-                                            detailCubit.deal.dealStatus;
-                                        detailCubit.dealTypeController.text =
-                                            detailCubit.deal.categoryId
-                                                .toString();
-                                        detailCubit
-                                                .dealDurationController.text =
-                                            "${DateConverter.saDateFormate(detailCubit.deal.startDate)} الى ${DateConverter.saDateFormate(detailCubit.deal.endDate)}";
-                                        detailCubit.priceController.text =
-                                            detailCubit.deal.salePrice
-                                                .toString();
-                                        detailCubit.costController.text =
-                                            detailCubit.deal.costPrice
-                                                .toString();
-                                        detailCubit
-                                                .deliveryCostController.text =
-                                            detailCubit.deal.deliveryPrice
-                                                .toString();
-                                        detailCubit.estimatedTimeFromController
-                                                .text =
+                                    if (DateConverter.saDateFormate(
+                                            detailCubit.deal.endDate) !=
+                                        DateConverter.saDateFormate(
+                                            DateTime.now().toIso8601String()))
+                                      if (detailCubit.deal.numberOfOrder == 0)
+                                        IconButton(
+                                          onPressed: () {
                                             detailCubit
-                                                .deal.estimateDeliveryDateFrom;
-                                        detailCubit.estimatedTimeToController
-                                                .text =
+                                                    .dealNameController.text =
+                                                detailCubit.deal.dealTitle;
+                                            detailCubit.productController.text =
+                                                detailCubit
+                                                    .deal.product.productId
+                                                    .toString();
                                             detailCubit
-                                                .deal.estimateDeliveryTimeTo;
-                                        detailCubit.dealDuration.add(
-                                          DateTime.tryParse(
-                                            DateConverter.supabaseDateFormate(
-                                                detailCubit.deal.startDate),
-                                          ),
-                                        );
-                                        detailCubit.dealDuration.add(
-                                          DateTime.tryParse(
-                                            DateConverter.supabaseDateFormate(
-                                                detailCubit.deal.endDate),
-                                          ),
-                                        );
-                                        customBottomSheet(
-                                            context: context,
-                                            child: AddDealForm(
-                                                dealCategory: detailCubit
-                                                    .categoryLayer.categories,
-                                                dealNameController: detailCubit
-                                                    .dealNameController,
-                                                productController: detailCubit
-                                                    .productController,
-                                                quantityController: detailCubit
-                                                    .quantityController,
-                                                maxNumberController: detailCubit
-                                                    .maxNumberController,
-                                                dealStatusController: detailCubit
-                                                    .dealStatusController,
-                                                dealTypeController: detailCubit
-                                                    .dealTypeController,
-                                                dealDurationController: detailCubit
-                                                    .dealDurationController,
-                                                priceController:
-                                                    detailCubit.priceController,
-                                                costController:
-                                                    detailCubit.costController,
-                                                formKey: formKey,
-                                                add: () async {
-                                                  await detailCubit
-                                                      .updateDealEvent();
-                                                  if (context.mounted) {
-                                                    Navigator.pop(context);
-                                                  }
-                                                },
-                                                uploadImage: () {},
-                                                productsList: detailCubit
-                                                    .productLayer.products
-                                                    .where((product) =>
-                                                        detailCubit.factoryLayer
-                                                            .getFactory(
-                                                                id: product
-                                                                    .factory
-                                                                    .factoryId)
-                                                            .isBlackList ==
-                                                        false)
-                                                    .toList(),
-                                                dealDuration: () async {
-                                                  final date =
-                                                      await showCalendarDatePicker2Dialog(
-                                                    context: context,
-                                                    config: CalendarDatePicker2WithActionButtonsConfig(
-                                                        firstDate:
-                                                            DateTime.now(),
-                                                        calendarType:
-                                                            CalendarDatePicker2Type
-                                                                .range),
-                                                    dialogSize: Size(
-                                                      context.getWidth(
-                                                          value: 0.5),
-                                                      context.getHeight(
-                                                          value: 0.5),
-                                                    ),
-                                                  );
-                                                  try {
-                                                    detailCubit.dealDuration =
-                                                        date!;
-                                                    detailCubit
+                                                    .quantityController.text =
+                                                detailCubit.deal.quantity
+                                                    .toString();
+                                            detailCubit
+                                                    .maxNumberController.text =
+                                                detailCubit
+                                                    .deal.maxOrdersPerUser
+                                                    .toString();
+                                            detailCubit
+                                                    .dealStatusController.text =
+                                                detailCubit.deal.dealStatus;
+                                            detailCubit
+                                                    .dealTypeController.text =
+                                                detailCubit.deal.categoryId
+                                                    .toString();
+                                            detailCubit.dealDurationController
+                                                    .text =
+                                                "${DateConverter.saDateFormate(detailCubit.deal.startDate)} الى ${DateConverter.saDateFormate(detailCubit.deal.endDate)}";
+                                            detailCubit.priceController.text =
+                                                detailCubit.deal.salePrice
+                                                    .toString();
+                                            detailCubit.costController.text =
+                                                detailCubit.deal.costPrice
+                                                    .toString();
+                                            detailCubit.deliveryCostController
+                                                    .text =
+                                                detailCubit.deal.deliveryPrice
+                                                    .toString();
+                                            detailCubit
+                                                    .estimatedTimeFromController
+                                                    .text =
+                                                detailCubit.deal
+                                                    .estimateDeliveryDateFrom;
+                                            detailCubit
+                                                    .estimatedTimeToController
+                                                    .text =
+                                                detailCubit.deal
+                                                    .estimateDeliveryTimeTo;
+                                            detailCubit.dealDuration.add(
+                                              DateTime.tryParse(
+                                                DateConverter
+                                                    .supabaseDateFormate(
+                                                        detailCubit
+                                                            .deal.startDate),
+                                              ),
+                                            );
+                                            detailCubit.dealDuration.add(
+                                              DateTime.tryParse(
+                                                DateConverter
+                                                    .supabaseDateFormate(
+                                                        detailCubit
+                                                            .deal.endDate),
+                                              ),
+                                            );
+                                            detailCubit
+                                                    .totalCostController.text =
+                                                detailCubit.deal.totalPrice
+                                                    .toString();
+                                            customBottomSheet(
+                                                context: context,
+                                                child: AddDealForm(
+                                                    totalController: detailCubit
+                                                        .totalCostController,
+                                                    dealCategory: detailCubit
+                                                        .categoryLayer
+                                                        .categories,
+                                                    dealNameController: detailCubit
+                                                        .dealNameController,
+                                                    productController: detailCubit
+                                                        .productController,
+                                                    quantityController: detailCubit
+                                                        .quantityController,
+                                                    maxNumberController: detailCubit
+                                                        .maxNumberController,
+                                                    dealStatusController: detailCubit
+                                                        .dealStatusController,
+                                                    dealTypeController: detailCubit
+                                                        .dealTypeController,
+                                                    dealDurationController: detailCubit
+                                                        .dealDurationController,
+                                                    priceController: detailCubit
+                                                        .priceController,
+                                                    costController: detailCubit
+                                                        .costController,
+                                                    formKey: formKey,
+                                                    add: () async {
+                                                      await detailCubit
+                                                          .updateDealEvent();
+                                                    },
+                                                    uploadImage: () {},
+                                                    productsList: detailCubit
+                                                        .productLayer.products
+                                                        .where((product) =>
+                                                            detailCubit.factoryLayer.getFactory(id: product.factory.factoryId).isBlackList ==
+                                                            false)
+                                                        .toList(),
+                                                    dealDuration: () async {
+                                                      final date =
+                                                          await showCalendarDatePicker2Dialog(
+                                                        context: context,
+                                                        config: CalendarDatePicker2WithActionButtonsConfig(
+                                                            firstDate:
+                                                                DateTime.now(),
+                                                            calendarType:
+                                                                CalendarDatePicker2Type
+                                                                    .range),
+                                                        dialogSize: Size(
+                                                          context.getWidth(
+                                                              value: 0.5),
+                                                          context.getHeight(
+                                                              value: 0.5),
+                                                        ),
+                                                      );
+                                                      try {
+                                                        detailCubit
+                                                                .dealDuration =
+                                                            date!;
+                                                        detailCubit
+                                                                .dealDurationController
+                                                                .text =
+                                                            "${DateConverter.saDateFormate(detailCubit.dealDuration.first.toString())} الى ${DateConverter.saDateFormate(detailCubit.dealDuration.last.toString())}";
+                                                      } catch (e) {
+                                                        detailCubit
                                                             .dealDurationController
-                                                            .text =
-                                                        "${DateConverter.saDateFormate(detailCubit.dealDuration.first.toString())} الى ${DateConverter.saDateFormate(detailCubit.dealDuration.last.toString())}";
-                                                  } catch (e) {
-                                                    detailCubit
-                                                        .dealDurationController
-                                                        .clear();
-                                                  }
-                                                },
-                                                deliveryCostController: detailCubit
-                                                    .deliveryCostController,
-                                                estimatedTimeFromController: detailCubit
-                                                    .estimatedTimeFromController,
-                                                estimatedTimeToController: detailCubit
-                                                    .estimatedTimeToController));
-                                      },
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: AppColor.primary,
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.redAccent,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: const Row(
-                                        children: [
-                                          Icon(
-                                            Icons.calendar_month,
-                                            size: 20,
+                                                            .clear();
+                                                      }
+                                                    },
+                                                    deliveryCostController: detailCubit
+                                                        .deliveryCostController,
+                                                    estimatedTimeFromController:
+                                                        detailCubit
+                                                            .estimatedTimeFromController,
+                                                    estimatedTimeToController:
+                                                        detailCubit
+                                                            .estimatedTimeToController));
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: AppColor.primary,
                                           ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            '100 يوم/أيام',
-                                            style: TextStyle(
-                                                color: AppColor.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                        ),
+                                    DateConverter.differenceInDays(
+                                        endDate: detailCubit.deal.endDate)
                                   ],
                                 ),
                                 const SizedBox(
@@ -228,11 +222,17 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      detailCubit.deal.product.productName,
-                                      style: const TextStyle(fontSize: 16),
+                                    Row(
+                                      children: [
+                                        const Text("product:").tr(),
+                                        Text(
+                                          detailCubit.deal.product.productName,
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                      ],
                                     ),
-                                    Text(detailCubit.deal.costPrice.toString(),
+                                    Text(
+                                        "SAR ${detailCubit.deal.costPrice.toString()}",
                                         style: const TextStyle(fontSize: 16))
                                   ],
                                 ),
@@ -247,26 +247,30 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                       DealDetailsState>(
                                     builder: (context, state) {
                                       return TabBar(
-                                          labelColor: AppColor.white,
-                                          dividerColor: AppColor.bg,
-                                          indicator: BoxDecoration(
-                                              color: AppColor.secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          controller: tabBar,
-                                          labelPadding: const EdgeInsets.only(
-                                              left: 20, right: 20),
-                                          tabs: const [
-                                            Tab(
-                                              text: "تفاصيل الصفقة",
-                                            ),
-                                            Tab(
-                                              text: "تفاصيل المنتج",
-                                            ),
-                                            Tab(
-                                              text: "تفاصيل المصنع",
-                                            )
-                                          ]);
+                                        labelColor: AppColor.white,
+                                        dividerColor: AppColor.bg,
+                                        indicatorPadding: const EdgeInsets.only(
+                                            left: -40, right: -40),
+                                        indicator: BoxDecoration(
+                                          color: AppColor.secondary,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        controller: tabBar,
+                                        labelPadding: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        tabs: const [
+                                          Tab(
+                                            text: "تفاصيل الصفقة",
+                                          ),
+                                          Tab(
+                                            text: "تفاصيل المنتج",
+                                          ),
+                                          Tab(
+                                            text: "تفاصيل المصنع",
+                                          )
+                                        ],
+                                      );
                                     },
                                   ),
                                 ),
@@ -293,6 +297,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                         Icons.calendar_month,
                                                         color: AppColor.primary,
                                                       ),
+                                                      const SizedBox(
+                                                        width: 20,
+                                                      ),
                                                       const Text(
                                                         "البداية : ",
                                                         style: TextStyle(
@@ -318,6 +325,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                       const Icon(
                                                         Icons.calendar_month,
                                                         color: AppColor.primary,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 20,
                                                       ),
                                                       const Text(
                                                         "النهاية : ",
@@ -349,6 +359,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                         Icons.local_shipping,
                                                         color: AppColor.primary,
                                                       ),
+                                                      const SizedBox(
+                                                        width: 20,
+                                                      ),
                                                       const Text("التوصيل :"),
                                                       Text(
                                                           "${detailCubit.deal.estimateDeliveryDateFrom} - ${detailCubit.deal.estimateDeliveryTimeTo} "),
@@ -362,6 +375,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                             .production_quantity_limits,
                                                         color: AppColor.primary,
                                                       ),
+                                                      const SizedBox(
+                                                        width: 20,
+                                                      ),
                                                       Text(
                                                           " (${detailCubit.deal.maxOrdersPerUser.toString()}) "),
                                                       const Text("عدد لكل شخص")
@@ -374,6 +390,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                   const Icon(
                                                     Icons.handshake,
                                                     color: AppColor.primary,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 20,
                                                   ),
                                                   const Text("يتشارك عدد"),
                                                   Text(
@@ -558,9 +577,13 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                         ),
                         SizedBox(
                           width: context.getWidth(value: 0.48),
-                          child: Image.asset(
-                              "assets/images/products-sample/tv-sample.png"),
-                        )
+                          height: context.getHeight(value: 0.48),
+                          child: detailCubit.deal.dealUrl != ""
+                              ? CachedNetworkImage(
+                                  imageUrl: detailCubit.deal.dealUrl)
+                              : Image.asset(
+                                  "assets/images/logo/kan_kan_logo.png"),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -568,18 +591,25 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                     ),
                     ElevatedButton(
                         onPressed: () {
+                          detailCubit.trackingNumberController.text =
+                              detailCubit.deal.trackingNumber;
                           customBottomSheet(
                             context: context,
                             height: 0.4,
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  const CustomTextField(
+                                  CustomTextField(
+                                      controller:
+                                          detailCubit.trackingNumberController,
                                       title: "رقم تتبع الصفقة"),
                                   SizedBox(
                                     width: context.getWidth(value: 0.25),
                                     child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          detailCubit.addTrackingNumberEvent();
+                                          Navigator.pop(context);
+                                        },
                                         child: const Text("حفظ")),
                                   )
                                 ],
@@ -597,101 +627,130 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(
-                          width: context.getWidth(value: 0.25),
-                          height: context.getHeight(value: 0.25),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: context.getWidth(value: 0.20),
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColor.secondary,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                      onPressed: () {},
-                                      child: const Text("إكمال الصفقة")),
-                                ),
-                                SizedBox(
-                                  width: context.getWidth(value: 0.20),
-                                  child: ElevatedButton(
-                                      onPressed: () async {
-                                        detailCubit.tmpOrderStatus =
-                                            'processing';
-                                        updateStatus(
-                                            context: context,
-                                            onPressed: () {
-                                              detailCubit.updateOrderStatus(
-                                                dealId: widget.dealId,
-                                              );
-                                              Navigator.pop(context);
-                                            },
-                                            title: "تحديث حالة الطلب",
-                                            onChanged: (value) {
-                                              detailCubit.tmpOrderStatus =
-                                                  value;
-                                            },
-                                            items: DropMenuList.shipmentStatus
-                                                .map((element) =>
-                                                    DropdownMenuItem(
-                                                      value: element,
-                                                      child: Text(element),
-                                                    ))
-                                                .toList(),
-                                            value: "processing");
-                                      },
-                                      child: const Text("تحديث حالة الطلبات")),
-                                ),
-                                SizedBox(
-                                  width: context.getWidth(value: 0.20),
-                                  child: ElevatedButton(
-                                      onPressed: () async {
-                                        detailCubit.tmpStatus =
-                                            detailCubit.deal.dealStatus;
-                                        await updateStatus(
-                                            onPressed: () async =>
+                        if (detailCubit.currentOrders
+                                .where(
+                                    (order) => order.orderStatus == "completed")
+                                .length !=
+                            detailCubit.currentOrders.length)
+                          SizedBox(
+                            width: context.getWidth(value: 0.25),
+                            height: context.getHeight(value: 0.25),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: BlocBuilder<DealDetailsCubit,
+                                  DealDetailsState>(
+                                builder: (context, state) {
+                                  return Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (detailCubit.deal.dealStatus !=
+                                          "completed")
+                                        SizedBox(
+                                          width: context.getWidth(value: 0.20),
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColor.secondary,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                              onPressed: () async {
+                                                detailCubit.tmpStatus =
+                                                    "completed";
                                                 await detailCubit
-                                                    .updateDealStatusEvent(),
-                                            context: context,
-                                            title: "تحديث حلة الصفقة",
-                                            onChanged: (value) {
-                                              detailCubit.tmpStatus =
-                                                  value.toString();
+                                                    .updateDealStatusEvent();
+                                              },
+                                              child:
+                                                  const Text("إكمال الصفقة")),
+                                        ),
+                                      SizedBox(
+                                        width: context.getWidth(value: 0.20),
+                                        child: ElevatedButton(
+                                            onPressed: () async {
+                                              detailCubit.tmpOrderStatus =
+                                                  'processing';
+                                              updateStatus(
+                                                  context: context,
+                                                  onPressed: () async {
+                                                    await detailCubit
+                                                        .updateOrderStatus(
+                                                      dealId: widget.dealId,
+                                                    );
+                                                  },
+                                                  title: "تحديث حالة الطلب",
+                                                  onChanged: (value) {
+                                                    detailCubit.tmpOrderStatus =
+                                                        value;
+                                                  },
+                                                  items: DropMenuList
+                                                      .shipmentStatus
+                                                      .map((element) =>
+                                                          DropdownMenuItem(
+                                                            value: element,
+                                                            child: Text(element)
+                                                                .tr(),
+                                                          ))
+                                                      .toList(),
+                                                  value: "processing");
                                             },
-                                            items: DropMenuList.dealStatus
-                                                .map((element) =>
-                                                    DropdownMenuItem(
-                                                      value: element,
-                                                      child: Text(LocalizedDealsEnums
-                                                          .getDealsStatusName(
-                                                              EnumDealsHelper
-                                                                  .stringToDealStatus(
-                                                                      element),
-                                                              context.locale
-                                                                  .toString())),
-                                                    ))
-                                                .toList(),
-                                            value: detailCubit.deal.dealStatus);
-                                        if (context.mounted) {
-                                          Navigator.pop(context);
-                                        }
-                                      },
-                                      child: const Text("تحديث حالة الصفقة")),
-                                ),
-                              ],
+                                            child: const Text(
+                                                "تحديث حالة الطلبات")),
+                                      ),
+                                      if (detailCubit.deal.dealStatus !=
+                                          "completed")
+                                        SizedBox(
+                                          width: context.getWidth(value: 0.20),
+                                          child: ElevatedButton(
+                                              onPressed: () async {
+                                                detailCubit.tmpStatus =
+                                                    detailCubit.deal.dealStatus;
+                                                await updateStatus(
+                                                    onPressed: () async =>
+                                                        await detailCubit
+                                                            .updateDealStatusEvent(),
+                                                    context: context,
+                                                    title: "تحديث حلة الصفقة",
+                                                    onChanged: (value) {
+                                                      detailCubit.tmpStatus =
+                                                          value.toString();
+                                                    },
+                                                    items: DropMenuList
+                                                        .dealStatus
+                                                        .map(
+                                                          (element) =>
+                                                              DropdownMenuItem(
+                                                            value: element,
+                                                            child: Text(element)
+                                                                .tr(),
+                                                          ),
+                                                        )
+                                                        .toList(),
+                                                    value: detailCubit
+                                                        .deal.dealStatus);
+                                              },
+                                              child: const Text(
+                                                  "تحديث حالة الصفقة")),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
                         Container(
                             margin: const EdgeInsets.only(left: 10),
-                            width: context.getWidth(value: 0.72),
+                            width: detailCubit.currentOrders
+                                        .where((order) =>
+                                            order.orderStatus == "completed")
+                                        .length !=
+                                    detailCubit.currentOrders.length
+                                ? context.getWidth(value: 0.72)
+                                : context.getWidth(value: 0.96),
                             child: TableSizedBox(
                               child: CustomTableTheme(
                                 child: BlocBuilder<DealDetailsCubit,
@@ -731,23 +790,42 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                   ),
                                                 ),
                                               ),
-                                              //Todo! to add payment status
                                               DataCell(CustomChips(
-                                                status: "need payment",
+                                                status: detailCubit
+                                                    .currentOrders[index]
+                                                    .paymentStatus,
+                                                statusColor: detailCubit
+                                                    .currentOrders[index]
+                                                    .paymentStatus,
                                                 onTap: () async {
+                                                  detailCubit.onePaymentStatus =
+                                                      detailCubit
+                                                          .currentOrders[index]
+                                                          .paymentStatus;
                                                   await updateStatus(
-                                                      value: DropMenuList
-                                                          .paymentStatus.first,
+                                                      value: detailCubit
+                                                          .currentOrders[index]
+                                                          .paymentStatus,
                                                       context: context,
                                                       title: "حالة",
-                                                      onChanged: (value) {},
+                                                      onChanged: (value) {
+                                                        detailCubit
+                                                                .onePaymentStatus =
+                                                            value;
+                                                      },
+                                                      onPressed: () async {
+                                                        await detailCubit
+                                                            .updateOnePaymentStatus(
+                                                                index: index);
+                                                      },
                                                       items: DropMenuList
                                                           .paymentStatus
                                                           .map<DropdownMenuItem>(
                                                               (String status) {
                                                         return DropdownMenuItem(
                                                           value: status,
-                                                          child: Text(status),
+                                                          child:
+                                                              Text(status).tr(),
                                                         );
                                                       }).toList());
                                                 },
@@ -756,20 +834,38 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                 status: detailCubit
                                                     .currentOrders[index]
                                                     .orderStatus,
+                                                statusColor: detailCubit
+                                                    .currentOrders[index]
+                                                    .orderStatus,
                                                 onTap: () async {
+                                                  detailCubit.oneOrderStatus =
+                                                      detailCubit
+                                                          .currentOrders[index]
+                                                          .orderStatus;
                                                   await updateStatus(
-                                                      value: DropMenuList
-                                                          .shipmentStatus.first,
+                                                      value: detailCubit
+                                                          .currentOrders[index]
+                                                          .orderStatus,
                                                       context: context,
                                                       title: "حالة",
-                                                      onChanged: (value) {},
+                                                      onChanged: (value) {
+                                                        detailCubit
+                                                                .oneOrderStatus =
+                                                            value.toString();
+                                                      },
+                                                      onPressed: () async {
+                                                        await detailCubit
+                                                            .updateOneOrderStatus(
+                                                                index: index);
+                                                      },
                                                       items: DropMenuList
                                                           .shipmentStatus
                                                           .map<DropdownMenuItem>(
                                                               (String status) {
                                                         return DropdownMenuItem(
                                                           value: status,
-                                                          child: Text(status),
+                                                          child:
+                                                              Text(status).tr(),
                                                         );
                                                       }).toList());
                                                 },
@@ -806,6 +902,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                               ),
                             ))
                       ],
+                    ),
+                    const SizedBox(
+                      height: 10,
                     )
                   ],
                 ),

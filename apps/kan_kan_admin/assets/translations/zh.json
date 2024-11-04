@@ -1,0 +1,20 @@
+{
+    "HME-L1" : "主页",
+    "active" : "活跃",
+    "blocked" : "已封锁",
+    "admin" : "管理员",
+    "user" : "用户",
+    "paid" : "已付款",
+    "failed" : "失败",
+    "refund" : "退款",
+    "pending" : "待处理",
+    "processing" : "处理中",
+    "inChina" : "在中国",
+    "inTransit" : "运输中",
+    "inSaudi" : "在沙特",
+    "withShipmentCompany" : "在运输公司",
+    "completed" : "已完成",
+    "canceled" : "已取消",
+    "private" : "私有",
+    "closed" : "已关闭"
+}

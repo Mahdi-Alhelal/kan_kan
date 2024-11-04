@@ -43,6 +43,7 @@ class _DealsScreenState extends State<DealsScreen> {
                   customBottomSheet(
                     context: context,
                     child: AddDealForm(
+                      totalController: dealCubit.totalCostController,
                       dealCategory: dealCubit.categoryLayer.categories,
                       productsList: dealCubit.productLayer.products
                           .where((product) =>
@@ -130,6 +131,8 @@ class _DealsScreenState extends State<DealsScreen> {
                                     ),
                                   ),
                                 ).then((_) {
+                                  dealCubit.getNewOrder();
+                                  dealCubit.getNewUser() ;
                                   dealCubit.afterPop();
                                 });
                               },
@@ -148,17 +151,10 @@ class _DealsScreenState extends State<DealsScreen> {
                                 DataCell(Text(
                                     "${dealCubit.dealLayer.deals[index].quantity}/${dealCubit.dealLayer.deals[index].numberOfOrder}")),
                                 DataCell(CustomChips(
-                                  statusColor:
-                                      EnumDealsHelper.stringToDealStatus(
-                                          dealCubit
-                                              .dealLayer.deals[index].dealStatus
-                                              .toString()),
-                                  status:
-                                      LocalizedDealsEnums.getDealsStatusName(
-                                          EnumDealsHelper.stringToDealStatus(
-                                              dealCubit.dealLayer.deals[index]
-                                                  .dealStatus),
-                                          context.locale.toString()),
+                                  statusColor: dealCubit
+                                      .dealLayer.deals[index].dealStatus,
+                                  status: dealCubit
+                                      .dealLayer.deals[index].dealStatus,
                                   onTap: () async {
                                     dealCubit.tempStatus = dealCubit
                                         .dealLayer.deals[index].dealStatus;
@@ -182,12 +178,7 @@ class _DealsScreenState extends State<DealsScreen> {
                                                 (String status) {
                                           return DropdownMenuItem(
                                             value: status,
-                                            child: Text(LocalizedDealsEnums
-                                                .getDealsStatusName(
-                                                    EnumDealsHelper
-                                                        .stringToDealStatus(
-                                                            status),
-                                                    context.locale.toString())),
+                                            child: Text(status).tr(),
                                           );
                                         }).toList());
                                   },

@@ -9,7 +9,7 @@ import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
-import 'package:kan_kan_admin/model/order_model2.dart';
+import 'package:kan_kan_admin/model/order_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:kan_kan_admin/screen/src/deals_screen.dart';
 import 'package:kan_kan_admin/screen/src/factory_screen.dart';
@@ -42,12 +42,6 @@ class NavigationCubit extends Cubit<NavigationState> {
   int index = 0;
 
   NavigationCubit() : super(NavigationInitial()) {
-    getUsers();
-    getProductData();
-    getFactoryData();
-    getDealData();
-    getOrderData();
-    getCategories();
     getNewOrder();
     getNewUser();
   }

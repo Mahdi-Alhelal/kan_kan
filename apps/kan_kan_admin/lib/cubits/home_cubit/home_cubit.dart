@@ -6,7 +6,7 @@ import 'package:kan_kan_admin/layer/factory_data_layer.dart';
 import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
-import 'package:kan_kan_admin/model/order_model2.dart';
+import 'package:kan_kan_admin/model/order_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -30,6 +30,11 @@ class HomeCubit extends Cubit<HomeState> {
   num canceledNum = 0;
   num total = 0;
   List<OrderModel> monthOrders = [];
+
+  //?-- table sorting
+  bool sort = true;
+  int columnIndex = 0;
+
   HomeCubit() : super(HomeInitial()) {
     getNewOrder();
     getNewUser();
@@ -116,5 +121,8 @@ class HomeCubit extends Cubit<HomeState> {
               if (!isClosed) emit(UpdateState());
             })
         .subscribe();
+
   }
+
+
 }

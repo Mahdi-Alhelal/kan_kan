@@ -4,11 +4,17 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
+import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
+import 'package:kan_kan_admin/layer/user_layer.dart';
 import 'package:kan_kan_admin/model/factory_model.dart';
+import 'package:kan_kan_admin/model/order_model.dart';
 import 'package:kan_kan_admin/model/product_model.dart';
+import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:meta/meta.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'product_state.dart';
 
@@ -16,7 +22,8 @@ class ProductCubit extends Cubit<ProductState> {
   //?-- data layer
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
-
+  final userLayer = GetIt.I.get<UserLayer>();
+  final orderLayer = GetIt.I.get<OrderDataLayer>();
   //?-- supabase repository
   final api = DataRepository();
 
@@ -37,7 +44,10 @@ class ProductCubit extends Cubit<ProductState> {
   //? list of images
   List<File> images = [];
 
-  ProductCubit() : super(ProductInitial());
+  ProductCubit() : super(ProductInitial()) {
+    getNewOrder();
+    getNewUser();
+  }
 
   void addProduct() async {
     await Future.delayed(Duration.zero);
@@ -109,5 +119,35 @@ class ProductCubit extends Cubit<ProductState> {
   sortEvent() async {
     await Future.delayed(Duration.zero);
     emit(SortSuccessState());
+  }
+
+  void getNewUser() {
+    KanSupabase.supabase.client
+        .channel('add_user')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'users',
+            callback: (newUser) {
+              userLayer.usersList.add(UserModel.fromJson(newUser.newRecord));
+              if (!isClosed) emit(UpdateProductSuccessState());
+            })
+        .subscribe();
+    if (!isClosed) emit(UpdateProductSuccessState());
+  }
+
+  getNewOrder() {
+    KanSupabase.supabase.client
+        .channel('add_order')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'orders',
+            callback: (newData) {
+              orderLayer.orders.add(OrderModel.fromJson(newData.newRecord));
+              if (!isClosed) emit(UpdateProductSuccessState());
+            })
+        .subscribe();
+    if (!isClosed) emit(UpdateProductSuccessState());
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 
 class AppStatistics extends StatelessWidget {
@@ -19,12 +20,13 @@ class AppStatistics extends StatelessWidget {
         border: Border.all(color: AppColor.secondary),
         color: AppColor.white,
       ),
-      height: MediaQuery.of(context).size.height * .15,
-      width: MediaQuery.of(context).size.width * .15,
+      height: context.getHeight(value: 0.15),
+      width: context.getWidth(value: 0.15),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
