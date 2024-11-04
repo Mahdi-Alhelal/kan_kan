@@ -42,12 +42,6 @@ class NavigationCubit extends Cubit<NavigationState> {
   int index = 0;
 
   NavigationCubit() : super(NavigationInitial()) {
-    getUsers();
-    getProductData();
-    getFactoryData();
-    getDealData();
-    getOrderData();
-    getCategories();
     getNewOrder();
     getNewUser();
   }

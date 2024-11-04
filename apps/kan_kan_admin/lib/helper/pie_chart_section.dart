@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -62,7 +61,7 @@ List<PieChartSectionData> showingSections({
       case 2:
         return PieChartSectionData(
           showTitle: true,
-          color: Colors.yellow,
+          color: Colors.black,
           value: calPer(
             total: total,
             value: inChinaNum,
@@ -80,7 +79,7 @@ List<PieChartSectionData> showingSections({
         );
       case 3:
         return PieChartSectionData(
-          color: Colors.lime,
+          color: Colors.indigoAccent,
           value: calPer(
             total: total,
             value: inTransitNum,
@@ -116,7 +115,7 @@ List<PieChartSectionData> showingSections({
         );
       case 5:
         return PieChartSectionData(
-          color: Colors.green,
+          color: Colors.grey,
           value: calPer(
             total: total,
             value: withShipmentCompanyNum,

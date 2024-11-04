@@ -27,9 +27,10 @@ class HomeScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final homeCubit = context.read<HomeCubit>();
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
           child: SingleChildScrollView(
-            child: Column(children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
                   return Row(
@@ -59,18 +60,64 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 25),
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
                   return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
                         width: 350,
                         height: 250,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
+                            const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Indicator(
+                                  color: Colors.amberAccent,
+                                  text: 'pending',
+                                  isSquare: false,
+                                ),
+                                Indicator(
+                                  color: Colors.brown,
+                                  text: 'processing',
+                                  isSquare: false,
+                                ),
+                                Indicator(
+                                  color: Colors.black,
+                                  text: 'inChina',
+                                  isSquare: false,
+                                ),
+                                Indicator(
+                                  color: Colors.indigoAccent,
+                                  text: 'inTransit',
+                                  isSquare: false,
+                                ),
+                                Indicator(
+                                  color: Colors.green,
+                                  text: 'inSaudi',
+                                  isSquare: false,
+                                ),
+                                Indicator(
+                                  color: Colors.grey,
+                                  text: 'withShipmentCompany',
+                                  isSquare: false,
+                                ),
+                                Indicator(
+                                  color: Colors.deepPurple,
+                                  text: 'completed',
+                                  isSquare: false,
+                                ),
+                                Indicator(
+                                  color: Color.fromARGB(255, 120, 4, 89),
+                                  text: 'canceled',
+                                  isSquare: false,
+                                ),
+                              ],
+                            ),
                             SizedBox(
                               width: 200,
                               child: CustomPieChart(
@@ -105,41 +152,6 @@ class HomeScreen extends StatelessWidget {
                                       : 1,
                                 ),
                               ),
-                            ),
-                            const Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Indicator(
-                                  color: Colors.amberAccent,
-                                  text: 'First',
-                                  isSquare: true,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Indicator(
-                                  color: Colors.brown,
-                                  text: 'Second',
-                                  isSquare: true,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Indicator(
-                                  color: Colors.yellow,
-                                  text: 'Third',
-                                  isSquare: true,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Indicator(
-                                  color: Colors.indigoAccent,
-                                  text: 'Fourth',
-                                  isSquare: true,
-                                ),
-                              ],
                             ),
                           ],
                         ),
@@ -214,6 +226,9 @@ class HomeScreen extends StatelessWidget {
                     ],
                   );
                 },
+              ),
+              const SizedBox(
+                height: 25,
               ),
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {

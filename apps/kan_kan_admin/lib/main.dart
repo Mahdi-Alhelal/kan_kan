@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:kan_kan_admin/screen/navigation_page.dart';
+import 'package:kan_kan_admin/screen/src/splash_screen.dart';
 import 'package:kan_kan_admin/setup/setup.dart';
 import 'package:ui/ui.dart';
 
@@ -11,7 +10,6 @@ void main() async {
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
-        
         path: 'assets/translations',
         fallbackLocale: const Locale('ar'),
         child: const MainApp()),
@@ -29,6 +27,6 @@ class MainApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: const Locale("ar"),
-        home: const NavigationPage());
+        home: const SplashScreen());
   }
 }

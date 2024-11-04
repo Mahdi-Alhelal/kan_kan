@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:ui/ui.dart';
 
 class CustomBarChart extends StatelessWidget {
   const CustomBarChart({super.key, required this.barGroups});
@@ -41,7 +42,7 @@ class CustomBarChart extends StatelessWidget {
                       space: 5,
                       child: Text(
                         barTitle,
-                      ),
+                      ).tr(),
                     );
                   }),
             ),
