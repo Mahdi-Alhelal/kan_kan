@@ -36,7 +36,6 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
       child: Builder(builder: (context) {
         final detailCubit = context.read<DealDetailsCubit>();
         return Scaffold(
-          appBar: AppBar(),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
@@ -209,30 +208,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                             color: AppColor.primary,
                                           ),
                                         ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.redAccent,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.calendar_month,
-                                            size: 20,
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            '${DateTime.parse(detailCubit.deal.endDate).difference(DateTime.parse(detailCubit.deal.startDate)).inDays} يوم/أيام',
-                                            style: const TextStyle(
-                                                color: AppColor.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                
+                                    DateConverter.differenceInDays(
+                                        endDate: detailCubit.deal.endDate)
                                   ],
                                 ),
                                 const SizedBox(
@@ -242,11 +220,17 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      detailCubit.deal.product.productName,
-                                      style: const TextStyle(fontSize: 16),
+                                    Row(
+                                      children: [
+                                        const Text("product:").tr(),
+                                        Text(
+                                          detailCubit.deal.product.productName,
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                      ],
                                     ),
-                                    Text(detailCubit.deal.costPrice.toString(),
+                                    Text(
+                                        "SAR ${detailCubit.deal.costPrice.toString()}",
                                         style: const TextStyle(fontSize: 16))
                                   ],
                                 ),
@@ -261,26 +245,30 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                       DealDetailsState>(
                                     builder: (context, state) {
                                       return TabBar(
-                                          labelColor: AppColor.white,
-                                          dividerColor: AppColor.bg,
-                                          indicator: BoxDecoration(
-                                              color: AppColor.secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          controller: tabBar,
-                                          labelPadding: const EdgeInsets.only(
-                                              left: 20, right: 20),
-                                          tabs: const [
-                                            Tab(
-                                              text: "تفاصيل الصفقة",
-                                            ),
-                                            Tab(
-                                              text: "تفاصيل المنتج",
-                                            ),
-                                            Tab(
-                                              text: "تفاصيل المصنع",
-                                            )
-                                          ]);
+                                        labelColor: AppColor.white,
+                                        dividerColor: AppColor.bg,
+                                        indicatorPadding: const EdgeInsets.only(
+                                            left: -40, right: -40),
+                                        indicator: BoxDecoration(
+                                          color: AppColor.secondary,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        controller: tabBar,
+                                        labelPadding: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        tabs: const [
+                                          Tab(
+                                            text: "تفاصيل الصفقة",
+                                          ),
+                                          Tab(
+                                            text: "تفاصيل المنتج",
+                                          ),
+                                          Tab(
+                                            text: "تفاصيل المصنع",
+                                          )
+                                        ],
+                                      );
                                     },
                                   ),
                                 ),
@@ -307,6 +295,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                         Icons.calendar_month,
                                                         color: AppColor.primary,
                                                       ),
+                                                      const SizedBox(
+                                                        width: 20,
+                                                      ),
                                                       const Text(
                                                         "البداية : ",
                                                         style: TextStyle(
@@ -332,6 +323,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                       const Icon(
                                                         Icons.calendar_month,
                                                         color: AppColor.primary,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 20,
                                                       ),
                                                       const Text(
                                                         "النهاية : ",
@@ -363,6 +357,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                         Icons.local_shipping,
                                                         color: AppColor.primary,
                                                       ),
+                                                      const SizedBox(
+                                                        width: 20,
+                                                      ),
                                                       const Text("التوصيل :"),
                                                       Text(
                                                           "${detailCubit.deal.estimateDeliveryDateFrom} - ${detailCubit.deal.estimateDeliveryTimeTo} "),
@@ -376,6 +373,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                             .production_quantity_limits,
                                                         color: AppColor.primary,
                                                       ),
+                                                      const SizedBox(
+                                                        width: 20,
+                                                      ),
                                                       Text(
                                                           " (${detailCubit.deal.maxOrdersPerUser.toString()}) "),
                                                       const Text("عدد لكل شخص")
@@ -388,6 +388,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                   const Icon(
                                                     Icons.handshake,
                                                     color: AppColor.primary,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 20,
                                                   ),
                                                   const Text("يتشارك عدد"),
                                                   Text(
@@ -603,6 +606,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                     child: ElevatedButton(
                                         onPressed: () async {
                                           detailCubit.addTrackingNumberEvent();
+                                          Navigator.pop(context);
                                         },
                                         child: const Text("حفظ")),
                                   )
@@ -621,97 +625,130 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(
-                          width: context.getWidth(value: 0.25),
-                          height: context.getHeight(value: 0.25),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: context.getWidth(value: 0.20),
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColor.secondary,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        detailCubit.tmpStatus = "completed";
-                                        await detailCubit
-                                            .updateDealStatusEvent();
-                                      },
-                                      child: const Text("إكمال الصفقة")),
-                                ),
-                                SizedBox(
-                                  width: context.getWidth(value: 0.20),
-                                  child: ElevatedButton(
-                                      onPressed: () async {
-                                        detailCubit.tmpOrderStatus =
-                                            'processing';
-                                        updateStatus(
-                                            context: context,
-                                            onPressed: () async {
-                                              await detailCubit
-                                                  .updateOrderStatus(
-                                                dealId: widget.dealId,
-                                              );
-                                            },
-                                            title: "تحديث حالة الطلب",
-                                            onChanged: (value) {
-                                              detailCubit.tmpOrderStatus =
-                                                  value;
-                                            },
-                                            items: DropMenuList.shipmentStatus
-                                                .map((element) =>
-                                                    DropdownMenuItem(
-                                                      value: element,
-                                                      child: Text(element).tr(),
-                                                    ))
-                                                .toList(),
-                                            value: "processing");
-                                      },
-                                      child: const Text("تحديث حالة الطلبات")),
-                                ),
-                                SizedBox(
-                                  width: context.getWidth(value: 0.20),
-                                  child: ElevatedButton(
-                                      onPressed: () async {
-                                        detailCubit.tmpStatus =
-                                            detailCubit.deal.dealStatus;
-                                        await updateStatus(
-                                            onPressed: () async =>
+                        if (detailCubit.currentOrders
+                                .where(
+                                    (order) => order.orderStatus == "completed")
+                                .length !=
+                            detailCubit.currentOrders.length)
+                          SizedBox(
+                            width: context.getWidth(value: 0.25),
+                            height: context.getHeight(value: 0.25),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: BlocBuilder<DealDetailsCubit,
+                                  DealDetailsState>(
+                                builder: (context, state) {
+                                  return Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (detailCubit.deal.dealStatus !=
+                                          "completed")
+                                        SizedBox(
+                                          width: context.getWidth(value: 0.20),
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColor.secondary,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                              onPressed: () async {
+                                                detailCubit.tmpStatus =
+                                                    "completed";
                                                 await detailCubit
-                                                    .updateDealStatusEvent(),
-                                            context: context,
-                                            title: "تحديث حلة الصفقة",
-                                            onChanged: (value) {
-                                              detailCubit.tmpStatus =
-                                                  value.toString();
+                                                    .updateDealStatusEvent();
+                                              },
+                                              child:
+                                                  const Text("إكمال الصفقة")),
+                                        ),
+                                      SizedBox(
+                                        width: context.getWidth(value: 0.20),
+                                        child: ElevatedButton(
+                                            onPressed: () async {
+                                              detailCubit.tmpOrderStatus =
+                                                  'processing';
+                                              updateStatus(
+                                                  context: context,
+                                                  onPressed: () async {
+                                                    await detailCubit
+                                                        .updateOrderStatus(
+                                                      dealId: widget.dealId,
+                                                    );
+                                                  },
+                                                  title: "تحديث حالة الطلب",
+                                                  onChanged: (value) {
+                                                    detailCubit.tmpOrderStatus =
+                                                        value;
+                                                  },
+                                                  items: DropMenuList
+                                                      .shipmentStatus
+                                                      .map((element) =>
+                                                          DropdownMenuItem(
+                                                            value: element,
+                                                            child: Text(element)
+                                                                .tr(),
+                                                          ))
+                                                      .toList(),
+                                                  value: "processing");
                                             },
-                                            items: DropMenuList.dealStatus
-                                                .map(
-                                                  (element) => DropdownMenuItem(
-                                                    value: element,
-                                                    child: Text(element).tr(),
-                                                  ),
-                                                )
-                                                .toList(),
-                                            value: detailCubit.deal.dealStatus);
-                                      },
-                                      child: const Text("تحديث حالة الصفقة")),
-                                ),
-                              ],
+                                            child: const Text(
+                                                "تحديث حالة الطلبات")),
+                                      ),
+                                      if (detailCubit.deal.dealStatus !=
+                                          "completed")
+                                        SizedBox(
+                                          width: context.getWidth(value: 0.20),
+                                          child: ElevatedButton(
+                                              onPressed: () async {
+                                                detailCubit.tmpStatus =
+                                                    detailCubit.deal.dealStatus;
+                                                await updateStatus(
+                                                    onPressed: () async =>
+                                                        await detailCubit
+                                                            .updateDealStatusEvent(),
+                                                    context: context,
+                                                    title: "تحديث حلة الصفقة",
+                                                    onChanged: (value) {
+                                                      detailCubit.tmpStatus =
+                                                          value.toString();
+                                                    },
+                                                    items: DropMenuList
+                                                        .dealStatus
+                                                        .map(
+                                                          (element) =>
+                                                              DropdownMenuItem(
+                                                            value: element,
+                                                            child: Text(element)
+                                                                .tr(),
+                                                          ),
+                                                        )
+                                                        .toList(),
+                                                    value: detailCubit
+                                                        .deal.dealStatus);
+                                              },
+                                              child: const Text(
+                                                  "تحديث حالة الصفقة")),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
                         Container(
                             margin: const EdgeInsets.only(left: 10),
-                            width: context.getWidth(value: 0.72),
+                            width: detailCubit.currentOrders
+                                        .where((order) =>
+                                            order.orderStatus == "completed")
+                                        .length !=
+                                    detailCubit.currentOrders.length
+                                ? context.getWidth(value: 0.72)
+                                : context.getWidth(value: 0.96),
                             child: TableSizedBox(
                               child: CustomTableTheme(
                                 child: BlocBuilder<DealDetailsCubit,
@@ -863,6 +900,9 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                               ),
                             ))
                       ],
+                    ),
+                    const SizedBox(
+                      height: 10,
                     )
                   ],
                 ),

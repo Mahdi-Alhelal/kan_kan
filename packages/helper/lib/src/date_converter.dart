@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateConverter {
@@ -16,8 +17,43 @@ class DateConverter {
     return _supaDateFormate.format(DateTime.parse(date)).toString();
   }
 
-  static int differenceInDays(
-      {required DateTime startDate, required DateTime endDate}) {
-    return endDate.difference(startDate).inDays + 1;
+  static Widget differenceInDays({required String endDate}) {
+    final date = DateTime.parse(endDate);
+    if (DateTime.now().isBefore(date)) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.redAccent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Icon(
+              Icons.calendar_month,
+              size: 20,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              '${date.difference(DateTime.now()).inDays + 1} يوم/أيام',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      );
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        "منتهي",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
   }
 }

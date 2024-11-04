@@ -16,5 +16,7 @@
     "completed" : "Completed",
     "canceled" : "Canceled",
     "private" : "Private",
-    "closed" : "Closed"
+    "closed" : "Closed",
+    "product:":"Product"
+
 }

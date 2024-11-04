@@ -16,5 +16,6 @@
     "completed" : "مكتمل",
     "canceled" : "ملغى",
     "private" : "خاص",
-    "closed" : "مغلق"
+    "closed" : "مغلق",
+    "product:":"المنتج "
 }
