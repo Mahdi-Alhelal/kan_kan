@@ -20,11 +20,12 @@ class OrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> filters = const [
       Text("كل"),
-      Text("تحت المعالجة"),
-      Text("تم إرسال الطلب"),
-      Text("في مستودع الصين"),
-      Text("في الشحن"),
+      Text("قيد الانتظار"),
+      Text("قيد المعالجة"),
+      Text("في الصين"),
+      Text("قيد النقل"),
       Text("في سعودية"),
+      Text("مع شركة الشحن"),
       Text("مكتمل"),
       Text("ملغى")
     ];
@@ -66,19 +67,18 @@ class OrderScreen extends StatelessWidget {
                           sortColumnIndex: orderCubit.columnIndex,
                           showEmptyRows: false,
                           source: TableDataRow(
-                            length: orderCubit.ordersData.orders.length,
+                            length: orderCubit.filteredOrder.length,
                             customRow: List.generate(
-                                orderCubit.ordersData.orders.length, (index) {
+                                orderCubit.filteredOrder.length, (index) {
                               UserModel orderUser = orderCubit.userOrderData
                                   .getOrderUser(
                                       id: orderCubit
-                                          .ordersData.orders[index].userId);
+                                          .filteredOrder[index].userId);
 
                               DealModel myDeal = orderCubit.userOrderDeal.deals
                                   .firstWhere((element) =>
                                       element.dealId ==
-                                      orderCubit
-                                          .ordersData.orders[index].dealId);
+                                      orderCubit.filteredOrder[index].dealId);
 
                               orderCubit.userOrderProduct.getProductOrder(
                                   id: myDeal.product.productId);
@@ -89,8 +89,8 @@ class OrderScreen extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => OrderDetailsScreen(
-                                          orderDetails: orderCubit
-                                              .ordersData.orders[index],
+                                          orderDetails:
+                                              orderCubit.filteredOrder[index],
                                           dealDetails: myDeal,
                                           userDetails: orderUser),
                                     ),
@@ -105,16 +105,16 @@ class OrderScreen extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                            "${orderUser.fullName}\n O${orderCubit.ordersData.orders[index].orderId}")
+                                            "${orderUser.fullName}\n O${orderCubit.filteredOrder[index].orderId}")
                                       ],
                                     ),
                                   ),
                                   DataCell(Text(
-                                      "${orderCubit.ordersData.orders[index].amount}")),
+                                      "${orderCubit.filteredOrder[index].amount}")),
                                   DataCell(Text(myDeal.dealTitle)),
                                   DataCell(Text(DateConverter.usDateFormate(
-                                      orderCubit.ordersData.orders[index]
-                                          .orderDate))),
+                                      orderCubit
+                                          .filteredOrder[index].orderDate))),
                                   DataCell(
                                     CustomChips(
                                       //Todo: link with paymentStatus
@@ -142,9 +142,9 @@ class OrderScreen extends StatelessWidget {
                                   ),
                                   DataCell(CustomChips(
                                     statusColor: orderCubit
-                                        .ordersData.orders[index].orderStatus,
+                                        .filteredOrder[index].orderStatus,
                                     status: orderCubit
-                                        .ordersData.orders[index].orderStatus,
+                                        .filteredOrder[index].orderStatus,
                                     onTap: () async {
                                       await updateStatus(
                                           onPressed: () {
@@ -179,10 +179,10 @@ class OrderScreen extends StatelessWidget {
                               label: const Text("العميل"),
                               onSort: (columnIndex, ascending) {
                                 if (orderCubit.sort) {
-                                  orderCubit.ordersData.orders.sort(
+                                  orderCubit.filteredOrder.sort(
                                       (a, b) => a.orderId.compareTo(b.orderId));
                                 } else {
-                                  orderCubit.ordersData.orders.sort(
+                                  orderCubit.filteredOrder.sort(
                                       (a, b) => b.orderId.compareTo(a.orderId));
                                 }
                                 orderCubit.sort = !orderCubit.sort;
@@ -193,10 +193,10 @@ class OrderScreen extends StatelessWidget {
                             DataColumn(
                               onSort: (columnIndex, ascending) {
                                 if (orderCubit.sort) {
-                                  orderCubit.ordersData.orders.sort(
+                                  orderCubit.filteredOrder.sort(
                                       (a, b) => a.amount.compareTo(b.amount));
                                 } else {
-                                  orderCubit.ordersData.orders.sort(
+                                  orderCubit.filteredOrder.sort(
                                       (a, b) => b.amount.compareTo(a.amount));
                                 }
                                 orderCubit.sort = !orderCubit.sort;
@@ -211,7 +211,7 @@ class OrderScreen extends StatelessWidget {
                                 onSort: (columnIndex, ascending) {
                                   //Todo: test sort by deal title
                                   if (orderCubit.sort) {
-                                    orderCubit.ordersData.orders.sort(
+                                    orderCubit.filteredOrder.sort(
                                       (a, b) => orderCubit.userOrderDeal
                                           .findDeal(a.dealId)
                                           .dealTitle
@@ -220,7 +220,7 @@ class OrderScreen extends StatelessWidget {
                                               .dealTitle),
                                     );
                                   } else {
-                                    orderCubit.ordersData.orders.sort(
+                                    orderCubit.filteredOrder.sort(
                                       (a, b) => orderCubit.userOrderDeal
                                           .findDeal(b.dealId)
                                           .dealTitle
@@ -238,14 +238,14 @@ class OrderScreen extends StatelessWidget {
                               label: const Text("تاريخ طلب"),
                               onSort: (columnIndex, ascending) {
                                 if (orderCubit.sort) {
-                                  orderCubit.ordersData.orders.sort(
+                                  orderCubit.filteredOrder.sort(
                                     (a, b) =>
                                         DateTime.parse(a.orderDate).compareTo(
                                       DateTime.parse(b.orderDate),
                                     ),
                                   );
                                 } else {
-                                  orderCubit.ordersData.orders.sort(
+                                  orderCubit.filteredOrder.sort(
                                     (a, b) =>
                                         DateTime.parse(b.orderDate).compareTo(
                                       DateTime.parse(a.orderDate),
@@ -262,10 +262,10 @@ class OrderScreen extends StatelessWidget {
                               label: const Text("حالة الدفع"),
                               onSort: (columnIndex, ascending) {
                                 if (orderCubit.sort) {
-                                  orderCubit.ordersData.orders.sort((a, b) =>
+                                  orderCubit.filteredOrder.sort((a, b) =>
                                       a.orderStatus.compareTo(b.orderStatus));
                                 } else {
-                                  orderCubit.ordersData.orders.sort((a, b) =>
+                                  orderCubit.filteredOrder.sort((a, b) =>
                                       b.orderStatus.compareTo(a.orderStatus));
                                 }
                                 orderCubit.sort = !orderCubit.sort;

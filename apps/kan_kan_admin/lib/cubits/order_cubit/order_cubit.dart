@@ -21,19 +21,32 @@ class OrderCubit extends Cubit<OrderState> {
   final userOrderDeal = GetIt.I.get<DealDataLayer>();
   final userOrderProduct = GetIt.I.get<ProductDataLayer>();
 
+  List<OrderModel> filteredOrder = <OrderModel>[];
+
   final api = DataRepository();
   //?-- table sorting
   bool sort = true;
   int columnIndex = 0;
 
   //?-- filters
-  List<bool> selected = [true, false, false, false, false, false, false, false];
+  List<bool> selected = [
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   //?-- tmp status;
   String tmpUserOrderStatus = '';
   OrderCubit() : super(OrderInitial()) {
     getNewOrder();
     getNewUser();
+    filteredOrder = ordersData.orders.toList();
   }
 
   getAllOrdersEvent() async {
@@ -52,6 +65,56 @@ class OrderCubit extends Cubit<OrderState> {
     int index = selected.indexOf(true);
     selected[index] = false;
     selected[value] = true;
+    switch (value) {
+      case 0:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders.toList();
+
+        break;
+      case 1:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders
+            .where((order) => order.orderStatus == "processing")
+            .toList();
+      case 2:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders
+            .where((order) => order.orderStatus == "processing")
+            .toList();
+      case 3:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders
+            .where((order) => order.orderStatus == "inChina")
+            .toList();
+      case 4:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders
+            .where((order) => order.orderStatus == "inTransit")
+            .toList();
+      case 5:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders
+            .where((order) => order.orderStatus == "inSaudi")
+            .toList();
+      case 6:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders
+            .where((order) => order.orderStatus == "withShipmentCompany")
+            .toList();
+      case 7:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders
+            .where((order) => order.orderStatus == "completed")
+            .toList();
+      case 8:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders
+            .where((order) => order.orderStatus == "canceled")
+            .toList();
+      default:
+        filteredOrder.clear();
+        filteredOrder = ordersData.orders.toList();
+    }
     if (!isClosed) emit(SuccessOrderState());
   }
 
