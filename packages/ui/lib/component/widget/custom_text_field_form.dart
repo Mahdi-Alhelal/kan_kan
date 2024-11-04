@@ -11,7 +11,7 @@ class CustomTextFieldForm extends StatelessWidget {
       this.readOnly = false,
       this.inputFormatters,
       this.validator,
-      this.keyboardType});
+      this.keyboardType, this.onChanged});
   final String title;
   final Widget? icon;
   final TextEditingController? controller;
@@ -20,11 +20,13 @@ class CustomTextFieldForm extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
+  final Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        onChanged: onChanged,
         scrollPadding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom + 50),
         validator: validator,

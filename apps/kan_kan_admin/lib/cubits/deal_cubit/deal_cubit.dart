@@ -40,6 +40,8 @@ class DealCubit extends Cubit<DealState> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController deliveryCostController = TextEditingController();
+    final TextEditingController totalCostController = TextEditingController();
+
   final TextEditingController estimatedTimeFromController =
       TextEditingController();
   final TextEditingController estimatedTimeToController =

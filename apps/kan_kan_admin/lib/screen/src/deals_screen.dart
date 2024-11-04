@@ -43,6 +43,7 @@ class _DealsScreenState extends State<DealsScreen> {
                   customBottomSheet(
                     context: context,
                     child: AddDealForm(
+                      totalController: dealCubit.totalCostController,
                       dealCategory: dealCubit.categoryLayer.categories,
                       productsList: dealCubit.productLayer.products
                           .where((product) =>

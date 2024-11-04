@@ -28,6 +28,7 @@ class AddDealForm extends StatelessWidget {
     required this.estimatedTimeFromController,
     required this.estimatedTimeToController,
     required this.dealCategory,
+    required this.totalController,
   });
   final TextEditingController dealNameController;
   final TextEditingController productController;
@@ -41,6 +42,7 @@ class AddDealForm extends StatelessWidget {
   final TextEditingController deliveryCostController;
   final TextEditingController estimatedTimeFromController;
   final TextEditingController estimatedTimeToController;
+  final TextEditingController totalController;
   final List<CategoryModel> dealCategory;
   final GlobalKey<FormState> formKey;
   final void Function() add;
@@ -192,6 +194,8 @@ class AddDealForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: costController,
                     validator: (value) =>
                         value == null || value.toString().isEmpty
@@ -202,6 +206,16 @@ class AddDealForm extends StatelessWidget {
                 ),
                 Expanded(
                     child: CustomTextFieldForm(
+                        onChanged: (p0) {
+                          totalController.text =
+                              (int.parse(priceController.text) +
+                                      int.parse(deliveryCostController.text))
+                                  .toString();
+                        },
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         controller: deliveryCostController,
                         validator: (value) =>
                             value == null || value.toString().isEmpty
@@ -214,17 +228,31 @@ class AddDealForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                    child: CustomTextFieldForm(
-                  title: "سعر البيع",
-                  controller: priceController,
-                  validator: (value) =>
-                      value == null || value.toString().isEmpty
-                          ? "required"
-                          : null,
-                )),
-                SizedBox(
-                    width: context.getWidth(value: .3),
-                    child: const Center(child: Text("الإجمالي: 1599 ريال"))),
+                  child: CustomTextFieldForm(
+                    title: "سعر البيع",
+                    controller: priceController,
+                    onChanged: (p0) {
+                      totalController.text = (int.parse(priceController.text) +
+                              int.parse(deliveryCostController.text))
+                          .toString();
+                    },
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) =>
+                        value == null || value.toString().isEmpty
+                            ? "required"
+                            : null,
+                  ),
+                ),
+                Expanded(
+                  child: CustomTextFieldForm(
+                    title: "الإجمالي",
+                    controller: totalController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    readOnly: true,
+                  ),
+                ),
               ],
             ),
             const SizedBox(
@@ -239,6 +267,7 @@ class AddDealForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
+                    keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) =>
                         value == null || value.toString().isEmpty
@@ -250,6 +279,7 @@ class AddDealForm extends StatelessWidget {
                 ),
                 Expanded(
                   child: CustomTextFieldForm(
+                    keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) {
                       if (value == null || value.toString().isEmpty) {

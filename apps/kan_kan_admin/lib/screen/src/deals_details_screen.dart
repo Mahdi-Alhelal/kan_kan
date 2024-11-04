@@ -124,9 +124,15 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                             .deal.endDate),
                                               ),
                                             );
+                                            detailCubit
+                                                    .totalCostController.text =
+                                                detailCubit.deal.totalPrice
+                                                    .toString();
                                             customBottomSheet(
                                                 context: context,
                                                 child: AddDealForm(
+                                                    totalController: detailCubit
+                                                        .totalCostController,
                                                     dealCategory: detailCubit
                                                         .categoryLayer
                                                         .categories,
@@ -157,13 +163,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                     productsList: detailCubit
                                                         .productLayer.products
                                                         .where((product) =>
-                                                            detailCubit
-                                                                .factoryLayer
-                                                                .getFactory(
-                                                                    id: product
-                                                                        .factory
-                                                                        .factoryId)
-                                                                .isBlackList ==
+                                                            detailCubit.factoryLayer.getFactory(id: product.factory.factoryId).isBlackList ==
                                                             false)
                                                         .toList(),
                                                     dealDuration: () async {
@@ -200,15 +200,17 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                     deliveryCostController: detailCubit
                                                         .deliveryCostController,
                                                     estimatedTimeFromController:
-                                                        detailCubit.estimatedTimeFromController,
-                                                    estimatedTimeToController: detailCubit.estimatedTimeToController));
+                                                        detailCubit
+                                                            .estimatedTimeFromController,
+                                                    estimatedTimeToController:
+                                                        detailCubit
+                                                            .estimatedTimeToController));
                                           },
                                           icon: const Icon(
                                             Icons.edit,
                                             color: AppColor.primary,
                                           ),
                                         ),
-                                
                                     DateConverter.differenceInDays(
                                         endDate: detailCubit.deal.endDate)
                                   ],
