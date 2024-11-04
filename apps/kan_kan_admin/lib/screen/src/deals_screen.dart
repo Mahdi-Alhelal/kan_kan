@@ -130,6 +130,8 @@ class _DealsScreenState extends State<DealsScreen> {
                                     ),
                                   ),
                                 ).then((_) {
+                                  dealCubit.getNewOrder();
+                                  dealCubit.getNewUser() ;
                                   dealCubit.afterPop();
                                 });
                               },

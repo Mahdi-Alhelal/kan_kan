@@ -33,10 +33,10 @@ abstract class OtoApi {
         }),
       );
       print(response["message"]);
-    } on DioException catch (e) {
-      print(e.message);
+    } on DioException catch (_) {
+      throw("no internet connection");
     } catch (e) {
-      print("in send notification $e");
+      throw("in send notification $e");
     }
   }
 }

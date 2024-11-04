@@ -94,7 +94,10 @@ class OrderScreen extends StatelessWidget {
                                           dealDetails: myDeal,
                                           userDetails: orderUser),
                                     ),
-                                  );
+                                  ).then((_) {
+                                    orderCubit.getNewOrder();
+                                    orderCubit.getNewUser();
+                                  });
                                 },
                                 color: WidgetStateProperty.all(AppColor.white),
                                 cells: [

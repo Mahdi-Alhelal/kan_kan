@@ -171,8 +171,8 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       if (response) {
         final globalIndex = orderLayer.orders.indexWhere(
             (element) => element.orderId == currentOrders[index].orderId);
-        currentOrders[index].orderStatus == oneOrderStatus;
-        orderLayer.orders[globalIndex].orderStatus == oneOrderStatus;
+        currentOrders[index].orderStatus = oneOrderStatus;
+        orderLayer.orders[globalIndex].orderStatus = oneOrderStatus;
         if (!isClosed) emit(UpdateOrderStatusSuccessState());
       }
     } catch (errorMessage) {

@@ -8,6 +8,7 @@ import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
 import 'package:kan_kan_admin/layer/user_layer.dart';
 import 'package:kan_kan_admin/model/order_model.dart';
+import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -32,6 +33,7 @@ class OrderCubit extends Cubit<OrderState> {
   String tmpUserOrderStatus = '';
   OrderCubit() : super(OrderInitial()) {
     getNewOrder();
+    getNewUser();
   }
 
   getAllOrdersEvent() async {
@@ -71,6 +73,22 @@ class OrderCubit extends Cubit<OrderState> {
         emit(ErrorOrderState(errorMessage: errorMessage.toString()));
       }
     }
+  }
+
+  void getNewUser() {
+    KanSupabase.supabase.client
+        .channel('add_user')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'users',
+            callback: (newUser) {
+              userOrderData.usersList
+                  .add(UserModel.fromJson(newUser.newRecord));
+              if (!isClosed) emit(SuccessOrderState());
+            })
+        .subscribe();
+    if (!isClosed) emit(SuccessOrderState());
   }
 
   getNewOrder() {

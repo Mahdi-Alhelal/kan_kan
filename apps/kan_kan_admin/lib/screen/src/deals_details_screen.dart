@@ -14,6 +14,7 @@ import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:ui/ui.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DealsDetailsScreen extends StatefulWidget {
   const DealsDetailsScreen({super.key, required this.dealId});
@@ -574,9 +575,13 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                         ),
                         SizedBox(
                           width: context.getWidth(value: 0.48),
-                          child: Image.asset(
-                              "assets/images/products-sample/tv-sample.png"),
-                        )
+                          height: context.getHeight(value: 0.48),
+                          child: detailCubit.deal.dealUrl != ""
+                              ? CachedNetworkImage(
+                                  imageUrl: detailCubit.deal.dealUrl)
+                              : Image.asset(
+                                  "assets/images/logo/kan_kan_logo.png"),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -653,11 +658,11 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                             'processing';
                                         updateStatus(
                                             context: context,
-                                            onPressed: () async{
-                                              await detailCubit.updateOrderStatus(
+                                            onPressed: () async {
+                                              await detailCubit
+                                                  .updateOrderStatus(
                                                 dealId: widget.dealId,
                                               );
-                                             
                                             },
                                             title: "تحديث حالة الطلب",
                                             onChanged: (value) {

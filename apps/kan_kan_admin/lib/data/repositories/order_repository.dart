@@ -142,20 +142,9 @@ mixin OrderRepository {
         sendAction.add(OtoApi.sendNotification(order: oto));
       }
       await Future.wait(sendAction);
-      print("done send notification ");
+    return true;
     } catch (e) {
       throw Exception('Error in add all orders to tracking: $e');
     }
   }
 }
-
-//for add order tracking
-/*
- List<Future> futures = <Future>[];
-
-       listOfId.map((orderId) =>
-           futures.add(KanSupabase.supabase.client.from("orders").insert({
-             "order_status": status,
-           }).eq("order_id", orderId)));
-       await Future.wait(futures);
- */

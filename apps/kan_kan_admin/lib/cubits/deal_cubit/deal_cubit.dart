@@ -5,12 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
+import 'package:kan_kan_admin/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan_admin/layer/category_data_layer.dart';
 import 'package:kan_kan_admin/layer/deal_data_layer.dart';
 import 'package:kan_kan_admin/layer/factory_data_layer.dart';
+import 'package:kan_kan_admin/layer/order_data_layer.dart';
 import 'package:kan_kan_admin/layer/product_data_layer.dart';
+import 'package:kan_kan_admin/layer/user_layer.dart';
 import 'package:kan_kan_admin/model/deal_model.dart';
+import 'package:kan_kan_admin/model/order_model.dart';
+import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:meta/meta.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'deal_state.dart';
 
@@ -21,7 +27,8 @@ class DealCubit extends Cubit<DealState> {
   final productLayer = GetIt.I.get<ProductDataLayer>();
   final factoryLayer = GetIt.I.get<FactoryDataLayer>();
   final categoryLayer = GetIt.I.get<CategoryDataLayer>();
-
+  final orderLayer = GetIt.I.get<OrderDataLayer>();
+  final userLayer = GetIt.I.get<UserLayer>();
   //?---controller
   final TextEditingController dealNameController = TextEditingController();
   final TextEditingController productController = TextEditingController();
@@ -48,7 +55,10 @@ class DealCubit extends Cubit<DealState> {
   List<DateTime?> dealDuration = [];
   File? image;
 
-  DealCubit() : super(DealInitial());
+  DealCubit() : super(DealInitial()) {
+    getNewOrder();
+    getNewUser();
+  }
 
   addDeal() async {
     Future.delayed(Duration.zero);
@@ -73,7 +83,7 @@ class DealCubit extends Cubit<DealState> {
           dealStatus: "private",
           maxOrdersPerUser: int.parse(maxNumberController.text.trim()),
           quantity: int.parse(quantityController.text),
-          dealUrl: "dealUrl");
+          dealUrl: "");
       final newDeal = await api.addNewDeal(
         productId: int.parse(productController.text),
         deal: deal,
@@ -120,5 +130,35 @@ class DealCubit extends Cubit<DealState> {
     } catch (errorMessage) {
       if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
+  }
+
+  void getNewUser() {
+    KanSupabase.supabase.client
+        .channel('add_user')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'users',
+            callback: (newUser) {
+              userLayer.usersList.add(UserModel.fromJson(newUser.newRecord));
+              if (!isClosed) emit(SuccessSate());
+            })
+        .subscribe();
+    if (!isClosed) emit(SuccessSate());
+  }
+
+  getNewOrder() {
+    KanSupabase.supabase.client
+        .channel('add_order')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'orders',
+            callback: (newData) {
+              orderLayer.orders.add(OrderModel.fromJson(newData.newRecord));
+              if (!isClosed) emit(SuccessSate());
+            })
+        .subscribe();
+    if (!isClosed) emit(SuccessSate());
   }
 }

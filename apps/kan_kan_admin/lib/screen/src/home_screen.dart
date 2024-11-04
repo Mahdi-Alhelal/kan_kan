@@ -15,6 +15,7 @@ import 'package:kan_kan_admin/widget/chip/custom_chips.dart';
 import 'package:kan_kan_admin/widget/table/custom_table_theme.dart';
 import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/component/helper/custom_colors.dart';
+import 'package:ui/component/helper/screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -62,6 +63,7 @@ class HomeScreen extends StatelessWidget {
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
                   return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         width: 350,
@@ -144,7 +146,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       SizedBox(
                         height: 200,
-                        width: 600,
+                        width: context.getWidth(value: .4),
                         child: CustomBarChart(
                           barGroups: [
                             BarChartGroupData(

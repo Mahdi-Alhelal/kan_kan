@@ -4,6 +4,7 @@ import 'package:kan_kan_admin/model/deal_model.dart';
 import 'package:kan_kan_admin/model/order_model.dart';
 import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:ui/component/helper/screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ui/ui.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -25,8 +26,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    TabController _tabBar = TabController(length: 3, vsync: this);
-
+    TabController tabBar = TabController(length: 3, vsync: this);
+    print("url");
+    print(widget.dealDetails.dealUrl);
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -37,27 +39,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: AppColor.third),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Image.asset(
-                          "assets/images/logo/kan_kan_logo.png",
-                          width: context.getWidth(value: 0.5),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -92,7 +73,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                   indicator: BoxDecoration(
                                       color: AppColor.secondary,
                                       borderRadius: BorderRadius.circular(8)),
-                                  controller: _tabBar,
+                                  controller: tabBar,
                                   labelPadding: const EdgeInsets.only(
                                       left: 20, right: 20),
                                   tabs: const [
@@ -113,7 +94,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                 width: context.getWidth(),
                                 height: 150,
                                 child:
-                                    TabBarView(controller: _tabBar, children: [
+                                    TabBarView(controller: tabBar, children: [
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -362,16 +343,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                     ),
                     SizedBox(
                       width: context.getWidth(value: 0.48),
-                      child: Image.asset(
-                          "assets/images/products-sample/tv-sample.png"),
-                    )
+                      child: widget.dealDetails.dealUrl != ""
+                          ? CachedNetworkImage(
+                              imageUrl: widget.dealDetails.dealUrl)
+                          : Image.asset("assets/images/logo/kan_kan_logo.png"),
+                    ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
-                ),
-                const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Divider(
                   color: AppColor.black.withOpacity(20 / 100),
