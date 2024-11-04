@@ -4,6 +4,7 @@ import 'package:kan_kan/cubit/home_cubit/home_cubit.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/home/deals_screen.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
+import 'package:kan_kan/widgets/custom_choice_chip.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ui/ui.dart';
@@ -58,46 +59,43 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     height: 30,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: AppColor.primary,
-                            borderRadius: BorderRadius.circular(8)),
-                        width: 100,
-                        height: 50,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "الأجهزة التقنية",
-                          style: TextStyle(color: AppColor.white),
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: AppColor.secondary,
-                            borderRadius: BorderRadius.circular(8)),
-                        width: 100,
-                        height: 50,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "الأثاث",
-                          style: TextStyle(color: AppColor.white),
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: AppColor.primary,
-                            borderRadius: BorderRadius.circular(8)),
-                        width: 100,
-                        height: 50,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "قريباً",
-                          style: TextStyle(color: AppColor.white),
-                        ),
-                      )
-                    ],
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: List.generate(
+                                homeCubit.dealLayer.filterCategories.length,
+                                (int index) {
+                              return Row(
+                                children: [
+                                  CustomChoiceChip(
+                                      title: homeCubit
+                                              .dealLayer.filterCategories[index]
+                                          ["category_name"],
+                                      isSelected: homeCubit.dealLayer
+                                                  .filterCategories[index]
+                                              ["category_id"] ==
+                                          homeCubit.initDeal,
+                                      onSelected: (p0) {
+                                        homeCubit.initDeal = homeCubit.dealLayer
+                                                .filterCategories[index]
+                                            ["category_id"];
+                                        homeCubit.updateChipCategory();
+                                        homeCubit.filterDeals(homeCubit
+                                                .dealLayer
+                                                .filterCategories[index]
+                                            ["category_id"]);
+                                      }),
+                                  SizedBox(
+                                    width: 20,
+                                  )
+                                ],
+                              );
+                            })),
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 30,
@@ -107,7 +105,7 @@ class HomeScreen extends StatelessWidget {
                       return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: homeCubit.dealLayer.deals.length,
+                        itemCount: homeCubit.deals.length,
                         itemBuilder: (BuildContext context, int index) {
                           return DealCard(
                             onTap: () {
@@ -115,15 +113,13 @@ class HomeScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => DealDetailsScreen(
-                                            dealData: homeCubit
-                                                .dealLayer.deals[index],
+                                            dealData: homeCubit.deals[index],
                                           )));
                             },
-                            dealData: homeCubit.dealLayer.deals[index],
-                            title: homeCubit.dealLayer.deals[index].dealTitle,
-                            orderBooked:
-                                homeCubit.dealLayer.deals[index].numberOfOrder,
-                            orderMax: homeCubit.dealLayer.deals[index].quantity,
+                            dealData: homeCubit.deals[index],
+                            title: homeCubit.deals[index].dealTitle,
+                            orderBooked: homeCubit.deals[index].numberOfOrder,
+                            orderMax: homeCubit.deals[index].quantity,
                           );
                         },
                       );

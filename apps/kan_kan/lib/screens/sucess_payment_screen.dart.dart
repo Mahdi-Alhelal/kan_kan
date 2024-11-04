@@ -190,7 +190,9 @@ class SucessPaymentScreen extends StatelessWidget {
                 width: context.getWidth(value: 0.75),
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    
+                  },
                   child: const Text("الإطلاع على صفقات آخرى"),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

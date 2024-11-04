@@ -17,7 +17,7 @@ class UserNavCubit extends Cubit<UserNavState> {
   int index = 0;
   UserNavCubit() : super(UserNavInitial());
 
-   updateEvent() {
+  updateEvent() {
     if (!isClosed) emit(SuccessNavState());
   }
 }

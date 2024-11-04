@@ -14,7 +14,7 @@ class ButtomNav extends StatelessWidget {
         final cubitNav = context.read<UserNavCubit>();
         return BlocBuilder<UserNavCubit, UserNavState>(
           builder: (context, state) {
-            CircularProgressIndicator(
+            const CircularProgressIndicator(
               color: AppColor.primary,
             );
 
@@ -29,7 +29,7 @@ class ButtomNav extends StatelessWidget {
                     cubitNav.index = index;
                     cubitNav.updateEvent();
                   },
-                  items: [
+                  items: const [
                     BottomNavigationBarItem(
                       icon: Icon(Icons.home),
                       label: 'الرئيسية',

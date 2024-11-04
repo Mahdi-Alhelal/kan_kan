@@ -51,34 +51,6 @@ mixin AddressRepository {
   /*
   *
   * Tested
-  * Delete address
-  *
-  * */
-
-  deleteAddress({required String id}) async {
-    try {
-      final dataFound = await KanSupabase.supabase.client
-          .from("orders")
-          .select("*")
-          .eq("address_id", id)
-          .select();
-
-      if (dataFound.isNotEmpty) {
-      } else {
-        await KanSupabase.supabase.client
-            .from("address")
-            .delete()
-            .eq("address_id", id)
-            .select();
-      }
-    } catch (e) {
-      throw Exception('Error in delete address: $e');
-    }
-  }
-
-  /*
-  *
-  * Tested
   * get all Address
   *
   * */

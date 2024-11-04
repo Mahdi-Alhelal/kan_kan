@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan/data/data_repository.dart';
+import 'package:kan_kan/layer/deal_data_layer.dart';
 import 'package:kan_kan/layer/order_data_layer.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/order_model.dart';
@@ -21,6 +22,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   final userLayer = GetIt.I.get<UserDataLayer>();
   final userOrders = GetIt.I.get<OrderDataLayer>();
+  final userDeals = GetIt.I.get<DealDataLayer>();
 
   List<OrderModel> listOrdersNow = [];
   List<OrderModel> listPreviosOrders = [];
@@ -58,10 +60,11 @@ class ProfileCubit extends Cubit<ProfileState> {
       listOrdersNow = userOrders.orders
           .where(
             (element) =>
-                element.orderStatus != "completed" ||
+                element.orderStatus != "completed" &&
                 element.orderStatus != "canceled",
           )
           .toList();
+      print(listOrdersNow.length);
       listPreviosOrders = userOrders.orders
           .where(
             (element) =>
@@ -74,5 +77,4 @@ class ProfileCubit extends Cubit<ProfileState> {
       print(e);
     }
   }
-
 }

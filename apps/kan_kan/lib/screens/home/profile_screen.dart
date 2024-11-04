@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:helper/helper.dart';
 import 'package:kan_kan/cubit/profile_cubit/profile_cubit.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
+import 'package:kan_kan/model/order_model.dart';
+import 'package:kan_kan/screens/home/deal_details_screen.dart';
+import 'package:kan_kan/widgets/deal_card.dart';
+import 'package:kan_kan/widgets/order_card.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:ui/ui.dart';
@@ -26,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
         return Scaffold(
             appBar: AppBar(
               backgroundColor: AppColor.bg,
-              title: Center(child: const Text("الملف الشخصي")),
+              title: const Center(child: Text("الملف الشخصي")),
             ),
             body: cubitProfile.userLayer.email != ""
                 ? SingleChildScrollView(
@@ -55,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
                                                   controller: cubitProfile
                                                       .controllerEmail,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 CustomTextField(
@@ -63,7 +68,7 @@ class ProfileScreen extends StatelessWidget {
                                                   controller: cubitProfile
                                                       .controllerPhone,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 ElevatedButton(
@@ -71,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
                                                       await cubitProfile
                                                           .updateEvent();
                                                     },
-                                                    child: Text("حفظ"))
+                                                    child: const Text("حفظ"))
                                               ],
                                             ),
                                           ),
@@ -82,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                                 );
                               },
                               icon: const Icon(
-                                Icons.settings,
+                                Icons.edit,
                                 color: AppColor.primary,
                               )),
                           leading: CircleAvatar(
@@ -99,7 +104,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           subtitle: Text(
                             cubitProfile.userLayer.user.fullName,
-                            style: TextStyle(color: AppColor.secondary),
+                            style: const TextStyle(color: AppColor.secondary),
                           ),
                         ),
                         const SizedBox(
@@ -107,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         BlocBuilder<ProfileCubit, ProfileState>(
                           builder: (context, state) {
-                            CircularProgressIndicator(
+                            const CircularProgressIndicator(
                               color: AppColor.primary,
                             );
 
@@ -124,18 +129,18 @@ class ProfileScreen extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
+                                      const Text(
                                         "الصفقات الحالية",
                                         style: TextStyle(
                                             color: AppColor.secondary),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Text(
                                         cubitProfile.listOrdersNow.length
                                             .toString(),
-                                        style: TextStyle(fontSize: 18),
+                                        style: const TextStyle(fontSize: 18),
                                       ),
                                     ],
                                   ),
@@ -150,18 +155,18 @@ class ProfileScreen extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
+                                      const Text(
                                         "الصفقات السابقة",
                                         style: TextStyle(
                                             color: AppColor.secondary),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Text(
-                                        cubitProfile.listPreviosOrders
+                                        cubitProfile.listPreviosOrders.length
                                             .toString(),
-                                        style: TextStyle(fontSize: 18),
+                                        style: const TextStyle(fontSize: 18),
                                       ),
                                     ],
                                   ),
@@ -205,7 +210,7 @@ class ProfileScreen extends StatelessWidget {
                                       ),
                                       child: Text(
                                         "${cubitProfile.userLayer.user.balance} ريال",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: AppColor.white,
                                           fontSize: 20,
                                         ),
@@ -231,6 +236,27 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                        BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            return SizedBox(
+                              height: context.getHeight(value: 0.30),
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: cubitProfile.listOrdersNow.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                   
+                                    return OrderCard(
+                                      dealDetails: cubitProfile.userDeals
+                                          .findDeal(cubitProfile
+                                              .listOrdersNow[index].dealId),
+                                      orderDetails:
+                                          cubitProfile.listOrdersNow[index],
+                                    );
+                                  }),
+                            );
+                          },
+                        )
                       ],
                     ),
                   )
@@ -240,7 +266,8 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                            onPressed: () {}, child: Text("يرجى تسجيل الدخول")),
+                            onPressed: () {},
+                            child: const Text("يرجى تسجيل الدخول")),
                       ],
                     ),
                   ));

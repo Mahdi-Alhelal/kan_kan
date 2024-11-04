@@ -243,7 +243,6 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                     DealDetailsState>(
                                   builder: (context, state) {
                                     return TabBar(
-                                      
                                         labelColor: AppColor.white,
                                         dividerColor: AppColor.bg,
                                         indicator: BoxDecoration(
@@ -605,7 +604,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                             detailCubit.tmpOrderStatus = value;
                                           },
                                           items: DropMenuList.shipmentStatus
-                                              .map( 
+                                              .map(
                                                   (element) => DropdownMenuItem(
                                                         value: element,
                                                         child: Text(element),

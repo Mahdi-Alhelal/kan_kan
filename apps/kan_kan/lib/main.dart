@@ -7,6 +7,7 @@ import 'package:kan_kan/screens/buttom_nav.dart';
 import 'package:kan_kan/screens/home/deals_screen.dart';
 import 'package:kan_kan/screens/home/home_screen.dart';
 import 'package:kan_kan/screens/home/my_deals_screen.dart';
+import 'package:kan_kan/widgets/order_card.dart';
 import 'package:kan_kan/setup/setup.dart';
 import 'package:ui/ui.dart';
 import 'package:device_preview/device_preview.dart';

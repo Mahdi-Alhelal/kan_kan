@@ -35,8 +35,7 @@ class DealDetailsScreen extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: AppColor.bg,
-            leading: const Icon(Icons.arrow_back),
-            title: const Text("تفاصيل الصفقة"),
+            title: Center(child: const Text("تفاصيل الصفقة")),
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -110,7 +109,7 @@ class DealDetailsScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -130,9 +129,9 @@ class DealDetailsScreen extends StatelessWidget {
                 Container(
                   width: context.getWidth(),
                   height: 35,
-                  alignment: Alignment.center,
+                  alignment: Alignment.centerRight,
                   child: TabBar(
-                      indicatorPadding: EdgeInsets.only(left: -20, right: -20),
+                      indicatorPadding: EdgeInsets.only(left: -40, right: -40),
                       //tabAlignment: TabAlignment.fill,
 
                       labelColor: AppColor.white,
@@ -151,7 +150,7 @@ class DealDetailsScreen extends StatelessWidget {
                       ]),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: SizedBox(
                     width: context.getWidth(),
                     height: 150,
@@ -167,6 +166,9 @@ class DealDetailsScreen extends StatelessWidget {
                                   const Icon(
                                     Icons.calendar_month,
                                     color: AppColor.primary,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
                                   ),
                                   const Text(
                                     "البداية : ",
@@ -188,6 +190,9 @@ class DealDetailsScreen extends StatelessWidget {
                                     Icons.calendar_month,
                                     color: AppColor.primary,
                                   ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   const Text(
                                     "النهاية : ",
                                     style: TextStyle(color: AppColor.primary),
@@ -207,6 +212,9 @@ class DealDetailsScreen extends StatelessWidget {
                                 Icons.local_shipping,
                                 color: AppColor.primary,
                               ),
+                              SizedBox(
+                                width: 5,
+                              ),
                               const Text("التوصيل :"),
                               Text(
                                   "${dealData.estimateDeliveryDateFrom} - ${dealData.estimateDeliveryTimeTo} "),
@@ -219,6 +227,9 @@ class DealDetailsScreen extends StatelessWidget {
                                     const Icon(
                                       Icons.handshake,
                                       color: AppColor.primary,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
                                     ),
                                     const Text("يتشارك عدد"),
                                     Text(" ${dealData.numberOfOrder} "),

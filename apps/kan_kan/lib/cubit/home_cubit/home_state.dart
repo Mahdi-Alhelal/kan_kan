@@ -10,3 +10,5 @@ final class LoadingHomeState extends HomeState {}
 final class SuccessHomeState extends HomeState {}
 
 final class ErrorHomeState extends HomeState {}
+
+final class UpdateCategoryHomeState extends HomeState {}
