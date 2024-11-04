@@ -20,7 +20,7 @@ List<PieChartSectionData> showingSections({
     final isTouched = (i == touchedIndex);
     final fontSize = isTouched ? 25.0 : 16.0;
     final radius = isTouched ? 70.0 : 50.0;
-    const shadows = [Shadow(color: Colors.white, blurRadius: 2)];
+    const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
     switch (i) {
       case 0:
         return PieChartSectionData(

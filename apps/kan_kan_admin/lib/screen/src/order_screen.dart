@@ -97,6 +97,7 @@ class OrderScreen extends StatelessWidget {
                                   ).then((_) {
                                     orderCubit.getNewOrder();
                                     orderCubit.getNewUser();
+                                    orderCubit.sortEvent();
                                   });
                                 },
                                 color: WidgetStateProperty.all(AppColor.white),
