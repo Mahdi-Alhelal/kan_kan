@@ -151,7 +151,7 @@ List<PieChartSectionData> showingSections({
           color: const Color.fromARGB(255, 120, 4, 89),
           value: calPer(
             total: total,
-            value: calPer(value: canceledNum, total: total),
+            value: canceledNum,
           ),
           title: canceledNum != 0
               ? '${calPer(value: canceledNum, total: total).round()}%'
