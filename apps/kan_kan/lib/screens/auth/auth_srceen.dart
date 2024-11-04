@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan/cubit/auth_cubit/auth_cubit.dart';
+import 'package:kan_kan/screens/buttom_nav.dart';
 import 'package:kan_kan/screens/home/home_screen.dart';
+import 'package:kan_kan/widgets/alert.dart';
 import 'package:kan_kan/widgets/custom_pinout.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
+import 'dart:ui' as ui;
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key, required this.email, required this.type});
@@ -28,11 +31,17 @@ class AuthScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              CustomPinput(
-                onCompleted: (otp) async {
-                  await cubitAuth.verifyEmailOtp(
-                      email: email, otp: otp, type: type);
-                },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Directionality(
+                  textDirection: ui.TextDirection.ltr,
+                  child: CustomPinput(
+                    onCompleted: (otp) async {
+                      await cubitAuth.verifyEmailOtp(
+                          email: email, otp: otp, type: type);
+                    },
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -54,12 +63,17 @@ class AuthScreen extends StatelessWidget {
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => const ButtomNav(),
                         ),
                         (Route<dynamic> route) => false);
                   }
 
-                  if (state is ErrorAuthState) {}
+                  if (state is ErrorAuthState) {
+                    alert(
+                        context: context,
+                        msg: "❌ كود التحقق غير صحيح",
+                        isCompleted: false);
+                  }
                 },
                 child: const SizedBox(
                   height: 20,

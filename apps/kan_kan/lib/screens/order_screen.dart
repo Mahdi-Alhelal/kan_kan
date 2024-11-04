@@ -6,6 +6,7 @@ import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/model/order_model.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
+import 'dart:ui' as ui;
 
 class OrderScreen extends StatelessWidget {
   const OrderScreen(
@@ -56,7 +57,7 @@ class OrderScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  Text(" $orderDateToTime $orderDate ",
+                  Text("$orderDate ",
                       style: TextStyle(
                           fontSize: 18,
                           color: AppColor.black.withOpacity(40 / 100))),
@@ -89,8 +90,18 @@ class OrderScreen extends StatelessWidget {
                               )
                             ],
                           ),
-                          Image.asset(
-                              "assets/images/products-sample/tv-sample.png"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          dealDetails.dealUrl != ""
+                              ? Image.network(dealDetails.dealUrl)
+                              : Image.asset(
+                                  "assets/images/logo/kan_kan_logo.png",
+                                  width: 200,
+                                ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

@@ -11,7 +11,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-    final userLayer = GetIt.I.get<UserDataLayer>();
+  List<DealModel> deals = [];
+  int initDeal = -1;
+  final userLayer = GetIt.I.get<UserDataLayer>();
 
   HomeCubit() : super(HomeInitial()) {
     call();
@@ -21,19 +23,50 @@ class HomeCubit extends Cubit<HomeState> {
   call() async {
     await getAllDeals();
     await getAllDealsAndCategories();
+    await getAllCategories();
+    // await getAllActiveDeals();
   }
 
   getAllDeals() async {
     emit(LoadingHomeState());
 
     try {
-      emit(SuccessHomeState());
       dealLayer.deals = await DataRepository().getAllDeals();
+      deals = dealLayer.deals;
+      emit(SuccessHomeState());
 
       return dealLayer.deals;
     } catch (e) {
       print(e);
     }
+  }
+
+  filterDeals(int dealCategoryID) {
+    print(dealCategoryID);
+    if (dealCategoryID != -1) {
+      deals = dealLayer.deals
+          .where((deal) => deal.categoryId == dealCategoryID)
+          .toList();
+    } else {
+      deals = dealLayer.deals;
+    }
+    if (!isClosed) emit(UpdateCategoryHomeState());
+  }
+
+  getAllActiveDeals() async {
+    dealLayer.deals = await DataRepository().getAllDeals();
+
+    emit(LoadingHomeState());
+    dealLayer.deals = dealLayer.getActiveDeals();
+    emit(SuccessHomeState());
+  }
+
+  getAllPreviosDeals() async {
+    dealLayer.deals = await DataRepository().getAllDeals();
+
+    emit(LoadingHomeState());
+    dealLayer.deals = dealLayer.getPreviosDeals();
+    emit(SuccessHomeState());
   }
 
   getAllDealsAndCategories() async {
@@ -52,14 +85,34 @@ class HomeCubit extends Cubit<HomeState> {
               callback: (payload) async {
                 dealLayer.deals =
                     await DataRepository().getAllDealsAndCategoriess();
+                deals = dealLayer.deals;
                 emit(SuccessHomeState());
               })
           .subscribe();
-      print(dealLayer.deals.first.dealTitle);
       return dealLayer.deals;
     } catch (e) {
       print(e);
       return null;
     }
+  }
+
+  getAllCategories() async {
+    emit(LoadingHomeState());
+    await Future.delayed(Duration.zero);
+    try {
+      dealLayer.categories = await DataRepository().getAllCategories();
+      dealLayer.filterCategories =
+          List.from(await DataRepository().getAllCategories());
+      dealLayer.filterCategories
+          .add({"category_id": -1, "category_name": "جميع الأقسام"});
+      dealLayer.filterCategories = dealLayer.filterCategories.reversed.toList();
+      emit(SuccessHomeState());
+    } catch (e) {
+      throw ("خطأ في تحميل الاقسام");
+    }
+  }
+
+  updateChipCategory() {
+    emit(UpdateCategoryHomeState());
   }
 }

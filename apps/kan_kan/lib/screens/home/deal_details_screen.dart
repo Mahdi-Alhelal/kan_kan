@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan/cubit/deal_deatails_cubit/deal_details_cubit.dart';
+import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/deal_model.dart';
+import 'package:kan_kan/screens/auth/login_screen.dart';
 import 'package:kan_kan/screens/pre_payment_screen.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
@@ -32,8 +35,7 @@ class DealDetailsScreen extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: AppColor.bg,
-            leading: const Icon(Icons.arrow_back),
-            title: const Text("تفاصيل الصفقة"),
+            title: Center(child: const Text("تفاصيل الصفقة")),
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -107,7 +109,7 @@ class DealDetailsScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -127,9 +129,9 @@ class DealDetailsScreen extends StatelessWidget {
                 Container(
                   width: context.getWidth(),
                   height: 35,
-                  alignment: Alignment.center,
+                  alignment: Alignment.centerRight,
                   child: TabBar(
-                      indicatorPadding: EdgeInsets.only(left: -20, right: -20),
+                      indicatorPadding: EdgeInsets.only(left: -40, right: -40),
                       //tabAlignment: TabAlignment.fill,
 
                       labelColor: AppColor.white,
@@ -148,7 +150,7 @@ class DealDetailsScreen extends StatelessWidget {
                       ]),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: SizedBox(
                     width: context.getWidth(),
                     height: 150,
@@ -164,6 +166,9 @@ class DealDetailsScreen extends StatelessWidget {
                                   const Icon(
                                     Icons.calendar_month,
                                     color: AppColor.primary,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
                                   ),
                                   const Text(
                                     "البداية : ",
@@ -185,6 +190,9 @@ class DealDetailsScreen extends StatelessWidget {
                                     Icons.calendar_month,
                                     color: AppColor.primary,
                                   ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   const Text(
                                     "النهاية : ",
                                     style: TextStyle(color: AppColor.primary),
@@ -204,6 +212,9 @@ class DealDetailsScreen extends StatelessWidget {
                                 Icons.local_shipping,
                                 color: AppColor.primary,
                               ),
+                              SizedBox(
+                                width: 5,
+                              ),
                               const Text("التوصيل :"),
                               Text(
                                   "${dealData.estimateDeliveryDateFrom} - ${dealData.estimateDeliveryTimeTo} "),
@@ -216,6 +227,9 @@ class DealDetailsScreen extends StatelessWidget {
                                     const Icon(
                                       Icons.handshake,
                                       color: AppColor.primary,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
                                     ),
                                     const Text("يتشارك عدد"),
                                     Text(" ${dealData.numberOfOrder} "),
@@ -236,18 +250,12 @@ class DealDetailsScreen extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              const Text("وصف المنتج : "),
-                              SizedBox(
-                                width: 300,
-                                child: Text(
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 5,
-                                    softWrap: false,
-                                    dealData.product.productDescription),
-                              )
-                            ],
+                          Flexible(
+                            child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 5,
+                                softWrap: false,
+                                dealData.product.productDescription),
                           ),
                           const SizedBox(
                             height: 10,
@@ -315,55 +323,75 @@ class DealDetailsScreen extends StatelessWidget {
                   child: Builder(builder: (context) {
                     final dealDCubit = context.read<DealDetailsCubit>();
                     return dealData.dealStatus == "active"
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                width: context.getWidth(value: 0.3),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        print("++++++${dealDCubit.index}");
+                        ? GetIt.I.get<UserDataLayer>().email != ""
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                    width: context.getWidth(value: 0.3),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            print("++++++${dealDCubit.index}");
 
-                                        dealDCubit.increseEvent(
-                                            maxOrderPerUser:
-                                                dealData.maxOrdersPerUser);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: AppColor.secondary),
-                                        child: const Icon(Icons.add),
-                                      ),
+                                            dealDCubit.increseEvent(
+                                                maxOrderPerUser:
+                                                    dealData.maxOrdersPerUser);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: AppColor.secondary),
+                                            child: const Icon(Icons.add),
+                                          ),
+                                        ),
+                                        BlocBuilder<DealDetailsCubit,
+                                            DealDetailsState>(
+                                          builder: (context, state) {
+                                            return Text(
+                                                dealDCubit.index.toString());
+                                          },
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            print("------${dealDCubit.index}");
+                                            dealDCubit.decreseEvent();
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: AppColor.secondary),
+                                            child: const Icon(Icons.remove),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    BlocBuilder<DealDetailsCubit,
-                                        DealDetailsState>(
-                                      builder: (context, state) {
-                                        return Text(
-                                            dealDCubit.index.toString());
-                                      },
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        print("------${dealDCubit.index}");
-                                        dealDCubit.decreseEvent();
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: AppColor.secondary),
-                                        child: const Icon(Icons.remove),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
+                                  ),
+                                  SizedBox(
+                                    width: context.getWidth(value: 0.6),
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PrePaymentScreen(
+                                                      dealData: dealData,
+                                                      items: dealDCubit.index,
+                                                    )),
+                                          );
+                                        },
+                                        child: const Text("إنضمام إلى الصفقة")),
+                                  )
+                                ],
+                              )
+                            : SizedBox(
                                 width: context.getWidth(value: 0.6),
                                 child: ElevatedButton(
                                     onPressed: () {
@@ -371,16 +399,12 @@ class DealDetailsScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                PrePaymentScreen(
-                                                  dealData: dealData,
-                                                  items: dealDCubit.index,
-                                                )),
+                                                LoginScreen()),
                                       );
                                     },
-                                    child: const Text("إنضمام إلى الصفقة")),
+                                    child: const Text(
+                                        "سجل الآن وانضم إلى الصفقة")),
                               )
-                            ],
-                          )
                         : const SizedBox();
                   }),
                 )

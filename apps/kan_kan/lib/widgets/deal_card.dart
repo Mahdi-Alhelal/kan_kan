@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan/model/deal_model.dart';
+import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 
 class DealCard extends StatelessWidget {
@@ -49,7 +50,18 @@ class DealCard extends StatelessWidget {
         children: [
           Center(
               child:
-                  Image.asset("assets/images/products-sample/tv-sample.png")),
+                  // Image.asset("assets/images/products-sample/tv-sample.png")),
+
+                  dealData.dealUrl != ""
+                      ? Image.network(
+                          dealData.dealUrl,
+                          width: context.getWidth(value: 0.4),
+                          height: context.getHeight(value: 0.2),
+                        )
+                      : Image.asset(
+                          "assets/images/logo/kan_kan_logo.png",
+                          width: 300,
+                        )),
           const SizedBox(
             height: 20,
           ),
