@@ -49,6 +49,8 @@ mixin AuthRepository {
         final user = response.user;
         print(user?.email);
         if (user != null) {
+                  userDetails.userId = user.id;
+
           await KanSupabase.supabase.client
               .from('users')
               .insert(userDetails.toJson());

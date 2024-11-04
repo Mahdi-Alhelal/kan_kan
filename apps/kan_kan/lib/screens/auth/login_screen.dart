@@ -65,7 +65,11 @@ class LoginScreen extends StatelessWidget {
                     if (state is SuccessAuthState) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AuthScreen(email: cubitAuth.emailController.text.trim(),type: 0,)),
+                        MaterialPageRoute(
+                            builder: (context) => AuthScreen(
+                                  email: cubitAuth.emailController.text.trim(),
+                                  type: 0,
+                                )),
                       );
                     }
                     if (state is ErrorAuthState) {
@@ -112,7 +116,7 @@ class LoginScreen extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    '',
+                    'لا تملك حساب',
                     style: TextStyle(
                       color:
                           AppColor.secondary, // Light brown color for the text

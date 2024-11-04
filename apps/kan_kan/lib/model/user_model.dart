@@ -8,7 +8,7 @@ class UserModel {
     required this.userStatus,
     required this.role,
   });
-  late final String userId;
+  late  String userId;
   late final String fullName;
   late final String email;
   late final String phone;
@@ -27,6 +27,7 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+    data["user_id"] = userId;
     data['full_name'] = fullName;
     data['email'] = email;
     data['phone'] = phone;
