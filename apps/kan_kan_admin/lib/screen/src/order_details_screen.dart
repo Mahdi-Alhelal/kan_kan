@@ -8,6 +8,7 @@ import 'package:kan_kan_admin/model/user_model.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ui/ui.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   const OrderDetailsScreen(
@@ -35,7 +36,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
       child: Builder(builder: (context) {
         final cubit = context.read<OrderDetailsCubit>();
         return Scaffold(
-          appBar: AppBar(),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
@@ -76,6 +76,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                   child: TabBar(
                                       labelColor: AppColor.white,
                                       dividerColor: AppColor.bg,
+                                      indicatorPadding: const EdgeInsets.only(
+                                          left: -40, right: -40),
                                       indicator: BoxDecoration(
                                           color: AppColor.secondary,
                                           borderRadius:
@@ -385,9 +387,24 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                         ),
                         SizedBox(
                           width: context.getWidth(value: 0.48),
-                          child: widget.dealDetails.dealUrl != ""
-                              ? CachedNetworkImage(
-                                  imageUrl: widget.dealDetails.dealUrl)
+                          child: widget.dealDetails.product.images != [] &&
+                                  widget.dealDetails.product.images.isNotEmpty
+                              ? CarouselSlider(
+                                  items: widget.dealDetails.product.images
+                                      .map(
+                                        (image) => Builder(
+                                          builder: (BuildContext context) {
+                                            return CachedNetworkImage(
+                                                imageUrl: image.imageUrl);
+                                          },
+                                        ),
+                                      )
+                                      .toList(),
+                                  options: CarouselOptions(
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 0.7,
+                                  ),
+                                )
                               : Image.asset(
                                   "assets/images/logo/kan_kan_logo.png"),
                         ),
@@ -565,9 +582,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                             onPressed: () async {
                               await cubit.updateUserOrderStatus(
                                   id: widget.orderDetails.orderId);
-                                  if(context.mounted) {
-                                    Navigator.pop(context);
-                                  }
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
                             },
                             child: const Text("إلغاء الطلب"),
                           ),

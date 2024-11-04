@@ -118,7 +118,6 @@ class OrderScreen extends StatelessWidget {
                                           .filteredOrder[index].orderDate))),
                                   DataCell(
                                     CustomChips(
-                                      //Todo: link with paymentStatus
                                       statusColor: orderCubit.ordersData
                                           .orders[index].paymentStatus,
                                       status: orderCubit.ordersData
