@@ -1,10 +1,15 @@
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:kan_kan/data/data_repository.dart';
+import 'package:kan_kan/layer/deal_data_layer.dart';
 import 'package:meta/meta.dart';
 
 part 'deal_details_state.dart';
 
 class DealDetailsCubit extends Cubit<DealDetailsState> {
   int index = 1;
+  final dealLayer = GetIt.I.get<DealDataLayer>();
+
   DealDetailsCubit() : super(DealDetailsInitial());
 
   increseEvent({required int maxOrderPerUser}) {
@@ -18,6 +23,15 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       emit(SuccessIncreaseState());
     } else {
       emit(ErrorState());
+    }
+  }
+
+  Future<int> checkQuantity({required int dealID}) async {
+    try {
+      int res = await DataRepository().getOneDealQuantity(dealID: dealID);
+      return res;
+    } catch (e) {
+      throw (" $e خطأ");
     }
   }
 }

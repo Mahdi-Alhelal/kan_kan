@@ -38,6 +38,7 @@ class DealModel {
   late String dealUrl;
   late ProductModel product;
   late int numberOfOrder;
+  
 
   DealModel.fromJson(Map<String, dynamic> json) {
     dealId = json['deal_id'] ?? 0;

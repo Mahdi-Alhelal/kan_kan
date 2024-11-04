@@ -89,7 +89,7 @@ class HomeCubit extends Cubit<HomeState> {
                 emit(SuccessHomeState());
               })
           .subscribe();
-      return dealLayer.deals;
+      return deals;
     } catch (e) {
       print(e);
       return null;
