@@ -19,13 +19,9 @@ mixin DealRepository {
           .neq("deal_status", "pending")
           .gte("end_date",
               DateConverter.supabaseDateFormate(DateTime.now().toString()))
-          .order("deal_status");
+          .order("deal_status", ascending: true);
       print(data[1]);
-      return data
-          .map((element) => DealModel.fromJson(element))
-          .toList()
-          .reversed
-          .toList();
+      return data.map((element) => DealModel.fromJson(element)).toList();
       // } on PostgrestException {
       //   throw Exception('Error in get deal data');
     } catch (e) {
