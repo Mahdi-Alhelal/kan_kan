@@ -244,15 +244,25 @@ class AddDealForm extends StatelessWidget {
                             : null,
                   ),
                 ),
-                Expanded(
-                  child: CustomTextFieldForm(
-                    title: "الإجمالي",
-                    controller: totalController,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    readOnly: true,
-                  ),
-                ),
+                Row(
+                  children: [
+                    const Text("الإجمالي"),
+                    SizedBox(
+                      width: context.getWidth(value: .21),
+                      child: CustomTextFieldForm(
+                        title: "",
+                        controller: totalController,
+                        total: true,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        readOnly: true,
+                      ),
+                    ),
+                    const Text("ريال"),
+                  ],
+                )
               ],
             ),
             const SizedBox(
