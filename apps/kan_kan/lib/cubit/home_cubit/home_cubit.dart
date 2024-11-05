@@ -15,16 +15,13 @@ class HomeCubit extends Cubit<HomeState> {
   int initDeal = -1;
   final userLayer = GetIt.I.get<UserDataLayer>();
 
-  HomeCubit() : super(HomeInitial()) {
-    call();
-  }
+  HomeCubit() : super(HomeInitial());
   final dealLayer = GetIt.I.get<DealDataLayer>();
 
   call() async {
     await getAllDeals();
     await getAllDealsAndCategories();
     await getAllCategories();
-    // await getAllActiveDeals();
   }
 
   getAllDeals() async {
@@ -54,17 +51,16 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   getAllActiveDeals() async {
-    dealLayer.deals = await DataRepository().getAllDeals();
-
     emit(LoadingHomeState());
+
     dealLayer.deals = dealLayer.getActiveDeals();
     emit(SuccessHomeState());
   }
 
   getAllPreviosDeals() async {
+    emit(LoadingHomeState());
     dealLayer.deals = await DataRepository().getAllDeals();
 
-    emit(LoadingHomeState());
     dealLayer.deals = dealLayer.getPreviosDeals();
     emit(SuccessHomeState());
   }
