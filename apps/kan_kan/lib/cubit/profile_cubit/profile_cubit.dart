@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan/data/data_repository.dart';
+import 'package:kan_kan/data/repository/deal_repository.dart';
 import 'package:kan_kan/layer/deal_data_layer.dart';
 import 'package:kan_kan/layer/order_data_layer.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
@@ -19,6 +20,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   call() async {
     await getAllUserOrders();
   }
+
+  
 
   final userLayer = GetIt.I.get<UserDataLayer>();
   final userOrders = GetIt.I.get<OrderDataLayer>();

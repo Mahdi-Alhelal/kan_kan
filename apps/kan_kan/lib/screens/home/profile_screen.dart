@@ -292,10 +292,11 @@ class ProfileScreen extends StatelessWidget {
                                                         .listOrdersNow[index],
                                                     dealDetails: cubitProfile
                                                         .userDeals
-                                                        .findDeal(cubitProfile
-                                                            .listOrdersNow[
-                                                                index]
-                                                            .dealId),
+                                                        .findOldDeal(
+                                                            cubitProfile
+                                                                .listOrdersNow[
+                                                                    index]
+                                                                .dealId),
                                                   )),
                                         );
                                         if (x) {
@@ -306,7 +307,7 @@ class ProfileScreen extends StatelessWidget {
                                         }
                                       },
                                       dealDetails: cubitProfile.userDeals
-                                          .findDeal(cubitProfile
+                                          .findOldDeal(cubitProfile
                                               .listOrdersNow[index].dealId),
                                       orderDetails:
                                           cubitProfile.listOrdersNow[index],
@@ -347,7 +348,7 @@ class ProfileScreen extends StatelessWidget {
                                                         index],
                                                     dealDetails: cubitProfile
                                                         .userDeals
-                                                        .findDeal(cubitProfile
+                                                        .findOldDeal(cubitProfile
                                                             .listPreviosOrders[
                                                                 index]
                                                             .dealId),
@@ -355,7 +356,7 @@ class ProfileScreen extends StatelessWidget {
                                         );
                                       },
                                       dealDetails: cubitProfile.userDeals
-                                          .findDeal(cubitProfile
+                                          .findOldDeal(cubitProfile
                                               .listPreviosOrders[index].dealId),
                                       orderDetails:
                                           cubitProfile.listPreviosOrders[index],

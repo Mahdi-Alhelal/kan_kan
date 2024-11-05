@@ -6,6 +6,7 @@ class DealDataLayer {
   List<DealModel> previosDeals = [];
   List<Map<String, dynamic>> categories = [];
   List<Map<String, dynamic>> filterCategories = [];
+  List<DealModel> allDeals = [];
 
   DealModel getProductDeal({required int id}) {
     return deals.firstWhere((element) => element.product.productId == id);
@@ -13,6 +14,11 @@ class DealDataLayer {
 
   DealModel findDeal(int id) {
     return deals.firstWhere((deal) => deal.dealId == id);
+  }
+
+  DealModel findOldDeal(int id) {
+    return allDeals.firstWhere((deal) => deal.dealId == id);
+    ;
   }
 
   getActiveDeals() {

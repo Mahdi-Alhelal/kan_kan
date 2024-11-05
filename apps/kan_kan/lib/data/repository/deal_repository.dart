@@ -17,6 +17,26 @@ mixin DealRepository {
           .neq("deal_status", "private")
           .neq("deal_status", "closed")
           .neq("deal_status", "pending")
+          .order("deal_status", ascending: true);
+      print(data[1]);
+      return data.map((element) => DealModel.fromJson(element)).toList();
+      // } on PostgrestException {
+      //   throw Exception('Error in get deal data');
+    } catch (e) {
+      throw Exception('$e');
+    }
+  }
+
+  Future<List<DealModel>> getDeals() async {
+    log("getAllDeals");
+    try {
+      final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
+          .from('deals')
+          .select(
+              "*,categories(category_name) ,products(*,product_images(image_url))")
+          .neq("deal_status", "private")
+          .neq("deal_status", "closed")
+          .neq("deal_status", "pending")
           .gte("end_date",
               DateConverter.supabaseDateFormate(DateTime.now().toString()))
           .order("deal_status", ascending: true);
