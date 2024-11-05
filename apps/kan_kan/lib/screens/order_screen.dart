@@ -4,6 +4,7 @@ import 'package:helper/helper.dart';
 import 'package:kan_kan/cubit/order_cubit/order_cubit.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/model/order_model.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 import 'dart:ui' as ui;
@@ -39,6 +40,8 @@ class OrderScreen extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
+                  Lottie.asset('assets/animation/order.json',
+                      width: context.getWidth(value: 0.5)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

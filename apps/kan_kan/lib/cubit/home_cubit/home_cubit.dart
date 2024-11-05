@@ -52,7 +52,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   getAllActiveDeals() async {
     emit(LoadingHomeState());
-    dealLayer.deals = await DataRepository().getAllDeals();
+    // dealLayer.deals = await DataRepository().getAllDeals();
 
     deals = dealLayer.getActiveDeals();
     emit(SuccessHomeState());
@@ -60,7 +60,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   getAllPreviosDeals() async {
     emit(LoadingHomeState());
-    dealLayer.deals = await DataRepository().getAllDeals();
+    // dealLayer.deals = await DataRepository().getAllDeals();
 
     deals = dealLayer.getPreviosDeals();
     emit(SuccessHomeState());

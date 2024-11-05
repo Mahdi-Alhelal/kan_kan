@@ -52,7 +52,6 @@ class PrePaymentScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Lottie.asset('assets/animation/order.json'),
               const Text(
                 "باقي خطوة واحدة ⏳",
                 style: TextStyle(fontSize: 20),
@@ -86,7 +85,10 @@ class PrePaymentScreen extends StatelessWidget {
                         ],
                       ),
                       dealData.dealUrl != ""
-                          ? Image.network(dealData.dealUrl)
+                          ? Image.network(
+                              dealData.dealUrl,
+                              height: context.getWidth(value: 0.5),
+                            )
                           : Image.asset(
                               "assets/images/logo/kan_kan_logo.png",
                               width: 200,
@@ -263,17 +265,18 @@ class PrePaymentScreen extends StatelessWidget {
                                                                     .totalPrice *
                                                                 items),
                                                         quantity: items);
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
                                                       builder: (context) =>
                                                           SucessPaymentScreen(
-                                                            orderDetails:
-                                                                orderdetails,
-                                                            dealDetails:
-                                                                dealData,
-                                                          )),
-                                                );
+                                                        orderDetails:
+                                                            orderdetails,
+                                                        dealDetails: dealData,
+                                                      ),
+                                                    ),
+                                                    (Route<dynamic> route) =>
+                                                        false);
                                                 break;
                                               case PaymentStatus.failed:
                                                 // handle failure.

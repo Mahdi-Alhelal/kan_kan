@@ -5,10 +5,12 @@ import 'package:helper/helper.dart';
 import 'package:kan_kan/cubit/profile_cubit/profile_cubit.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/order_model.dart';
+import 'package:kan_kan/screens/auth/login_screen.dart';
 import 'package:kan_kan/screens/home/deal_details_screen.dart';
 import 'package:kan_kan/widgets/alert.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:kan_kan/widgets/order_card.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:ui/ui.dart';
@@ -333,8 +335,17 @@ class ProfileScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Lottie.asset(
+                          'assets/animation/profile.json',
+                        ),
                         ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
+                              );
+                            },
                             child: const Text("يرجى تسجيل الدخول")),
                       ],
                     ),
