@@ -4,6 +4,7 @@ import 'package:helper/helper.dart';
 import 'package:kan_kan/cubit/order_cubit/order_cubit.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/model/order_model.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 import 'dart:ui' as ui;
@@ -39,6 +40,8 @@ class OrderScreen extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
+                  Lottie.asset('assets/animation/order.json',
+                      width: context.getWidth(value: 0.5)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -227,7 +230,33 @@ class OrderScreen extends StatelessWidget {
                               }));
                             }
                             return const SizedBox();
-                          }))
+                          })),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  orderDetails.orderStatus == "pending"
+                      ? SizedBox(
+                          width: context.getWidth(value: 0.85),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              onPressed: () async {
+                                print("----------here");
+                                await cubitOrder.cancelOrder(
+                                    order: orderDetails);
+                                if (context.mounted) {
+                                  orderDetails.orderStatus = "canceled";
+                                  Navigator.pop(context, true);
+                                }
+                                print("----------Done");
+                              },
+                              child: Text("إلغاء الطلب")),
+                        )
+                      : SizedBox()
                 ],
               ),
             ),

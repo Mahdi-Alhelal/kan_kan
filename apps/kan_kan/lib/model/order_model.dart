@@ -14,7 +14,7 @@ class OrderModel {
   late final int dealId;
   late final String userId;
   late final String orderDate;
-  late final String orderStatus;
+  late String orderStatus;
   late String? trackingNumber;
   late String? trackingCompany;
   late final int quantity;

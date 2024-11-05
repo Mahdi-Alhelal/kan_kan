@@ -28,12 +28,26 @@ class PaymentCubit extends Cubit<PaymentState> {
           amount: amount);
       print(response.toString());
       final responseOrder = await DataRepository().addNewOrder(
-          userID: userID, dealID: dealID, address: address, amount: amount,quantity :quantity,allQuantity: allQuantity);
+          userID: userID,
+          dealID: dealID,
+          address: address,
+          amount: amount,
+          quantity: quantity,
+          allQuantity: allQuantity);
       emit(SuccessPaymentState());
 
       return responseOrder;
     } catch (e) {
-      print(e);
+      throw ("error $e");
+    }
+  }
+
+  Future<int> checkQuantity({required int dealID}) async {
+    try {
+      int res = await DataRepository().getOneDealQuantity(dealID: dealID);
+      return res;
+    } catch (e) {
+      throw (" $e خطأ");
     }
   }
 }

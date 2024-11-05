@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan/data/data_repository.dart';
+import 'package:kan_kan/data/repository/deal_repository.dart';
 import 'package:kan_kan/layer/deal_data_layer.dart';
 import 'package:kan_kan/layer/order_data_layer.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
@@ -85,14 +86,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future getDeal({required int dealId}) async {
-    try {
-      userDeals.userDealList
-          .add(await DataRepository().getOneDeal(dealID: dealId));
-    } catch (e) {
-      print("here");
-
-      print(e);
-    }
+  cancelOrderByUser({required int index}) {
+    listPreviosOrders.add(listOrdersNow[index]);
+    userLayer.user.balance += listOrdersNow[index].amount;
+    listOrdersNow.removeAt(index);
+    if (!isClosed) emit(SuccessProfileState());
   }
 }

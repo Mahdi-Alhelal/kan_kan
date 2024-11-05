@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:kan_kan/cubit/address_cubit/address_cubit.dart';
 import 'package:kan_kan/cubit/payment_cubit/payment_cubit.dart';
+import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/order_screen.dart';
 import 'package:kan_kan/screens/sucess_payment_screen.dart.dart';
@@ -52,7 +54,6 @@ class PrePaymentScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Lottie.asset('assets/animation/order.json'),
               const Text(
                 "باقي خطوة واحدة ⏳",
                 style: TextStyle(fontSize: 20),
@@ -86,11 +87,14 @@ class PrePaymentScreen extends StatelessWidget {
                         ],
                       ),
                       dealData.dealUrl != ""
-                          ? Image.network(dealData.dealUrl)
-                          : Image.asset(
-                              "assets/images/logo/kan_kan_logo.png",
-                              width: 200,
-                            ),
+                          ? Image.network(
+                              dealData.dealUrl,
+                              width: context.getWidth(value: 0.5),
+                              height: context.getWidth(value: 0.4),
+                            )
+                          : Image.asset("assets/images/logo/kan_kan_logo.png",
+                              width: context.getWidth(value: 0.5),
+                              height: context.getWidth(value: 0.4)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -246,12 +250,21 @@ class PrePaymentScreen extends StatelessWidget {
                                           if (result is PaymentResponse) {
                                             switch (result.status) {
                                               case PaymentStatus.paid:
+                                                int pQnt = await paymentCubit
+                                                    .checkQuantity(
+                                                        dealID:
+                                                            dealData.dealId);
+                                                pQnt += items;
+
                                                 final orderdetails =
                                                     await paymentCubit.addPaymentEvent(
                                                         allQuantity: dealData
                                                             .numberOfOrder,
-                                                        userID:
-                                                            "83efec21-2fc7-416e-9825-a86a8af3a63a",
+                                                        userID: GetIt.I
+                                                            .get<
+                                                                UserDataLayer>()
+                                                            .user
+                                                            .userId,
                                                         paymentMethod: "MADA",
                                                         paymentStatus: "paid",
                                                         dealID: dealData.dealId,
@@ -263,17 +276,18 @@ class PrePaymentScreen extends StatelessWidget {
                                                                     .totalPrice *
                                                                 items),
                                                         quantity: items);
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
                                                       builder: (context) =>
                                                           SucessPaymentScreen(
-                                                            orderDetails:
-                                                                orderdetails,
-                                                            dealDetails:
-                                                                dealData,
-                                                          )),
-                                                );
+                                                        orderDetails:
+                                                            orderdetails,
+                                                        dealDetails: dealData,
+                                                      ),
+                                                    ),
+                                                    (Route<dynamic> route) =>
+                                                        false);
                                                 break;
                                               case PaymentStatus.failed:
                                                 // handle failure.

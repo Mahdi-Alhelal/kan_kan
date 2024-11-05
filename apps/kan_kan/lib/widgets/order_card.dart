@@ -8,9 +8,13 @@ import 'package:ui/component/helper/screen.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard(
-      {super.key, required this.orderDetails, required this.dealDetails});
+      {super.key,
+      required this.orderDetails,
+      required this.dealDetails,
+      this.onPressed});
   final OrderModel orderDetails;
   final DealModel dealDetails;
+  final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     String strStatus = orderDetails.orderStatus;
@@ -63,12 +67,15 @@ class OrderCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: context.getWidth(value: 0.2),
-                    child: Image.asset(
-                      "assets/images/products-sample/tv-sample.png",
-                      width: 150,
-                    ),
-                  ),
+                      child: dealDetails.dealUrl != ""
+                          ? Image.network(
+                              dealDetails.dealUrl,
+                              width: context.getWidth(value: 0.15),
+                            )
+                          : Image.asset(
+                              "assets/images/logo/kan_kan_logo.png",
+                              width: context.getWidth(value: 0.15),
+                            )),
                 ],
               ),
             ),
@@ -105,17 +112,7 @@ class OrderCard extends StatelessWidget {
             SizedBox(
                 width: context.getWidth(value: 0.4),
                 child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OrderScreen(
-                                  orderDetails: orderDetails,
-                                  dealDetails: dealDetails,
-                                )),
-                      );
-                    },
-                    child: const Text("تفاصيل الطلب"))),
+                    onPressed: onPressed, child: const Text("تفاصيل الطلب"))),
             const SizedBox(
               width: 10,
             )

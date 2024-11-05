@@ -42,19 +42,25 @@ class DealDetailsScreen extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  child: CarouselSlider(
-                    items: dealData.product.imgList
-                        .map((element) => Image.network(element))
-                        .toList(),
-                    options: CarouselOptions(
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                        viewportFraction: 1,
-                        height: context.getWidth(value: 0.5),
-                        enableInfiniteScroll: false),
-                  ),
-                ),
+                dealData.product.imgList.isNotEmpty
+                    ? SizedBox(
+                        child: CarouselSlider(
+                          items: dealData.product.imgList
+                              .map((element) => Image.network(element))
+                              .toList(),
+                          options: CarouselOptions(
+                              autoPlay: true,
+                              enlargeCenterPage: true,
+                              viewportFraction: 1,
+                              height: context.getWidth(value: 0.5),
+                              enableInfiniteScroll: false),
+                        ),
+                      )
+                    : Image.asset(
+                        "assets/images/logo/kan_kan_logo.png",
+                        width: context.getWidth(value: 0.5),
+                        height: context.getHeight(value: 0.3),
+                      ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -63,16 +69,20 @@ class DealDetailsScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       dealData.dealStatus != "active"
-                          ? Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: getEnumColor(dealStatus),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                localizedDealStatus,
-                                style: const TextStyle(color: AppColor.white),
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: getEnumColor(dealStatus),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  localizedDealStatus,
+                                  style: const TextStyle(color: AppColor.white),
+                                ),
                               ),
                             )
                           : Padding(
@@ -250,6 +260,9 @@ class DealDetailsScreen extends StatelessWidget {
                                     Icons.align_vertical_center,
                                     color: AppColor.primary,
                                   ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   const Text("الطول : "),
                                   Text("${dealData.product.length} سم")
                                 ],
@@ -259,6 +272,9 @@ class DealDetailsScreen extends StatelessWidget {
                                   const Icon(
                                     Icons.align_horizontal_center,
                                     color: AppColor.primary,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
                                   ),
                                   const Text("العرض : "),
                                   Text("${dealData.product.width} سم")
@@ -278,6 +294,9 @@ class DealDetailsScreen extends StatelessWidget {
                                     Icons.height,
                                     color: AppColor.primary,
                                   ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   const Text("الإرتفاع : "),
                                   Text("${dealData.product.height} سم")
                                 ],
@@ -287,6 +306,9 @@ class DealDetailsScreen extends StatelessWidget {
                                   const Icon(
                                     Icons.line_weight,
                                     color: AppColor.primary,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
                                   ),
                                   const Text("  الوزن : "),
                                   Text("${dealData.product.wight} سم")
@@ -358,11 +380,11 @@ class DealDetailsScreen extends StatelessWidget {
                                     width: context.getWidth(value: 0.6),
                                     child: ElevatedButton(
                                         onPressed: () async {
-                                          int p_qnt =
+                                          int pQnt =
                                               await dealDCubit.checkQuantity(
                                                   dealID: dealData.dealId);
-                                          p_qnt += dealDCubit.index;
-                                          if (p_qnt > dealData.quantity) {
+                                          pQnt += dealDCubit.index;
+                                          if (pQnt > dealData.quantity) {
                                             alert(
                                                 context: context,
                                                 msg: "عذراً!يرجى تغيير الكمية",

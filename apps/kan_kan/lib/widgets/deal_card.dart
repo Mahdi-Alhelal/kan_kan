@@ -50,7 +50,6 @@ class DealCard extends StatelessWidget {
         children: [
           Center(
               child:
-                  // Image.asset("assets/images/products-sample/tv-sample.png")),
 
                   dealData.dealUrl != ""
                       ? Image.network(
