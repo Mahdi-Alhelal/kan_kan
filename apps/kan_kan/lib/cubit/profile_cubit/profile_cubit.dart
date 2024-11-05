@@ -83,6 +83,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     listPreviosOrders.add(listOrdersNow[index]);
     userLayer.user.balance += listOrdersNow[index].amount;
     listOrdersNow.removeAt(index);
-    emit(SuccessProfileState());
+    if (!isClosed) emit(SuccessProfileState());
   }
 }
