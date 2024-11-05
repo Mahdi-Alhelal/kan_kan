@@ -9,6 +9,7 @@ import 'package:kan_kan/widgets/custom_choice_chip.dart';
 import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
+import 'package:lottie/lottie.dart';
 
 class PrePaymentScreen extends StatelessWidget {
   const PrePaymentScreen(
@@ -51,6 +52,7 @@ class PrePaymentScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
+              Lottie.asset('assets/animation/order.json'),
               const Text(
                 "باقي خطوة واحدة ⏳",
                 style: TextStyle(fontSize: 20),

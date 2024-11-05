@@ -7,6 +7,7 @@ import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
+import 'package:lottie/lottie.dart';
 
 class SucessPaymentScreen extends StatelessWidget {
   const SucessPaymentScreen(
@@ -44,6 +45,9 @@ class SucessPaymentScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
+                    //apps\kan_kan\assets\animation\success_order.json
+                    Lottie.asset('assets/animation/success_order.json'),
+
                     Stack(
                       alignment: Alignment.center,
                       children: [
@@ -190,9 +194,7 @@ class SucessPaymentScreen extends StatelessWidget {
                 width: context.getWidth(value: 0.75),
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                   child: const Text("الإطلاع على صفقات آخرى"),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
