@@ -237,12 +237,17 @@ class ProfileScreen extends StatelessWidget {
                                             topRight: Radius.circular(8),
                                             bottomRight: Radius.circular(8)),
                                       ),
-                                      child: Text(
-                                        "${cubitProfile.userLayer.user.balance} ريال",
-                                        style: const TextStyle(
-                                          color: AppColor.white,
-                                          fontSize: 20,
-                                        ),
+                                      child: BlocBuilder<ProfileCubit,
+                                          ProfileState>(
+                                        builder: (context, state) {
+                                          return Text(
+                                            "${cubitProfile.userLayer.user.balance} ريال",
+                                            style: const TextStyle(
+                                              color: AppColor.white,
+                                              fontSize: 20,
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ],

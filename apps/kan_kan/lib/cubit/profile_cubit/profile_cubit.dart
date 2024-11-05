@@ -21,8 +21,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     await getAllUserOrders();
   }
 
-  
-
   final userLayer = GetIt.I.get<UserDataLayer>();
   final userOrders = GetIt.I.get<OrderDataLayer>();
   final userDeals = GetIt.I.get<DealDataLayer>();
@@ -83,8 +81,8 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   cancelOrderByUser({required int index}) {
     listPreviosOrders.add(listOrdersNow[index]);
+    userLayer.user.balance += listOrdersNow[index].amount;
     listOrdersNow.removeAt(index);
-
     emit(SuccessProfileState());
   }
 }
