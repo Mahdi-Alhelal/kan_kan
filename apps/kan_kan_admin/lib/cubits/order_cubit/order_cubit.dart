@@ -133,12 +133,15 @@ class OrderCubit extends Cubit<OrderState> {
 
         if (tmpUserOrderStatus == "canceled" &&
             filteredOrder[index].orderStatus != "canceled") {
-          print("here");
           int dealIndex = userOrderDeal.deals.indexWhere(
               (deal) => ordersData.orders[globalIndex].dealId == deal.dealId);
           userOrderDeal.deals[dealIndex].numberOfOrder =
               userOrderDeal.deals[dealIndex].numberOfOrder -
                   filteredOrder[index].quantity;
+
+          userOrderDeal.deals[dealIndex].numberOfOrder > 0
+              ? userOrderDeal.deals[dealIndex].numberOfOrder
+              : userOrderDeal.deals[dealIndex].numberOfOrder = 0;
           await api.updateDealNumberOfOrder(
               dealId: userOrderDeal.deals[dealIndex].dealId,
               numberOfOrder:

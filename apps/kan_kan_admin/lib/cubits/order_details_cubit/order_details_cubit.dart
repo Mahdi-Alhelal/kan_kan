@@ -25,9 +25,13 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
         ordersData.orders[index].orderStatus = "canceled";
         int dealIndex = dealLayer.deals.indexWhere(
             (deal) => ordersData.orders[index].dealId == deal.dealId);
+
         dealLayer.deals[dealIndex].numberOfOrder =
             dealLayer.deals[dealIndex].numberOfOrder -
                 ordersData.orders[index].quantity;
+        dealLayer.deals[dealIndex].numberOfOrder > 0
+            ? dealLayer.deals[dealIndex].numberOfOrder
+            : dealLayer.deals[dealIndex].numberOfOrder = 0;
         await api.updateDealNumberOfOrder(
             dealId: ordersData.orders[index].dealId,
             numberOfOrder: dealLayer.deals[dealIndex].numberOfOrder.toInt());
