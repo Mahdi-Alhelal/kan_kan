@@ -24,8 +24,8 @@ class OrderCubit extends Cubit<OrderState> {
     emit(LoadingOrderState());
 
     try {
-      ordersData.orders = await DataRepository()
-          .getOneOrdersByUser(orderID: orderID);
+      ordersData.orders =
+          await DataRepository().getOneOrdersByUser(orderID: orderID);
 
       return ordersData.orders.first;
     } catch (e) {
@@ -42,6 +42,21 @@ class OrderCubit extends Cubit<OrderState> {
           .getAllTrackingForOneOrdersByUser(orderID: orderID);
     } catch (e) {
       return null;
+    }
+  }
+
+  cancelOrder(
+      {required int orderID,
+      required int dealID,
+      required int quantity}) async {
+    emit(LoadingOrderState());
+    try {
+      final res = await DataRepository()
+          .cancelOrder(id: orderID, dealID: dealID, quantity: quantity);
+      print(res);
+      emit(SuccesCanceledOrderState());
+    } catch (e) {
+      print(e);
     }
   }
 }

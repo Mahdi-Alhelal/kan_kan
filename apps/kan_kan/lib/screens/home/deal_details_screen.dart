@@ -69,16 +69,20 @@ class DealDetailsScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       dealData.dealStatus != "active"
-                          ? Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: getEnumColor(dealStatus),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                localizedDealStatus,
-                                style: const TextStyle(color: AppColor.white),
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: getEnumColor(dealStatus),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  localizedDealStatus,
+                                  style: const TextStyle(color: AppColor.white),
+                                ),
                               ),
                             )
                           : Padding(

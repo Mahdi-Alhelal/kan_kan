@@ -11,3 +11,4 @@ final class LoadingOrderState extends OrderState {}
 
 final class ErrorOrderState extends OrderState {}
 
+final class SuccesCanceledOrderState extends OrderState {}

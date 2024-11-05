@@ -230,7 +230,38 @@ class OrderScreen extends StatelessWidget {
                               }));
                             }
                             return const SizedBox();
-                          }))
+                          })),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  orderDetails.orderStatus == "pending"
+                      ? BlocBuilder<OrderCubit, OrderState>(
+                          builder: (context, state) {
+                            if (state is SuccesCanceledOrderState) {
+                              return SizedBox();
+                            }
+                            return SizedBox(
+                              width: context.getWidth(value: 0.85),
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    print("----------here");
+                                    await cubitOrder.cancelOrder(
+                                        orderID: orderID,
+                                        dealID: orderID,
+                                        quantity: orderDetails.quantity);
+                                    print("----------Done");
+                                  },
+                                  child: Text("إلغاء الطلب")),
+                            );
+                          },
+                        )
+                      : SizedBox()
                 ],
               ),
             ),

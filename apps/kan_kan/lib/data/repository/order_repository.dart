@@ -1,3 +1,4 @@
+import 'package:kan_kan/data/data_repository.dart';
 import 'package:kan_kan/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan/model/order_model.dart';
 
@@ -53,7 +54,7 @@ mixin OrderRepository {
   * */
 
   updateOrder({
-    required String id,
+    required int id,
     required String status,
   }) async {
     try {
@@ -65,6 +66,31 @@ mixin OrderRepository {
         await KanSupabase.supabase.client.from("orders").update({
           "order_status": status,
         }).eq("order_id", id);
+      }
+    } catch (e) {
+      throw Exception('Error in update order: $e');
+    }
+  }
+
+  cancelOrder(
+      {required int id, required int dealID, required int quantity}) async {
+    try {
+      final dataFound = await KanSupabase.supabase.client
+          .from("orders")
+          .select("*")
+          .match({"order_id": id}).select();
+      if (dataFound.isNotEmpty) {
+        await KanSupabase.supabase.client.from("orders").update({
+          "order_status": "canceled",
+        }).eq("order_id", id);
+        int allQnt = await DataRepository().getOneDealQuantity(dealID: dealID);
+        allQnt -= quantity;
+        await KanSupabase.supabase.client
+            .from("deals")
+            .update({"number_of_order": allQnt}).eq("deal_id", dealID);
+        await KanSupabase.supabase.client
+            .from("order_track")
+            .insert({"order_id": id, "status": "canceled"});
       }
     } catch (e) {
       throw Exception('Error in update order: $e');

@@ -87,12 +87,12 @@ class PrePaymentScreen extends StatelessWidget {
                       dealData.dealUrl != ""
                           ? Image.network(
                               dealData.dealUrl,
-                              height: context.getWidth(value: 0.5),
+                              width: context.getWidth(value: 0.5),
+                              height: context.getWidth(value: 0.4),
                             )
-                          : Image.asset(
-                              "assets/images/logo/kan_kan_logo.png",
-                              width: 200,
-                            ),
+                          : Image.asset("assets/images/logo/kan_kan_logo.png",
+                              width: context.getWidth(value: 0.5),
+                              height: context.getWidth(value: 0.4)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
