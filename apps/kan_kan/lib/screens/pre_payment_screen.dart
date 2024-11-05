@@ -250,6 +250,12 @@ class PrePaymentScreen extends StatelessWidget {
                                           if (result is PaymentResponse) {
                                             switch (result.status) {
                                               case PaymentStatus.paid:
+                                                int pQnt = await paymentCubit
+                                                    .checkQuantity(
+                                                        dealID:
+                                                            dealData.dealId);
+                                                pQnt += items;
+
                                                 final orderdetails =
                                                     await paymentCubit.addPaymentEvent(
                                                         allQuantity: dealData
