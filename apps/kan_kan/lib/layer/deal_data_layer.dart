@@ -15,7 +15,7 @@ class DealDataLayer {
   DealModel findDeal(int id) {
     print("id");
     print(id);
-    return userDealList.firstWhere((deal) => deal.dealId == id);
+    return deals.firstWhere((deal) => deal.dealId == id);
   }
 
   DealModel findOldDeal(int id) {

@@ -56,7 +56,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   getAllUserOrders() async {
     emit(LoadingProfileState());
     try {
-      List<Future> action = <Future>[];
+      // List<Future> action = <Future>[];
 
       userOrders.orders = await DataRepository()
           .getAllOrdersByUser(userID: userLayer.user.userId);
@@ -75,11 +75,11 @@ class ProfileCubit extends Cubit<ProfileState> {
                 element.orderStatus == "canceled",
           )
           .toList();
-      for (var element in userOrders.orders) {
-        action.add(getDeal(dealId: element.dealId));
-      }
-      await Future.wait(action);
-      print(userDeals.userDealList.length);
+      // for (var element in userOrders.orders) {
+      //   action.add(getDeal(dealId: element.dealId));
+      // }
+      // await Future.wait(action);
+      print(userDeals.deals.length);
       emit(SuccessProfileState());
     } catch (e) {
       print(e);
