@@ -5,6 +5,7 @@ import 'package:kan_kan/data/data_repository.dart';
 import 'package:kan_kan/layer/deal_data_layer.dart';
 import 'package:kan_kan/layer/order_data_layer.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
+import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/model/order_model.dart';
 import 'package:kan_kan/model/user_model.dart';
 import 'package:meta/meta.dart';
@@ -26,7 +27,6 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   List<OrderModel> listOrdersNow = [];
   List<OrderModel> listPreviosOrders = [];
-
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPhone = TextEditingController();
 
@@ -55,6 +55,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   getAllUserOrders() async {
     emit(LoadingProfileState());
     try {
+      List<Future> action = <Future>[];
+
       userOrders.orders = await DataRepository()
           .getAllOrdersByUser(userID: userLayer.user.userId);
       listOrdersNow = userOrders.orders
@@ -72,8 +74,24 @@ class ProfileCubit extends Cubit<ProfileState> {
                 element.orderStatus == "canceled",
           )
           .toList();
+      for (var element in userOrders.orders) {
+        action.add(getDeal(dealId: element.dealId));
+      }
+      await Future.wait(action);
+      print(userDeals.userDealList.length);
       emit(SuccessProfileState());
     } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getDeal({required int dealId}) async {
+    try {
+      userDeals.userDealList
+          .add(await DataRepository().getOneDeal(dealID: dealId));
+    } catch (e) {
+      print("here");
+
       print(e);
     }
   }

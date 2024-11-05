@@ -64,4 +64,20 @@ mixin DealRepository {
       throw (" $e خطأ");
     }
   }
+
+  Future<DealModel> getOneDeal({required int dealID}) async {
+    await Future.delayed(Duration.zero);
+
+    try {
+      final res = await KanSupabase.supabase.client
+          .from("deals")
+          .select(
+              "*,categories(category_name) ,products(*,product_images(id,image_url))")
+          .eq("deal_id", dealID);
+      print(res.first);
+      return DealModel.fromJson(res.first);
+    } catch (e) {
+      throw (" $e خطأ");
+    }
+  }
 }
