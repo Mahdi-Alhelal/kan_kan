@@ -41,8 +41,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController deliveryCostController = TextEditingController();
-    final TextEditingController totalCostController = TextEditingController();
-
+  final TextEditingController totalCostController = TextEditingController();
 
   final TextEditingController estimatedTimeFromController =
       TextEditingController();
@@ -227,7 +226,10 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
             table: 'orders',
             callback: (newData) {
               orderLayer.orders.add(OrderModel.fromJson(newData.newRecord));
-              currentOrders.add(OrderModel.fromJson(newData.newRecord));
+              if (currentOrders.first.dealId ==
+                  OrderModel.fromJson(newData.newRecord).dealId) {
+                currentOrders.add(OrderModel.fromJson(newData.newRecord));
+              }
               if (!isClosed) emit(UpdateDealStatusSuccessState());
             })
         .subscribe();

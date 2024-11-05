@@ -51,8 +51,10 @@ mixin FactoryRepository {
   * */
   Future<List<FactoryModel>> getAllFactories() async {
     try {
-      final response =
-          await KanSupabase.supabase.client.from("factories").select("*");
+      final response = await KanSupabase.supabase.client
+          .from("factories")
+          .select("*")
+          .order("factory_id", ascending: true);
 
       return response.map((element) => FactoryModel.fromJson(element)).toList();
     } on PostgrestException {

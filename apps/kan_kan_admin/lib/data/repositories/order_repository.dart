@@ -67,7 +67,7 @@ mixin OrderRepository {
   Future<List<OrderModel>> getAllOrders() async {
     try {
       final List<Map<String, dynamic>> response =
-          await KanSupabase.supabase.client.from("orders").select("*");
+          await KanSupabase.supabase.client.from("orders").select("*").order("order_id",ascending: true);
       return response.map((element) => OrderModel.fromJson(element)).toList();
     } catch (e) {
       throw Exception('Error in get all orders: $e');
@@ -141,8 +141,14 @@ mixin OrderRepository {
 
         sendAction.add(OtoApi.sendNotification(order: oto));
       }
-      await Future.wait(sendAction);
-    return true;
+
+      try {
+        await Future.wait(sendAction);
+      } catch (e) {
+        throw Exception('Error in add all orders to tracking: $e');
+      }
+
+      return true;
     } catch (e) {
       throw Exception('Error in add all orders to tracking: $e');
     }

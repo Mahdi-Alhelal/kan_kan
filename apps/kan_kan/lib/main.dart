@@ -42,7 +42,7 @@ class MainApp extends StatelessWidget {
         theme: TAppTheme.lightTheme,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
-        locale: context.locale,
+        locale: const Locale("ar"),
         home: ButtomNav());
   }
 }

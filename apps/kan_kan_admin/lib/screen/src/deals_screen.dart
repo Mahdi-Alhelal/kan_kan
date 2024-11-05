@@ -132,7 +132,7 @@ class _DealsScreenState extends State<DealsScreen> {
                                   ),
                                 ).then((_) {
                                   dealCubit.getNewOrder();
-                                  dealCubit.getNewUser() ;
+                                  dealCubit.getNewUser();
                                   dealCubit.afterPop();
                                 });
                               },
@@ -194,13 +194,11 @@ class _DealsScreenState extends State<DealsScreen> {
                             onSort: (columnIndex, ascending) {
                               if (dealCubit.sort) {
                                 dealCubit.dealLayer.deals.sort(
-                                  (a, b) => a.product.productName
-                                      .compareTo(b.product.productName),
+                                  (a, b) => a.dealId.compareTo(b.dealId),
                                 );
                               } else {
                                 dealCubit.dealLayer.deals.sort(
-                                  (a, b) => b.product.productName
-                                      .compareTo(a.product.productName),
+                                  (a, b) => b.dealId.compareTo(a.dealId),
                                 );
                               }
                               dealCubit.sort = !dealCubit.sort;

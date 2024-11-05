@@ -74,12 +74,12 @@ class _FactoryScreenState extends State<FactoryScreen> {
                               if (factoryCubit.sort) {
                                 factoryCubit.factoryLayer.factories.sort(
                                   (a, b) =>
-                                      a.factoryName.compareTo(b.factoryName),
+                                      a.factoryId.compareTo(b.factoryId),
                                 );
                               } else {
                                 factoryCubit.factoryLayer.factories.sort(
                                   (a, b) =>
-                                      b.factoryName.compareTo(a.factoryName),
+                                      b.factoryId.compareTo(a.factoryId),
                                 );
                               }
                               factoryCubit.columnIndex = columnIndex;

@@ -10,7 +10,8 @@ mixin DealRepository {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
           .select(
-              "*,categories(category_name) ,products(*,factories(*),product_images(id,image_url))");
+              "*,categories(category_name) ,products(*,factories(*),product_images(id,image_url))")
+          .order("deal_id", ascending: true);
 
       return data.map((element) => DealModel.fromJson(element)).toList();
     } on PostgrestException {

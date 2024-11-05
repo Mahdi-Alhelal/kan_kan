@@ -21,10 +21,9 @@ abstract class OtoApi {
   }
 
   static sendNotification({required OtoModel order}) async {
-    final response;
     try {
       print("send");
-      response = await dio.post(
+      final response = await dio.post(
         "$baseUrl$createShipment",
         data: order.toJson(),
         options: Options(headers: {
@@ -32,11 +31,8 @@ abstract class OtoApi {
           'Content-Type': 'application/json'
         }),
       );
-      print(response["message"]);
-    } on DioException catch (_) {
-      throw("no internet connection");
     } catch (e) {
-      throw("in send notification $e");
+      throw ("in send notification ${e}");
     }
   }
 }
