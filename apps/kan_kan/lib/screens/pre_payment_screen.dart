@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:kan_kan/cubit/address_cubit/address_cubit.dart';
 import 'package:kan_kan/cubit/payment_cubit/payment_cubit.dart';
+import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/screens/order_screen.dart';
 import 'package:kan_kan/screens/sucess_payment_screen.dart.dart';
@@ -252,8 +254,11 @@ class PrePaymentScreen extends StatelessWidget {
                                                     await paymentCubit.addPaymentEvent(
                                                         allQuantity: dealData
                                                             .numberOfOrder,
-                                                        userID:
-                                                            "83efec21-2fc7-416e-9825-a86a8af3a63a",
+                                                        userID: GetIt.I
+                                                            .get<
+                                                                UserDataLayer>()
+                                                            .user
+                                                            .userId,
                                                         paymentMethod: "MADA",
                                                         paymentStatus: "paid",
                                                         dealID: dealData.dealId,
