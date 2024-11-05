@@ -38,7 +38,7 @@ class ProductCubit extends Cubit<ProductState> {
   final TextEditingController descriptionController = TextEditingController();
 
   //?-- table sorting
-  bool sort = true;
+  bool sort = false;
   int columnIndex = 0;
 
   //? list of images

@@ -142,7 +142,6 @@ class _ProductScreenState extends State<ProductScreen> {
                                           customBottomSheet(
                                             context: context,
                                             child: ProductForm(
-                                                
                                               text: "تعديل المنتج",
                                               factoryList: productCubit
                                                   .factoryLayer.factories,
@@ -189,7 +188,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                               uploadImage: () {},
                                             ),
                                           );
-                                         },
+                                        },
                                         icon: const Icon(Icons.edit),
                                       ),
                                       Text(
@@ -216,8 +215,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             onSort: (columnIndex, ascending) {
                               if (productCubit.sort) {
                                 productCubit.productLayer.products.sort(
-                                  (a, b) =>
-                                      a.productName.compareTo(b.productName),
+                                  (a, b) => a.productId.compareTo(b.productId),
                                 );
                               } else {
                                 productCubit.productLayer.products.sort(

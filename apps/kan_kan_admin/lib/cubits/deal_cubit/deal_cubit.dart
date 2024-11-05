@@ -40,7 +40,7 @@ class DealCubit extends Cubit<DealState> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController deliveryCostController = TextEditingController();
-    final TextEditingController totalCostController = TextEditingController();
+  final TextEditingController totalCostController = TextEditingController();
 
   final TextEditingController estimatedTimeFromController =
       TextEditingController();
@@ -48,7 +48,7 @@ class DealCubit extends Cubit<DealState> {
       TextEditingController();
 
   //?-- table sorting
-  bool sort = true;
+  bool sort = false;
   int columnIndex = 0;
 
 //?--temporary status
@@ -60,6 +60,7 @@ class DealCubit extends Cubit<DealState> {
   DealCubit() : super(DealInitial()) {
     getNewOrder();
     getNewUser();
+    completeDeal();
   }
 
   addDeal() async {
@@ -132,6 +133,29 @@ class DealCubit extends Cubit<DealState> {
     } catch (errorMessage) {
       if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
+  }
+
+  completeDeal() {
+    KanSupabase.supabase.client
+        .channel('completeDeal')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.all,
+            schema: 'public',
+            table: 'deals',
+            callback: (updateDeal) {
+              int dealId = updateDeal.newRecord["deal_id"];
+              int index =
+                  dealLayer.deals.indexWhere((deal) => deal.dealId == dealId);
+              if (updateDeal.newRecord["deal_status"] == "completed") {
+                dealLayer.deals[index].dealStatus = "completed";
+              }
+              
+              dealLayer.deals[index].numberOfOrder =
+                  updateDeal.newRecord["number_of_order"];
+              if (!isClosed) emit(SuccessSate());
+            })
+        .subscribe();
+    if (!isClosed) emit(SuccessSate());
   }
 
   void getNewUser() {

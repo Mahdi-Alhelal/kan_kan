@@ -60,6 +60,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
 
   DealDetailsCubit() : super(DealDetailsInitial()) {
     addNewOrder();
+    completeDeal();
   }
 
   dealOrders({required int dealId}) {
@@ -215,6 +216,27 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
     } catch (errorMessage) {
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
+  }
+
+  completeDeal() {
+    KanSupabase.supabase.client
+        .channel('completeDeal')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.all,
+            schema: 'public',
+            table: 'deals',
+            callback: (updateDeal) {
+              if (updateDeal.newRecord["deal_status"] == "completed") {
+                int dealId = updateDeal.newRecord["deal_id"];
+                int index =
+                    dealLayer.deals.indexWhere((deal) => deal.dealId == dealId);
+                dealLayer.deals[index].dealStatus = "completed";
+                deal.dealStatus = "completed";
+              }
+              if (!isClosed) emit(UpdateDealStatusSuccessState());
+            })
+        .subscribe();
+    if (!isClosed) emit(UpdateDealStatusSuccessState());
   }
 
   addNewOrder() {
