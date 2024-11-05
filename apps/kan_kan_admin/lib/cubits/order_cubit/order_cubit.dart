@@ -124,10 +124,28 @@ class OrderCubit extends Cubit<OrderState> {
 
   updateUserOrderStatus({required int index}) async {
     try {
+      print("up");
       final response = await api.updateOrderStatus(
-          id: ordersData.orders[index].orderId, status: tmpUserOrderStatus);
+          orderId: filteredOrder[index].orderId, status: tmpUserOrderStatus);
       if (response) {
-        ordersData.orders[index].orderStatus = tmpUserOrderStatus;
+        int globalIndex = ordersData.orders.indexWhere(
+            (element) => element.orderId == filteredOrder[index].orderId);
+
+        if (tmpUserOrderStatus == "canceled" &&
+            filteredOrder[index].orderStatus != "canceled") {
+          print("here");
+          int dealIndex = userOrderDeal.deals.indexWhere(
+              (deal) => ordersData.orders[globalIndex].dealId == deal.dealId);
+          userOrderDeal.deals[dealIndex].numberOfOrder =
+              userOrderDeal.deals[dealIndex].numberOfOrder -
+                  filteredOrder[index].quantity;
+          await api.updateDealNumberOfOrder(
+              dealId: userOrderDeal.deals[dealIndex].dealId,
+              numberOfOrder:
+                  userOrderDeal.deals[dealIndex].numberOfOrder.toInt());
+        }
+        filteredOrder[index].orderStatus = tmpUserOrderStatus;
+        ordersData.orders[globalIndex].orderStatus = tmpUserOrderStatus;
       }
       if (!isClosed) emit(SuccessOrderState());
     } catch (errorMessage) {

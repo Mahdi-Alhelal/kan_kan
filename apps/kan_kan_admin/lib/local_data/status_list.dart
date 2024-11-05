@@ -6,8 +6,8 @@ class DropMenuList {
   static List<String> paymentStatus = ["paid", "refund", "failed"];
 
   static List<String> shipmentStatus = [
-    "processing",
     "pending",
+    "processing",
     "inChina",
     "inTransit",
     "inSaudi",
@@ -17,12 +17,12 @@ class DropMenuList {
   ];
 
   static List<String> dealStatus = [
-    "completed",
-    'active',
     'pending',
-    'closed',
+    'active',
     'private',
-    'processing'
+    'processing',
+    'closed',
+    'completed',
   ];
 
   static Map<UserStatusEnum, String> userStatusTranslations = {

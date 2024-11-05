@@ -89,6 +89,7 @@ class _DealsScreenState extends State<DealsScreen> {
                       add: () {
                         if (formKey.currentState!.validate()) {
                           dealCubit.addDeal();
+                          Navigator.pop(context);
                         }
                       },
                       uploadImage: () async {

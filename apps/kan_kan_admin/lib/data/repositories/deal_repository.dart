@@ -50,6 +50,21 @@ mixin DealRepository {
     }
   }
 
+  Future updateDealNumberOfOrder(
+      {required int dealId, required int numberOfOrder}) async {
+    try {
+      print(dealId);
+      print(numberOfOrder);
+      await KanSupabase.supabase.client
+          .from("deals")
+          .update({"number_of_order": numberOfOrder}).eq("deal_id", dealId);
+    } on PostgrestException {
+      throw Exception('Error in get deal data');
+    } catch (e) {
+      throw Exception('$e');
+    }
+  }
+
   Future updateDealStatus(
       {required int dealId, required String dealStatus}) async {
     try {

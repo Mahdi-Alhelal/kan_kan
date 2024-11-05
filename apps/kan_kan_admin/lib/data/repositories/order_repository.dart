@@ -16,16 +16,16 @@ mixin OrderRepository {
   * */
 
   updateOrderStatus({
-    required int id,
+    required int orderId,
     required String status,
   }) async {
     try {
       await KanSupabase.supabase.client.from("orders").update({
         "order_status": status,
-      }).eq("order_id", id);
+      }).eq("order_id", orderId);
       await KanSupabase.supabase.client
           .from("order_track")
-          .insert({"order_id": id, "status": status});
+          .insert({"order_id": orderId, "status": status});
       return true;
     } catch (e) {
       throw Exception('Error in update order: $e');
@@ -93,7 +93,7 @@ mixin OrderRepository {
     }
   }
 
-  addToTracking({required List<int> ordersId, required String status}) async {
+  Future<void> addToTracking({required List<int> ordersId, required String status}) async {
     try {
       List<Future> addAction = <Future>[];
       for (int id in ordersId) {

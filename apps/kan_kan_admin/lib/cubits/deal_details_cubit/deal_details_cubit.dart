@@ -152,7 +152,10 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
             listOrdersId: listOrdersId, dealName: deal.dealTitle);
       }
       if (response) {
-        await api.addToTracking(ordersId: listOrdersId, status: tmpOrderStatus);
+        await Future.wait([
+          api.updateDealNumberOfOrder(dealId: dealId, numberOfOrder: 0),
+          api.addToTracking(ordersId: listOrdersId, status: tmpOrderStatus)
+        ]);
         for (int index in listOrderIndex) {
           orderLayer.orders[index].orderStatus = tmpOrderStatus;
         }
@@ -171,12 +174,25 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   updateOneOrderStatus({required int index}) async {
     try {
       final response = await api.updateOrderStatus(
-          id: currentOrders[index].orderId, status: oneOrderStatus);
+          orderId: currentOrders[index].orderId, status: oneOrderStatus);
       if (response) {
         final globalIndex = orderLayer.orders.indexWhere(
             (element) => element.orderId == currentOrders[index].orderId);
         currentOrders[index].orderStatus = oneOrderStatus;
         orderLayer.orders[globalIndex].orderStatus = oneOrderStatus;
+
+        if (oneOrderStatus == "canceled") {
+          int dealIndex = dealLayer.deals
+              .indexWhere((element) => deal.dealId == element.dealId);
+          dealLayer.deals[dealIndex].numberOfOrder - 1;
+          if (dealLayer.deals[dealIndex].numberOfOrder < 0) {
+            dealLayer.deals[dealIndex].numberOfOrder = 0;
+          }
+          print("decrees");
+          await api.updateDealNumberOfOrder(
+              dealId: orderLayer.orders[index].dealId,
+              numberOfOrder: dealLayer.deals[dealIndex].numberOfOrder.toInt());
+        }
         if (!isClosed) emit(UpdateOrderStatusSuccessState());
       }
     } catch (errorMessage) {
@@ -226,13 +242,16 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
             schema: 'public',
             table: 'deals',
             callback: (updateDeal) {
+              int dealId = updateDeal.newRecord["deal_id"];
+              int index =
+                  dealLayer.deals.indexWhere((deal) => deal.dealId == dealId);
               if (updateDeal.newRecord["deal_status"] == "completed") {
-                int dealId = updateDeal.newRecord["deal_id"];
-                int index =
-                    dealLayer.deals.indexWhere((deal) => deal.dealId == dealId);
                 dealLayer.deals[index].dealStatus = "completed";
                 deal.dealStatus = "completed";
               }
+              dealLayer.deals[index].numberOfOrder =
+                  updateDeal.newRecord["number_of_order"];
+              deal.numberOfOrder = updateDeal.newRecord["number_of_order"];
               if (!isClosed) emit(UpdateDealStatusSuccessState());
             })
         .subscribe();

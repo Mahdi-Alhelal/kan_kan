@@ -110,6 +110,7 @@ class AddDealForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
+                    keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) =>
                         value == null || value.toString().isEmpty
@@ -121,6 +122,7 @@ class AddDealForm extends StatelessWidget {
                 ),
                 Expanded(
                   child: CustomTextFieldForm(
+                    keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) {
                       if (value == null || value.toString().isEmpty) {
@@ -279,10 +281,17 @@ class AddDealForm extends StatelessWidget {
                   child: CustomTextFieldForm(
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: (value) =>
-                        value == null || value.toString().isEmpty
-                            ? "required"
-                            : null,
+                    validator: (value) {
+                      if (value == null || value.toString().isEmpty) {
+                        return "required";
+                      }
+
+                      if (value == "0") {
+                        return "-_-";
+                      }
+
+                      return null;
+                    },
                     title: "من",
                     controller: estimatedTimeFromController,
                   ),
@@ -295,7 +304,10 @@ class AddDealForm extends StatelessWidget {
                       if (value == null || value.toString().isEmpty) {
                         return "required";
                       }
-
+                      if (int.parse(value) <
+                          int.parse(estimatedTimeFromController.text)) {
+                        return "يجب المدة تكون اعلى";
+                      }
                       if (value == "0") {
                         return "-_-";
                       }

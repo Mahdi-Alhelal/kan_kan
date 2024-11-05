@@ -696,7 +696,8 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                                 .tr(),
                                                           ))
                                                       .toList(),
-                                                  value: "processing");
+                                                  value: detailCubit
+                                                      .tmpOrderStatus);
                                             },
                                             child: const Text(
                                                 "تحديث حالة الطلبات")),
@@ -843,6 +844,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                           .currentOrders[index]
                                                           .orderStatus;
                                                   await updateStatus(
+                                                    
                                                       value: detailCubit
                                                           .currentOrders[index]
                                                           .orderStatus,
@@ -868,6 +870,7 @@ class _DealsDetailsScreenState extends State<DealsDetailsScreen>
                                                               Text(status).tr(),
                                                         );
                                                       }).toList());
+
                                                 },
                                               )),
                                             ],

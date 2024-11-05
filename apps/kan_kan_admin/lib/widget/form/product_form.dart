@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kan_kan_admin/model/factory_model.dart';
 import 'package:kan_kan_admin/widget/button/custom_button.dart';
 import 'package:kan_kan_admin/widget/form/form_divider.dart';
@@ -98,18 +99,34 @@ class ProductForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
-                    validator: (value) => value == null || value.isEmpty
-                        ? "هذا الحقل مطلوي"
-                        : null,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "هذا الحقل مطلوي";
+                      }
+                      if (value == "0" || int.parse(value) < 0) {
+                        return "-_-";
+                      }
+                      return null;
+                    },
                     title: "وزن KG",
                     controller: weightController,
                   ),
                 ),
                 Expanded(
                   child: CustomTextFieldForm(
-                    validator: (value) => value == null || value.isEmpty
-                        ? "هذا الحقل مطلوي"
-                        : null,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "هذا الحقل مطلوي";
+                      }
+                      if (value == "0" || int.parse(value) < 0) {
+                        return "-_-";
+                      }
+                      return null;
+                    },
                     title: "إرتفاع cm",
                     controller: hightController,
                   ),
@@ -120,18 +137,34 @@ class ProductForm extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextFieldForm(
-                    validator: (value) => value == null || value.isEmpty
-                        ? "هذا الحقل مطلوي"
-                        : null,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "هذا الحقل مطلوي";
+                      }
+                      if (value == "0" || int.parse(value) < 0) {
+                        return "-_-";
+                      }
+                      return null;
+                    },
                     title: "طول cm",
                     controller: lengthController,
                   ),
                 ),
                 Expanded(
                   child: CustomTextFieldForm(
-                    validator: (value) => value == null || value.isEmpty
-                        ? "هذا الحقل مطلوي"
-                        : null,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "هذا الحقل مطلوي";
+                      }
+                      if (value == "0" || int.parse(value) < 0) {
+                        return "-_-";
+                      }
+                      return null;
+                    },
                     title: "العرض cm",
                     controller: widthController,
                   ),

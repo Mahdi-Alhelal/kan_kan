@@ -73,13 +73,11 @@ class _FactoryScreenState extends State<FactoryScreen> {
                             onSort: (columnIndex, ascending) {
                               if (factoryCubit.sort) {
                                 factoryCubit.factoryLayer.factories.sort(
-                                  (a, b) =>
-                                      a.factoryId.compareTo(b.factoryId),
+                                  (a, b) => a.factoryId.compareTo(b.factoryId),
                                 );
                               } else {
                                 factoryCubit.factoryLayer.factories.sort(
-                                  (a, b) =>
-                                      b.factoryId.compareTo(a.factoryId),
+                                  (a, b) => b.factoryId.compareTo(a.factoryId),
                                 );
                               }
                               factoryCubit.columnIndex = columnIndex;
@@ -325,7 +323,7 @@ class _FactoryScreenState extends State<FactoryScreen> {
                                             .map<DropdownMenuItem<bool>>(
                                                 (bool status) {
                                           return DropdownMenuItem<bool>(
-                                            value: status,
+                                            value: !status,
                                             child: Text(factoryStatus(status))
                                                 .tr(),
                                           );
