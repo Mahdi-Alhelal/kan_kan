@@ -43,7 +43,7 @@ class ProfileCubit extends Cubit<ProfileState> {
           userStatus: userLayer.user.userStatus,
           role: userLayer.user.userStatus);
       userLayer.user = await DataRepository().updateProfile(user: newUser);
-      emit(SuccessProfileState());
+      emit(SuccessUpdateProfileState());
       return userLayer.user;
     } catch (e) {
       emit(ErrorProfileState());
@@ -64,7 +64,7 @@ class ProfileCubit extends Cubit<ProfileState> {
                 element.orderStatus != "canceled",
           )
           .toList();
-      print(listOrdersNow.length);
+
       listPreviosOrders = userOrders.orders
           .where(
             (element) =>

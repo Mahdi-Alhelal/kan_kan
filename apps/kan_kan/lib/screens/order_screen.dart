@@ -31,7 +31,8 @@ class OrderScreen extends StatelessWidget {
         child: Builder(builder: (context) {
           final cubitOrder = context.read<OrderCubit>();
           cubitOrder.getOneOrderUser(
-              orderID: orderID, userID: "83efec21-2fc7-416e-9825-a86a8af3a63a");
+            orderID: orderID,
+          );
           cubitOrder.getOneOrderAllTracking(orderID: orderID);
 
           return SingleChildScrollView(

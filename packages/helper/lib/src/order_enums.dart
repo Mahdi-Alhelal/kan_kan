@@ -85,7 +85,7 @@ class LocalizedEnums {
       'zh': '在沙特',
     },
     OrderStatus.withShipmentCompany: {
-      'en': 'With Shipment Company',
+      'en': 'With Shipment Com.',
       'ar': 'مع شركة الشحن',
       'zh': '在物流公司',
     },

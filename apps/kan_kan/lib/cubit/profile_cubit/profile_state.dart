@@ -10,3 +10,5 @@ final class SuccessProfileState extends ProfileState {}
 final class LoadingProfileState extends ProfileState {}
 
 final class ErrorProfileState extends ProfileState {}
+
+final class SuccessUpdateProfileState extends ProfileState {}
