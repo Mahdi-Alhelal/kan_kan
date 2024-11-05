@@ -105,7 +105,7 @@ class DealsScreen extends StatelessWidget {
                       return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: cubitHome.dealLayer.deals.length,
+                        itemCount: cubitHome.deals.length,
                         itemBuilder: (BuildContext context, int index) {
                           return DealCard(
                             onTap: () {
@@ -117,11 +117,11 @@ class DealsScreen extends StatelessWidget {
                                                 .dealLayer.deals[index],
                                           )));
                             },
-                            dealData: cubitHome.dealLayer.deals[index],
-                            title: cubitHome.dealLayer.deals[index].dealTitle,
+                            dealData: cubitHome.deals[index],
+                            title: cubitHome.deals[index].dealTitle,
                             orderBooked:
-                                cubitHome.dealLayer.deals[index].numberOfOrder,
-                            orderMax: cubitHome.dealLayer.deals[index].quantity,
+                                cubitHome.deals[index].numberOfOrder,
+                            orderMax: cubitHome.deals[index].quantity,
                           );
                         },
                       );
