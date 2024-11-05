@@ -7,6 +7,7 @@ import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/order_model.dart';
 import 'package:kan_kan/screens/auth/login_screen.dart';
 import 'package:kan_kan/screens/home/deal_details_screen.dart';
+import 'package:kan_kan/screens/order_screen.dart';
 import 'package:kan_kan/widgets/alert.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:kan_kan/widgets/order_card.dart';
@@ -282,6 +283,28 @@ class ProfileScreen extends StatelessWidget {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return OrderCard(
+                                      onPressed: () async {
+                                        final x = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => OrderScreen(
+                                                    orderDetails: cubitProfile
+                                                        .listOrdersNow[index],
+                                                    dealDetails: cubitProfile
+                                                        .userDeals
+                                                        .findDeal(cubitProfile
+                                                            .listOrdersNow[
+                                                                index]
+                                                            .dealId),
+                                                  )),
+                                        );
+                                        if (x) {
+                                          cubitProfile.listPreviosOrders[index]
+                                              .orderStatus = "canceled";
+                                          cubitProfile.cancelOrderByUser(
+                                              index: index);
+                                        }
+                                      },
                                       dealDetails: cubitProfile.userDeals
                                           .findDeal(cubitProfile
                                               .listOrdersNow[index].dealId),
@@ -314,6 +337,23 @@ class ProfileScreen extends StatelessWidget {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return OrderCard(
+                                      onPressed: () async {
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => OrderScreen(
+                                                    orderDetails: cubitProfile
+                                                            .listPreviosOrders[
+                                                        index],
+                                                    dealDetails: cubitProfile
+                                                        .userDeals
+                                                        .findDeal(cubitProfile
+                                                            .listPreviosOrders[
+                                                                index]
+                                                            .dealId),
+                                                  )),
+                                        );
+                                      },
                                       dealDetails: cubitProfile.userDeals
                                           .findDeal(cubitProfile
                                               .listPreviosOrders[index].dealId),

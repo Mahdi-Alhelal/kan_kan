@@ -45,14 +45,10 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
-  cancelOrder(
-      {required int orderID,
-      required int dealID,
-      required int quantity}) async {
+  cancelOrder({required OrderModel order}) async {
     emit(LoadingOrderState());
     try {
-      final res = await DataRepository()
-          .cancelOrder(id: orderID, dealID: dealID, quantity: quantity);
+      final res = await DataRepository().cancelOrder(order: order);
       print(res);
       emit(SuccesCanceledOrderState());
     } catch (e) {

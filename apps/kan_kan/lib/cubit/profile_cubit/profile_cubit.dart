@@ -77,4 +77,11 @@ class ProfileCubit extends Cubit<ProfileState> {
       print(e);
     }
   }
+
+  cancelOrderByUser({required int index}) {
+    listPreviosOrders.add(listOrdersNow[index]);
+    listOrdersNow.removeAt(index);
+
+    emit(SuccessProfileState());
+  }
 }
