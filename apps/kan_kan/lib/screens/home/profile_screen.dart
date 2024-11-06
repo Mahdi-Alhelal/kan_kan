@@ -66,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return SizedBox(
-                                        height: context.getHeight(value: 0.3),
+                                        height: context.getHeight(value: 0.4),
                                         child: SingleChildScrollView(
                                           child: Center(
                                             child: Padding(
@@ -253,8 +253,7 @@ class ProfileScreen extends StatelessWidget {
                                         width: context.getWidth(value: 0.75),
                                         alignment: Alignment.center,
                                         decoration: const BoxDecoration(
-                                          color: AppColor
-                                              .primary,
+                                          color: AppColor.primary,
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(8),
                                               bottomRight: Radius.circular(8)),

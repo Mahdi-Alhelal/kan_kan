@@ -48,18 +48,13 @@ class OrderCard extends StatelessWidget {
                   SizedBox(
                     width: context.getWidth(value: 0.3),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text("#${orderDetails.orderId}"),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("#${orderDetails.orderId}"),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 90,
+                            Expanded(
                               child: Text(
                                 dealDetails.dealTitle,
                                 overflow: TextOverflow.ellipsis,
