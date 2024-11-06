@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:kan_kan/screens/auth/auth_srceen.dart';
-import 'package:kan_kan/screens/auth/login_screen.dart';
-import 'package:kan_kan/screens/auth/register_screen.dart';
-import 'package:kan_kan/screens/buttom_nav.dart';
-import 'package:kan_kan/screens/home/deals_screen.dart';
-import 'package:kan_kan/screens/home/home_screen.dart';
-import 'package:kan_kan/screens/home/my_deals_screen.dart';
-import 'package:kan_kan/widgets/order_card.dart';
+import 'package:kan_kan/check_screen.dart';
 import 'package:kan_kan/setup/setup.dart';
 import 'package:ui/ui.dart';
 import 'package:device_preview/device_preview.dart';
@@ -15,7 +7,6 @@ import 'package:device_preview/device_preview.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  //await dotenv.load(fileName: ".env");
   await setup();
 
   runApp(
@@ -38,11 +29,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: TAppTheme.lightTheme,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: const Locale("ar"),
-        home: ButtomNav());
+      debugShowCheckedModeBanner: false,
+      theme: TAppTheme.lightTheme,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: const Locale("ar"),
+      home: const CheckScreen(),
+    );
   }
 }

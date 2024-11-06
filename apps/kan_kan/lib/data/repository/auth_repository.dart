@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
+import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,10 +23,10 @@ mixin AuthRepository {
           .from("users")
           .select("*")
           .eq("email", email);
-      // GetIt.I.get<UserLayer>().user = UserModel.fromJson(data.first);
-      if (kDebugMode) {
-        print(data.first.toString());
-      }
+      GetIt.I.get<UserDataLayer>().user = UserModel.fromJson(data.first);
+
+      print(data.first.toString());
+
       return true;
     } on PostgrestException {
       throw Exception('Error inserting user data');
@@ -49,7 +51,7 @@ mixin AuthRepository {
         final user = response.user;
         print(user?.email);
         if (user != null) {
-                  userDetails.userId = user.id;
+          userDetails.userId = user.id;
 
           await KanSupabase.supabase.client
               .from('users')

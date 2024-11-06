@@ -31,6 +31,18 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPhone = TextEditingController();
 
+  logOutEvent() async {
+    emit(LoadingProfileState());
+
+    try {
+      userLayer.email = "";
+      await DataRepository().logOut();
+      emit(LogOutSuccess());
+    } catch (e) {
+      emit(ErrorProfileState());
+    }
+  }
+
   updateEvent() async {
     emit(LoadingProfileState());
 
