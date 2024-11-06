@@ -5,8 +5,11 @@ import 'package:kan_kan/cubit/address_cubit/address_cubit.dart';
 import 'package:kan_kan/cubit/payment_cubit/payment_cubit.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/deal_model.dart';
+import 'package:kan_kan/screens/buttom_nav.dart';
+import 'package:kan_kan/screens/home/home_screen.dart';
 import 'package:kan_kan/screens/order_screen.dart';
 import 'package:kan_kan/screens/sucess_payment_screen.dart.dart';
+import 'package:kan_kan/widgets/alert.dart';
 import 'package:kan_kan/widgets/custom_choice_chip.dart';
 import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
@@ -250,44 +253,62 @@ class PrePaymentScreen extends StatelessWidget {
                                           if (result is PaymentResponse) {
                                             switch (result.status) {
                                               case PaymentStatus.paid:
+                                                int total_quantity;
                                                 int pQnt = await paymentCubit
                                                     .checkQuantity(
                                                         dealID:
                                                             dealData.dealId);
-                                                pQnt += items;
-
-                                                final orderdetails =
-                                                    await paymentCubit.addPaymentEvent(
-                                                        allQuantity: dealData
-                                                            .numberOfOrder,
-                                                        userID: GetIt.I
-                                                            .get<
-                                                                UserDataLayer>()
-                                                            .user
-                                                            .userId,
-                                                        paymentMethod: "MADA",
-                                                        paymentStatus: "paid",
-                                                        dealID: dealData.dealId,
-                                                        address: address,
-                                                        transactionID:
-                                                            result.id,
-                                                        amount: toDouble(
-                                                            amount: dealData
-                                                                    .totalPrice *
-                                                                items),
-                                                        quantity: items);
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SucessPaymentScreen(
-                                                        orderDetails:
-                                                            orderdetails,
-                                                        dealDetails: dealData,
+                                                total_quantity = pQnt + items;
+                                                if (total_quantity > pQnt) {
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ButtomNav(),
                                                       ),
-                                                    ),
-                                                    (Route<dynamic> route) =>
-                                                        false);
+                                                      (Route<dynamic> route) =>
+                                                          false);
+                                                  alert(
+                                                      context: context,
+                                                      msg:
+                                                          "عذراً! الصفقة إكتملت",
+                                                      isCompleted: false);
+                                                } else {
+                                                  final orderdetails =
+                                                      await paymentCubit.addPaymentEvent(
+                                                          allQuantity: dealData
+                                                              .numberOfOrder,
+                                                          userID: GetIt.I
+                                                              .get<
+                                                                  UserDataLayer>()
+                                                              .user
+                                                              .userId,
+                                                          paymentMethod: "MADA",
+                                                          paymentStatus: "paid",
+                                                          dealID:
+                                                              dealData.dealId,
+                                                          address: address,
+                                                          transactionID:
+                                                              result.id,
+                                                          amount: toDouble(
+                                                              amount: dealData
+                                                                      .totalPrice *
+                                                                  items),
+                                                          quantity: items);
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SucessPaymentScreen(
+                                                          orderDetails:
+                                                              orderdetails,
+                                                          dealDetails: dealData,
+                                                        ),
+                                                      ),
+                                                      (Route<dynamic> route) =>
+                                                          false);
+                                                }
+
                                                 break;
                                               case PaymentStatus.failed:
                                                 // handle failure.

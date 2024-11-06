@@ -86,9 +86,11 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  cancelOrderByUser({required int index}) {
+  cancelOrderByUser({required int index}) async {
     listPreviosOrders.add(listOrdersNow[index]);
     userLayer.user.balance += listOrdersNow[index].amount;
+    await DataRepository()
+        .addCancelOrderToOrderTrack(orderID: listOrdersNow[index].orderId);
     listOrdersNow.removeAt(index);
     if (!isClosed) emit(SuccessProfileState());
   }

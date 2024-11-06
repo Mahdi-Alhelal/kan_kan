@@ -15,4 +15,13 @@ mixin ProfileRepository {
     }
   }
 
+  addCancelOrderToOrderTrack({required int orderID}) async {
+    try {
+      await KanSupabase.supabase.client
+          .from("order_track")
+          .insert({"order_id": orderID, "status": "canceled"});
+    } catch (e) {
+      print(e);
+    }
+  }
 }
