@@ -309,11 +309,8 @@ class PrePaymentScreen extends StatelessWidget {
                                                 // handle failure.
                                                 break;
                                               case PaymentStatus.initiated:
-                                              // TODO: Handle this case.
                                               case PaymentStatus.authorized:
-                                              // TODO: Handle this case.
                                               case PaymentStatus.captured:
-                                              // TODO: Handle this case.
                                             }
                                           }
                                         },

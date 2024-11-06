@@ -12,7 +12,6 @@ mixin AuthRepository {
     return KanSupabase.supabase.client.auth.currentUser?.email ?? "";
   }
 
-  //Tested
   int isExsit = 0;
   Future loginToken({required String email}) async {
     try {
@@ -35,7 +34,6 @@ mixin AuthRepository {
     }
   }
 
-//tested
   Future<bool> signUp({required UserModel userDetails}) async {
     try {
       await isExsitEmail(email: userDetails.email);

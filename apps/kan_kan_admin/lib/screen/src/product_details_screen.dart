@@ -83,9 +83,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen>
                           height: 35,
                           alignment: Alignment.center,
                           child: TabBar(
-                              // indicatorPadding: EdgeInsets.zero,
-                              //tabAlignment: TabAlignment.fill,
-
                               labelColor: AppColor.white,
                               dividerColor: AppColor.bg,
                               indicator: BoxDecoration(

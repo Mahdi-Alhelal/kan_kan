@@ -209,7 +209,6 @@ class OrderScreen extends StatelessWidget {
                                 headingRowAlignment: MainAxisAlignment.center,
                                 label: const Text("الصفقة"),
                                 onSort: (columnIndex, ascending) {
-                                  //Todo: test sort by deal title
                                   if (orderCubit.sort) {
                                     orderCubit.filteredOrder.sort(
                                       (a, b) => orderCubit.userOrderDeal

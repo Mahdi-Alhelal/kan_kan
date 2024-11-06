@@ -1,15 +1,7 @@
 import '../../integrations/supabase/supabase_client.dart';
 
 mixin AddressRepository {
-  // Supabase client instance
-  // final SupabaseClient _supabase = SupabaseService().client;
 
-  /*
-  *
-  * Tested
-  * Add new Address
-  *
-  * */
    Future<List<Map<String, dynamic>>> addNewAddress(
       {required String city, required String userID}) async {
     try {

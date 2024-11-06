@@ -254,7 +254,7 @@ class ProfileScreen extends StatelessWidget {
                                         alignment: Alignment.center,
                                         decoration: const BoxDecoration(
                                           color: AppColor
-                                              .primary, // Dark blue background for balance
+                                              .primary,
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(8),
                                               bottomRight: Radius.circular(8)),

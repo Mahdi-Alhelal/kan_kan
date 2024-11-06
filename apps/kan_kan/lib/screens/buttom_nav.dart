@@ -44,44 +44,6 @@ class ButtomNav extends StatelessWidget {
                     ),
                   ],
                 )
-
-                // NavigationBar(
-                //     indicatorColor: AppColor.secondary,
-                //     onDestinationSelected: (int index) {
-                //       cubitNav.index = index;
-                //       cubitNav.updateEvent();
-                //     },
-                //     selectedIndex: cubitNav.index,
-                //     backgroundColor: AppColor.primary,
-                //     destinations: const <Widget>[
-                //       NavigationDestination(
-
-                //         icon: Icon(
-                //           Icons.home_outlined,
-                //           color: AppColor.third,
-                //         ),
-                //         label: 'الرئيسية',
-                //         selectedIcon: Icon(
-                //           Icons.home_outlined,
-                //           color: Colors.white,
-                //         ),
-                //       ),
-                //       NavigationDestination(
-                //         icon: Icon(
-                //           Icons.handshake,
-                //           color: AppColor.third,
-                //         ),
-                //         label: 'الصفقات',
-                //         selectedIcon: Icon(
-                //           Icons.handshake,
-                //           color: Colors.white,
-                //         ),
-                //       ),
-                //       NavigationDestination(
-                //         icon: Icon(Icons.person),
-                //         label: 'الملف الشخصي',
-                //       ),
-                //     ]),
                 );
           },
         );

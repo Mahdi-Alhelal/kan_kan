@@ -57,7 +57,6 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
-                    // TODO: implement listener
                     const CircularProgressIndicator(
                       color: AppColor.primary,
                     );
@@ -117,7 +116,7 @@ class LoginScreen extends StatelessWidget {
                     'لا تملك حساب',
                     style: TextStyle(
                       color:
-                          AppColor.secondary, // Light brown color for the text
+                          AppColor.secondary,
                       fontSize: 16,
                     ),
                   ),

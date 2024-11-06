@@ -41,7 +41,7 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   "التسجيل",
                   style: TextStyle(fontSize: 20),
                 ),
@@ -51,25 +51,24 @@ class RegisterScreen extends StatelessWidget {
                 CustomTextField(
                   title: "الإسم",
                   controller: cubitAuth.fullController,
-                  icon: Icon(Icons.person),
+                  icon: const Icon(Icons.person),
                 ),
                 CustomTextField(
                   title: "الإيميل",
                   controller: cubitAuth.emailController,
-                  icon: Icon(Icons.email),
+                  icon: const Icon(Icons.email),
                 ),
                 CustomTextField(
                   title: "رقم الجوال",
                   controller: cubitAuth.phoneController,
-                  icon: Icon(Icons.phone),
+                  icon: const Icon(Icons.phone),
                 ),
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: BlocConsumer<AuthCubit, AuthState>(
                     listener: (context, state) {
-                      // TODO: implement listener
-                      CircularProgressIndicator(
+                      const CircularProgressIndicator(
                         color: AppColor.primary,
                       );
 
@@ -120,7 +119,7 @@ class RegisterScreen extends StatelessWidget {
                     'يوجد لديك حساب مسبقاً؟',
                     style: TextStyle(
                       color:
-                          AppColor.secondary, // Light brown color for the text
+                          AppColor.secondary,
                       fontSize: 16,
                     ),
                   ),
