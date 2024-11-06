@@ -88,6 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     title: "رقم الجوال",
                     controller: cubitAuth.phoneController,
                     icon: const Icon(Icons.phone),
+                    maxLength: 10,
                     validator: (value) {
                       if (value == "" || value == null) {
                         return "رقم الهاتف مطلوب";
