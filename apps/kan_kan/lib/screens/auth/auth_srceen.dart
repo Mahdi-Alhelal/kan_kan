@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_kan/check_screen.dart';
 import 'package:kan_kan/cubit/auth_cubit/auth_cubit.dart';
 import 'package:kan_kan/screens/buttom_nav.dart';
 import 'package:kan_kan/widgets/alert.dart';
@@ -54,6 +55,14 @@ class AuthScreen extends StatelessWidget {
                   if (state is AuthState) {
                     const CircularProgressIndicator(
                       color: AppColor.primary,
+                    );
+                  }
+                  if (state is UserBlocked) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CheckScreen()),
+                      (Route<dynamic> route) => false,
                     );
                   }
 

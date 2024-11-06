@@ -25,8 +25,12 @@ class AuthCubit extends Cubit<AuthState> {
         await DataRepository().loginToken(email: userLayer.email);
 
         if (userLayer.user.email != "") {
-          userLayer.email = userLayer.user.email;
-          emit(SuccessAuthState());
+          if (userLayer.user.userStatus != "blocked") {
+            userLayer.email = userLayer.user.email;
+            emit(SuccessAuthState());
+          } else {
+            emit(UserBlocked());
+          }
         }
       } else {
         emit(LoginAuthState());
@@ -71,7 +75,11 @@ class AuthCubit extends Cubit<AuthState> {
       );
       userLayer.user = result;
       userLayer.email = userLayer.user.email;
-      emit(SuccessAuthState());
+      if (userLayer.user.userStatus != "blocked") {
+        emit(SuccessAuthState());
+      } else {
+        emit(UserBlocked());
+      }
     } catch (error) {
       // Handle any errors during the process
       emit(ErrorAuthState(msg: "خطأ!يرجى المحاولة مرة أخرى"));

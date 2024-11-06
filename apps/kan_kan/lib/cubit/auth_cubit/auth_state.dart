@@ -9,6 +9,8 @@ final class LoadingAuthState extends AuthState {}
 
 final class SuccessAuthState extends AuthState {}
 
+final class UserBlocked extends AuthState {}
+
 final class ErrorAuthState extends AuthState {
   final String msg;
   ErrorAuthState({required this.msg});

@@ -4,7 +4,7 @@ import 'package:kan_kan/model/user_model.dart';
 mixin ProfileRepository {
   Future logOut() async {
     try {
-      KanSupabase.supabase.client.auth.signOut();
+      await KanSupabase.supabase.client.auth.signOut();
     } catch (e) {
       throw "لا يمكن تسجيل خروج رجاء تاكد من وجود انترنت";
     }

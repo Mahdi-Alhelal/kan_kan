@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan/cubit/auth_cubit/auth_cubit.dart';
+import 'package:kan_kan/screens/block_screen.dart';
 import 'package:kan_kan/screens/buttom_nav.dart';
 
 class CheckScreen extends StatelessWidget {
@@ -25,6 +26,14 @@ class CheckScreen extends StatelessWidget {
             if (state is SuccessAuthState || state is LoginAuthState) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const ButtomNav()));
+            }
+            if (state is UserBlocked) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const BlockScreen(),
+                ),
+              );
             }
           },
           child: const Scaffold(
