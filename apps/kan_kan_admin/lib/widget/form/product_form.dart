@@ -77,7 +77,9 @@ class ProductForm extends StatelessWidget {
                         .map<DropdownMenuItem>(
                           (FactoryModel element) => DropdownMenuItem(
                             value: element.factoryId,
-                            child: Text(element.factoryName),
+                            child: Text(
+                              element.factoryName,
+                            ),
                           ),
                         )
                         .toList(),

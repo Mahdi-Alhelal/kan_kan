@@ -48,6 +48,8 @@ class CustomDropDownButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: DropdownButtonFormField(
+        style: const TextStyle(
+            overflow: TextOverflow.ellipsis, color: Colors.black),
         decoration: const InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(
@@ -56,7 +58,6 @@ class CustomDropDownButton extends StatelessWidget {
           ),
         ),
         hint: hint,
-        
         items: items,
         value: value,
         onChanged: onChanged,
