@@ -58,14 +58,12 @@ class ProfileCubit extends Cubit<ProfileState> {
       return userLayer.user;
     } catch (e) {
       emit(ErrorProfileState());
-
     }
   }
 
   getAllUserOrders() async {
     emit(LoadingProfileState());
     try {
-
       userOrders.orders = await DataRepository()
           .getAllOrdersByUser(userID: userLayer.user.userId);
       listOrdersNow = userOrders.orders
@@ -86,6 +84,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       emit(SuccessProfileState());
     } catch (e) {
+      return null;
     }
   }
 

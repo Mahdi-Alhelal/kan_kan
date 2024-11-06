@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:kan_kan/data/data_repository.dart';
 import 'package:kan_kan/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan/layer/deal_data_layer.dart';
+import 'package:kan_kan/layer/order_data_layer.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:meta/meta.dart';
@@ -14,6 +15,8 @@ class HomeCubit extends Cubit<HomeState> {
   List<DealModel> deals = [];
   int initDeal = -1;
   final userLayer = GetIt.I.get<UserDataLayer>();
+  final orderLayer = GetIt.I.get<OrderDataLayer>();
+
   int isClicked = 0;
 
   HomeCubit() : super(HomeInitial());
@@ -29,6 +32,8 @@ class HomeCubit extends Cubit<HomeState> {
     emit(LoadingHomeState());
 
     try {
+      orderLayer.orders = await DataRepository()
+          .getAllOrdersByUser(userID: userLayer.user.userId);
       dealLayer.deals = await DataRepository().getDeals();
 
       dealLayer.allDeals = await DataRepository().getAllDeals();
@@ -38,6 +43,7 @@ class HomeCubit extends Cubit<HomeState> {
 
       return dealLayer.deals;
     } catch (e) {
+      return null;
     }
   }
 
@@ -55,7 +61,7 @@ class HomeCubit extends Cubit<HomeState> {
   getAllActiveDeals() async {
     isClicked = 0;
     emit(LoadingHomeState());
-   deals = dealLayer.getActiveDeals();
+    deals = dealLayer.getActiveDeals();
     emit(SuccessHomeState());
   }
 

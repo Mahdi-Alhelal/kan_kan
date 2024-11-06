@@ -118,8 +118,8 @@ class DealDetailsScreen extends StatelessWidget {
                   height: 35,
                   alignment: Alignment.centerRight,
                   child: TabBar(
-                      indicatorPadding: const EdgeInsets.only(left: -40, right: -40),
-
+                      indicatorPadding:
+                          const EdgeInsets.only(left: -40, right: -40),
                       labelColor: AppColor.white,
                       dividerColor: AppColor.bg,
                       indicator: BoxDecoration(
@@ -337,7 +337,6 @@ class DealDetailsScreen extends StatelessWidget {
                                       children: [
                                         InkWell(
                                           onTap: () {
-
                                             dealDCubit.increseEvent(
                                                 maxOrderPerUser:
                                                     dealData.maxOrdersPerUser);
@@ -372,42 +371,49 @@ class DealDetailsScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: context.getWidth(value: 0.6),
-                                    child: ElevatedButton(
-                                        onPressed: () async {
-                                          int pQnt =
-                                              await dealDCubit.checkQuantity(
-                                                  dealID: dealData.dealId);
-                                          pQnt += dealDCubit.index;
-                                          if (pQnt > dealData.quantity) {
-                                            alert(
-                                                context: context,
-                                                msg: "عذراً!يرجى تغيير الكمية",
-                                                isCompleted: false);
-                                          } else if (await dealDCubit
+                                  dealDCubit.enableJoin(dealId: dealData.dealId)
+                                      ? SizedBox(
+                                          width: context.getWidth(value: 0.6),
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              int pQnt = await dealDCubit
                                                   .checkQuantity(
-                                                      dealID:
-                                                          dealData.dealId) ==
-                                              dealData.quantity) {
-                                            alert(
-                                                context: context,
-                                                msg: "عذراً!تم إكمال الصفقة",
-                                                isCompleted: false);
-                                          } else {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PrePaymentScreen(
-                                                        dealData: dealData,
-                                                        items: dealDCubit.index,
-                                                      )),
-                                            );
-                                          }
-                                        },
-                                        child: const Text("إنضمام إلى الصفقة")),
-                                  )
+                                                      dealID: dealData.dealId);
+                                              pQnt += dealDCubit.index;
+                                              if (pQnt > dealData.quantity) {
+                                                alert(
+                                                    context: context,
+                                                    msg:
+                                                        "عذراً!يرجى تغيير الكمية",
+                                                    isCompleted: false);
+                                              } else if (await dealDCubit
+                                                      .checkQuantity(
+                                                          dealID: dealData
+                                                              .dealId) ==
+                                                  dealData.quantity) {
+                                                alert(
+                                                    context: context,
+                                                    msg:
+                                                        "عذراً!تم إكمال الصفقة",
+                                                    isCompleted: false);
+                                              } else {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          PrePaymentScreen(
+                                                            dealData: dealData,
+                                                            items: dealDCubit
+                                                                .index,
+                                                          )),
+                                                );
+                                              }
+                                            },
+                                            child:
+                                                const Text("إنضمام إلى الصفقة"),
+                                          ),
+                                        )
+                                      : Text("انت منضم الى الصفقة")
                                 ],
                               )
                             : SizedBox(
