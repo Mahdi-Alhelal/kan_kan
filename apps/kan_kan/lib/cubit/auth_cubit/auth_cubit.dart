@@ -32,7 +32,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(LoginAuthState());
       }
     } catch (error) {
-      emit(ErrorAuthState(msg: "خطأ!يرجى المحاولة مرة أخرى"));
+      emit(ErrorAuthState(msg: "خطأ! الرجاء الإتصال بالإنترنت"));
     }
   }
 
