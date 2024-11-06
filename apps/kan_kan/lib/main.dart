@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kan_kan/check_screen.dart';
 import 'package:kan_kan/setup/setup.dart';
 import 'package:ui/ui.dart';
-import 'package:device_preview/device_preview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +14,7 @@ void main() async {
       path:
           'assets/translations', // <-- change the path of the translation files
       fallbackLocale: const Locale('ar'),
-      child: DevicePreview(
-        enabled: true,
-        builder: (context) => const MainApp(),
-      ),
+      child: const MainApp(),
     ),
   );
 }
