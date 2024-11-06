@@ -74,7 +74,7 @@ class OrderCubit extends Cubit<OrderState> {
       case 1:
         filteredOrder.clear();
         filteredOrder = ordersData.orders
-            .where((order) => order.orderStatus == "processing")
+            .where((order) => order.orderStatus == "pending")
             .toList();
       case 2:
         filteredOrder.clear();
