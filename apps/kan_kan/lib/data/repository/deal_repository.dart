@@ -11,12 +11,8 @@ mixin DealRepository {
           .from('deals')
           .select(
               "*,categories(category_name) ,products(*,product_images(image_url))")
-          .neq("deal_status", "private")
-          .neq("deal_status", "closed")
-          .neq("deal_status", "pending")
           .order("deal_status", ascending: true);
       return data.map((element) => DealModel.fromJson(element)).toList();
-
     } catch (e) {
       throw Exception('$e');
     }

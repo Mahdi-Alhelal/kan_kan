@@ -15,13 +15,6 @@ mixin AddressRepository {
     }
   }
 
-  /*
-  *
-  * Tested
-  * Update Address
-  *
-  * */
-
   updateAddress({required String id, required String city}) async {
     try {
       final dataFound = await KanSupabase.supabase.client
@@ -38,12 +31,6 @@ mixin AddressRepository {
     }
   }
 
-  /*
-  *
-  * Tested
-  * Delete address
-  *
-  * */
 
   deleteAddress({required String id}) async {
     try {
@@ -66,12 +53,7 @@ mixin AddressRepository {
     }
   }
 
-  /*
-  *
-  * Tested
-  * get all Address
-  *
-  * */
+
   Future<List<Map<String, dynamic>>> getAllAddress() async {
     try {
       final response = await KanSupabase.supabase.client.from("address").select("*");

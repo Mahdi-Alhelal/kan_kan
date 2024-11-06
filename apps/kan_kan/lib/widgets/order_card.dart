@@ -58,8 +58,19 @@ class OrderCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(dealDetails.dealTitle),
-                            Text("${orderDetails.quantity}x")
+                            SizedBox(
+                              width: 90,
+                              child: Text(
+                                dealDetails.dealTitle,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                            Text(
+                              "${orderDetails.quantity}x",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            )
                           ],
                         ),
                       ],

@@ -6,12 +6,7 @@ import 'package:kan_kan/model/order_model.dart';
 
 mixin OrderRepository {
 
-  /*
-  *
-  * Tested
-  * Add new Order
-  *
-  * */
+
   Future<OrderModel> addNewOrder(
       {required String userID,
       required int dealID,
@@ -46,12 +41,6 @@ mixin OrderRepository {
     }
   }
 
-  /*
-  *
-  * Tested
-  * Update order
-  *
-  * */
 
   updateOrder({
     required int id,
@@ -103,12 +92,7 @@ mixin OrderRepository {
     }
   }
 
-  /*
-  *
-  * Tested
-  * get all orders for one user
-  *
-  * */
+
   Future<List<OrderModel>> getAllOrdersByUser({required String userID}) async {
     try {
       final List<Map<String, dynamic>> response = await KanSupabase
