@@ -22,8 +22,7 @@ class OrderScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back),
-        title: const Text("صفحة الطلب"),
+        title: const Center(child: Text("صفحة الطلب")),
         backgroundColor: AppColor.bg,
       ),
       body: BlocProvider(
