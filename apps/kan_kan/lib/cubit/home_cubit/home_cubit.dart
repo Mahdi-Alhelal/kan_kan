@@ -14,6 +14,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<DealModel> deals = [];
   int initDeal = -1;
   final userLayer = GetIt.I.get<UserDataLayer>();
+  int isClicked = 0;
 
   HomeCubit() : super(HomeInitial());
   final dealLayer = GetIt.I.get<DealDataLayer>();
@@ -54,18 +55,21 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   getAllActiveDeals() async {
+    isClicked = 0;
     emit(LoadingHomeState());
-  //  dealLayer.deals = await DataRepository().getAllDeals();
-
+    //  dealLayer.deals = await DataRepository().getAllDeals();
     deals = dealLayer.getActiveDeals();
+    print(deals.length);
     emit(SuccessHomeState());
   }
 
   getAllPreviosDeals() async {
+    isClicked = 1;
     emit(LoadingHomeState());
-   // dealLayer.deals = await DataRepository().getAllDeals();
+    // dealLayer.deals = await DataRepository().getAllDeals();
 
     deals = dealLayer.getPreviosDeals();
+    print(deals.length);
     emit(SuccessHomeState());
   }
 

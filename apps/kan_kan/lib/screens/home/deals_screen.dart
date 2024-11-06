@@ -39,88 +39,96 @@ class DealsScreen extends StatelessWidget {
                             leading: CircleAvatar(
                               backgroundColor:
                                   AppColor.black.withOpacity(20 / 100),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.person,
                                 color: AppColor.white,
                               ),
                             ),
-                            title: Text(
+                            title: const Text(
                               "مرحباً بعودتك ، 👋",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
                               cubitHome.userLayer.user.fullName,
-                              style: TextStyle(color: AppColor.secondary),
+                              style: const TextStyle(color: AppColor.secondary),
                             ),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          cubitHome.getAllActiveDeals();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: AppColor.primary,
-                              borderRadius: BorderRadius.circular(8)),
-                          width: context.getWidth(value: 0.45),
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "الصفقات الحالية",
-                            style: TextStyle(color: AppColor.white),
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              cubitHome.getAllActiveDeals();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: cubitHome.isClicked == 0
+                                      ? AppColor.secondary
+                                      : AppColor.primary,
+                                  borderRadius: BorderRadius.circular(8)),
+                              width: context.getWidth(value: 0.45),
+                              height: 50,
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "الصفقات الحالية",
+                                style: TextStyle(color: AppColor.white),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          cubitHome.getAllPreviosDeals();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: AppColor.secondary,
-                              borderRadius: BorderRadius.circular(8)),
-                          width: context.getWidth(value: 0.45),
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "الصفقات السابقة",
-                            style: TextStyle(color: AppColor.white),
+                          InkWell(
+                            onTap: () {
+                              cubitHome.getAllPreviosDeals();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: cubitHome.isClicked == 0
+                                      ? AppColor.primary
+                                      : AppColor.secondary,
+                                  borderRadius: BorderRadius.circular(8)),
+                              width: context.getWidth(value: 0.45),
+                              height: 50,
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "الصفقات السابقة",
+                                style: TextStyle(color: AppColor.white),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
+                        ],
+                      );
+                    },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, state) {
                       return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: cubitHome.deals.length,
                         itemBuilder: (BuildContext context, int index) {
                           return DealCard(
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DealDetailsScreen(
-                                            dealData: cubitHome
-                                                .dealLayer.deals[index],
-                                          )));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DealDetailsScreen(
+                                    dealData: cubitHome.dealLayer.deals[index],
+                                  ),
+                                ),
+                              );
                             },
                             dealData: cubitHome.deals[index],
                             title: cubitHome.deals[index].dealTitle,
-                            orderBooked:
-                                cubitHome.deals[index].numberOfOrder,
+                            orderBooked: cubitHome.deals[index].numberOfOrder,
                             orderMax: cubitHome.deals[index].quantity,
                           );
                         },
