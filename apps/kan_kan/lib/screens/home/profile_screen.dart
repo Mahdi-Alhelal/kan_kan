@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:helper/helper.dart';
 import 'package:kan_kan/check_screen.dart';
 import 'package:kan_kan/cubit/profile_cubit/profile_cubit.dart';
-import 'package:kan_kan/layer/user_data_layer.dart';
-import 'package:kan_kan/model/order_model.dart';
 import 'package:kan_kan/screens/auth/login_screen.dart';
-import 'package:kan_kan/screens/home/deal_details_screen.dart';
 import 'package:kan_kan/screens/order_screen.dart';
 import 'package:kan_kan/widgets/alert.dart';
-import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:kan_kan/widgets/order_card.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:ui/ui.dart';
-import 'dart:ui' as ui;
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -216,7 +209,7 @@ class ProfileScreen extends StatelessWidget {
                             },
                             listener:
                                 (BuildContext context, ProfileState state) {
-                              CircularProgressIndicator(
+                              const CircularProgressIndicator(
                                 color: AppColor.primary,
                               );
                               if (state is SuccessUpdateProfileState) {
@@ -299,9 +292,9 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: const Row(
+                          const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Row(
                               children: [
                                 Text("الطلبات الحالية"),
                               ],
@@ -353,12 +346,12 @@ class ProfileScreen extends StatelessWidget {
                               );
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: const Row(
+                          const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Row(
                               children: [
                                 Text("الطلبات السابقة"),
                               ],
@@ -404,7 +397,7 @@ class ProfileScreen extends StatelessWidget {
                               );
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                         ],

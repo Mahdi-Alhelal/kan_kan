@@ -53,8 +53,7 @@ mixin DealRepository {
   Future updateDealNumberOfOrder(
       {required int dealId, required int numberOfOrder}) async {
     try {
-      print(dealId);
-      print(numberOfOrder);
+
       await KanSupabase.supabase.client
           .from("deals")
           .update({"number_of_order": numberOfOrder}).eq("deal_id", dealId);
@@ -80,7 +79,6 @@ mixin DealRepository {
   }
 
   uploadDealImage({required File image, required int dealId}) async {
-    print("upload image in the list");
     //?-- change date formate
     String imageName = DateTime.now().toIso8601String();
     imageName = imageName.replaceAll("-", "_");

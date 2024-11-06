@@ -29,7 +29,7 @@ mixin ProfileRepository {
           .from("order_track")
           .insert({"order_id": orderID, "status": "canceled"});
     } catch (e) {
-      print(e);
+      null;
     }
   }
 }

@@ -14,7 +14,6 @@ abstract class OtoApi {
       final response = await dio.post("$baseUrl$refresh",
           data: {"refresh_token": dotenv.env["refresh_token"]});
       accessToken = response.data["access_token"];
-      print(accessToken);
     } catch (e) {
       throw ("error in get key $e");
     }
@@ -22,8 +21,7 @@ abstract class OtoApi {
 
   static sendNotification({required OtoModel order}) async {
     try {
-      print("send");
-      final response = await dio.post(
+      await dio.post(
         "$baseUrl$createShipment",
         data: order.toJson(),
         options: Options(headers: {
@@ -32,7 +30,7 @@ abstract class OtoApi {
         }),
       );
     } catch (e) {
-      throw ("in send notification ${e}");
+      throw ("in send notification $e");
     }
   }
 }

@@ -41,10 +41,8 @@ class SplashCubit extends Cubit<SplashState> {
         getUsers(),
         getCategories()
       ]);
-      print("here");
       emit(SuccessState());
     } catch (errorMessage) {
-      print("error");
       if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }

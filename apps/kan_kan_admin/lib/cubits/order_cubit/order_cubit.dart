@@ -124,7 +124,6 @@ class OrderCubit extends Cubit<OrderState> {
 
   updateUserOrderStatus({required int index}) async {
     try {
-      print("up");
       final response = await api.updateOrderStatus(
           orderId: filteredOrder[index].orderId, status: tmpUserOrderStatus);
       if (response) {
@@ -152,7 +151,6 @@ class OrderCubit extends Cubit<OrderState> {
       }
       if (!isClosed) emit(SuccessOrderState());
     } catch (errorMessage) {
-      print(errorMessage);
       if (!isClosed) {
         emit(ErrorOrderState(errorMessage: errorMessage.toString()));
       }

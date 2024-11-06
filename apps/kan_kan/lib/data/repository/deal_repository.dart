@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:helper/helper.dart';
 import 'package:kan_kan/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan/model/deal_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 mixin DealRepository {
   Future<List<DealModel>> getAllDeals() async {
-    log("getAllDeals");
     try {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
@@ -18,17 +15,14 @@ mixin DealRepository {
           .neq("deal_status", "closed")
           .neq("deal_status", "pending")
           .order("deal_status", ascending: true);
-      print(data[1]);
       return data.map((element) => DealModel.fromJson(element)).toList();
-      // } on PostgrestException {
-      //   throw Exception('Error in get deal data');
+
     } catch (e) {
       throw Exception('$e');
     }
   }
 
   Future<List<DealModel>> getDeals() async {
-    log("getAllDeals");
     try {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
           .from('deals')
@@ -40,10 +34,7 @@ mixin DealRepository {
           .gte("end_date",
               DateConverter.supabaseDateFormate(DateTime.now().toString()))
           .order("deal_status", ascending: true);
-      print(data[1]);
       return data.map((element) => DealModel.fromJson(element)).toList();
-      // } on PostgrestException {
-      //   throw Exception('Error in get deal data');
     } catch (e) {
       throw Exception('$e');
     }
@@ -51,7 +42,6 @@ mixin DealRepository {
 
   getAllDealsAndCategoriess() async {
     await Future.delayed(Duration.zero);
-    log("getAllDealsAndCategories");
 
     try {
       final List<Map<String, dynamic>> data = await KanSupabase.supabase.client
@@ -64,7 +54,6 @@ mixin DealRepository {
           .gte("end_date",
               DateConverter.supabaseDateFormate(DateTime.now().toString()))
           .order("start_date", ascending: true);
-      data.map((e) => print(e));
 
       return data.map((element) => DealModel.fromJson(element)).toList();
     } catch (e) {
@@ -96,7 +85,6 @@ mixin DealRepository {
           .select(
               "*,categories(category_name) ,products(*,product_images(id,image_url))")
           .eq("deal_id", dealID);
-      print(res.first);
       return DealModel.fromJson(res.first);
     } catch (e) {
       throw (" $e خطأ");

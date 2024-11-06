@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan/cubit/home_cubit/home_cubit.dart';
-import 'package:kan_kan/model/deal_model.dart';
-import 'package:kan_kan/screens/home/deals_screen.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
 import 'package:kan_kan/widgets/custom_choice_chip.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:ui/ui.dart';
 
 import 'deal_details_screen.dart';
@@ -41,22 +38,22 @@ class HomeScreen extends StatelessWidget {
                               leading: CircleAvatar(
                                 backgroundColor:
                                     AppColor.black.withOpacity(20 / 100),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.person,
                                   color: AppColor.white,
                                 ),
                               ),
-                              title: Text(
+                              title: const Text(
                                 "مرحباً بعودتك ، 👋",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
                                 homeCubit.userLayer.user.fullName,
-                                style: TextStyle(color: AppColor.secondary),
+                                style: const TextStyle(color: AppColor.secondary),
                               ),
                             )
-                          : SizedBox()),
-                  SizedBox(
+                          : const SizedBox()),
+                  const SizedBox(
                     height: 30,
                   ),
                   BlocBuilder<HomeCubit, HomeState>(
@@ -88,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                                                 .filterCategories[index]
                                             ["category_id"]);
                                       }),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 20,
                                   )
                                 ],
@@ -97,14 +94,14 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, state) {
                       if (state is SuccessHomeState) {
                         return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: homeCubit.deals.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -125,7 +122,7 @@ class HomeScreen extends StatelessWidget {
                           },
                         );
                       }
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(
                           color: AppColor.primary,
                         ),

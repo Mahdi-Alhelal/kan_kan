@@ -66,7 +66,6 @@ class DealCubit extends Cubit<DealState> {
   addDeal() async {
     Future.delayed(Duration.zero);
     try {
-      print("iam at add deal");
       DealModel deal = DealModel.newDeal(
           trackingNumber: "",
           dealTitle: dealNameController.text.trim(),
@@ -107,7 +106,6 @@ class DealCubit extends Cubit<DealState> {
       }
       if (!isClosed) emit(SuccessSate());
     } catch (errorMessage) {
-      print(errorMessage);
       if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
     }
   }

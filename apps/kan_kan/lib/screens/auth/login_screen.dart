@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan/cubit/auth_cubit/auth_cubit.dart';
 import 'package:kan_kan/screens/auth/auth_srceen.dart';
 import 'package:kan_kan/screens/auth/register_screen.dart';
-import 'package:kan_kan/screens/home/home_screen.dart';
 import 'package:kan_kan/widgets/alert.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
@@ -43,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   "تسجيل الدخول",
                   style: TextStyle(fontSize: 20),
                 ),
@@ -53,13 +52,13 @@ class LoginScreen extends StatelessWidget {
                 CustomTextField(
                   title: "الإيميل",
                   controller: cubitAuth.emailController,
-                  icon: Icon(Icons.email),
+                  icon: const Icon(Icons.email),
                 ),
                 const SizedBox(height: 20),
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
                     // TODO: implement listener
-                    CircularProgressIndicator(
+                    const CircularProgressIndicator(
                       color: AppColor.primary,
                     );
                     if (state is SuccessAuthState) {
@@ -75,12 +74,11 @@ class LoginScreen extends StatelessWidget {
                     if (state is ErrorAuthState) {
                       alert(
                           context: context, msg: state.msg, isCompleted: false);
-                      print(state.msg);
                     }
                   },
                   builder: (context, state) {
                     return state is LoadingAuthState
-                        ? CircularProgressIndicator(
+                        ? const CircularProgressIndicator(
                             color: AppColor.primary,
                           )
                         : Padding(

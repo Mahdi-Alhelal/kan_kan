@@ -2,11 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan/data/data_repository.dart';
-import 'package:kan_kan/data/repository/deal_repository.dart';
 import 'package:kan_kan/layer/deal_data_layer.dart';
 import 'package:kan_kan/layer/order_data_layer.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
-import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/model/order_model.dart';
 import 'package:kan_kan/model/user_model.dart';
 import 'package:meta/meta.dart';
@@ -60,15 +58,13 @@ class ProfileCubit extends Cubit<ProfileState> {
       return userLayer.user;
     } catch (e) {
       emit(ErrorProfileState());
-      print(e);
-      print("ssss");
+
     }
   }
 
   getAllUserOrders() async {
     emit(LoadingProfileState());
     try {
-      // List<Future> action = <Future>[];
 
       userOrders.orders = await DataRepository()
           .getAllOrdersByUser(userID: userLayer.user.userId);
@@ -87,14 +83,9 @@ class ProfileCubit extends Cubit<ProfileState> {
                 element.orderStatus == "canceled",
           )
           .toList();
-      // for (var element in userOrders.orders) {
-      //   action.add(getDeal(dealId: element.dealId));
-      // }
-      // await Future.wait(action);
-      print(userDeals.deals.length);
+
       emit(SuccessProfileState());
     } catch (e) {
-      print(e);
     }
   }
 

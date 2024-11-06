@@ -60,7 +60,6 @@ class UserCubit extends Cubit<UserState> {
 
   updateUserStatusEvent({required int index}) async {
     try {
-      print("iam try");
       final response = await api.updateUserStatus(
           userId: userLayer.usersList[index].userId, userStatus: tmpStatus);
       if (response) {
@@ -68,7 +67,6 @@ class UserCubit extends Cubit<UserState> {
       }
       if (!isClosed) emit(SuccessUserState());
     } catch (errorMessage) {
-      print(errorMessage);
       if (!isClosed) {
         emit(ErrorUserState(errorMessage: errorMessage.toString()));
       }

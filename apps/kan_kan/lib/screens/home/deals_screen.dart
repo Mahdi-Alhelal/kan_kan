@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:kan_kan/cubit/home_cubit/home_cubit.dart';
-import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
 import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:ui/component/helper/screen.dart';

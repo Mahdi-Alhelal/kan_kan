@@ -39,7 +39,6 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
 
       if (!isClosed) emit(SuccessState());
     } catch (errorMessage) {
-      print(errorMessage);
       if (!isClosed) {
         emit(ErrorState(errorMessage: errorMessage.toString()));
       }

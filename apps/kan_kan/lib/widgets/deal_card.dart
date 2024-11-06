@@ -21,7 +21,6 @@ class DealCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime startDate = DateTime.now();
     DateTime endDate = DateTime.parse(dealData.endDate);
     String languageCode = Localizations.localeOf(context).languageCode;
     DealEnums dealStatus =
@@ -49,18 +48,16 @@ class DealCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-              child:
-
-                  dealData.dealUrl != ""
-                      ? Image.network(
-                          dealData.dealUrl,
-                          width: context.getWidth(value: 0.4),
-                          height: context.getHeight(value: 0.2),
-                        )
-                      : Image.asset(
-                          "assets/images/logo/kan_kan_logo.png",
-                          width: 300,
-                        )),
+              child: dealData.dealUrl != ""
+                  ? Image.network(
+                      dealData.dealUrl,
+                      width: context.getWidth(value: 0.4),
+                      height: context.getHeight(value: 0.2),
+                    )
+                  : Image.asset(
+                      "assets/images/logo/kan_kan_logo.png",
+                      width: 300,
+                    )),
           const SizedBox(
             height: 20,
           ),

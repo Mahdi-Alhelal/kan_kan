@@ -37,11 +37,9 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   signup() async {
-    print("here");
     await Future.delayed(Duration.zero);
     emit(LoadingAuthState());
     try {
-      print("inside");
       UserModel userDetails = UserModel(
           userId: "",
           fullName: fullController.text.trim(),
@@ -57,7 +55,6 @@ class AuthCubit extends Cubit<AuthState> {
       emit(SuccessAuthState());
     } catch (e) {
       emit(ErrorAuthState(msg: "خطأ!يرجى المحاولة مرة أخرى"));
-      print(e);
     }
   }
 
@@ -78,7 +75,6 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (error) {
       // Handle any errors during the process
       emit(ErrorAuthState(msg: "خطأ!يرجى المحاولة مرة أخرى"));
-      print(error);
     }
   }
 

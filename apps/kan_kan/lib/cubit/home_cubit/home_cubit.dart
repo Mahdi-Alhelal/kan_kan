@@ -38,12 +38,10 @@ class HomeCubit extends Cubit<HomeState> {
 
       return dealLayer.deals;
     } catch (e) {
-      print(e);
     }
   }
 
   filterDeals(int dealCategoryID) {
-    print(dealCategoryID);
     if (dealCategoryID != -1) {
       deals = dealLayer.deals
           .where((deal) => deal.categoryId == dealCategoryID)
@@ -59,7 +57,6 @@ class HomeCubit extends Cubit<HomeState> {
     emit(LoadingHomeState());
     //  dealLayer.deals = await DataRepository().getAllDeals();
     deals = dealLayer.getActiveDeals();
-    print(deals.length);
     emit(SuccessHomeState());
   }
 
@@ -69,7 +66,6 @@ class HomeCubit extends Cubit<HomeState> {
     // dealLayer.deals = await DataRepository().getAllDeals();
 
     deals = dealLayer.getPreviosDeals();
-    print(deals.length);
     emit(SuccessHomeState());
   }
 
@@ -95,7 +91,6 @@ class HomeCubit extends Cubit<HomeState> {
           .subscribe();
       return deals;
     } catch (e) {
-      print(e);
       return null;
     }
   }

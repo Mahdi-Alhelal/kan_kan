@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kan_kan/screens/home/profile_screen.dart';
-import 'package:kan_kan/widgets/deal_card.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
 
-import 'deal_details_screen.dart';
 
 class MyDealsScreen extends StatelessWidget {
   const MyDealsScreen({super.key});
@@ -29,22 +27,22 @@ class MyDealsScreen extends StatelessWidget {
                 child: ListTile(
                   leading: CircleAvatar(
                     backgroundColor: AppColor.black.withOpacity(20 / 100),
-                    child: Icon(
+                    child: const Icon(
                       Icons.person,
                       color: AppColor.white,
                     ),
                   ),
-                  title: Text(
+                  title: const Text(
                     "مرحباً بعودتك ، 👋",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Text(
+                  subtitle: const Text(
                     "علي التاروتي",
                     style: TextStyle(color: AppColor.secondary),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Row(
@@ -57,7 +55,7 @@ class MyDealsScreen extends StatelessWidget {
                     width: context.getWidth(value: 0.45),
                     height: 50,
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       "صفقاتي",
                       style: TextStyle(color: AppColor.white),
                     ),
@@ -69,21 +67,20 @@ class MyDealsScreen extends StatelessWidget {
                     width: context.getWidth(value: 0.45),
                     height: 50,
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       "صفقاتي السابقة",
                       style: TextStyle(color: AppColor.white),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  //DealCard(onTap: (){}, dealData: , orderBooked: orderBooked, orderMax: orderMax, title: title)
                 ],
               ),
             ],

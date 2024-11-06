@@ -106,7 +106,6 @@ mixin ProductRepository {
   }
 
   Future uploadImage({required int productId, required File image}) async {
-    print("upload image in the list");
     //?-- change date formate
     String imageName = DateTime.now().toIso8601String();
     imageName = imageName.replaceAll("-", "_");

@@ -115,7 +115,6 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
 
   updateDealStatusEvent() async {
     try {
-      print("here");
       final response = await api.updateDealStatus(
           dealId: deal.dealId, dealStatus: tmpStatus);
       if (response) {
@@ -126,14 +125,12 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
       }
       if (!isClosed) emit(UpdateDealStatusSuccessState());
     } catch (errorMessage) {
-      print(errorMessage);
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
 
   updateOrderStatus({required int dealId}) async {
     try {
-      print("iam at updateOrderStatus");
       List<int> listOrderIndex = [];
       List<int> listOrdersId = [];
 
@@ -166,7 +163,6 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
           .toList();
       if (!isClosed) emit(UpdateOrderStatusSuccessState());
     } catch (errorMessage) {
-      print(errorMessage);
       if (!isClosed) emit(ErrorStatus(errorMessage: errorMessage.toString()));
     }
   }
@@ -188,7 +184,6 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
           if (dealLayer.deals[dealIndex].numberOfOrder < 0) {
             dealLayer.deals[dealIndex].numberOfOrder = 0;
           }
-          print("decrees");
           await api.updateDealNumberOfOrder(
               dealId: orderLayer.orders[index].dealId,
               numberOfOrder: dealLayer.deals[dealIndex].numberOfOrder.toInt());

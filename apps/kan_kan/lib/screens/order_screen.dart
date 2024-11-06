@@ -7,7 +7,6 @@ import 'package:kan_kan/model/order_model.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ui/component/helper/screen.dart';
 import 'package:ui/ui.dart';
-import 'dart:ui' as ui;
 
 class OrderScreen extends StatelessWidget {
   const OrderScreen(
@@ -19,7 +18,7 @@ class OrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final orderID = orderDetails.orderId;
     String orderDate = DateConverter.saDateFormate(orderDetails.orderDate);
-    String? orderDateToTime = DateConverter.formatTime(orderDetails.orderDate);
+    DateConverter.formatTime(orderDetails.orderDate);
 
     return Scaffold(
       appBar: AppBar(
@@ -94,7 +93,7 @@ class OrderScreen extends StatelessWidget {
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           dealDetails.dealUrl != ""
@@ -103,7 +102,7 @@ class OrderScreen extends StatelessWidget {
                                   "assets/images/logo/kan_kan_logo.png",
                                   width: 200,
                                 ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
@@ -167,12 +166,12 @@ class OrderScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(
+                  const Center(
                       child: Text(
                     "تتبع الطلب",
                     style: TextStyle(fontSize: 16),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -231,7 +230,7 @@ class OrderScreen extends StatelessWidget {
                             }
                             return const SizedBox();
                           })),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   orderDetails.orderStatus == "pending"
@@ -245,18 +244,16 @@ class OrderScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () async {
-                                print("----------here");
                                 await cubitOrder.cancelOrder(
                                     order: orderDetails);
                                 if (context.mounted) {
                                   orderDetails.orderStatus = "canceled";
                                   Navigator.pop(context, true);
                                 }
-                                print("----------Done");
                               },
-                              child: Text("إلغاء الطلب")),
+                              child: const Text("إلغاء الطلب")),
                         )
-                      : SizedBox()
+                      : const SizedBox()
                 ],
               ),
             ),

@@ -13,14 +13,12 @@ class DealDataLayer {
   }
 
   DealModel findDeal(int id) {
-    print("id");
-    print(id);
     return deals.firstWhere((deal) => deal.dealId == id);
   }
 
   DealModel findOldDeal(int id) {
     return allDeals.firstWhere((deal) => deal.dealId == id);
-    ;
+    
   }
 
   getActiveDeals() {

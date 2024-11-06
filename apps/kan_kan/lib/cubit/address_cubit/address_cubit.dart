@@ -17,7 +17,6 @@ class AddressCubit extends Cubit<AddressState> {
     try {
       addressLayer.addressUserList =
           await DataRepository().getAllAddressByUser(userID: userID);
-      print(addressLayer.addressUserList.first.toString());
       if (!isClosed) emit(SuccessAddressState());
     } catch (e) {
       if (!isClosed) emit(ErrorAddressState());

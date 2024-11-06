@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:helper/helper.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/model/order_model.dart';
-import 'package:kan_kan/screens/order_screen.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
 

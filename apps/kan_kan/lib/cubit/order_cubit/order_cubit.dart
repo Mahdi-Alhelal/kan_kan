@@ -1,13 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan/data/data_repository.dart';
-import 'package:kan_kan/integrations/supabase/supabase_client.dart';
 import 'package:kan_kan/layer/deal_data_layer.dart';
 import 'package:kan_kan/layer/order_data_layer.dart';
 import 'package:kan_kan/layer/product_data_layer.dart';
 import 'package:kan_kan/model/order_model.dart';
 import 'package:meta/meta.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'order_state.dart';
 
@@ -16,7 +14,6 @@ class OrderCubit extends Cubit<OrderState> {
 
   final ordersData = GetIt.I.get<OrderDataLayer>();
   List oneOrderAllTracking = [];
-  //final userOrderData = GetIt.I.get<UserLayer>();
   final userOrderDeal = GetIt.I.get<DealDataLayer>();
   final userOrderProduct = GetIt.I.get<ProductDataLayer>();
 
@@ -48,11 +45,10 @@ class OrderCubit extends Cubit<OrderState> {
   cancelOrder({required OrderModel order}) async {
     emit(LoadingOrderState());
     try {
-      final res = await DataRepository().cancelOrder(order: order);
-      print(res);
+      await DataRepository().cancelOrder(order: order);
       emit(SuccesCanceledOrderState());
     } catch (e) {
-      print(e);
+      return null;
     }
   }
 }

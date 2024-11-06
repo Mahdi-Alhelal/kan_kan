@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kan_kan/model/deal_model.dart';
 import 'package:kan_kan/model/order_model.dart';
 import 'package:kan_kan/screens/buttom_nav.dart';
-import 'package:kan_kan/screens/home/home_screen.dart';
 import 'package:kan_kan/screens/order_screen.dart';
-import 'package:moyasar/moyasar.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
-import 'package:ui/component/widget/custom_text_field.dart';
 import 'package:lottie/lottie.dart';
 
 class SucessPaymentScreen extends StatelessWidget {
@@ -27,7 +23,7 @@ class SucessPaymentScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Container(
@@ -174,7 +170,7 @@ class SucessPaymentScreen extends StatelessWidget {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ButtomNav(),
+                            builder: (context) => const ButtomNav(),
                           ),
                           (Route<dynamic> route) => false);
                     },

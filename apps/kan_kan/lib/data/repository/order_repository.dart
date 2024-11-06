@@ -5,8 +5,6 @@ import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/order_model.dart';
 
 mixin OrderRepository {
-  // Supabase client instance
-  // final SupabaseClient _supabase = SupabaseService().client;
 
   /*
   *
@@ -42,7 +40,7 @@ mixin OrderRepository {
           {"order_id": jsonOrderToModel.orderId, "status": "pending"}).select();
 
       return jsonOrderToModel;
-      ;
+      
     } catch (e) {
       throw Exception('Error in add order: $e');
     }

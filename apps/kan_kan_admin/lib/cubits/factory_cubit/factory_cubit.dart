@@ -98,7 +98,6 @@ class FactoryCubit extends Cubit<FactoryState> {
         emit(SuccessState());
       }
     } catch (errorMessage) {
-      print(errorMessage);
       if (!isClosed) {
         emit(ErrorState(errorMessage: errorMessage.toString()));
       }

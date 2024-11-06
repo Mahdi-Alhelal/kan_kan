@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan/cubit/auth_cubit/auth_cubit.dart';
 import 'package:kan_kan/screens/buttom_nav.dart';
-import 'package:kan_kan/screens/home/home_screen.dart';
 import 'package:kan_kan/widgets/alert.dart';
 import 'package:kan_kan/widgets/custom_pinout.dart';
 import 'package:ui/component/helper/screen.dart';
@@ -26,9 +25,9 @@ class AuthScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("تم إرسال كود التحقق إلى"),
+              const Text("تم إرسال كود التحقق إلى"),
               Text(email),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -52,9 +51,8 @@ class AuthScreen extends StatelessWidget {
                       onPressed: () {}, child: const Text("تحقق"))),
               BlocListener<AuthCubit, AuthState>(
                 listener: (context, state) {
-                  // TODO: implement listener
                   if (state is AuthState) {
-                    CircularProgressIndicator(
+                    const CircularProgressIndicator(
                       color: AppColor.primary,
                     );
                   }

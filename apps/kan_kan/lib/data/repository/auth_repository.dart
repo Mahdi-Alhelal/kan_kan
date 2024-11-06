@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan/layer/user_data_layer.dart';
 import 'package:kan_kan/model/user_model.dart';
@@ -25,7 +24,6 @@ mixin AuthRepository {
           .eq("email", email);
       GetIt.I.get<UserDataLayer>().user = UserModel.fromJson(data.first);
 
-      print(data.first.toString());
 
       return true;
     } on PostgrestException {
@@ -49,7 +47,6 @@ mixin AuthRepository {
             .signUp(email: userDetails.email, password: "kankan$x");
 
         final user = response.user;
-        print(user?.email);
         if (user != null) {
           userDetails.userId = user.id;
 
@@ -63,14 +60,8 @@ mixin AuthRepository {
       }
       return false;
 
-      // } on AuthException {
-      //   // Handle KanSupabase.supabase Auth-related exceptions
-      //   throw Exception('error during sign up email does not exit');
-      // } on PostgrestException {
-      //   // Handle KanSupabase.supabase PostgREST API-related exceptions
-      //   throw Exception('can not connect to server');
+
     } catch (e) {
-      // Handle any other exceptions
       throw Exception('Error during sign up: $e');
     }
   }
@@ -89,7 +80,6 @@ mixin AuthRepository {
     }
   }
 
-//Tested
   Future verifyOtp(
       {required String email, required String otp, required int type}) async {
     try {
@@ -106,7 +96,6 @@ mixin AuthRepository {
           .from("users")
           .select("*")
           .eq("email", email);
-      print(data.first.toString());
       return UserModel.fromJson(data.first);
     } on PostgrestException {
       throw Exception('Error inserting user data');

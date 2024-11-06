@@ -9,6 +9,5 @@ abstract class KanSupabase {
     final supabaseKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
     supabase =
         await Supabase.initialize(url: supabaseUrl, anonKey: supabaseKey);
-    print("connect");
   }
 }

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:kan_kan/data/data_repository.dart';
-import 'package:kan_kan/model/order_model.dart';
 import 'package:meta/meta.dart';
 
 part 'payment_state.dart';
@@ -26,7 +25,6 @@ class PaymentCubit extends Cubit<PaymentState> {
           paymentStatus: paymentStatus,
           transactionID: transactionID,
           amount: amount);
-      print(response.toString());
       final responseOrder = await DataRepository().addNewOrder(
           userID: userID,
           dealID: dealID,
