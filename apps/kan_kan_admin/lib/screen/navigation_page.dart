@@ -54,9 +54,9 @@ class NavigationPage extends StatelessWidget {
                                 icon: Container(
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 10),
-                                    child: const Text("الرئيسية")),
+                                    child: const Text("home").tr()),
                                 selectedIcon: const CustomSelectedIcon(
-                                    text: "الريئيسية",
+                                    text: "home",
                                     icon: Icons.home_outlined),
                                 label: const Text(''),
                               ),
@@ -64,10 +64,10 @@ class NavigationPage extends StatelessWidget {
                                 icon: Container(
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 10),
-                                    child: const Text("العملاء")),
+                                    child: const Text("customers").tr()),
                                 selectedIcon: const CustomSelectedIcon(
                                   icon: Icons.people_alt_outlined,
-                                  text: "العملاء",
+                                  text: "customers",
                                 ),
                                 label: const Text(""),
                               ),
@@ -75,10 +75,10 @@ class NavigationPage extends StatelessWidget {
                                 icon: Container(
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 10),
-                                    child: const Text("المصانع")),
+                                    child: const Text("factories").tr()),
                                 selectedIcon: const CustomSelectedIcon(
                                   icon: Icons.factory_outlined,
-                                  text: "المصانع",
+                                  text: "factories",
                                 ),
                                 label: const Text(""),
                               ),
@@ -86,10 +86,10 @@ class NavigationPage extends StatelessWidget {
                                 icon: Container(
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 10),
-                                    child: const Text("الطلبات")),
+                                    child: const Text("orders").tr()),
                                 selectedIcon: const CustomSelectedIcon(
                                   icon: Icons.receipt_outlined,
-                                  text: "الطلبات",
+                                  text: "orders",
                                 ),
                                 label: const Text(""),
                               ),
@@ -97,10 +97,10 @@ class NavigationPage extends StatelessWidget {
                                 icon: Container(
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 10),
-                                    child: const Text("الصفقات")),
+                                    child: const Text("deals").tr()),
                                 selectedIcon: const CustomSelectedIcon(
                                   icon: Icons.handshake_outlined,
-                                  text: "الصفقات",
+                                  text: "deals",
                                 ),
                                 label: const Text(""),
                               ),
@@ -108,10 +108,21 @@ class NavigationPage extends StatelessWidget {
                                 icon: Container(
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 10),
-                                    child: const Text("المنتجات")),
+                                    child: const Text("products").tr()),
                                 selectedIcon: const CustomSelectedIcon(
                                   icon: Icons.tab_outlined,
-                                  text: "المنتجات",
+                                  text: "products",
+                                ),
+                                label: const Text(""),
+                              ),
+                              NavigationRailDestination(
+                                icon: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: const Text("settings").tr()),
+                                selectedIcon: const CustomSelectedIcon(
+                                  icon: Icons.settings,
+                                  text: "settings",
                                 ),
                                 label: const Text(""),
                               ),

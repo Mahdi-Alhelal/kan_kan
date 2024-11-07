@@ -7,6 +7,9 @@ final class NavigationInitial extends NavigationState {}
 
 final class NavigationToNewPage extends NavigationState {}
 
+final class UpdateLanguage extends NavigationState {}
+
+
 final class ErrorState extends NavigationState {
   final String errorMessage;
   ErrorState({required this.errorMessage});

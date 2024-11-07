@@ -17,5 +17,25 @@
     "canceled" : "ملغى",
     "private" : "خاص",
     "closed" : "مغلق",
-    "product:":"المنتج "
+    "product:":"المنتج ",
+    "home": "الرئيسية",
+    "customers": "العملاء",
+    "factories": "المصانع",
+    "orders": "الطلبات",
+    "deals": "العروض",
+    "products": "المنتجات",
+    "settings": "الإعدادات",
+    "number of deals": "عدد الصفقات",
+    "number of factories": "عدد المصانع",
+    "number of users": "عدد المستخدمين",
+    "number of orders": "عدد الطلبات",
+    "customer": "العميل",
+    "price": "السعر",
+    "deal": "الصفقة",
+    "order date": "تاريخ الطلب",
+    "payment status": "حالة الدفع",
+    "order status": "حالة الطلب"
+
+    
+
 }

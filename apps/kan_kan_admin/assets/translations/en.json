@@ -17,6 +17,23 @@
     "canceled" : "Canceled",
     "private" : "Private",
     "closed" : "Closed",
-    "product:":"Product"
+    "product:":"Product",
+    "home": "Home",
+    "customers": "Customers",
+    "factories": "Factories",
+    "orders": "Orders",
+    "deals": "Deals",
+    "products": "Products",
+    "settings": "Settings",
+    "number of deals": "Number of Deals",
+    "number of factories": "Number of Factories",
+    "number of users": "Number of Users",
+    "number of orders": "Number of Orders",
+    "customer": "Customer",
+    "price": "Price",
+    "deal": "Deal",
+    "order date": "Order Date",
+    "payment status": "Payment Status",
+    "order status": "Order Status"
 
 }

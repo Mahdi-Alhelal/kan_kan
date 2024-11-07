@@ -17,6 +17,8 @@ import 'package:kan_kan_admin/widget/table/table_sized_box.dart';
 import 'package:ui/component/helper/custom_colors.dart';
 import 'package:ui/component/helper/screen.dart';
 
+import 'package:ui/ui.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -39,22 +41,22 @@ class HomeScreen extends StatelessWidget {
                       AppStatistics(
                         icon: Icons.handshake_outlined,
                         number: homeCubit.dealLayer.deals.length,
-                        type: "عدد الصفقات",
+                        type: "number of deals",
                       ),
                       AppStatistics(
                         icon: Icons.factory,
                         number: homeCubit.factoryLayer.factories.length,
-                        type: "عدد المصانع",
+                        type: "number of factories",
                       ),
                       AppStatistics(
                         icon: Icons.people_outline,
                         number: homeCubit.userLayer.usersList.length,
-                        type: "عدد المسخدمين",
+                        type: "number of users",
                       ),
                       AppStatistics(
                         icon: Icons.production_quantity_limits,
                         number: homeCubit.orderLayer.orders.length,
-                        type: "عدد الطلبات",
+                        type: "number of orders",
                       ),
                     ],
                   );
@@ -299,29 +301,29 @@ class HomeScreen extends StatelessWidget {
                                   );
                                 }),
                               ),
-                              columns: const [
+                              columns:  [
                                 DataColumn(
                                   headingRowAlignment: MainAxisAlignment.center,
-                                  label: Text("العميل"),
+                                  label: const Text("customer").tr(),
                                 ),
                                 DataColumn(
-                                  label: Text("السعر"),
-                                ),
-                                DataColumn(
-                                  headingRowAlignment: MainAxisAlignment.center,
-                                  label: Text("الصفقة"),
+                                  label: const Text("price").tr(),
                                 ),
                                 DataColumn(
                                   headingRowAlignment: MainAxisAlignment.center,
-                                  label: Text("تاريخ طلب"),
+                                  label: const Text("deal").tr(),
                                 ),
                                 DataColumn(
                                   headingRowAlignment: MainAxisAlignment.center,
-                                  label: Text("حالة الدفع"),
+                                  label: const Text("order date").tr(),
                                 ),
                                 DataColumn(
                                   headingRowAlignment: MainAxisAlignment.center,
-                                  label: Text("حالة"),
+                                  label: const Text("payment status").tr(),
+                                ),
+                                DataColumn(
+                                  headingRowAlignment: MainAxisAlignment.center,
+                                  label: const Text("order status").tr(),
                                 ),
                               ],
                             );

@@ -9,7 +9,7 @@ void main() async {
   await setup();
   runApp(
     EasyLocalization(
-        supportedLocales: const [Locale('en'), Locale('ar')],
+        supportedLocales: const [Locale('en'), Locale('ar'), Locale('zh')],
         path: 'assets/translations',
         fallbackLocale: const Locale('ar'),
         child: const MainApp()),
@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
         theme: TAppTheme.lightTheme,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
-        locale: const Locale("ar"),
+        locale: context.locale,
         home: const SplashScreen());
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_kan_admin/cubits/splash_cubit/splash_cubit.dart';
 import 'package:kan_kan_admin/screen/navigation_page.dart';
+import 'package:ui/ui.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -14,6 +15,7 @@ class SplashScreen extends StatelessWidget {
         return BlocListener<SplashCubit, SplashState>(
           listener: (context, state) {
             if (state is LoadingState) {
+              context.setLocale(const Locale("ar"));
               showDialog(
                   barrierDismissible: false,
                   useRootNavigator: false,
@@ -23,18 +25,16 @@ class SplashScreen extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     );
                   });
-
-         
             }
-                 if (state is SuccessState) {
-                Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NavigationPage(),
-                  ),
-                );
-              }
+            if (state is SuccessState) {
+              Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NavigationPage(),
+                ),
+              );
+            }
           },
           child: const Scaffold(
             body: SizedBox(),

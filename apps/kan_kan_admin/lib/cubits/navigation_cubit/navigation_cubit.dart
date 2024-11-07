@@ -16,6 +16,7 @@ import 'package:kan_kan_admin/screen/src/factory_screen.dart';
 import 'package:kan_kan_admin/screen/src/home_screen.dart';
 import 'package:kan_kan_admin/screen/src/order_screen.dart';
 import 'package:kan_kan_admin/screen/src/product_screen.dart';
+import 'package:kan_kan_admin/screen/src/setting_screen.dart';
 import 'package:kan_kan_admin/screen/src/users_screen.dart';
 import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -38,12 +39,19 @@ class NavigationCubit extends Cubit<NavigationState> {
     OrderScreen(),
     DealsScreen(),
     ProductScreen(),
+    SettingScreen(),
   ];
   int index = 0;
 
   NavigationCubit() : super(NavigationInitial()) {
     getNewOrder();
     getNewUser();
+  }
+  updateLanguage() async {
+    await Future.delayed(Duration.zero);
+    index = 0;
+
+    if (!isClosed) emit(UpdateLanguage());
   }
 
   navigationEvent({required int value}) {

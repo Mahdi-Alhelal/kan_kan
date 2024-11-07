@@ -21,7 +21,7 @@ class AppStatistics extends StatelessWidget {
         color: AppColor.white,
       ),
       height: context.getHeight(value: 0.15),
-      width: context.getWidth(value: 0.15),
+      width: context.getWidth(value: 0.16),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -36,9 +36,10 @@ class AppStatistics extends StatelessWidget {
                   color: AppColor.black,
                 ),
                 Text(
+                  overflow: TextOverflow.ellipsis,
                   type,
                   style: const TextStyle(fontWeight: FontWeight.bold),
-                )
+                ).tr()
               ],
             ),
             Text(

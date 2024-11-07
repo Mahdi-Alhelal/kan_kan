@@ -16,5 +16,22 @@
     "completed" : "已完成",
     "canceled" : "已取消",
     "private" : "私有",
-    "closed" : "已关闭"
+    "closed" : "已关闭",
+    "home": "主页",
+    "customers": "客户",
+    "factories": "工厂",
+    "orders": "订单",
+    "deals": "交易",
+    "products": "产品",
+    "settings": "设置",
+    "number of deals": "交易数量",
+    "number of factories": "工厂数量",
+    "number of users": "用户数量",
+    "number of orders": "订单数量",
+    "customer": "客户",
+    "price": "价格",
+    "deal": "交易",
+    "order date": "订单日期",
+    "payment status": "支付状态",
+    "order status": "订单状态"
 }

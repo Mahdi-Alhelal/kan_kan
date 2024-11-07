@@ -30,7 +30,7 @@ class CustomSelectedIcon extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(color: AppColor.white),
-          ),
+          ).tr(),
         ],
       ),
     );
