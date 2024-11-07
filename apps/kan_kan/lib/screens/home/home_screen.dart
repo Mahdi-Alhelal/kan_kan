@@ -63,6 +63,7 @@ class HomeScreen extends StatelessWidget {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: List.generate(
+                            
                                 homeCubit.dealLayer.filterCategories.length,
                                 (int index) {
                               return Row(

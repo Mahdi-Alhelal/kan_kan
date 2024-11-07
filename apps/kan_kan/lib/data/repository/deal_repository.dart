@@ -50,7 +50,7 @@ mixin DealRepository {
           .gte("end_date",
               DateConverter.supabaseDateFormate(DateTime.now().toString()))
           .order("start_date", ascending: true);
-
+    
       return data.map((element) => DealModel.fromJson(element)).toList();
     } catch (e) {
       throw ("Error when get all Deals");

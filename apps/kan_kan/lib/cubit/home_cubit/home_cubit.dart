@@ -30,20 +30,24 @@ class HomeCubit extends Cubit<HomeState> {
 
   getAllDeals() async {
     emit(LoadingHomeState());
-
+    print("herea");
     try {
-      orderLayer.orders = await DataRepository()
+      if(userLayer.email !=""){
+ orderLayer.orders = await DataRepository()
           .getAllOrdersByUser(userID: userLayer.user.userId);
+      }
+     
       dealLayer.deals = await DataRepository().getDeals();
 
       dealLayer.allDeals = await DataRepository().getAllDeals();
 
       deals = dealLayer.deals;
+
       emit(SuccessHomeState());
 
       return dealLayer.deals;
     } catch (e) {
-      return null;
+      return print(e);
     }
   }
 
