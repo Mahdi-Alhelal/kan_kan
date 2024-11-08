@@ -427,8 +427,7 @@ class DealDetailsScreen extends StatelessWidget {
                                                 LoginScreen()),
                                       );
                                     },
-                                    child: const Text(
-                                        "سجل الآن وانضم إلى الصفقة")),
+                                    child: const Text("سجل الآن وانضم")),
                               )
                         : const SizedBox();
                   }),

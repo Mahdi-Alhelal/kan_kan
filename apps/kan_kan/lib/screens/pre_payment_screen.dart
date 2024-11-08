@@ -254,7 +254,7 @@ class PrePaymentScreen extends StatelessWidget {
                                                         dealID:
                                                             dealData.dealId);
                                                 totalQuantity = pQnt + items;
-                                                if (totalQuantity > pQnt) {
+                                                if (totalQuantity < pQnt) {
                                                   Navigator.pushAndRemoveUntil(
                                                       context,
                                                       MaterialPageRoute(

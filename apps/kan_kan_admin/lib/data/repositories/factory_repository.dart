@@ -10,11 +10,13 @@ mixin FactoryRepository {
   * Add new Factory
   *
   * */
-  addNewFactory({required FactoryModel factory}) async {
+  Future<FactoryModel> addNewFactory({required FactoryModel factory}) async {
     try {
-      await KanSupabase.supabase.client
+      final response = await KanSupabase.supabase.client
           .from("factories")
-          .upsert(factory.toJson());
+          .upsert(factory.toJson())
+          .select();
+      return FactoryModel.fromJson(response.first);
     } on PostgrestException {
       throw Exception('Error in add new factory');
     } catch (e) {

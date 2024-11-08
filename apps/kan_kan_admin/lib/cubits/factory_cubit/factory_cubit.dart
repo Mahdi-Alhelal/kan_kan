@@ -41,7 +41,8 @@ class FactoryCubit extends Cubit<FactoryState> {
       factoryRepresentative: repController.text.trim(),
     );
     try {
-      await api.addNewFactory(factory: factory);
+      FactoryModel newFactory = await api.addNewFactory(factory: factory);
+      factoryLayer.factories.add(newFactory);
       if (!isClosed) {
         emit(SuccessState());
       }

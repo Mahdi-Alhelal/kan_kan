@@ -41,6 +41,7 @@ class DealDetailsCubit extends Cubit<DealDetailsState> {
   Future<int> checkQuantity({required int dealID}) async {
     try {
       int res = await DataRepository().getOneDealQuantity(dealID: dealID);
+      print(res);
       return res;
     } catch (e) {
       throw (" $e خطأ");

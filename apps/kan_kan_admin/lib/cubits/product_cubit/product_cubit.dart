@@ -74,8 +74,7 @@ class ProductCubit extends Cubit<ProductState> {
       if (addedProduct.productId != 0) {
         productLayer.products.add(addedProduct);
       }
-      emit(AddProductSuccessState());
-    } catch (errorMessage) {
+     } catch (errorMessage) {
       emit(
         ErrorState(errorMessage: errorMessage.toString()),
       );
