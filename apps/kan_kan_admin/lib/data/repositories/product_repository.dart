@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:kan_kan_admin/model/product_model.dart';
@@ -84,9 +85,12 @@ mixin ProductRepository {
           .from("products")
           .select("*,factories(*),product_images(id,image_url)");
       return response.map((element) => ProductModel.fromJson(element)).toList();
+      //return [];
     } on PostgrestException {
+      log("Error: in get all products with postgrst Exception");
       throw Exception('Error: no products');
     } catch (e) {
+      log("Error: in get all products with  Exception ${e.toString()}");
       throw Exception('Error: in get all products: $e');
     }
   }

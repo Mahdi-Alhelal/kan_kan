@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kan_kan_admin/data/data_repository.dart';
@@ -22,28 +24,38 @@ class SplashCubit extends Cubit<SplashState> {
   final categoryLayer = GetIt.I.get<CategoryDataLayer>();
 
   SplashCubit() : super(SplashInitial()) {
-    call();
-  }
-
-  call() async {
-    await getAllData();
+    getAllData();
   }
 
   Future<void> getAllData() async {
     await Future.delayed(Duration.zero);
     try {
       emit(LoadingState());
-      await Future.wait([
-        getProductData(),
-        getDealData(),
-        getOrderData(),
-        getFactoryData(),
-        getUsers(),
-        getCategories()
-      ]);
+      
+      List<Future> fetches = [
+        _safeFetch(getProductData, 'Products'),
+        _safeFetch(getDealData, 'Deals'),
+        _safeFetch(getOrderData, 'Orders'),
+        _safeFetch(getFactoryData, 'Factories'),
+        _safeFetch(getUsers, 'Users'),
+        _safeFetch(getCategories, 'Categories'),
+      ];
+
+      await Future.wait(fetches);
+      
       emit(SuccessState());
     } catch (errorMessage) {
+      log("SplashCubit Error: ${errorMessage.toString()}");
       if (!isClosed) emit(ErrorState(errorMessage: errorMessage.toString()));
+    }
+  }
+
+  Future<void> _safeFetch(Future<void> Function() fetchFunction, String label) async {
+    try {
+      await fetchFunction();
+      log("Successfully fetched $label");
+    } catch (e) {
+      log("Error fetching $label: $e");
     }
   }
 

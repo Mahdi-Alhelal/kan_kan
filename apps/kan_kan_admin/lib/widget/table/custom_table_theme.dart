@@ -11,9 +11,8 @@ class CustomTableTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
         data: ThemeData(
-            cardTheme: const CardTheme(
+            cardTheme: const CardThemeData(
               shape: RoundedRectangleBorder(
-                
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               color: AppColor.white,
@@ -25,9 +24,7 @@ class CustomTableTheme extends StatelessWidget {
                 iconColor: WidgetStatePropertyAll(AppColor.black),
               ),
             ),
-            dataTableTheme: const DataTableThemeData(
-              
-            ),
+            dataTableTheme: const DataTableThemeData(),
             dividerColor: AppColor.primary),
         child: child);
   }
