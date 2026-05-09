@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -74,7 +75,9 @@ class ProductCubit extends Cubit<ProductState> {
       if (addedProduct.productId != 0) {
         productLayer.products.add(addedProduct);
       }
-     } catch (errorMessage) {
+    } catch (errorMessage) {
+      log("error in add product cubit",
+          error: errorMessage, name: "add_product");
       emit(
         ErrorState(errorMessage: errorMessage.toString()),
       );

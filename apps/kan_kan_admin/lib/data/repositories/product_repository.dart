@@ -23,9 +23,11 @@ mixin ProductRepository {
           .upsert(product.toJson(factoryId: factoryId))
           .select("*,factories(*),product_images(id,image_url)");
       return ProductModel.fromJson(response.first);
-    } on PostgrestException {
-      throw Exception('Error: in add product');
+    } on PostgrestException catch (error) {
+      log("Error: in add product with postgrest Exception ${error.message}");
+      throw Exception('Error: in add product ${error.message}');
     } catch (e) {
+      log("Error: in add product with  Exception ${e.toString()}");
       throw Exception('Error: in add product: $e');
     }
   }
