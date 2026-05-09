@@ -199,10 +199,19 @@ class AddDealForm extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: costController,
-                    validator: (value) =>
-                        value == null || value.toString().isEmpty
-                            ? "required"
-                            : null,
+                    validator: (value) {
+                      if (value == null || value.toString().isEmpty) {
+                        return "required";
+                      }
+                      if (int.parse(value) >= int.parse(priceController.text)) {
+                        return "سعر البيع يجب ان يكون اعلى من سعر التكلفة";
+                      }
+
+                      if (value == "0") {
+                        return "-_- ";
+                      }
+                      return null;
+                    },
                     title: "التكلفة",
                   ),
                 ),
